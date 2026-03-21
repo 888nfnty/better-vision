@@ -17,3 +17,5 @@ Environment variables, external dependencies, and setup notes.
 - BETTER reference sources are read-only:
   - `/Users/test/tradebetter-docs`
   - `/Users/test/better`
+- User-provided favicon source asset (read-only, import into repo as needed):
+  - `/Users/test/Downloads/Better_Design/Logo/Better_Isotype_Light.svg`
