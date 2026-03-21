@@ -1,0 +1,48 @@
+{
+  "milestone": "ecosystem-atlas",
+  "round": 2,
+  "status": "fail",
+  "validatorsRun": {
+    "test": {
+      "passed": true,
+      "command": "npm run test",
+      "exitCode": 0
+    },
+    "typecheck": {
+      "passed": true,
+      "command": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    "lint": {
+      "passed": true,
+      "command": "npm run lint",
+      "exitCode": 0
+    }
+  },
+  "reviewsSummary": {
+    "total": 3,
+    "passed": 2,
+    "failed": 1,
+    "failedFeatures": [
+      "atlas-architecture-dependency-id-and-maturity-consistency-polish"
+    ]
+  },
+  "blockingIssues": [
+    {
+      "featureId": "atlas-architecture-dependency-id-and-maturity-consistency-polish",
+      "severity": "blocking",
+      "description": "The rerun fix resolves stable-ID cost-band dependencies, but `FlywheelExplorer` still combines `Strategy Agents & Vaults` under one `planned` badge even though social vaults remain `in_progress` elsewhere, so the cross-surface maturity-consistency requirement is still not fully met."
+    }
+  ],
+  "appliedUpdates": [],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Clarify that when an architecture or flywheel node aggregates multiple roadmap concepts with different maturities, workers should either split the node or render differentiated per-concept maturity framing instead of collapsing everything under one badge.",
+      "evidence": "The rerun review for atlas-architecture-dependency-id-and-maturity-consistency-polish found that a combined `Strategy Agents & Vaults` flywheel node still conflicted with roadmap and narrative surfaces because social vaults remained `in_progress` while autonomous strategy agents remained `planned`.",
+      "isSystemic": false
+    }
+  ],
+  "rejectedObservations": [],
+  "previousRound": "/Users/test/vision/.factory/validation/ecosystem-atlas/scrutiny/synthesis.round-1.json"
+}

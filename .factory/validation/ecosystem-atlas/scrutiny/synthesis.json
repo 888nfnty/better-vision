@@ -1,7 +1,7 @@
 {
   "milestone": "ecosystem-atlas",
-  "round": 2,
-  "status": "fail",
+  "round": 3,
+  "status": "pass",
   "validatorsRun": {
     "test": {
       "passed": true,
@@ -20,29 +20,19 @@
     }
   },
   "reviewsSummary": {
-    "total": 3,
-    "passed": 2,
-    "failed": 1,
-    "failedFeatures": [
-      "atlas-architecture-dependency-id-and-maturity-consistency-polish"
-    ]
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "failedFeatures": []
   },
-  "blockingIssues": [
-    {
-      "featureId": "atlas-architecture-dependency-id-and-maturity-consistency-polish",
-      "severity": "blocking",
-      "description": "The rerun fix resolves stable-ID cost-band dependencies, but `FlywheelExplorer` still combines `Strategy Agents & Vaults` under one `planned` badge even though social vaults remain `in_progress` elsewhere, so the cross-surface maturity-consistency requirement is still not fully met."
-    }
-  ],
+  "blockingIssues": [],
   "appliedUpdates": [],
-  "suggestedGuidanceUpdates": [
+  "suggestedGuidanceUpdates": [],
+  "rejectedObservations": [
     {
-      "target": "AGENTS.md",
-      "suggestion": "Clarify that when an architecture or flywheel node aggregates multiple roadmap concepts with different maturities, workers should either split the node or render differentiated per-concept maturity framing instead of collapsing everything under one badge.",
-      "evidence": "The rerun review for atlas-architecture-dependency-id-and-maturity-consistency-polish found that a combined `Strategy Agents & Vaults` flywheel node still conflicted with roadmap and narrative surfaces because social vaults remained `in_progress` while autonomous strategy agents remained `planned`.",
-      "isSystemic": false
+      "observation": "The fix worker marked `skillFeedback.followedProcedure=true` without visible `.factory/library/*.md` reads in the transcript skeleton even though the frontend-experience-worker skill already requires those reads before changes.",
+      "reason": "rejected because this is a worker-compliance issue rather than a missing repo fact or unclear orchestrator guidance; the existing frontend-experience-worker skill already documents the required library-file reads explicitly"
     }
   ],
-  "rejectedObservations": [],
-  "previousRound": "/Users/test/vision/.factory/validation/ecosystem-atlas/scrutiny/synthesis.round-1.json"
+  "previousRound": "/Users/test/vision/.factory/validation/ecosystem-atlas/scrutiny/synthesis.round-2.json"
 }
