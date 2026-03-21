@@ -1,0 +1,28 @@
+{
+  "featureId": "atlas-architecture-dependency-id-and-maturity-consistency-polish",
+  "reviewedAt": "2026-03-21T14:07:05Z",
+  "commitId": "2f84ffd6e51a14e004332a48304da5d6afc1ef36",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The fix does resolve the stable-ID cost-band dependency problem: cost-band phases now carry stable IDs, the explorer resolves them back to readable labels, and the new referential-integrity tests cover uniqueness, existence, and acyclicity. However, the maturity-consistency portion is still not fully resolved. `FlywheelExplorer` keeps a single `Strategy Agents & Vaults` node and simply changes its badge to `planned`, which fixes the prior overstatement for strategy agents but still conflicts with the rest of the site where social vaults remain `in_progress`. Because the combined flywheel node still spans two differently staged concepts, the architecture surface does not yet fully satisfy the feature's cross-surface consistency requirement.",
+    "issues": [
+      {
+        "file": "src/components/architecture/FlywheelExplorer.tsx",
+        "line": 78,
+        "severity": "blocking",
+        "description": "The fix leaves `Strategy Agents & Vaults` as one flywheel node with a single `planned` badge (`:78-80`). That resolves the original strategy-agent overstatement, but it still does not align with the roadmap/narrative surfaces because `Social Vaults & vBETTER` remains `in_progress` (`src/content/roadmap-nodes.ts:73-76`, `src/content/narrative.ts:141-145`) while `Autonomous Strategy Agents` remains `planned` (`src/content/roadmap-nodes.ts:95-98`, `src/content/narrative.ts:194-198`). The combined architecture label therefore still collapses two concepts with different maturities into one status, so the feature's promised cross-surface maturity consistency is not fully achieved. The added regression tests only lock in the `planned` status for the combined node (`src/components/architecture/__tests__/ArchitectureSection.test.tsx:252`) and do not catch this remaining vault/agent mismatch."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "Shared guidance says maturity taxonomy must stay consistent across surfaces, but it does not say how a single architecture/flywheel node should represent multiple roadmap concepts when those concepts have different maturities. That gap likely contributed to the worker keeping one `Strategy Agents & Vaults` node and choosing a single fallback badge instead of splitting or differentiating the states.",
+      "evidence": "Mission AGENTS says `Keep the maturity taxonomy and terminology consistent across narrative, roadmap, tokenomics, and architecture surfaces` (`/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/AGENTS.md:38`). `.factory/library/architecture.md:13` says to use one shared maturity taxonomy, but `src/components/architecture/FlywheelExplorer.tsx:78-80` still combines `Strategy Agents & Vaults` under one `planned` status while `src/content/roadmap-nodes.ts:73-76` and `src/content/narrative.ts:141-145` keep social vaults `in_progress`."
+    }
+  ],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/ecosystem-atlas/scrutiny/reviews/atlas-architecture-cost-bands-and-flywheel.json",
+  "summary": "Fail. The stable-ID dependency work is correctly implemented, but the maturity-consistency fix is incomplete: the flywheel still combines Strategy Agents and Social Vaults under a single `planned` badge even though vaults remain `in_progress` elsewhere. Shared-state guidance also does not spell out how aggregate nodes should represent mixed-maturity concepts."
+}

@@ -1,94 +1,48 @@
 {
   "milestone": "ecosystem-atlas",
-  "round": 1,
+  "round": 2,
   "status": "fail",
   "validatorsRun": {
     "test": {
       "passed": true,
-      "command": "cd /Users/test/vision && npm run test",
+      "command": "npm run test",
       "exitCode": 0
     },
     "typecheck": {
       "passed": true,
-      "command": "cd /Users/test/vision && npx tsc --noEmit",
+      "command": "npx tsc --noEmit",
       "exitCode": 0
     },
     "lint": {
       "passed": true,
-      "command": "cd /Users/test/vision && npm run lint",
+      "command": "npm run lint",
       "exitCode": 0
     }
   },
   "reviewsSummary": {
     "total": 3,
-    "passed": 0,
-    "failed": 3,
+    "passed": 2,
+    "failed": 1,
     "failedFeatures": [
-      "atlas-interactive-roadmap-mindmap-experience",
-      "atlas-whale-first-tokenomics-and-projections",
-      "atlas-architecture-cost-bands-and-flywheel"
+      "atlas-architecture-dependency-id-and-maturity-consistency-polish"
     ]
   },
   "blockingIssues": [
     {
-      "featureId": "atlas-interactive-roadmap-mindmap-experience",
+      "featureId": "atlas-architecture-dependency-id-and-maturity-consistency-polish",
       "severity": "blocking",
-      "description": "Direct #node-* roadmap deep links only restore reducer state; they do not scroll or focus the atlas into view, so the intended node or invalid-link fallback is not visually apparent on first load as required by VAL-ROADMAP-006/007."
-    },
-    {
-      "featureId": "atlas-whale-first-tokenomics-and-projections",
-      "severity": "blocking",
-      "description": "The scenario switcher only swaps read-only scenario tabs and assumptions; it never captures any user-entered tier, deposit, or other input state to preserve, so the VAL-TOKEN-007 requirement to preserve user inputs is not implemented."
-    },
-    {
-      "featureId": "atlas-whale-first-tokenomics-and-projections",
-      "severity": "blocking",
-      "description": "The scarcity explainer says Lite holders are ineligible for strategy preview access, but the tier ladder data assigns Lite a non-zero preview priority, creating a contradictory whale-first rule that users cannot reconcile."
-    },
-    {
-      "featureId": "atlas-architecture-cost-bands-and-flywheel",
-      "severity": "blocking",
-      "description": "The cost-band models store dependency labels such as phase names instead of the promised stable phase IDs, so the architecture explorer is not actually stable-ID-backed and will break referential integrity if labels change."
-    },
-    {
-      "featureId": "atlas-architecture-cost-bands-and-flywheel",
-      "severity": "blocking",
-      "description": "The architecture flywheel marks Strategy Agents & Vaults as in progress while narrative, roadmap, and tokenomics still present strategy agents as planned, creating a cross-surface maturity mismatch that overstates readiness."
+      "description": "The rerun fix resolves stable-ID cost-band dependencies, but `FlywheelExplorer` still combines `Strategy Agents & Vaults` under one `planned` badge even though social vaults remain `in_progress` elsewhere, so the cross-surface maturity-consistency requirement is still not fully met."
     }
   ],
-  "appliedUpdates": [
-    {
-      "target": "library",
-      "description": "Extended .factory/library/testing.md with a factual Jest/jsdom note that page-level render trees importing client components that use IntersectionObserver or scrollIntoView need global mocks in jest.setup.ts.",
-      "sourceFeature": "atlas-interactive-roadmap-mindmap-experience"
-    },
-    {
-      "target": "library",
-      "description": "Extended .factory/library/content-model.md with dependency conventions distinguishing readable narrative caveat dependencies from stable roadmap-node IDs and stable cost-band phase IDs.",
-      "sourceFeature": "atlas-architecture-cost-bands-and-flywheel"
-    }
-  ],
+  "appliedUpdates": [],
   "suggestedGuidanceUpdates": [
     {
-      "target": "frontend-experience-worker skill",
-      "suggestion": "Clarify the required browser-validation workflow to use the Factory agent-browser tool/skill path instead of trial-and-error raw CLI commands, and document the working interaction pattern (including non-default session usage and when eval-style fallbacks are needed for scrolling or precise interaction).",
-      "evidence": "Both atlas-interactive-roadmap-mindmap-experience and atlas-architecture-cost-bands-and-flywheel recorded repeated failed agent-browser command attempts before the workers discovered a usable invocation pattern during manual validation.",
-      "isSystemic": true
+      "target": "AGENTS.md",
+      "suggestion": "Clarify that when an architecture or flywheel node aggregates multiple roadmap concepts with different maturities, workers should either split the node or render differentiated per-concept maturity framing instead of collapsing everything under one badge.",
+      "evidence": "The rerun review for atlas-architecture-dependency-id-and-maturity-consistency-polish found that a combined `Strategy Agents & Vaults` flywheel node still conflicted with roadmap and narrative surfaces because social vaults remained `in_progress` while autonomous strategy agents remained `planned`.",
+      "isSystemic": false
     }
   ],
-  "rejectedObservations": [
-    {
-      "observation": "Record separate frontend-skill browser-guidance findings from the roadmap and architecture reviews.",
-      "reason": "duplicate; consolidated into one systemic frontend-experience-worker skill recommendation"
-    },
-    {
-      "observation": "Update .factory/services.yaml with browser automation command recipes.",
-      "reason": "rejected because services.yaml is for operational commands and services, while browser interaction procedure belongs in skills or library guidance"
-    },
-    {
-      "observation": "Treat the tokenomics worker's inaccurate followedProcedure=true handoff field as a new shared-state artifact update for this milestone.",
-      "reason": "rejected because it is a worker-compliance issue rather than factual repo knowledge, and the broader process concern was already raised in foundation scrutiny guidance"
-    }
-  ],
-  "previousRound": null
+  "rejectedObservations": [],
+  "previousRound": "/Users/test/vision/.factory/validation/ecosystem-atlas/scrutiny/synthesis.round-1.json"
 }

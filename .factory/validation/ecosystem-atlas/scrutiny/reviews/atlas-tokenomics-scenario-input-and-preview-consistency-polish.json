@@ -1,0 +1,22 @@
+{
+  "featureId": "atlas-tokenomics-scenario-input-and-preview-consistency-polish",
+  "reviewedAt": "2026-03-21T14:06:28Z",
+  "commitId": "9038f0a",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The fix directly addresses both original blockers from `atlas-whale-first-tokenomics-and-projections`. `ScenarioSwitcher` now adds explicit user-editable token-balance and vault-deposit inputs stored independently from the active scenario, so values persist when switching among conservative, base, and upside while the assumption cards and projection outputs still update with the selected scenario. `ScarcityExplainer` now aligns its preview-access rule with the tier data by treating Lite as preview-eligible and only Explorer as ineligible. I did not find any new blocking implementation problems in the reviewed fix.",
+    "issues": [
+      {
+        "file": "src/components/tokenomics/__tests__/scenario-input-persistence.test.tsx",
+        "line": 182,
+        "severity": "non_blocking",
+        "description": "The test named `all non-zero preview tiers are listed as eligible in scarcity copy` only asserts that preview-eligible tiers are not marked as ineligible (`:182-196`). It would still pass if the copy stopped naming a preview-eligible tier like Lite entirely, so the rendered-eligibility regression coverage is slightly weaker than the test name and handoff claim suggest."
+      }
+    ]
+  },
+  "sharedStateObservations": [],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/ecosystem-atlas/scrutiny/reviews/atlas-whale-first-tokenomics-and-projections.json",
+  "summary": "Pass. The rerun fix resolves the original blocking issues by adding persistent user-editable scenario inputs and reconciling Lite preview eligibility with the tier ladder data. One non-blocking test-coverage gap remains: the new eligibility regression asserts tiers are not called ineligible, but does not strictly verify every preview-eligible tier is explicitly listed in the rendered scarcity copy."
+}

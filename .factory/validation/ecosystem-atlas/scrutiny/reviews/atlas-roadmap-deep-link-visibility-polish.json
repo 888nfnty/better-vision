@@ -1,0 +1,15 @@
+{
+  "featureId": "atlas-roadmap-deep-link-visibility-polish",
+  "reviewedAt": "2026-03-21T14:06:25Z",
+  "commitId": "b4a5fdb",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The rerun fix fully addresses the original blocking deep-link visibility gap. Compared with the original roadmap implementation, `RoadmapAtlas` now scrolls and focuses either the selected detail panel or the invalid-link fallback on first load and hash changes, and the stale-hash banner adds an explicit reset action. The focused regression additions cover valid-hash visibility, invalid-hash visibility, focus affordance, recovery-action presence, and hashchange restoration. I did not find a new blocking problem in the fix path.",
+    "issues": []
+  },
+  "sharedStateObservations": [],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/ecosystem-atlas/scrutiny/reviews/atlas-interactive-roadmap-mindmap-experience.json",
+  "summary": "Pass. The original VAL-ROADMAP-006/007 failure is resolved: direct `#node-*` loads now make the selected roadmap detail or stale-hash fallback visibly apparent, the fallback includes an obvious recovery action, and the fix adds focused regression coverage without introducing a new blocking issue."
+}
