@@ -1,0 +1,39 @@
+{
+  "featureId": "foundation-canonical-content-models",
+  "reviewedAt": "2026-03-21T10:48:38.899688Z",
+  "commitId": "0f324d25bbf78a0dfd6ca7ef4135563fdec1493d",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The feature establishes a strong typed data foundation for roadmap, tokenomics, scenarios, and cost bands, and it comes with broad arithmetic/invariant coverage. However, it does not fully satisfy the feature scope because the reviewed commit only defines a `NarrativeBlock` type and does not ship narrative seed data/helpers/tests for the narrative surface called out in the feature description and expected behavior.",
+    "issues": [
+      {
+        "file": "src/content/index.ts",
+        "line": 24,
+        "severity": "blocking",
+        "description": "At commit `0f324d25bbf78a0dfd6ca7ef4135563fdec1493d`, the content barrel exported `NarrativeBlock` as a type only, but there was no corresponding `src/content/narrative.ts` seed-data module, helper exports, or narrative-focused test coverage. That leaves the shared content layer incomplete for one of the required surfaces (`narrative`) despite the feature description/expected behavior calling for typed content and seed data across narrative, roadmap, tokenomics, projections, and architecture surfaces."
+      },
+      {
+        "file": "src/content/types.ts",
+        "line": 289,
+        "severity": "non_blocking",
+        "description": "`CostBandPhase.dependencies` is documented as phase IDs, but the models in `src/content/cost-bands.ts` populate it with human-readable phase names (for example `\"Phase 1: Foundation Models\"` at line 65 and `\"Phase 2: Proprietary Training\"` at line 77). Because phases have no stable IDs, these dependency links cannot be validated robustly and will silently break on renames."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "The shared content-model library guidance documents roadmap/economics/scenario/tier expectations but says nothing about narrative blocks or required narrative seed data, even though this feature's expected behavior includes narrative contracts. That gap likely made it easier for the worker to stop at a `NarrativeBlock` interface without shipping a narrative content module.",
+      "evidence": "/Users/test/vision/.factory/library/content-model.md:9-43 covers roadmap branch families, shared content fields, scenario dimensions, and token tier dimensions only; it contains no narrative-surface requirements."
+    },
+    {
+      "area": "skills",
+      "observation": "The `content-strategy-worker` skill says to write failing tests first for schema/model changes, but the transcript shows the worker created `types.ts`, `roadmap-nodes.ts`, `token-tiers.ts`, `scenarios.ts`, `cost-bands.ts`, and `index.ts` before creating `src/content/__tests__/content-models.test.ts`. The handoff still marked `followedProcedure: true`, so the skill-following feedback is not reliably capturing this deviation.",
+      "evidence": "`/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/worker-transcripts.jsonl` (session `2778f59c-3fc7-4b07-a32d-7efaed0e0485`) shows file creation for the content modules before the later `Create` step for `src/content/__tests__/content-models.test.ts`; `/Users/test/vision/.factory/skills/content-strategy-worker/SKILL.md` step 3 requires failing tests first."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail. The reviewed commit has solid typed models and strong invariant tests for roadmap/tokenomics/scenario/cost-band data, but it misses the narrative seed-data portion of the content system required by the feature scope. I also noted a non-blocking dependency-modeling inconsistency in the cost-band phases and two shared-state gaps worth triage."
+}

@@ -24,6 +24,12 @@ Each roadmap or economics item should have typed fields for:
 - evidence/source or assumption cue
 - confidence framing when future-facing
 
+## Narrative surface
+- Narrative content is a first-class typed surface alongside roadmap, tokenomics, projections, and architecture content.
+- Seed narrative blocks currently live in `src/content/narrative.ts` and drive the `hero`, `current_scope`, and `vision` surfaces.
+- Narrative blocks should carry a stable id, surface, order, title, body, maturity/status, source cue, and confidence framing when future-facing.
+- `src/components/CaveatFrame.tsx` renders `ConfidenceFrame.dependencies` directly to users, so dependency values must be readable user-facing notes rather than internal roadmap IDs.
+
 ## Scenario model dimensions
 The scenario system should expose assumptions for:
 - prediction-market growth

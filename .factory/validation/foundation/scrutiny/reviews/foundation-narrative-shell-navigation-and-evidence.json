@@ -1,0 +1,45 @@
+{
+  "featureId": "foundation-narrative-shell-navigation-and-evidence",
+  "reviewedAt": "2026-03-21T10:48:19Z",
+  "commitId": "940eea7",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The feature covers most of the narrative-shell scope well: the hero/live-vs-vision split, desktop and mobile navigation, maturity legend, evidence section, and CTA destination framing are all implemented coherently. However, one of the most prominent future-facing hero claims is missing its evidence hook entirely, caveat dependencies render raw internal IDs to end users, and the page-level tests were not specific enough to catch those gaps.",
+    "issues": [
+      {
+        "file": "src/app/page.tsx",
+        "line": 63,
+        "severity": "blocking",
+        "description": "The hero 'The Vision Ahead' card renders a maturity badge and caveat but never renders `EvidenceHook`, even though `hero-vision` includes structured source data in `src/content/narrative.ts`. That leaves a first-screen aggressive roadmap claim without the evidence/source cue required by VAL-NARR-008 and the feature brief." 
+      },
+      {
+        "file": "src/components/CaveatFrame.tsx",
+        "line": 25,
+        "severity": "non_blocking",
+        "description": "`CaveatFrame` directly joins `confidence.dependencies`, and the narrative data supplies internal roadmap IDs such as `pe-social-vaults` and `ti-hyperevm-phase1` (`src/content/narrative.ts:57`, `:154`, `:172`, `:189`, `:206`). Those opaque IDs become user-visible copy, which is not production-quality or understandable without insider knowledge." 
+      },
+      {
+        "file": "src/app/__tests__/page.test.tsx",
+        "line": 55,
+        "severity": "non_blocking",
+        "description": "The page-level evidence test only asserts that some `evidence-hook` exists somewhere on the page. It does not verify evidence framing on the hero live-vs-vision split, so the missing hero evidence hook passes unnoticed. This weakens the feature's test adequacy around one of its core requirements." 
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The `frontend-experience-worker` skill says to write failing tests before implementation, but the reviewed transcript shows the worker creating `src/content/narrative.ts`, multiple components, and `src/app/page.tsx` before any of the new test files were added. The handoff still marked `skillFeedback.followedProcedure` as true.",
+      "evidence": "`/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/worker-transcripts.jsonl:3` shows `Create` calls for narrative/content and UI files before later `Create` calls for `src/components/__tests__/*.test.tsx`, `src/app/__tests__/page.test.tsx`, and `src/content/__tests__/narrative.test.ts`. The handoff JSON for this feature reports `skillFeedback.followedProcedure: true`."
+    },
+    {
+      "area": "conventions",
+      "observation": "The shared content contract does not clearly distinguish user-facing dependency copy from internal dependency identifiers inside confidence framing. That ambiguity made it easy to store roadmap IDs in narrative data and render them verbatim to users.",
+      "evidence": "`src/content/types.ts:73-77` defines `ConfidenceFrame.dependencies?: string[]`, while `.factory/library/content-model.md` only says content should include 'dependency or prerequisite notes'. In this feature, `src/content/narrative.ts` stores values like `pe-social-vaults` and `ti-hyperevm-phase1`, and `src/components/CaveatFrame.tsx:25-29` renders them directly."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail. The narrative shell is mostly solid, but the hero's future-vision claim is missing its evidence hook, caveat dependencies leak raw internal IDs into the UI, and the page-level tests were too broad to catch the missing hero evidence framing."
+}
