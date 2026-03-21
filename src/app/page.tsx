@@ -6,6 +6,7 @@ import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
 import { RoadmapAtlas } from "@/components/roadmap";
 import { TokenomicsSection } from "@/components/tokenomics";
+import { ArchitectureSection } from "@/components/architecture";
 
 export default function Home() {
   const heroBlocks = getBlocksBySurface("hero");
@@ -184,23 +185,17 @@ export default function Home() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Architecture placeholder */}
+      {/* Architecture — VAL-VISUAL-005 through VAL-VISUAL-009 */}
       {/* ---------------------------------------------------------------- */}
-      <section className="border-t border-border px-4 py-24">
+      <section id="architecture" className="border-t border-border px-4 py-24">
         <div className="mx-auto max-w-5xl">
           <SectionHeading
             label="Architecture"
             title="Technical Architecture"
-            description="Hyperliquid, HyperEVM, OpenServ, proprietary AI/RL, and phased infrastructure evolution."
+            description="Hyperliquid/HyperEVM, OpenServ/BRAID, proprietary AI/RL, Polygon validators, and phased low-latency execution — the BETTER stack, its cost bands, and the compounding flywheel. Content is informational — not operational."
           />
-          <div className="mt-12 rounded-lg border border-border bg-surface p-12 text-center">
-            <p className="font-terminal text-sm text-muted">
-              [ Architecture explorer coming soon ]
-            </p>
-            <p className="mt-2 text-xs text-muted">
-              This section will visualize the BETTER stack layers, cost bands,
-              and infrastructure evolution. Content is informational — not operational.
-            </p>
+          <div className="mt-12">
+            <ArchitectureSection />
           </div>
         </div>
       </section>

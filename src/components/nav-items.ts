@@ -10,6 +10,7 @@ export const NAV_ITEMS = [
   { label: "Live Now", href: "#live-now" },
   { label: "Roadmap", href: "#roadmap" },
   { label: "Tokenomics", href: "#tokenomics" },
+  { label: "Architecture", href: "#architecture" },
   { label: "Evidence & Sources", href: "#evidence" },
   { label: "Risks & Caveats", href: "#risks" },
 ] as const;
