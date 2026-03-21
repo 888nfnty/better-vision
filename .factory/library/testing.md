@@ -8,3 +8,4 @@ Project test tooling facts for this repo:
 - DOM assertions come from `jest.setup.ts`, which is loaded via `setupFilesAfterEnv`.
 - Test files currently live under `src/**/__tests__`.
 - Next App Router `RootLayout` renders `<html>/<body>`, so page-only component tests do not validate shared layout chrome; layout regression coverage needs a document-level render/helper strategy or an integration-style check that explicitly includes the layout.
+- If a page-level render path imports client components that rely on `IntersectionObserver` or `scrollIntoView` (for example the roadmap atlas), add global jsdom mocks in `jest.setup.ts` so existing page/layout tests do not fail when those components enter the shared render tree.

@@ -1,0 +1,39 @@
+{
+  "featureId": "atlas-architecture-cost-bands-and-flywheel",
+  "reviewedAt": "2026-03-21T13:07:33.359422Z",
+  "commitId": "6b49a9ea7356cc57cac4c1cfcbf368d376d43165",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The architecture section is substantial and mostly polished, but it misses one explicit feature requirement and introduces a cross-surface maturity mismatch that overstates readiness.",
+    "issues": [
+      {
+        "file": "src/content/cost-bands.ts",
+        "line": 65,
+        "severity": "blocking",
+        "description": "The feature description calls for stable-ID-backed subsystem dependencies, and `CostBandPhase.dependencies` is documented as phase IDs, but the cost-band models store human-readable phase labels such as `\"Phase 1: Foundation Models\"` instead. Because `CostBandExplorer` renders those strings verbatim, the architecture cost explorer is not actually backed by stable dependency identifiers and will break referential integrity if labels change."
+      },
+      {
+        "file": "src/components/architecture/FlywheelExplorer.tsx",
+        "line": 80,
+        "severity": "blocking",
+        "description": "The flywheel marks `Strategy Agents & Vaults` as `in_progress`, but the rest of the site still presents strategy agents as planned (`src/content/narrative.ts:198`, `src/content/roadmap-nodes.ts:98`, `src/components/tokenomics/TokenUtilitySurface.tsx:29`). Collapsing vaults and agents into a single in-progress node makes the architecture surface overstate agent readiness and violates the repo's cross-section status-consistency requirement."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The shared content-model guidance does not spell out how cost-band dependency references should be modeled or validated, even though the type contract expects ID-based references. That gap likely contributed to string-label dependencies being shipped in the architecture cost explorer.",
+      "evidence": "`.factory/library/content-model.md` only documents readable dependency notes for narrative confidence frames, while `src/content/types.ts:289` says `CostBandPhase.dependencies` are phase IDs. `src/content/__tests__/content-models.test.ts:171-176` validates roadmap dependency IDs, but there is no analogous assertion for cost-band dependencies."
+    },
+    {
+      "area": "skills",
+      "observation": "The frontend worker skill requires browser validation but does not document practical `agent-browser` fallbacks for precise scroll/interaction, which caused trial-and-error during verification.",
+      "evidence": "The transcript skeleton shows failed `agent-browser click \"Architecture\"`, `execute`, and `js` attempts before the worker discovered `agent-browser eval` as the usable approach. `src/.factory/skills/frontend-experience-worker/SKILL.md` instructs workers to use `agent-browser`, but does not capture this interaction pattern."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail: the architecture atlas ships a user-visible status inconsistency for strategy agents and does not implement the promised stable-ID-backed cost-band dependencies."
+}

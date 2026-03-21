@@ -1,0 +1,50 @@
+{
+  "featureId": "atlas-interactive-roadmap-mindmap-experience",
+  "reviewedAt": "2026-03-21T13:07:26Z",
+  "commitId": "67f01a5",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The atlas implementation is substantial and covers the branch families, detail panels, and tests, but the shared `#node-*` URLs do not make the intended roadmap state visually apparent on first load, so the claimed deep-link behavior is not fully met. I also found secondary state-management and assistive-semantics issues.",
+    "issues": [
+      {
+        "file": "src/components/roadmap/RoadmapAtlas.tsx",
+        "line": 153,
+        "severity": "blocking",
+        "description": "Direct `#node-*` links only rehydrate reducer state; they never scroll or focus the roadmap section/detail panel into view. Because the atlas sits further down `src/app/page.tsx`, a fresh visit to a shared node URL loads the correct internal state off-screen, so the intended node or recovery state is not visually apparent as required by VAL-ROADMAP-006/007. The transcript evidence matches this: after opening `http://127.0.0.1:3100/#node-pe-strategy-agents`, the worker had to run `scrollintoview \"[data-testid='roadmap-node-detail']\"` before capturing the deep-linked panel."
+      },
+      {
+        "file": "src/components/roadmap/RoadmapAtlas.tsx",
+        "line": 43,
+        "severity": "non_blocking",
+        "description": "Selecting a node updates `window.location.hash`, which triggers the `hashchange` listener and rebuilds state from `computeHashState()`. That helper always resets `expandedBranches` to `{ [node.family]: true }`, so if a user has multiple branches open, clicking any node silently collapses the unrelated branches and breaks the promised stable branch state."
+      },
+      {
+        "file": "src/components/roadmap/RoadmapStorySection.tsx",
+        "line": 51,
+        "severity": "non_blocking",
+        "description": "The overview cards are exposed as a `tablist`/`tab` widget, but there are no corresponding `tabpanel`s, arrow-key interactions, or roving tab focus. The roles therefore do not match the actual interaction model and create misleading assistive semantics for a feature that explicitly claims accessible roadmap controls."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The frontend skill says `agent-browser` is mandatory, but it does not clarify whether workers should invoke the Factory `agent-browser` skill/tool or shell out to the CLI. This worker spent multiple transcript steps trial-and-erroring raw `agent-browser` commands and still reported `followedProcedure=true`.",
+      "evidence": "frontend-experience-worker/SKILL.md:14-27 requires `agent-browser`; transcript skeleton lines 740-748 show `agent-browser ... browser` failing with `Unknown command: browser`, followed by `agent-browser --help` and more CLI experiments."
+    },
+    {
+      "area": "knowledge",
+      "observation": "The testing library should document that once a client component using `IntersectionObserver` is imported by a page-level render tree, Jest/jsdom needs a global `IntersectionObserver` (and often `scrollIntoView`) mock in `jest.setup.ts`.",
+      "evidence": "The feature handoff's skillFeedback.suggestedChanges calls this out explicitly, and jest.setup.ts:3-23 now contains the global mocks."
+    },
+    {
+      "area": "conventions",
+      "observation": "The shared content-model guidance says `ConfidenceFrame.dependencies` must already be user-facing text, but the type system/data model still permit raw roadmap IDs. That mismatch caused the worker to translate IDs in the UI instead of fixing the source data.",
+      "evidence": ".factory/library/content-model.md:31 says dependency values must be readable notes; src/content/roadmap-nodes.ts:90/112/219 still store IDs like `pe-terminal-beta`; src/components/roadmap/RoadmapNodeDetail.tsx:89-90 maps those IDs back to titles at render time."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail. The atlas implementation is broad, but shared `#node-*` URLs do not bring the intended roadmap state into view, so valid/invalid deep links are not visually apparent on first load. I also noted non-blocking issues with node selection collapsing unrelated branches and the story panels advertising incomplete tab semantics."
+}

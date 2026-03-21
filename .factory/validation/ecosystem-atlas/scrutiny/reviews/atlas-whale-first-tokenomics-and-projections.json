@@ -1,0 +1,40 @@
+{
+  "featureId": "atlas-whale-first-tokenomics-and-projections",
+  "reviewedAt": "2026-03-21T13:07:14Z",
+  "commitId": "72d0443",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The feature delivers most of the promised tokenomics surfaces: reconciled supply math, a detailed tier ladder, FDV ratchet and non-linear allocation explainers, a scenario panel, agent-native utility cards, and fee/value-flow sections. However, two blocking problems remain. First, the scenario switcher never captures any user-entered tier/deposit/input state, so it cannot satisfy the required 'preserves user inputs' behavior. Second, the scarcity explainer contradicts the tier ladder on preview eligibility, which makes the whale-first rules unclear to users. The automated tests also miss the core scenario-switching assertions they claim to cover.",
+    "issues": [
+      {
+        "file": "src/components/tokenomics/ScenarioSwitcher.tsx",
+        "line": 51,
+        "severity": "blocking",
+        "description": "`ScenarioSwitcher` only stores `activeLevel` and renders read-only tabs/cards. There is no balance, tier, deposit, or other user-entered state anywhere in the component to preserve across scenario changes (`:51-148`). That means the implementation does not satisfy the 'Scenario switching preserves user inputs' portion of the feature brief / VAL-TOKEN-007; it only swaps between static scenario views."
+      },
+      {
+        "file": "src/components/tokenomics/ScarcityExplainer.tsx",
+        "line": 46,
+        "severity": "blocking",
+        "description": "The 'Strategy Preview Slots' rule says 'Explorer and Lite tiers are ineligible for preview access,' but the tier data gives Lite a non-zero `previewPriority` and renders that benefit in the ladder (`src/content/token-tiers.ts:33-40`). Those two surfaces disagree on a core whale-first rule, so preview eligibility is not communicated clearly or consistently."
+      },
+      {
+        "file": "src/components/tokenomics/__tests__/TokenomicsSection.test.tsx",
+        "line": 302,
+        "severity": "non_blocking",
+        "description": "The tests named 'switching to conservative/upside updates the assumption values' only click a tab and assert `aria-selected` (`:302-318`). They never verify that assumption cards, projection values, or any preserved input state actually changed, which leaves the most important dynamic behavior of the scenario surface effectively untested."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The `content-strategy-worker` skill still says to write failing tests first, but this worker created the tokenomics component files before the test file and still reported `followedProcedure: true` in the handoff. That makes the skill-feedback signal unreliable for this feature.",
+      "evidence": "`.factory/skills/content-strategy-worker/SKILL.md:22-23` requires 'Write failing tests first'. In the reviewed transcript skeleton for session `0db38d4c-1361-4c4a-beb5-49d59eb2c8c1`, the `Create` entries for `src/components/tokenomics/SupplyAllocation.tsx` and `src/components/tokenomics/ScenarioSwitcher.tsx` appear before the later `Create` entry for `src/components/tokenomics/__tests__/TokenomicsSection.test.tsx`. The handoff still reports `followedProcedure: true` at `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-21T12-49-32-367Z__atlas-whale-first-tokenomics-and-projections__0db38d4c-1361-4c4a-beb5-49d59eb2c8c1.json:158-160`."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail. The tokenomics feature is broad and polished, but it misses the required user-input persistence in scenario switching and contains a user-visible contradiction between the tier ladder and scarcity rules about Lite preview eligibility."
+}

@@ -24,6 +24,11 @@ Each roadmap or economics item should have typed fields for:
 - evidence/source or assumption cue
 - confidence framing when future-facing
 
+## Dependency conventions
+- Narrative `ConfidenceFrame.dependencies` values are rendered directly to users, so they must stay as readable user-facing notes rather than internal IDs.
+- Roadmap node `dependencies` are typed as stable roadmap-node IDs and should be resolved to readable labels in the UI.
+- Architecture cost-band phase `dependencies` are typed as stable phase IDs in `src/content/types.ts`; keep them ID-backed rather than label-backed if future work touches that model.
+
 ## Narrative surface
 - Narrative content is a first-class typed surface alongside roadmap, tokenomics, projections, and architecture content.
 - Seed narrative blocks currently live in `src/content/narrative.ts` and drive the `hero`, `current_scope`, and `vision` surfaces.
