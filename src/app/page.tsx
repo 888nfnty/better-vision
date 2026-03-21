@@ -7,6 +7,7 @@ import CaveatFrame from "@/components/CaveatFrame";
 import { RoadmapAtlas } from "@/components/roadmap";
 import { TokenomicsSection } from "@/components/tokenomics";
 import { ArchitectureSection } from "@/components/architecture";
+import { HeroVisualSystem } from "@/components/visual";
 
 export default function Home() {
   const heroBlocks = getBlocksBySurface("hero");
@@ -20,86 +21,90 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* ---------------------------------------------------------------- */}
-      {/* Hero Section — VAL-NARR-001, VAL-NARR-002 */}
+      {/* Hero Section — VAL-NARR-001, VAL-NARR-002, VAL-VISUAL-000–004 */}
       {/* ---------------------------------------------------------------- */}
       <section
         id="what-is-better"
-        className="relative flex min-h-[80vh] flex-col items-center justify-center px-4 py-24 text-center"
+        data-testid="hero-section"
+        className="relative min-h-[80vh]"
       >
-        <div className="scanline-overlay absolute inset-0" aria-hidden="true" />
-        <div className="relative z-10 mx-auto max-w-3xl">
-          <p className="mb-4 font-terminal text-sm font-medium uppercase tracking-widest text-accent">
-            Ecosystem Vision &amp; Roadmap
-          </p>
+        <HeroVisualSystem>
+          <div className="flex min-h-[80vh] flex-col items-center justify-center px-4 py-24 text-center">
+            <div className="mx-auto max-w-3xl">
+              <p className="mb-4 font-terminal text-sm font-medium uppercase tracking-widest text-accent">
+                Ecosystem Vision &amp; Roadmap
+              </p>
 
-          <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-            <span className="glow-accent text-accent">BETTER</span>{" "}
-            <span className="text-foreground">
-              is building the future of prediction-market intelligence
-            </span>
-          </h1>
+              <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+                <span className="glow-accent text-accent">BETTER</span>{" "}
+                <span className="text-foreground">
+                  is building the future of prediction-market intelligence
+                </span>
+              </h1>
 
-          {/* Plain-language definition (VAL-NARR-001) */}
-          {heroDefinition && (
-            <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-secondary">
-              {heroDefinition.body}
-            </p>
-          )}
-
-          {/* Live vs Vision framing (VAL-NARR-002) */}
-          <div className="mx-auto mb-8 grid max-w-2xl gap-4 text-left sm:grid-cols-2">
-            {heroLiveToday && (
-              <div className="rounded-lg border border-accent/20 bg-accent/5 p-4">
-                <div className="mb-2 flex items-center gap-2">
-                  <MaturityBadge status="live" />
-                  <span className="font-terminal text-xs font-medium text-accent">
-                    {heroLiveToday.title}
-                  </span>
-                </div>
-                <p className="text-sm leading-relaxed text-secondary">
-                  {heroLiveToday.body}
+              {/* Plain-language definition (VAL-NARR-001) */}
+              {heroDefinition && (
+                <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-secondary">
+                  {heroDefinition.body}
                 </p>
-                <EvidenceHook source={heroLiveToday.source} className="mt-2" />
-              </div>
-            )}
+              )}
 
-            {heroVision && (
-              <div className="rounded-lg border border-accent-warn/20 bg-accent-warn/5 p-4">
-                <div className="mb-2 flex items-center gap-2">
-                  <MaturityBadge status="planned" />
-                  <span className="font-terminal text-xs font-medium text-accent-warn">
-                    {heroVision.title}
-                  </span>
-                </div>
-                <p className="text-sm leading-relaxed text-secondary">
-                  {heroVision.body}
-                </p>
-                <EvidenceHook source={heroVision.source} className="mt-2" />
-                {heroVision.confidence && (
-                  <CaveatFrame confidence={heroVision.confidence} className="mt-2" />
+              {/* Live vs Vision framing (VAL-NARR-002) */}
+              <div className="mx-auto mb-8 grid max-w-2xl gap-4 text-left sm:grid-cols-2">
+                {heroLiveToday && (
+                  <div className="rounded-lg border border-accent/20 bg-accent/5 p-4 backdrop-blur-sm">
+                    <div className="mb-2 flex items-center gap-2">
+                      <MaturityBadge status="live" />
+                      <span className="font-terminal text-xs font-medium text-accent">
+                        {heroLiveToday.title}
+                      </span>
+                    </div>
+                    <p className="text-sm leading-relaxed text-secondary">
+                      {heroLiveToday.body}
+                    </p>
+                    <EvidenceHook source={heroLiveToday.source} className="mt-2" />
+                  </div>
+                )}
+
+                {heroVision && (
+                  <div className="rounded-lg border border-accent-warn/20 bg-accent-warn/5 p-4 backdrop-blur-sm">
+                    <div className="mb-2 flex items-center gap-2">
+                      <MaturityBadge status="planned" />
+                      <span className="font-terminal text-xs font-medium text-accent-warn">
+                        {heroVision.title}
+                      </span>
+                    </div>
+                    <p className="text-sm leading-relaxed text-secondary">
+                      {heroVision.body}
+                    </p>
+                    <EvidenceHook source={heroVision.source} className="mt-2" />
+                    {heroVision.confidence && (
+                      <CaveatFrame confidence={heroVision.confidence} className="mt-2" />
+                    )}
+                  </div>
                 )}
               </div>
-            )}
-          </div>
 
-          {/* Hero CTAs — VAL-NARR-010: honest about destination */}
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <a
-              href="#roadmap"
-              className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-8 text-sm font-semibold text-background transition-opacity hover:opacity-90"
-              data-testid="cta-explore-roadmap"
-            >
-              Explore the Roadmap
-            </a>
-            <a
-              href="#live-now"
-              className="inline-flex h-12 items-center justify-center rounded-md border border-border px-8 text-sm font-medium text-secondary transition-colors hover:border-accent hover:text-foreground"
-              data-testid="cta-whats-live"
-            >
-              See What&apos;s Live Now
-            </a>
+              {/* Hero CTAs — VAL-NARR-010: honest about destination */}
+              <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+                <a
+                  href="#roadmap"
+                  className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-8 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+                  data-testid="cta-explore-roadmap"
+                >
+                  Explore the Roadmap
+                </a>
+                <a
+                  href="#live-now"
+                  className="inline-flex h-12 items-center justify-center rounded-md border border-border px-8 text-sm font-medium text-secondary transition-colors hover:border-accent hover:text-foreground"
+                  data-testid="cta-whats-live"
+                >
+                  See What&apos;s Live Now
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
+        </HeroVisualSystem>
       </section>
 
       {/* ---------------------------------------------------------------- */}

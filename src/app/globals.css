@@ -73,6 +73,74 @@ body {
     0 0 20px rgba(0, 255, 136, 0.1);
 }
 
+/* -----------------------------------------------------------------------
+   ASCII-video-inspired background treatment
+   ----------------------------------------------------------------------- */
+
+.ascii-background {
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ascii-background .ascii-text {
+  /* Center the ASCII grid within the hero */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+}
+
+/* Animated state: subtle pulse effect */
+.ascii-bg-animated .ascii-text {
+  animation: ascii-pulse 4s ease-in-out infinite;
+}
+
+/* Static state: no animation, slightly dimmer */
+.ascii-bg-static .ascii-text {
+  opacity: 0.5;
+}
+
+@keyframes ascii-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   Premium dark terminal / HFT grid pattern
+   ----------------------------------------------------------------------- */
+
+/* CSS-only grid pattern: visible immediately, no JS dependency */
+.hero-grid-pattern {
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      rgba(0, 255, 136, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 255, 136, 0.03) 1px,
+      transparent 1px
+    );
+  background-size: 60px 40px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* Vignette gradient for hero text readability */
+.hero-vignette {
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 30%, var(--bg-primary) 100%),
+    linear-gradient(to bottom, var(--bg-primary) 0%, transparent 15%, transparent 85%, var(--bg-primary) 100%);
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -81,5 +149,15 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .ascii-bg-animated .ascii-text {
+    animation: none;
+    opacity: 0.5;
+  }
+
+  /* Force static state styling in reduced-motion */
+  .ascii-background .ascii-text {
+    opacity: 0.5;
   }
 }
