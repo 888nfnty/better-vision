@@ -1,0 +1,24 @@
+{
+  "milestone": "ecosystem-atlas",
+  "round": 2,
+  "status": "fail",
+  "assertionsSummary": {
+    "total": 3,
+    "passed": 2,
+    "failed": 1,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-ROADMAP-004",
+    "VAL-ROADMAP-006"
+  ],
+  "failedAssertions": [
+    {
+      "id": "VAL-ROADMAP-003",
+      "reason": "Roadmap scroll-sync still drifts. After scrolling down to later roadmap branches and then back to the top of the atlas branch list, the active story panel remained on a later family instead of returning to Product Evolution."
+    }
+  ],
+  "blockedAssertions": [],
+  "appliedUpdates": [],
+  "previousRound": ".factory/validation/ecosystem-atlas/user-testing/synthesis.round-1.json"
+}

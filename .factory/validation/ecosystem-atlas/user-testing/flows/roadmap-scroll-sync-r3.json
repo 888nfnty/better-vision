@@ -1,0 +1,49 @@
+{
+  "groupId": "roadmap-scroll-sync-r3",
+  "surface": "browser",
+  "testedAt": "2026-03-21T15:55:48Z",
+  "isolation": {
+    "appUrl": "http://127.0.0.1:3100",
+    "session": "roadmap-sync-r3",
+    "missionDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83",
+    "evidenceDir": "ecosystem-atlas/roadmap-scroll-sync-r3"
+  },
+  "assertionsTested": [
+    "VAL-ROADMAP-003"
+  ],
+  "toolsUsed": [
+    "agent-browser"
+  ],
+  "assertionResults": [
+    {
+      "id": "VAL-ROADMAP-003",
+      "status": "pass",
+      "reason": "Roadmap scroll-sync stayed aligned in both directions during the rerun. After entering the atlas from the main page, scrolling forward to later roadmap families updated the sticky story panel to match the visible family, and scrolling back upward restored Product Evolution as soon as it again became the topmost qualifying roadmap section.",
+      "evidence": {
+        "screenshots": [
+          "ecosystem-atlas/roadmap-scroll-sync-r3/VAL-ROADMAP-003-roadmap-start.png",
+          "ecosystem-atlas/roadmap-scroll-sync-r3/VAL-ROADMAP-003-roadmap-social-active.png",
+          "ecosystem-atlas/roadmap-scroll-sync-r3/VAL-ROADMAP-003-roadmap-product-restored.png"
+        ],
+        "recordings": [
+          "ecosystem-atlas/roadmap-scroll-sync-r3/VAL-ROADMAP-003-scroll-sync-forward-back.webm"
+        ],
+        "observedState": [
+          "Entry flow used the main-page Roadmap link to reach #roadmap, then continued into the atlas branch list. At scrollY 3547 with a 1000px viewport (activation line 250px), the Product Evolution branch section was the first qualifying roadmap section (top 197px, bottom 255px) and the active story panel was 'Product Evolution'.",
+          "After scrolling forward to scrollY 3807, earlier roadmap families had bottoms at or above 217px while 'Social & Agent Ecosystem' remained the first qualifying roadmap section (top 233px, bottom 291px). The active story panel switched to 'Social & Agent Ecosystem', matching the visible roadmap family.",
+          "After reversing the scroll back to scrollY 3547, 'Product Evolution' again became the first qualifying roadmap section (bottom 255px) and the active story panel restored to 'Product Evolution' instead of staying on a later family."
+        ],
+        "consoleErrors": "none",
+        "runtimeState": "Browser errors were empty after the forward/back scroll flow. Console output only showed the standard React DevTools info banner and '[HMR] connected'."
+      }
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": {
+    "pass": 1,
+    "fail": 0,
+    "blocked": 0,
+    "note": "VAL-ROADMAP-003 passed in this rerun: reverse scrolling restored Product Evolution correctly, and no runtime/browser errors were observed."
+  }
+}
