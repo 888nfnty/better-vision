@@ -4,6 +4,7 @@ import MaturityLegend from "@/components/MaturityLegend";
 import NarrativeCard from "@/components/NarrativeCard";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
+import { RoadmapAtlas } from "@/components/roadmap";
 
 export default function Home() {
   const heroBlocks = getBlocksBySurface("hero");
@@ -147,16 +148,20 @@ export default function Home() {
             title="Ecosystem Roadmap"
             description="Interactive exploration of BETTER's product, infrastructure, and token utility evolution — from active work to long-range ambition."
           />
+
+          {/* Narrative vision cards */}
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {visionBlocks.map((block) => (
               <NarrativeCard key={block.id} block={block} />
             ))}
           </div>
-          <div className="mt-8 text-center">
-            <p className="text-xs text-muted">
-              Full interactive roadmap atlas with branch exploration, deep links,
-              and node detail panels is under construction.
-            </p>
+
+          {/* Interactive Roadmap Atlas */}
+          <div className="mt-12">
+            <h3 className="mb-6 text-center font-terminal text-sm font-medium uppercase tracking-widest text-accent">
+              Interactive Roadmap Atlas
+            </h3>
+            <RoadmapAtlas />
           </div>
         </div>
       </section>
