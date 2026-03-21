@@ -4,11 +4,15 @@
  * Scenario Switcher — VAL-TOKEN-007, VAL-TOKEN-008
  *
  * Allows switching between conservative, base, and upside scenarios.
- * Updates all dependent outputs while preserving user inputs.
+ * Updates all dependent outputs while preserving user-entered inputs.
  * Exposes the assumptions that change across dimensions.
+ *
+ * User-editable inputs (token balance, deposit amount) are stored
+ * independently from the active scenario level so they persist
+ * across scenario switches.
  */
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import {
   PROJECTION_OUTPUTS,
   SCENARIO_DIMENSION_LABELS,
@@ -16,12 +20,22 @@ import {
   getScenario,
   getProjectionValues,
   getNodeById,
+  getTierForBalance,
   type ScenarioLevel,
   type ProjectionOutput,
 } from "@/content";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
-import type { ConfidenceFrame } from "@/content";
+import type { ConfidenceFrame, SourceCue } from "@/content";
+
+/** Tier weight lookup for allocation preview (matches NonLinearAllocation) */
+const TIER_WEIGHTS: Record<string, number> = {
+  "tier-explorer": 1.0,
+  "tier-lite": 1.1,
+  "tier-standard": 1.25,
+  "tier-whale": 1.6,
+  "tier-apex": 2.0,
+};
 
 const projectionCaveat: ConfidenceFrame = {
   caveat:
@@ -32,6 +46,12 @@ const projectionCaveat: ConfidenceFrame = {
     "Autonomous Strategy Agents",
     "Enterprise Data & API Licensing",
   ],
+};
+
+const userInputSource: SourceCue = {
+  type: "illustrative",
+  label: "Your Inputs",
+  note: "These results are based on your entered values and the selected scenario. They are illustrative — not guaranteed.",
 };
 
 /** Format a number with appropriate precision */
@@ -47,8 +67,18 @@ function formatValue(value: number, unit: string): string {
   return `${value} ${unit}`;
 }
 
+/** Format a dollar amount with commas */
+function formatDollar(value: number): string {
+  return `$${value.toLocaleString("en-US")}`;
+}
+
 export default function ScenarioSwitcher() {
   const [activeLevel, setActiveLevel] = useState<ScenarioLevel>("base");
+
+  // User-editable inputs — stored independently from scenario level
+  // so they persist across scenario switches (VAL-TOKEN-007)
+  const [tokenBalance, setTokenBalance] = useState<string>("");
+  const [depositAmount, setDepositAmount] = useState<string>("");
 
   const handleScenarioChange = useCallback((level: ScenarioLevel) => {
     setActiveLevel(level);
@@ -56,6 +86,22 @@ export default function ScenarioSwitcher() {
 
   const activeScenario = getScenario(activeLevel);
   const projectionValues = getProjectionValues(activeLevel);
+
+  // Derived values from user inputs
+  const parsedBalance = useMemo(
+    () => (tokenBalance ? Number(tokenBalance) : 0),
+    [tokenBalance]
+  );
+  const parsedDeposit = useMemo(
+    () => (depositAmount ? Number(depositAmount) : 0),
+    [depositAmount]
+  );
+  const resolvedTier = useMemo(
+    () => getTierForBalance(parsedBalance),
+    [parsedBalance]
+  );
+  const tierWeight = TIER_WEIGHTS[resolvedTier.id] ?? 1.0;
+  const effectiveAllocation = parsedDeposit * tierWeight;
 
   return (
     <div data-testid="scenario-switcher">
@@ -95,6 +141,106 @@ export default function ScenarioSwitcher() {
             {SCENARIO_LEVEL_LABELS[level]}
           </button>
         ))}
+      </div>
+
+      {/* User-editable inputs — persisted independently from scenario level */}
+      <div
+        className="mb-6 rounded-lg border border-border bg-surface p-4"
+        data-testid="user-inputs-panel"
+      >
+        <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-muted">
+          Your Position
+        </h4>
+        <p className="mb-3 text-xs text-muted">
+          Enter your token balance and a hypothetical vault deposit to see how
+          your tier and allocation would look under each scenario. These inputs
+          persist when you switch scenarios.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label
+              htmlFor="user-token-balance"
+              className="mb-1 block font-terminal text-xs font-medium uppercase tracking-wider text-muted"
+            >
+              Token Balance (BETTER)
+            </label>
+            <input
+              id="user-token-balance"
+              type="number"
+              min="0"
+              step="1"
+              value={tokenBalance}
+              onChange={(e) => setTokenBalance(e.target.value)}
+              placeholder="e.g. 500000"
+              className="w-full rounded border border-border bg-background px-3 py-2 font-terminal text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+              data-testid="user-input-token-balance"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="user-deposit-amount"
+              className="mb-1 block font-terminal text-xs font-medium uppercase tracking-wider text-muted"
+            >
+              Vault Deposit ($)
+            </label>
+            <input
+              id="user-deposit-amount"
+              type="number"
+              min="0"
+              step="1"
+              value={depositAmount}
+              onChange={(e) => setDepositAmount(e.target.value)}
+              placeholder="e.g. 10000"
+              className="w-full rounded border border-border bg-background px-3 py-2 font-terminal text-sm text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+              data-testid="user-input-deposit-amount"
+            />
+          </div>
+        </div>
+
+        {/* Allocation preview — only shown when user has entered values */}
+        {(parsedBalance > 0 || parsedDeposit > 0) && (
+          <div className="mt-4" data-testid="allocation-preview">
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded border border-border/50 bg-background px-3 py-2">
+                <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  Your Tier
+                </span>
+                <span
+                  className="font-semibold text-accent"
+                  data-testid="resolved-tier-name"
+                >
+                  {resolvedTier.name}
+                </span>
+              </div>
+              <div className="rounded border border-border/50 bg-background px-3 py-2">
+                <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  Tier Weight
+                </span>
+                <span className="font-terminal text-secondary">
+                  {tierWeight}×
+                </span>
+              </div>
+              {parsedDeposit > 0 && (
+                <div className="rounded border border-border/50 bg-background px-3 py-2">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                    Effective Allocation
+                  </span>
+                  <span className="font-terminal font-semibold text-accent">
+                    {formatDollar(effectiveAllocation)}
+                  </span>
+                  {tierWeight > 1.0 && (
+                    <span className="ml-1 font-terminal text-xs text-accent">
+                      (+{Math.round((tierWeight - 1) * 100)}%)
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="mt-2">
+              <EvidenceHook source={userInputSource} />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Active scenario panel */}

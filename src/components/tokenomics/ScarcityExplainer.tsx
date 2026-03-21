@@ -43,7 +43,7 @@ const SCARCITY_RULES: ScarcityRule[] = [
     scenario:
       "A new strategy preview has 50 early-access slots with 200 interested users.",
     resolution:
-      "Slots are offered to the highest preview-priority tiers first. Apex Whales get first access, then Whales, then Standard holders. Explorer and Lite tiers are ineligible for preview access.",
+      "Slots are offered to the highest preview-priority tiers first. Apex Whales get first access, then Whales, then Standard holders, then Lite holders. Only Explorer tier (non-holders) is ineligible for preview access.",
   },
   {
     title: "Agent Slot Availability",

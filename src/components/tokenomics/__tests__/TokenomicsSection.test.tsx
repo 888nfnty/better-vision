@@ -301,21 +301,40 @@ describe("ScenarioSwitcher (VAL-TOKEN-007, VAL-TOKEN-008)", () => {
 
   it("switching to conservative updates the assumption values", () => {
     render(<ScenarioSwitcher />);
+
+    // Capture base assumption card content
+    const baseCards = screen.getAllByTestId("assumption-card");
+    const baseFirstCardText = baseCards[0].textContent;
+
     const tabs = screen.getAllByTestId("scenario-tab");
     const conservativeTab = tabs.find((t) => t.getAttribute("data-scenario") === "conservative");
     fireEvent.click(conservativeTab!);
 
-    // Should show conservative values
+    // Tab should be selected
     expect(conservativeTab).toHaveAttribute("aria-selected", "true");
+
+    // Assumption card content should differ from base
+    const conservativeCards = screen.getAllByTestId("assumption-card");
+    expect(conservativeCards[0].textContent).not.toBe(baseFirstCardText);
   });
 
   it("switching to upside updates the assumption values", () => {
     render(<ScenarioSwitcher />);
+
+    // Capture base assumption card content
+    const baseCards = screen.getAllByTestId("assumption-card");
+    const baseFirstCardText = baseCards[0].textContent;
+
     const tabs = screen.getAllByTestId("scenario-tab");
     const upsideTab = tabs.find((t) => t.getAttribute("data-scenario") === "upside");
     fireEvent.click(upsideTab!);
 
+    // Tab should be selected
     expect(upsideTab).toHaveAttribute("aria-selected", "true");
+
+    // Assumption card content should differ from base
+    const upsideCards = screen.getAllByTestId("assumption-card");
+    expect(upsideCards[0].textContent).not.toBe(baseFirstCardText);
   });
 
   it("scenario outputs are logically ordered (data invariant)", () => {
