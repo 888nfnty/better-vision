@@ -1,7 +1,7 @@
 {
   "milestone": "foundation",
-  "round": 1,
-  "status": "fail",
+  "round": 2,
+  "status": "pass",
   "validatorsRun": {
     "test": {
       "passed": true,
@@ -20,53 +20,20 @@
     }
   },
   "reviewsSummary": {
-    "total": 3,
-    "passed": 2,
-    "failed": 1,
-    "failedFeatures": [
-      "foundation-narrative-shell-navigation-and-evidence"
-    ]
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "failedFeatures": []
   },
-  "blockingIssues": [
-    {
-      "featureId": "foundation-narrative-shell-navigation-and-evidence",
-      "severity": "blocking",
-      "description": "The hero 'The Vision Ahead' card omits its evidence hook even though structured source data exists in src/content/narrative.ts, leaving a first-screen future-facing claim without the required evidence/source cue (VAL-NARR-008)."
-    }
-  ],
+  "blockingIssues": [],
   "appliedUpdates": [
     {
       "target": "library",
-      "description": "Extended .factory/library/content-model.md with narrative-surface guidance and a factual note that ConfidenceFrame.dependencies are rendered directly to users, so stored values must be readable user-facing notes.",
-      "sourceFeature": "foundation-narrative-shell-navigation-and-evidence"
-    },
-    {
-      "target": "library",
-      "description": "Added .factory/library/testing.md documenting the repo's Jest + Testing Library setup, including setupFilesAfterEnv and current test-file layout.",
-      "sourceFeature": "foundation-repo-scaffold-and-tooling"
+      "description": "Extended .factory/library/testing.md with the App Router RootLayout testing caveat so future workers know page-only component tests do not cover shared layout chrome and need an explicit layout-aware strategy.",
+      "sourceFeature": "foundation-hero-evidence-and-caveat-polish"
     }
   ],
-  "suggestedGuidanceUpdates": [
-    {
-      "target": "AGENTS.md",
-      "suggestion": "Require workers who mark skillFeedback.followedProcedure=true to cite concrete evidence for test-first ordering and any required browser coverage; if the transcript or checks show a deviation, they should mark followedProcedure=false and describe it explicitly.",
-      "evidence": "The scaffold, content-model, and narrative-shell workers all marked followedProcedure true even though their transcripts show implementation before test creation; the scaffold handoff also recorded only a desktop screenshot browser check despite frontend skill guidance calling for broader validation.",
-      "isSystemic": true
-    }
-  ],
-  "rejectedObservations": [
-    {
-      "observation": "Carry forward the scaffold review's inert mobile-header menu as an open scrutiny failure.",
-      "reason": "resolved downstream by foundation-narrative-shell-navigation-and-evidence, which added the working MobileNav overlay before this synthesis"
-    },
-    {
-      "observation": "Carry forward the content-model review's missing narrative-seed-data finding as an open scrutiny failure.",
-      "reason": "resolved downstream by the current shared content layer, which now exports src/content/narrative.ts plus narrative-focused tests"
-    },
-    {
-      "observation": "Separate skill-adherence observations from multiple reviews.",
-      "reason": "duplicate; consolidated into one systemic AGENTS.md guidance recommendation"
-    }
-  ],
-  "previousRound": null
+  "suggestedGuidanceUpdates": [],
+  "rejectedObservations": [],
+  "previousRound": "/Users/test/vision/.factory/validation/foundation/scrutiny/synthesis.round1.json"
 }

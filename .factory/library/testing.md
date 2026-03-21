@@ -7,3 +7,4 @@ Project test tooling facts for this repo:
 - The `@/` alias is mapped in Jest through `moduleNameMapper`.
 - DOM assertions come from `jest.setup.ts`, which is loaded via `setupFilesAfterEnv`.
 - Test files currently live under `src/**/__tests__`.
+- Next App Router `RootLayout` renders `<html>/<body>`, so page-only component tests do not validate shared layout chrome; layout regression coverage needs a document-level render/helper strategy or an integration-style check that explicitly includes the layout.

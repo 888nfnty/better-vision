@@ -1,0 +1,28 @@
+{
+  "featureId": "foundation-hero-evidence-and-caveat-polish",
+  "reviewedAt": "2026-03-21T12:00:21Z",
+  "commitId": "65c1ea4",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The fix commit resolves the prior blocking narrative-shell defect: `src/app/page.tsx` now renders an `EvidenceHook` for the hero 'The Vision Ahead' card, and the narrative content no longer leaks raw internal dependency IDs through `CaveatFrame`. The new `hero-evidence` suite specifically covers both of those regressions. I found one remaining non-blocking gap: the added `layout-regression` suite does not actually exercise `RootLayout`, so shared header/footer navigation behavior is still not protected by automated coverage despite the feature brief calling for it.",
+    "issues": [
+      {
+        "file": "src/app/__tests__/layout-regression.test.tsx",
+        "line": 10,
+        "severity": "non_blocking",
+        "description": "This suite claims to cover shared navigation/footer behavior, but it explicitly skips `RootLayout` and then renders `<Home />` in every test (`:17-114`). The assertions only cover page anchors, hero cards, and section headings, so regressions in `src/app/layout.tsx` header/footer content (for example `Header`/`Footer` at `src/app/layout.tsx:49-103`) would still go undetected. That leaves the fix feature's promised shared layout/navigation regression coverage only partially satisfied." 
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "Shared testing guidance still documents Jest wiring but not a supported pattern for testing Next App Router layouts that render `<html>/<body>`. The worker compensated by adding a page-only suite that claims layout coverage without actually rendering `RootLayout`.",
+      "evidence": "`/Users/test/vision/.factory/library/testing.md:3-8` only records toolchain facts. `/Users/test/vision/src/app/__tests__/layout-regression.test.tsx:10-12` says RootLayout is avoided because of `<html>/<body>`, and `:17-114` renders `<Home />` throughout instead."
+    }
+  ],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/foundation/scrutiny/reviews/foundation-narrative-shell-navigation-and-evidence.json",
+  "summary": "Pass. The prior blocking hero-evidence issue is resolved, and the readable-caveat text fix is in place with focused hero regression coverage. The only remaining issue is non-blocking: the new layout-regression suite still does not exercise `RootLayout`, so shared nav/footer regressions remain untested."
+}
