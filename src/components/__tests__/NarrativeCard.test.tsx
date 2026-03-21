@@ -29,7 +29,7 @@ describe("NarrativeCard", () => {
     },
     confidence: {
       caveat: "This is not guaranteed to ship.",
-      dependencies: ["dep-1"],
+      dependencies: ["Prerequisite Feature"],
     },
     order: 2,
   };

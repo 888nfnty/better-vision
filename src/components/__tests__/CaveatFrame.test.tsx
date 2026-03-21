@@ -5,7 +5,7 @@ import type { ConfidenceFrame } from "@/content";
 describe("CaveatFrame", () => {
   const withDeps: ConfidenceFrame = {
     caveat: "This depends on several external factors.",
-    dependencies: ["pe-terminal-open", "pe-social-vaults"],
+    dependencies: ["Terminal Open Access", "Social Vaults & vBETTER"],
   };
 
   const withoutDeps: ConfidenceFrame = {
@@ -22,7 +22,7 @@ describe("CaveatFrame", () => {
   it("renders dependencies when present", () => {
     render(<CaveatFrame confidence={withDeps} />);
     expect(
-      screen.getByText("pe-terminal-open, pe-social-vaults")
+      screen.getByText("Terminal Open Access, Social Vaults & vBETTER")
     ).toBeInTheDocument();
   });
 

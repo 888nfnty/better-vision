@@ -54,7 +54,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     confidence: {
       caveat:
         "These are directional ambitions, not commitments. Timelines, scope, and feasibility depend on market conditions, technical execution, and adoption.",
-      dependencies: ["pe-terminal-open", "pe-social-vaults", "ti-hyperevm-phase1"],
+      dependencies: ["Terminal Open Access", "Social Vaults & vBETTER", "HyperEVM Integration Phase 1"],
     },
     order: 3,
   },
@@ -151,7 +151,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     },
     confidence: {
       caveat: "Vault mechanics are under active development and may evolve before launch.",
-      dependencies: ["pe-social-vaults"],
+      dependencies: ["Social Vaults & vBETTER"],
     },
     order: 1,
   },
@@ -169,7 +169,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     },
     confidence: {
       caveat: "Exact thresholds and tier benefits are subject to adjustment before launch.",
-      dependencies: ["tu-whale-tiers"],
+      dependencies: ["Whale-First Tier Ladder"],
     },
     order: 2,
   },
@@ -186,7 +186,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     },
     confidence: {
       caveat: "HyperEVM deployment timeline depends on chain readiness and audit completion.",
-      dependencies: ["ti-hyperevm-phase1"],
+      dependencies: ["HyperEVM Integration Phase 1"],
     },
     order: 3,
   },
@@ -203,7 +203,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     },
     confidence: {
       caveat: "Depends on Terminal open access, vault infrastructure, and agent safety frameworks. Not yet in active development.",
-      dependencies: ["pe-strategy-agents"],
+      dependencies: ["Autonomous Strategy Agents"],
     },
     order: 4,
   },
@@ -220,7 +220,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     },
     confidence: {
       caveat: "Enterprise revenue requires mature models, sufficient data credibility, and institutional demand validation.",
-      dependencies: ["pe-b2b-data", "ti-data-pipeline-phase2"],
+      dependencies: ["B2B Data & Model Distribution", "Enterprise-Grade Data Pipeline"],
     },
     order: 5,
   },
@@ -237,7 +237,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     },
     confidence: {
       caveat: "These are exploratory ideas representing maximum ambition — none are committed to a timeline or guaranteed to ship.",
-      dependencies: ["tu-agent-utility", "sa-bonded-agents", "sa-delegation"],
+      dependencies: ["Agent-Native Token Utility", "Bonded Agent Registry", "Agent Delegation & Backing"],
     },
     order: 6,
   },

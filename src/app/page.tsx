@@ -71,6 +71,7 @@ export default function Home() {
                 <p className="text-sm leading-relaxed text-secondary">
                   {heroVision.body}
                 </p>
+                <EvidenceHook source={heroVision.source} className="mt-2" />
                 {heroVision.confidence && (
                   <CaveatFrame confidence={heroVision.confidence} className="mt-2" />
                 )}
