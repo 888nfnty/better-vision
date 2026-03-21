@@ -6,13 +6,13 @@
  * - VAL-ROADMAP-002: Wayfinding stays recoverable
  * - VAL-ROADMAP-004: Expand/collapse behaves predictably
  * - VAL-ROADMAP-005: Node details show correct content and status
- * - VAL-ROADMAP-006: Valid deep links restore state
- * - VAL-ROADMAP-007: Invalid deep links fail gracefully
+ * - VAL-ROADMAP-006: Valid deep links restore state and scroll/focus into view
+ * - VAL-ROADMAP-007: Invalid deep links fail gracefully with visible fallback
  * - VAL-ROADMAP-008: Keyboard accessible
  * - VAL-ROADMAP-010: Covers required BETTER domains
  */
 import React from "react";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, within, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import RoadmapAtlas from "../RoadmapAtlas";
 import { BRANCH_FAMILY_LABELS } from "@/content/types";
@@ -241,5 +241,91 @@ describe("RoadmapAtlas", () => {
       name: /product evolution/i,
     });
     expect(productBranch).toHaveAttribute("aria-expanded", "true");
+  });
+
+  // ---------------------------------------------------------------------------
+  // Deep-link visibility regression (scroll/focus on first load)
+  // VAL-ROADMAP-006 + VAL-ROADMAP-007 visibility gap fix
+  // ---------------------------------------------------------------------------
+
+  // VAL-ROADMAP-006: Valid deep link scrolls the detail panel into view on first load
+  it("scrolls the detail panel into view when a valid deep link loads", async () => {
+    const scrollSpy = jest.fn();
+    Element.prototype.scrollIntoView = scrollSpy;
+
+    window.location.hash = "#node-pe-terminal-beta";
+    render(<RoadmapAtlas />);
+
+    // Detail panel should be rendered
+    expect(screen.getByTestId("roadmap-node-detail")).toBeInTheDocument();
+
+    // Wait for the effect to fire
+    await screen.findByTestId("roadmap-node-detail");
+
+    // scrollIntoView should have been called on the detail panel or the roadmap atlas container
+    expect(scrollSpy).toHaveBeenCalled();
+  });
+
+  // VAL-ROADMAP-007: Invalid deep link scrolls the fallback banner into view on first load
+  it("scrolls the invalid deep-link fallback into view on first load", async () => {
+    const scrollSpy = jest.fn();
+    Element.prototype.scrollIntoView = scrollSpy;
+
+    window.location.hash = "#node-nonexistent-id";
+    render(<RoadmapAtlas />);
+
+    // Fallback banner should be rendered
+    expect(screen.getByTestId("roadmap-invalid-link-fallback")).toBeInTheDocument();
+
+    // Wait for the effect to fire
+    await screen.findByTestId("roadmap-invalid-link-fallback");
+
+    // scrollIntoView should have been called to bring the fallback into view
+    expect(scrollSpy).toHaveBeenCalled();
+  });
+
+  // VAL-ROADMAP-006: Valid deep link detail panel receives focus for accessibility
+  it("focuses the detail panel on valid deep link load for screen readers", async () => {
+    window.location.hash = "#node-pe-terminal-beta";
+    render(<RoadmapAtlas />);
+
+    const detailPanel = screen.getByTestId("roadmap-node-detail");
+    // The detail panel (or a wrapper) should have tabIndex for programmatic focus
+    await screen.findByTestId("roadmap-node-detail");
+    expect(detailPanel.closest("[tabindex]") ?? detailPanel).toHaveAttribute("tabindex");
+  });
+
+  // VAL-ROADMAP-007: Invalid fallback shows a clear recovery path (explore roadmap)
+  it("provides an explicit recovery action in the invalid deep-link fallback", () => {
+    window.location.hash = "#node-nonexistent-id";
+    render(<RoadmapAtlas />);
+
+    const fallback = screen.getByTestId("roadmap-invalid-link-fallback");
+    // Should contain a button or link to help the user recover
+    const recoveryAction = within(fallback).queryByRole("button") ?? within(fallback).queryByRole("link");
+    expect(recoveryAction).toBeInTheDocument();
+  });
+
+  // VAL-ROADMAP-006: hashchange to valid node also scrolls into view
+  it("scrolls detail into view when hash changes to a valid node after initial load", async () => {
+    const scrollSpy = jest.fn();
+    Element.prototype.scrollIntoView = scrollSpy;
+
+    // Start with no hash
+    window.location.hash = "";
+    render(<RoadmapAtlas />);
+    scrollSpy.mockClear();
+
+    // Simulate hashchange to a valid node
+    await act(async () => {
+      window.location.hash = "#node-pe-terminal-beta";
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
+    });
+
+    // Detail panel should appear
+    await screen.findByTestId("roadmap-node-detail");
+
+    // scrollIntoView should be called for the newly-visible detail
+    expect(scrollSpy).toHaveBeenCalled();
   });
 });

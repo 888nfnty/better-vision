@@ -133,6 +133,24 @@ export default function RoadmapAtlas() {
   // Ref for scroll observation
   const branchSectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  // Refs for deep-link visibility: scroll & focus targets
+  const detailPanelRef = useRef<HTMLDivElement | null>(null);
+  const fallbackRef = useRef<HTMLDivElement | null>(null);
+
+  // -------------------------------------------------------------------
+  // Deep-link visibility: scroll & focus the detail panel or fallback
+  // into view so the user sees the result of a direct #node-* load.
+  // -------------------------------------------------------------------
+  useEffect(() => {
+    if (selectedNodeId && detailPanelRef.current) {
+      detailPanelRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      detailPanelRef.current.focus({ preventScroll: true });
+    } else if (invalidDeepLink && fallbackRef.current) {
+      fallbackRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      fallbackRef.current.focus({ preventScroll: true });
+    }
+  }, [selectedNodeId, invalidDeepLink]);
+
   // -------------------------------------------------------------------
   // URL hash sync when node is selected/deselected
   // -------------------------------------------------------------------
@@ -266,6 +284,8 @@ export default function RoadmapAtlas() {
           data-testid="roadmap-invalid-link-fallback"
           className="rounded-lg border border-accent-warn/30 bg-accent-warn/5 p-4 text-center"
           role="alert"
+          ref={fallbackRef}
+          tabIndex={-1}
         >
           <p className="text-sm text-accent-warn">
             The roadmap node you linked to wasn&apos;t found. It may have been
@@ -274,6 +294,13 @@ export default function RoadmapAtlas() {
           <p className="mt-1 text-xs text-muted">
             Explore the full roadmap below to find what you&apos;re looking for.
           </p>
+          <button
+            type="button"
+            onClick={collapseAll}
+            className="mt-3 inline-flex items-center rounded border border-accent-warn/30 px-4 py-1.5 font-terminal text-xs text-accent-warn transition-colors hover:border-accent-warn hover:text-foreground"
+          >
+            Reset &amp; Explore Roadmap
+          </button>
         </div>
       )}
 
@@ -391,7 +418,12 @@ export default function RoadmapAtlas() {
 
       {/* Detail panel — shown when a node is selected */}
       {selectedNode && (
-        <div className="mt-6">
+        <div
+          className="mt-6"
+          ref={detailPanelRef}
+          tabIndex={-1}
+          data-testid="roadmap-detail-scroll-target"
+        >
           <RoadmapNodeDetail node={selectedNode} onClose={closeDetail} />
         </div>
       )}
