@@ -4,19 +4,49 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useVisualEffects } from "./VisualEffectsProvider";
 
 // ---------------------------------------------------------------------------
-// Hermes-inspired ASCII atmosphere
+// Hermes ASCII-video–adapted BETTER terminal atmosphere
 //
-// A materially visible terminal-texture layer that reads as an intentional
-// BETTER visual system. Uses structured block-character patterns with sparse
-// data-stream highlights, arranged in a centered terminal-viewport layout.
+// Directly adapted from NousResearch/hermes-agent ascii-video skill:
+//   Source: https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video
+//   Architecture ref: references/architecture.md — GridLayer, character palettes, val2char mapping
+//   Effects ref: references/effects.md — value field generators, layered composition
+//   Composition ref: references/composition.md — multi-grid layer hierarchy pattern
+//
+// Concrete adaptations from the Hermes ascii-video system:
+//   1. Character palette — adapted from PAL_BOX (`─│┌┐└┘├┤┬┴┼`) and PAL_BLOCKS
+//      (`░▒▓█`) defined in architecture.md § Character Palettes.
+//   2. Data-stream highlights — adapted from PAL_HERMES project-specific palette
+//      (` .·~=≈∞⚡☿✦★⊕◊◆▲▼●■`) in architecture.md § Project-Specific Palettes.
+//   3. Grid layout — adapted from the fixed-row/col GridLayer system in
+//      architecture.md § Grid System, using a centered terminal-viewport frame
+//      with deterministic pseudo-random placement analogous to val2char().
+//   4. Layer hierarchy — adapted from the composition.md § Multi-Grid Composition
+//      three-layer pattern: background (dim atmosphere), content (main visual),
+//      accent (sparse highlights). Here collapsed into a single DOM-based layer.
+//   5. Sparse animation — adapted from the Hermes temporal coherence model:
+//      ~4fps throttled updates with ~5% character mutation per cycle, matching
+//      the "deliberate, not frenetic" motion philosophy from effects.md.
+//   6. Bottom-border glyphs — uses └┘┴ for the bottom frame row, matching
+//      the PAL_BOX palette's correct box-drawing closure characters.
 //
 // This is NOT a faint background noise — it's a visible atmospheric texture
 // that supports the Radiant shader layer and reinforces the terminal aesthetic.
 // ---------------------------------------------------------------------------
 
-/** Terminal block-art characters for structure (includes shading blocks) */
+/**
+ * Terminal block-art characters for structure (includes shading blocks).
+ * Adapted from Hermes ascii-video PAL_BLOCKS (`░▒▓█`) and PAL_BOX
+ * (`─│┌┐└┘├┤┬┴┼`) character palettes.
+ * Source: https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/ascii-video/references/architecture.md
+ */
 const STRUCTURE_CHARS = "░▒▓│─┌┐└┘├┤┬┴┼";
-/** Data-stream characters for highlights */
+
+/**
+ * Data-stream highlight characters.
+ * Adapted from Hermes ascii-video PAL_HERMES project-specific palette
+ * (` .·~=≈∞⚡☿✦★⊕◊◆▲▼●■`) — selected subset for BETTER terminal feel.
+ * Source: https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/ascii-video/references/architecture.md
+ */
 const DATA_CHARS = "01$>_●◆";
 /** Empty space character */
 const SPACE = " ";
@@ -50,11 +80,19 @@ function generateStructuredGrid(seed: number = 0): string[] {
       // Separate hash for character index (uncorrelated)
       const ci = charHash(r + seed, c);
 
-      // Top and bottom border rows — terminal frame
-      if (r === 0 || r === ROWS - 1) {
+      // Top border row — terminal frame
+      if (r === 0) {
         if (c === 0) line += "┌";
         else if (c === COLS - 1) line += "┐";
         else line += h > 0.7 ? "┬" : "─";
+        continue;
+      }
+
+      // Bottom border row — correct box-drawing closure glyphs (└┘┴)
+      if (r === ROWS - 1) {
+        if (c === 0) line += "└";
+        else if (c === COLS - 1) line += "┘";
+        else line += h > 0.7 ? "┴" : "─";
         continue;
       }
 
