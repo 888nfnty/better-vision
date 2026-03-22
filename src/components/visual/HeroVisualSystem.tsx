@@ -9,15 +9,18 @@ import { AsciiBackground } from "./AsciiBackground";
  * HeroVisualSystem — immersive BETTER atmosphere for the hero section.
  *
  * Visual layers (back to front):
- * 1. Radiant-adapted shader canvas — domain-warped organic blue depth field (WebGL, client-only)
- *    Source: https://radiant-shaders.com/shader/fluid-amber
+ * 1. Vendored Radiant Fluid Amber shader canvas — real Radiant asset (WebGL, client-only)
+ *    Vendored asset: radiant-fluid-amber.glsl.ts
+ *    Original source: https://github.com/pbakaus/radiant/blob/main/static/fluid-amber.html
+ *    Site reference: https://radiant-shaders.com/shader/fluid-amber
+ *    License: MIT (Copyright (c) 2025 Paul Bakaus)
  * 2. Hermes ASCII-video–adapted terminal atmosphere — structured text overlay
  *    Source: https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video
  * 3. Scanline overlay — CSS-only terminal texture
  * 4. Vignette gradient — readability protection for hero content
  *
  * Motion strategy (VAL-VISUAL-011): exactly 3 intentional motions:
- *   M1 — Shader canvas: slow organic drift (~0.06x speed, Radiant convention)
+ *   M1 — Shader canvas: slow organic drift (TIME_SCALE 0.15, Radiant convention)
  *   M2 — ASCII layer: sparse character transitions (~4fps, 5% of chars per cycle, Hermes convention)
  *   M3 — Hero entrance: content fades in on mount via CSS (one-shot, no loop)
  *
@@ -27,9 +30,10 @@ import { AsciiBackground } from "./AsciiBackground";
  * Reduced-motion (VAL-VISUAL-003): all 3 motions stop; static layers persist.
  * Fallback (VAL-VISUAL-004): WebGL failure → CSS gradient + static ASCII remain.
  *
- * Provenance (VAL-VISUAL-014):
- *   Radiant adaptation: domain-warped fBM from Fluid Amber + Eclipse Glow caustics
- *     → HeroShaderCanvas.tsx FRAGMENT_SHADER
+ * Provenance (VAL-VISUAL-014, VAL-VISUAL-015):
+ *   Radiant adaptation: vendored Radiant Fluid Amber shader asset
+ *     → radiant-fluid-amber.glsl.ts (simplex noise, mod289/permute, q→r→f domain warp)
+ *     → HeroShaderCanvas.tsx (WebGL renderer using vendored asset)
  *   Hermes adaptation: PAL_BOX + PAL_BLOCKS palettes, GridLayer layout, layer hierarchy,
  *     temporal coherence model → AsciiBackground.tsx
  */

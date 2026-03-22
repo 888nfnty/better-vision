@@ -60,36 +60,35 @@ describe("VAL-VISUAL-014: Radiant adaptation is traceable", () => {
     expect(src).toContain("radiant-shaders.com/shader/fluid-amber");
   });
 
-  it("HeroShaderCanvas cites radiant-shaders.com/shader/eclipse-glow as supporting adapted source", () => {
+  it("HeroShaderCanvas imports from vendored Radiant asset file", () => {
     const src = readSource("HeroShaderCanvas.tsx");
-    expect(src).toContain("radiant-shaders.com/shader/eclipse-glow");
+    expect(src).toMatch(/from\s+["']\.\/radiant-fluid-amber\.glsl["']/);
   });
 
-  it("shader uses domain warping (Radiant Fluid Amber signature technique)", () => {
-    const src = readSource("HeroShaderCanvas.tsx");
-    // Domain warping: field1 feeds into field2's coordinates
-    expect(src).toContain("field1");
-    expect(src).toContain("field2");
-    // The domain-warp pattern: one fBM output warps the next
-    expect(src).toMatch(/fbm\([\s\S]*\+[\s\S]*field1/);
+  it("vendored shader uses domain warping (Radiant Fluid Amber signature technique)", () => {
+    const src = readSource("radiant-fluid-amber.glsl.ts");
+    // Domain warping: q → r → f triple-pass composition
+    expect(src).toMatch(/vec2\s+q\s*=/);
+    expect(src).toMatch(/vec2\s+r\s*=/);
+    // The domain-warp pattern: fbm output warps the next pass
+    expect(src).toMatch(/fbm\s*\(\s*p\s*\+/);
   });
 
-  it("shader uses fBM with inter-octave rotation (Radiant turbulence technique)", () => {
-    const src = readSource("HeroShaderCanvas.tsx");
+  it("vendored shader uses fBM with snoise (Radiant simplex noise)", () => {
+    const src = readSource("radiant-fluid-amber.glsl.ts");
     expect(src).toContain("fbm");
-    // Rotation between octaves
-    expect(src).toMatch(/mat2[\s\S]*cos[\s\S]*sin/);
+    expect(src).toContain("snoise");
   });
 
-  it("shader uses smoothstepped caustic highlights (Radiant Eclipse Glow adaptation)", () => {
-    const src = readSource("HeroShaderCanvas.tsx");
-    expect(src).toContain("caustic");
+  it("vendored shader uses smoothstepped highlights (Radiant technique)", () => {
+    const src = readSource("radiant-fluid-amber.glsl.ts");
+    expect(src).toContain("highlight");
     expect(src).toContain("smoothstep");
   });
 
-  it("shader domain-warp comment explicitly names the adapted technique and source URL", () => {
-    const src = readSource("HeroShaderCanvas.tsx");
-    // Must contain the explicit domain-warp adaptation note
+  it("vendored shader domain-warp comment explicitly names the technique and source URL", () => {
+    const src = readSource("radiant-fluid-amber.glsl.ts");
+    // Must contain the explicit domain-warp note
     expect(src).toMatch(/[Dd]omain.warp/);
     // Must contain Fluid Amber as the named adaptation source
     expect(src).toContain("Fluid Amber");
@@ -208,6 +207,11 @@ describe("VAL-VISUAL-014: HeroVisualSystem documents both adapted sources", () =
   it("HeroVisualSystem cites Radiant adaptation in its docblock", () => {
     const src = readSource("HeroVisualSystem.tsx");
     expect(src).toContain("radiant-shaders.com");
+  });
+
+  it("HeroVisualSystem cites vendored Radiant asset path", () => {
+    const src = readSource("HeroVisualSystem.tsx");
+    expect(src).toContain("radiant-fluid-amber.glsl");
   });
 
   it("HeroVisualSystem cites Hermes ascii-video adaptation in its docblock", () => {

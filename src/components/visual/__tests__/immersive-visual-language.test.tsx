@@ -119,13 +119,13 @@ describe("VAL-VISUAL-011: Hero motion is intentional and limited", () => {
     }
   });
 
-  it("shader canvas time multiplier produces slow motion (not frenetic)", () => {
+  it("vendored shader time scale produces slow motion (not frenetic)", () => {
     const shaderSource = fs.readFileSync(
-      path.resolve(__dirname, "../HeroShaderCanvas.tsx"),
+      path.resolve(__dirname, "../radiant-fluid-amber.glsl.ts"),
       "utf-8"
     );
-    // The FRAGMENT_SHADER should use a slow time multiplier (< 0.1)
-    expect(shaderSource).toMatch(/u_time\s*\*\s*0\.0[0-9]/);
+    // The vendored Radiant shader uses TIME_SCALE = 0.15 (slow organic drift)
+    expect(shaderSource).toMatch(/TIME_SCALE\s*=\s*0\.15/);
   });
 
   it("reduced motion disables hero entrance animation in CSS", () => {
@@ -145,41 +145,44 @@ describe("VAL-VISUAL-011: Hero motion is intentional and limited", () => {
 // ---------------------------------------------------------------------------
 
 describe("VAL-VISUAL-012: Shader feels authentically Radiant-influenced", () => {
-  it("shader uses fbm (fractional Brownian motion) for organic noise", () => {
+  it("vendored shader uses fbm (fractional Brownian motion) with snoise", () => {
     const shaderSource = fs.readFileSync(
-      path.resolve(__dirname, "../HeroShaderCanvas.tsx"),
+      path.resolve(__dirname, "../radiant-fluid-amber.glsl.ts"),
       "utf-8"
     );
     expect(shaderSource).toContain("fbm");
-    expect(shaderSource).toContain("noise");
+    expect(shaderSource).toContain("snoise");
   });
 
-  it("shader uses BETTER blue color palette (not generic green)", () => {
+  it("vendored shader uses BETTER blue color palette (not generic green or amber)", () => {
     const shaderSource = fs.readFileSync(
-      path.resolve(__dirname, "../HeroShaderCanvas.tsx"),
+      path.resolve(__dirname, "../radiant-fluid-amber.glsl.ts"),
       "utf-8"
     );
-    // Should reference blue tones, not green (#00ff88)
-    expect(shaderSource).toMatch(/vec3\s*\(\s*0\.0\s*,\s*0\.\d+\s*,\s*1\.0\s*\)/);
+    // Should contain blue-dominant color values in the actual GLSL code
+    expect(shaderSource).toMatch(/vec3\s*\([^)]*0\.0[^)]*,\s*0\.\d+[^)]*,\s*1\.0[^)]*\)/);
     // Should not use the old green accent
     expect(shaderSource).not.toContain("0, 1, 0.533");
+    // The actual color mix() calls should use blue tones, not amber
+    // (amber values may appear in comments to document the adaptation)
+    expect(shaderSource).toMatch(/mix\s*\(\s*\n?\s*col,\s*\n?\s*vec3\(0\.0/);
   });
 
-  it("shader creates depth with multiple layered noise fields", () => {
+  it("vendored shader creates depth with q-r-f domain-warp composition", () => {
     const shaderSource = fs.readFileSync(
-      path.resolve(__dirname, "../HeroShaderCanvas.tsx"),
+      path.resolve(__dirname, "../radiant-fluid-amber.glsl.ts"),
       "utf-8"
     );
-    // Multiple field layers for depth
-    expect(shaderSource).toContain("field1");
-    expect(shaderSource).toContain("field2");
-    // Caustic-like highlights for radiant feel
-    expect(shaderSource).toContain("caustic");
+    // Triple-pass domain warp: q → r → f
+    expect(shaderSource).toMatch(/vec2\s+q\s*=/);
+    expect(shaderSource).toMatch(/vec2\s+r\s*=/);
+    // Highlight extraction for radiant feel
+    expect(shaderSource).toContain("highlight");
   });
 
-  it("shader includes vignette for atmospheric edge fade", () => {
+  it("vendored shader includes vignette for atmospheric edge fade", () => {
     const shaderSource = fs.readFileSync(
-      path.resolve(__dirname, "../HeroShaderCanvas.tsx"),
+      path.resolve(__dirname, "../radiant-fluid-amber.glsl.ts"),
       "utf-8"
     );
     expect(shaderSource).toContain("vignette");
