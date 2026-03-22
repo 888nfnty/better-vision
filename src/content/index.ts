@@ -45,17 +45,31 @@ export {
   getDependents,
 } from "./roadmap-nodes";
 
-// Token tiers
+// Token tiers, supply, first-vault policy, whale products, referrals, revenue models
 export {
   TOKEN_TIERS,
   TOTAL_SUPPLY,
+  MINTED_SUPPLY,
+  BASE_CONTRACT,
   TOKEN_ALLOCATIONS,
   getTiersSorted,
   getTierById,
   getTierForBalance,
   validateAllocations,
+  FIRST_VAULT_POLICY,
+  FIRST_VAULT_WORKED_EXAMPLES,
+  MODELED_WHALE_PRODUCTS,
+  REFERRAL_INCENTIVE_POLICY,
+  PRODUCT_FAMILY_REVENUE_MODELS,
 } from "./token-tiers";
-export type { TokenAllocation } from "./token-tiers";
+export type {
+  TokenAllocation,
+  FirstVaultPolicy,
+  FirstVaultWorkedExample,
+  ModeledWhaleProduct,
+  ReferralIncentivePolicy,
+  ProductFamilyRevenueModel,
+} from "./token-tiers";
 
 // Scenarios
 export {

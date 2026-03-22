@@ -34,11 +34,18 @@ import {
   // Token tiers
   TOKEN_TIERS,
   TOTAL_SUPPLY,
+  MINTED_SUPPLY,
+  BASE_CONTRACT,
   TOKEN_ALLOCATIONS,
   getTiersSorted,
   getTierById,
   getTierForBalance,
   validateAllocations,
+  FIRST_VAULT_POLICY,
+  FIRST_VAULT_WORKED_EXAMPLES,
+  MODELED_WHALE_PRODUCTS,
+  REFERRAL_INCENTIVE_POLICY,
+  PRODUCT_FAMILY_REVENUE_MODELS,
   // Scenarios
   SCENARIOS,
   PROJECTION_OUTPUTS,
@@ -340,22 +347,35 @@ describe("Token Tiers", () => {
 // Token Allocations — Arithmetic
 // ---------------------------------------------------------------------------
 
-describe("Token Allocations", () => {
-  it("total supply is 1 billion", () => {
-    expect(TOTAL_SUPPLY).toBe(1_000_000_000);
+describe("Token Allocations (Minted Supply)", () => {
+  it("minted supply is 709,001,940 from the Base contract", () => {
+    expect(MINTED_SUPPLY).toBe(709_001_940);
   });
 
-  it("allocations sum to 100% and reconcile with total supply", () => {
+  it("TOTAL_SUPPLY equals MINTED_SUPPLY (deprecated alias)", () => {
+    expect(TOTAL_SUPPLY).toBe(MINTED_SUPPLY);
+  });
+
+  it("Base contract metadata is complete", () => {
+    expect(BASE_CONTRACT.address).toBe("0x396FfAd9469e3d3E3fc4061B79accE2Ad0Ce4B9E");
+    expect(BASE_CONTRACT.chain).toBe("Base");
+    expect(BASE_CONTRACT.mintedSupply).toBe(MINTED_SUPPLY);
+    expect(BASE_CONTRACT.decimals).toBe(18);
+    expect(BASE_CONTRACT.source.type).toBe("canonical");
+  });
+
+  it("allocations sum to 100% and reconcile with minted supply", () => {
     const result = validateAllocations();
     expect(result.valid).toBe(true);
     expect(result.totalPercentage).toBe(100);
-    expect(result.totalTokens).toBe(TOTAL_SUPPLY);
+    expect(result.totalTokens).toBe(MINTED_SUPPLY);
   });
 
-  it("each allocation percentage matches its token count", () => {
+  it("each allocation percentage approximately matches its token count", () => {
     for (const alloc of TOKEN_ALLOCATIONS) {
-      const expected = (alloc.percentage / 100) * TOTAL_SUPPLY;
-      expect(alloc.tokens).toBe(expected);
+      const expected = Math.round((alloc.percentage / 100) * MINTED_SUPPLY);
+      // Allow for rounding within 1 token
+      expect(Math.abs(alloc.tokens - expected)).toBeLessThanOrEqual(1);
     }
   });
 
@@ -363,6 +383,169 @@ describe("Token Allocations", () => {
     for (const alloc of TOKEN_ALLOCATIONS) {
       expect(alloc.source).toBeDefined();
       expect(alloc.source.type).toBeTruthy();
+    }
+  });
+
+  it("does not present 1,000,000,000 as the active supply", () => {
+    // VAL-TOKEN-001: The site must not present 1B as the active supply
+    expect(MINTED_SUPPLY).not.toBe(1_000_000_000);
+    expect(MINTED_SUPPLY).toBe(709_001_940);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// First-Vault Policy (VAL-TOKEN-012)
+// ---------------------------------------------------------------------------
+
+describe("First-Vault Policy (VAL-TOKEN-012)", () => {
+  it("minimum holding is 100,000 BETTER", () => {
+    expect(FIRST_VAULT_POLICY.minimumBetter).toBe(100_000);
+  });
+
+  it("per-wallet deposit cap is $25,000", () => {
+    expect(FIRST_VAULT_POLICY.perWalletDepositCapUsd).toBe(25_000);
+  });
+
+  it("qualifying tier minimum is Standard (tier-standard)", () => {
+    expect(FIRST_VAULT_POLICY.qualifyingTierMinimum).toBe("tier-standard");
+  });
+
+  it("has a canonical source cue", () => {
+    expect(FIRST_VAULT_POLICY.source.type).toBe("canonical");
+  });
+
+  it("worked examples cover qualifying and non-qualifying wallets", () => {
+    const qualifying = FIRST_VAULT_WORKED_EXAMPLES.filter((e) => e.qualifies);
+    const nonQualifying = FIRST_VAULT_WORKED_EXAMPLES.filter((e) => !e.qualifies);
+    expect(qualifying.length).toBeGreaterThanOrEqual(2);
+    expect(nonQualifying.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("worked examples have numerically correct allocation weights", () => {
+    for (const ex of FIRST_VAULT_WORKED_EXAMPLES) {
+      if (ex.qualifies) {
+        expect(ex.effectiveAllocationWeight).toBe(ex.depositCapUsd * ex.tierWeight);
+      } else {
+        expect(ex.effectiveAllocationWeight).toBe(0);
+        expect(ex.depositCapUsd).toBe(0);
+      }
+    }
+  });
+
+  it("deposit cap for qualifying wallets equals the per-wallet cap", () => {
+    for (const ex of FIRST_VAULT_WORKED_EXAMPLES) {
+      if (ex.qualifies) {
+        expect(ex.depositCapUsd).toBe(FIRST_VAULT_POLICY.perWalletDepositCapUsd);
+      }
+    }
+  });
+
+  it("allocation weight is always >= deposit cap (weight ≠ cap)", () => {
+    for (const ex of FIRST_VAULT_WORKED_EXAMPLES) {
+      if (ex.qualifies) {
+        expect(ex.effectiveAllocationWeight).toBeGreaterThanOrEqual(ex.depositCapUsd);
+      }
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Modeled Whale Products
+// ---------------------------------------------------------------------------
+
+describe("Modeled Whale Products", () => {
+  it("includes social vaults, personal AI-crafted vaults, and at least two other whale products", () => {
+    const names = MODELED_WHALE_PRODUCTS.map((p) => p.name);
+    expect(names).toContain("Social Vaults");
+    expect(names).toContain("Personal AI-Crafted Vaults");
+    expect(MODELED_WHALE_PRODUCTS.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("every product has a scenario_based or illustrative source (not canonical)", () => {
+    for (const product of MODELED_WHALE_PRODUCTS) {
+      expect(["scenario_based", "illustrative"]).toContain(product.source.type);
+    }
+  });
+
+  it("every product references a valid tier ID", () => {
+    for (const product of MODELED_WHALE_PRODUCTS) {
+      const tier = getTierById(product.minimumTierId);
+      expect(tier).toBeDefined();
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Referral Incentive Policy (VAL-TOKEN-013)
+// ---------------------------------------------------------------------------
+
+describe("Referral Incentive Policy (VAL-TOKEN-013)", () => {
+  it("describes the payout source", () => {
+    expect(REFERRAL_INCENTIVE_POLICY.rewardSourceDescription.length).toBeGreaterThan(20);
+  });
+
+  it("has per-referrer and per-referral caps", () => {
+    expect(REFERRAL_INCENTIVE_POLICY.payoutCapPerReferrer.length).toBeGreaterThan(5);
+    expect(REFERRAL_INCENTIVE_POLICY.payoutCapPerReferral.length).toBeGreaterThan(5);
+  });
+
+  it("has anti-abuse measures", () => {
+    expect(REFERRAL_INCENTIVE_POLICY.antiAbuseMeasures.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("has sustainability logic", () => {
+    expect(REFERRAL_INCENTIVE_POLICY.sustainabilityLogic.length).toBeGreaterThan(20);
+  });
+
+  it("maturity is planned (not live)", () => {
+    expect(REFERRAL_INCENTIVE_POLICY.maturity).toBe("planned");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Product-Family Revenue Models (VAL-TOKEN-014)
+// ---------------------------------------------------------------------------
+
+describe("Product-Family Revenue Models (VAL-TOKEN-014)", () => {
+  it("covers at least 7 product families", () => {
+    expect(PRODUCT_FAMILY_REVENUE_MODELS.length).toBeGreaterThanOrEqual(7);
+  });
+
+  it("covers required product families", () => {
+    const families = PRODUCT_FAMILY_REVENUE_MODELS.map((m) => m.productFamily);
+    expect(families).toContain("Token Trading & Taxes");
+    expect(families).toContain("Lite Mode & Terminal");
+    expect(families).toContain("Social Vaults");
+    expect(families).toContain("Strategy Agents");
+    expect(families).toContain("Whale Premium Products");
+    expect(families).toContain("Referrals");
+    expect(families).toContain("Enterprise & API Rails");
+  });
+
+  it("each family has a return type label", () => {
+    for (const model of PRODUCT_FAMILY_REVENUE_MODELS) {
+      expect(model.returnTypeLabel.length).toBeGreaterThan(5);
+      expect(["direct_revenue", "ecosystem_value", "hybrid"]).toContain(model.returnType);
+    }
+  });
+
+  it("each family has a return path description", () => {
+    for (const model of PRODUCT_FAMILY_REVENUE_MODELS) {
+      expect(model.returnPath.length).toBeGreaterThan(20);
+    }
+  });
+
+  it("each family has a source cue", () => {
+    for (const model of PRODUCT_FAMILY_REVENUE_MODELS) {
+      expect(model.source).toBeDefined();
+      expect(model.source.type).toBeTruthy();
+    }
+  });
+
+  it("each family has a maturity label", () => {
+    const validStatuses = ["live", "in_progress", "planned", "speculative"];
+    for (const model of PRODUCT_FAMILY_REVENUE_MODELS) {
+      expect(validStatuses).toContain(model.maturity);
     }
   });
 });

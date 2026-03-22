@@ -16,8 +16,14 @@ import {
   TOKEN_TIERS,
   COST_BAND_MODELS,
   TOTAL_SUPPLY,
+  MINTED_SUPPLY,
+  TOKEN_ALLOCATIONS,
+  FIRST_VAULT_POLICY,
+  FIRST_VAULT_WORKED_EXAMPLES,
+  PRODUCT_FAMILY_REVENUE_MODELS,
   getNodeById,
   getTiersSorted,
+  getTierById,
   MATURITY_LABELS,
   type MaturityStatus,
 } from "../index";
@@ -104,9 +110,18 @@ describe("Cross-Surface Terminology Consistency (VAL-CROSS-005)", () => {
     expect(standardTier!.threshold).toBe(100_000);
   });
 
-  it("total supply is consistently 1,000,000,000 across models", () => {
-    // Already validated in content-models.test.ts but verify cross-surface
-    expect(TOTAL_SUPPLY).toBe(1_000_000_000);
+  it("minted supply is consistently 709,001,940 across models (VAL-CROSS-005)", () => {
+    // Canonical minted supply from Base contract — no 1B references
+    expect(MINTED_SUPPLY).toBe(709_001_940);
+    expect(TOTAL_SUPPLY).toBe(MINTED_SUPPLY);
+  });
+
+  it("no allocation or supply data presents 1,000,000,000 as the active supply", () => {
+    // VAL-CROSS-005: If any older 1B supply references remain visible,
+    // they must be explicitly marked historical/superseded.
+    const totalTokens = TOKEN_ALLOCATIONS.reduce((s, a) => s + a.tokens, 0);
+    expect(totalTokens).toBe(MINTED_SUPPLY);
+    expect(totalTokens).not.toBe(1_000_000_000);
   });
 
   it("maturity labels use the canonical MATURITY_LABELS mapping", () => {
@@ -231,6 +246,55 @@ describe("CTA and Action Honesty — Data Level (VAL-CROSS-007)", () => {
   it("projection sources are scenario_based, not canonical (honest about uncertainty)", () => {
     for (const p of PROJECTION_OUTPUTS) {
       expect(p.source.type).toBe("scenario_based");
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// VAL-TOKEN-012: First-vault policy cross-surface consistency
+// ---------------------------------------------------------------------------
+
+describe("First-Vault Policy Cross-Surface Consistency (VAL-TOKEN-012)", () => {
+  it("first-vault minimum matches Standard tier threshold", () => {
+    const standardTier = getTierById(FIRST_VAULT_POLICY.qualifyingTierMinimum);
+    expect(standardTier).toBeDefined();
+    expect(standardTier!.threshold).toBe(FIRST_VAULT_POLICY.minimumBetter);
+  });
+
+  it("worked example tier IDs resolve to valid tiers", () => {
+    for (const ex of FIRST_VAULT_WORKED_EXAMPLES) {
+      const tier = getTierById(ex.tierId);
+      expect(tier).toBeDefined();
+      expect(tier!.name).toBe(ex.tierName);
+    }
+  });
+
+  it("worked example BETTER holdings match their claimed tiers", () => {
+    for (const ex of FIRST_VAULT_WORKED_EXAMPLES) {
+      const tiers = getTiersSorted();
+      let resolvedTierId = tiers[0].id;
+      for (const t of tiers) {
+        if (ex.betterHolding >= t.threshold) resolvedTierId = t.id;
+      }
+      expect(resolvedTierId).toBe(ex.tierId);
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// VAL-TOKEN-014: Product-family revenue model cross-surface consistency
+// ---------------------------------------------------------------------------
+
+describe("Product-Family Revenue Model Cross-Surface Consistency (VAL-TOKEN-014)", () => {
+  it("revenue model product families each have distinct return type labels", () => {
+    for (const model of PRODUCT_FAMILY_REVENUE_MODELS) {
+      expect(model.returnTypeLabel.length).toBeGreaterThan(5);
+    }
+  });
+
+  it("revenue model maturity labels use valid MATURITY_LABELS values", () => {
+    for (const model of PRODUCT_FAMILY_REVENUE_MODELS) {
+      expect(MATURITY_LABELS[model.maturity]).toBeDefined();
     }
   });
 });

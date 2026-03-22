@@ -2,12 +2,13 @@
  * Supply & Allocation Table — VAL-TOKEN-001
  *
  * Displays token allocations, percentages, and token amounts that
- * reconcile to the stated total supply.
+ * reconcile to the minted supply from the Base contract (709,001,940 BETTER).
  */
 
 import {
   TOKEN_ALLOCATIONS,
-  TOTAL_SUPPLY,
+  MINTED_SUPPLY,
+  BASE_CONTRACT,
   validateAllocations,
 } from "@/content";
 import EvidenceHook from "@/components/EvidenceHook";
@@ -26,12 +27,20 @@ export default function SupplyAllocation() {
         Token Supply &amp; Allocation
       </h3>
       <p className="mb-4 text-sm text-secondary">
-        Total supply of{" "}
-        <span className="font-terminal font-semibold text-accent">
-          {formatNumber(TOTAL_SUPPLY)}
+        Minted supply of{" "}
+        <span className="font-terminal font-semibold text-accent" data-testid="minted-supply-figure">
+          {formatNumber(MINTED_SUPPLY)}
         </span>{" "}
-        BETTER tokens, allocated across five categories.
+        BETTER tokens on the Base contract, allocated across five categories.
       </p>
+      <div className="mb-4 rounded border border-accent/20 bg-accent/5 px-3 py-2 text-xs text-secondary">
+        <span className="font-terminal font-medium text-accent">Base Contract:</span>{" "}
+        <code className="font-terminal text-foreground">{BASE_CONTRACT.address}</code>
+        <span className="ml-2 text-muted">({BASE_CONTRACT.chain})</span>
+        <div className="mt-1">
+          <EvidenceHook source={BASE_CONTRACT.source} />
+        </div>
+      </div>
 
       {/* Allocation table */}
       <div className="overflow-x-auto">

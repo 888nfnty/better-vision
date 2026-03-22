@@ -51,10 +51,10 @@ describe("SupplyAllocation (VAL-TOKEN-001)", () => {
     expect(rows.length).toBe(TOKEN_ALLOCATIONS.length);
   });
 
-  it("shows total supply as 1,000,000,000", () => {
+  it("shows minted supply as 709,001,940", () => {
     render(<SupplyAllocation />);
-    const matches = screen.getAllByText("1,000,000,000");
-    expect(matches.length).toBeGreaterThanOrEqual(1);
+    const supplyEl = screen.getByTestId("minted-supply-figure");
+    expect(supplyEl.textContent).toBe("709,001,940");
   });
 
   it("displays the reconciled checkmark", () => {
