@@ -336,6 +336,42 @@ body {
 }
 
 /* -----------------------------------------------------------------------
+   Site-wide real Radiant shader layer (VAL-VISUAL-020)
+   Renders the vendored Radiant Fluid Amber shader at reduced opacity
+   across the full shell — lighter than the hero's full-strength layer
+   but materially visible so the site reads as one continuous atmospheric
+   environment. The shader canvas inside is the same asset as the hero.
+   ----------------------------------------------------------------------- */
+
+.site-atmosphere-shader {
+  pointer-events: none;
+  opacity: 0.10;
+}
+
+.site-atmosphere-shader canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* -----------------------------------------------------------------------
+   Site-wide real Hermes ASCII canvas layer (VAL-VISUAL-020)
+   Renders the Hermes-derived multi-grid ASCII canvas renderer at reduced
+   opacity across the full shell — lighter than the hero but materially
+   present. Creates terminal-texture depth continuity across graph/detail,
+   lower-page, and mobile-overlay states.
+   ----------------------------------------------------------------------- */
+
+.site-atmosphere-ascii {
+  pointer-events: none;
+  opacity: 0.12;
+}
+
+.site-atmosphere-ascii canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* -----------------------------------------------------------------------
    Vignette gradient for hero text readability
    ----------------------------------------------------------------------- */
 

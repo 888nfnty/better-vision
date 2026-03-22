@@ -1,7 +1,13 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
+import { VisualEffectsProvider, useVisualEffects } from "./VisualEffectsProvider";
+import { HeroShaderCanvas } from "./HeroShaderCanvas";
+import { AsciiCanvasRenderer } from "./AsciiCanvasRenderer";
+import { AsciiBackground } from "./AsciiBackground";
+
 /**
- * SiteAtmosphere — extends the Radiant/Hermes immersive background
+ * SiteAtmosphere — extends the real Radiant/Hermes immersive background
  * treatment across the entire site shell, not just the hero.
  *
  * VAL-VISUAL-020: Radiant and Hermes atmosphere remains materially visible
@@ -12,19 +18,26 @@
  * and focus states across the full shell.
  *
  * This component wraps the <main> content and renders a persistent
- * low-opacity atmospheric background using:
- *   - CSS radiant fallback gradient (always visible)
- *   - Scanline overlay for terminal texture continuity
- *   - A subtle vignette to maintain readability
+ * atmospheric background using the REAL shipped Radiant/Hermes layers
+ * (at reduced opacity for readability) rather than falling back to a
+ * static-only CSS gradient treatment:
  *
- * The hero section has its own full-strength HeroVisualSystem layers
- * (WebGL shader + ASCII canvas). Below the hero, this component provides
- * a lighter but still materially visible continuation of the same
- * atmospheric language so the site feels like one coherent environment.
+ *   - Vendored Radiant Fluid Amber WebGL shader (same as hero, lower opacity)
+ *   - Hermes-derived ASCII canvas renderer (real-time multi-grid, lower opacity)
+ *   - Legacy DOM ASCII fallback (for non-canvas environments)
+ *   - CSS radiant fallback gradient (always visible, for WebGL-fail cases)
+ *   - Scanline overlay for terminal texture continuity
+ *
+ * The hero section has its own full-strength HeroVisualSystem layers.
+ * Below the hero, this component provides a lighter but still materially
+ * visible continuation of the SAME atmospheric implementation so the site
+ * feels like one continuous immersive environment.
  *
  * The atmosphere uses pointer-events:none and stays behind content (z-0)
  * so it never blocks interactions or reduces readability.
  */
+
+const emptySubscribe = () => () => {};
 
 export function SiteAtmosphere({
   children,
@@ -32,14 +45,59 @@ export function SiteAtmosphere({
   children: React.ReactNode;
 }) {
   return (
+    <VisualEffectsProvider>
+      <SiteAtmosphereInner>{children}</SiteAtmosphereInner>
+    </VisualEffectsProvider>
+  );
+}
+
+/**
+ * Inner component that consumes VisualEffectsProvider context to manage
+ * the real Radiant/Hermes atmosphere layers across the full shell.
+ */
+function SiteAtmosphereInner({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { canvasReady } = useVisualEffects();
+
+  // SSR-safe mount detection for client-only layers
+  const hasMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
+
+  return (
     <div
       data-testid="site-atmosphere"
+      data-canvas-ready={canvasReady ? "true" : "false"}
       className="relative"
     >
-      {/* Persistent atmospheric background — extends across all sections */}
+      {/* Persistent atmospheric background — REAL Radiant/Hermes layers */}
       <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
-        {/* Radiant-continuation gradient — lighter than hero but present */}
+        {/* CSS radiant fallback gradient — always visible, WebGL-fail safety net */}
         <div className="site-atmosphere-gradient absolute inset-0" />
+
+        {/* Real Radiant shader layer — same vendored Fluid Amber asset as hero,
+            reduced opacity via CSS class for readability below the hero */}
+        {hasMounted && (
+          <div className="site-atmosphere-shader absolute inset-0">
+            <HeroShaderCanvas />
+          </div>
+        )}
+
+        {/* Real Hermes ASCII canvas renderer — multi-grid composition,
+            reduced opacity via CSS class for readability below the hero */}
+        {hasMounted && (
+          <div className="site-atmosphere-ascii absolute inset-0">
+            <AsciiCanvasRenderer />
+          </div>
+        )}
+
+        {/* Legacy DOM ASCII fallback (non-canvas environments) */}
+        {hasMounted && <AsciiBackground />}
 
         {/* Scanline overlay for terminal texture continuity */}
         <div className="scanline-overlay absolute inset-0 opacity-30" />

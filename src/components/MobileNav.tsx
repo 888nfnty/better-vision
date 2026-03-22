@@ -97,7 +97,7 @@ export default function MobileNav() {
               <a
                 key={item.href}
                 href={item.href}
-                className="rounded-md px-4 py-3 text-base font-medium text-secondary transition-colors hover:bg-surface hover:text-foreground"
+                className="font-terminal rounded-md px-4 py-3 text-sm font-medium text-secondary transition-colors hover:bg-surface hover:text-foreground"
                 onClick={close}
                 data-testid="mobile-nav-link"
               >
