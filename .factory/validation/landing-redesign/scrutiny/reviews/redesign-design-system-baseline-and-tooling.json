@@ -1,0 +1,28 @@
+{
+  "featureId": "redesign-design-system-baseline-and-tooling",
+  "reviewedAt": "2026-03-22T01:39:00Z",
+  "commitId": "8e21240",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The baseline commit delivers the requested BETTER-blue token reset, CVA-based layout/typography primitives, approved redesign dependencies, and a poster-like hero foundation without regressing the typed narrative/content surfaces. I did not find a blocking functional regression in the reviewed diff, but there is one dependency hygiene issue worth fixing.",
+    "issues": [
+      {
+        "file": "src/lib/utils.ts",
+        "line": 7,
+        "severity": "non_blocking",
+        "description": "`cn()` imports `clsx` directly, but this commit never declares `clsx` in `package.json` (only `class-variance-authority`, `motion`, and `tailwind-merge` are added at `package.json:13-20`). The code currently works only because `class-variance-authority` happens to hoist `clsx` transitively, which makes the baseline brittle to dependency tree changes or stricter installers."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The worker's `skillFeedback.followedProcedure=true` overstates adherence to `frontend-experience-worker`. The skill requires reviewing reference screenshots before hero/landing changes and writing failing tests first, but the transcript shows implementation started before any new test files were created and does not show any screenshot files being read.",
+      "evidence": "Transcript skeleton for worker `20841a70-1ede-4480-9e52-927c94e3de2e`: first baseline `npm run test` appears at offset 3088, while the first created test file (`src/lib/__tests__/utils.test.ts`) appears much later at offset 13481. The transcript contains a broad `Glob` for `**/.factory/research/**` (offset 4567), but direct reads of `.factory/research/screenshots/tradebetter-hero.png` and `.factory/research/screenshots/radiant-hero.png` are absent (`-1` when searched), despite those screenshot assets already being documented in `.factory/library/environment.md`."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Pass. The feature establishes the redesign baseline successfully and preserves the existing typed content model, with one non-blocking issue: `src/lib/utils.ts` relies on undeclared direct dependency `clsx`. Also surface that the handoff overstated skill-procedure adherence because the transcript does not show screenshot review or test-first ordering."
+}

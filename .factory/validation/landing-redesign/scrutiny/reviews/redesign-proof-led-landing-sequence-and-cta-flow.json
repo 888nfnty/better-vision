@@ -1,0 +1,21 @@
+{
+  "featureId": "redesign-proof-led-landing-sequence-and-cta-flow",
+  "reviewedAt": "2026-03-22T01:38:46Z",
+  "commitId": "da465cb",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Pass. The reviewed commit adds a dedicated proof surface with sourced live-product cues, inserts it between the hero and denser roadmap content, and keeps the primary journey live/proof-first instead of exploration-first. I did not find implementation defects in the reviewed diff.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The frontend-experience-worker skill says landing-page changes should review both `.factory/library/design-system.md` and the reference screenshots in `.factory/research/screenshots/` before implementation, but this worker still reported `skillFeedback.followedProcedure=true` without transcript evidence of any screenshot review. The procedure or review rubric should make that evidence requirement clearer.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:20-22` require relevant library-file review and reference-screenshot review; `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/worker-transcripts.jsonl:30` shows reads of `design-system.md` and implementation files for this session but no read/glob of `.factory/research/screenshots/`; `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-22T01-22-46-771Z__redesign-proof-led-landing-sequence-and-cta-flow__aae65452-a716-4420-aedc-bec60843c590.json:122-125` records `followedProcedure: true` with no deviations."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Pass: the feature correctly makes the landing flow proof-led by inserting a dedicated proof module ahead of roadmap density and preserving honest live-vs-exploration CTA hierarchy. No code issues found in the reviewed diff; one skill-procedure evidence gap is worth surfacing."
+}

@@ -1,0 +1,34 @@
+{
+  "featureId": "redesign-tradebetter-led-hero-composition-and-branding",
+  "reviewedAt": "2026-03-22T01:39:17.590908Z",
+  "commitId": "57fc87c",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The commit successfully converts the hero from split cards into a single BETTER-led composition with updated tests, but it regresses honesty in the live-status framing by dropping the source-of-truth closed-beta qualifier.",
+    "issues": [
+      {
+        "file": "src/app/page.tsx",
+        "line": 73,
+        "severity": "blocking",
+        "description": "The compressed live-status copy says \"Terminal & copy-trading shipping now\", but the linked source-of-truth hero content still describes the product as \"live in closed beta\". Removing that qualifier overstates current availability and violates the feature requirement that live-vs-future framing stay honest."
+      },
+      {
+        "file": "src/app/__tests__/hero-composition.test.tsx",
+        "line": 87,
+        "severity": "non_blocking",
+        "description": "The live-status regression test only checks for broad wording like /live|shipping|today/i, so it would not catch the missing closed-beta qualifier. Tightening this assertion would prevent the honesty regression from recurring."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The frontend-experience-worker skill requires reviewing `.factory/research/screenshots/` before landing-page or hero visual rewrites, but this worker transcript only shows `.factory/library/design-system.md` being read and never references the screenshot set, even though the handoff marked `skillFeedback.followedProcedure=true`.",
+      "evidence": "The transcript skeleton for session 6a58c065-ca96-4764-af0b-15bbde6efd92 contains `.factory/library/design-system.md` and many `agent-browser` commands, but no `screenshots` access; `/Users/test/vision/.factory/research/screenshots/` exists with `tradebetter-*.png`, `radiant-*.png`, and `vision-current-*.png`."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail: the hero composition redesign is visually aligned with the milestone, but the live-status copy overstates current availability by omitting the underlying closed-beta qualifier. Test coverage also misses that honesty requirement."
+}
