@@ -60,6 +60,69 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
   },
 
   // -----------------------------------------------------------------------
+  // Proof / trust surface — VAL-NARR-013, VAL-CROSS-009
+  // Arrives between the hero and dense roadmap content so users encounter
+  // product conviction and credibility cues before strategy exposition.
+  // -----------------------------------------------------------------------
+  {
+    id: "proof-live-terminal",
+    surface: "proof",
+    title: "Live Terminal",
+    body: "The BETTER Terminal is in production with AI signal discovery, one-click Polymarket copy trading, and community signal sharing — accessible right now to token holders.",
+    status: "live",
+    source: {
+      type: "canonical",
+      label: "BETTER Docs",
+      href: "https://docs.betteragent.ai",
+      asOf: "2026-Q1",
+    },
+    order: 1,
+  },
+  {
+    id: "proof-token-gating",
+    surface: "proof",
+    title: "On-Chain Access Gating",
+    body: "Token-gated access and the permanent FDV ratchet are live on-chain. The ratchet has already lowered the access threshold — once reduced, it never increases.",
+    status: "live",
+    source: {
+      type: "canonical",
+      label: "BETTER Docs",
+      href: "https://docs.betteragent.ai",
+      asOf: "2026-Q1",
+    },
+    order: 2,
+  },
+  {
+    id: "proof-copy-trading",
+    surface: "proof",
+    title: "Real Copy Trading",
+    body: "Users copy-trade Polymarket predictions with real capital through the Terminal today — not a demo, not a testnet. Execution is live on production infrastructure.",
+    status: "live",
+    source: {
+      type: "canonical",
+      label: "BETTER Docs",
+      href: "https://docs.betteragent.ai",
+      asOf: "2026-Q1",
+    },
+    order: 3,
+  },
+  {
+    id: "proof-lite-mode",
+    surface: "proof",
+    title: "Lite Mode Onramp",
+    body: "Lite Mode halves the token requirement with a 2% per-fill fee — a live, accessible path for smaller holders to start trading immediately.",
+    status: "live",
+    source: {
+      type: "canonical",
+      label: "BETTER Docs",
+      href: "https://docs.betteragent.ai",
+      asOf: "2026-Q1",
+      note: "Lite Mode is live with a 2% per-fill fee.",
+    },
+    order: 4,
+  },
+
+  // -----------------------------------------------------------------------
   // Current scope surface
   // -----------------------------------------------------------------------
   {

@@ -4,6 +4,7 @@ import MaturityLegend from "@/components/MaturityLegend";
 import NarrativeCard from "@/components/NarrativeCard";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
+import ProofModule from "@/components/ProofModule";
 import { RoadmapAtlas } from "@/components/roadmap";
 import { TokenomicsSection } from "@/components/tokenomics";
 import { ArchitectureSection } from "@/components/architecture";
@@ -120,6 +121,14 @@ export default function Home() {
           </div>
         </HeroVisualSystem>
       </section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Proof / Trust Surface — VAL-NARR-013, VAL-CROSS-009            */}
+      {/* Appears immediately after the hero, before dense roadmap/       */}
+      {/* tokenomics content. Users encounter product conviction and      */}
+      {/* trust cues here before the page asks for deep strategy reading. */}
+      {/* ---------------------------------------------------------------- */}
+      <ProofModule />
 
       {/* ---------------------------------------------------------------- */}
       {/* Current Scope — VAL-NARR-003 */}
