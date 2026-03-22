@@ -159,11 +159,25 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
 
   // -----------------------------------------------------------------------
   // Listen for hashchange events (browser back/forward)
+  // VAL-CROSS-002: External hash changes must update the focused node so
+  // browser back/forward navigation correctly restores graph state.
+  // We compare the hash to the current focus rather than relying solely
+  // on the selfHashChangeRef guard, because requestAnimationFrame may not
+  // have cleared the flag before the next hashchange fires.
   // -----------------------------------------------------------------------
   useEffect(() => {
     const handler = () => {
-      if (selfHashChangeRef.current) return;
       const hash = window.location.hash;
+      // Determine what node the current hash maps to
+      const incomingNodeId = hash ? parseGraphHash(hash) : null;
+
+      // If the self-hash-change flag is set AND the hash matches what we
+      // just set, this is our own programmatic change — skip it.
+      if (selfHashChangeRef.current && incomingNodeId === prevFocusedRef.current) {
+        return;
+      }
+
+      // External navigation (browser back/forward, or a different hash)
       if (hash) {
         dispatch({ type: "RESTORE_HASH", hash });
       } else {

@@ -58,13 +58,21 @@ export default function ProofModule() {
           ))}
         </div>
 
-        {/* Proof section CTA — consistent with hero's live-first direction (VAL-CROSS-011) */}
+        {/* Proof section CTAs — consistent with hero's live-first direction (VAL-CROSS-011)
+            VAL-CROSS-013: Obvious handoff from proof into focused graph exploration */}
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <a
+            href="#graph-roadmap"
+            className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-8 text-sm font-semibold text-background transition-colors hover:bg-accent-bright"
+            data-testid="proof-cta-graph-explore"
+          >
+            Explore the BETTER Atlas →
+          </a>
           <a
             href="https://docs.tradebetter.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-8 text-sm font-semibold text-background transition-colors hover:bg-accent-bright"
+            className="inline-flex h-12 items-center justify-center rounded-md border border-border px-8 text-sm font-medium text-secondary transition-colors hover:border-accent hover:text-foreground"
             data-testid="proof-cta-primary"
           >
             Read the Docs ↗
