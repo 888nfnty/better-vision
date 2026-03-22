@@ -4,45 +4,51 @@ import Home from "../page";
 /**
  * Focused regression tests for hero evidence framing.
  *
- * VAL-NARR-008: The hero 'The Vision Ahead' card must render a visible
- * evidence hook using the structured source metadata in the content layer.
+ * VAL-NARR-008: The hero status framing must render visible evidence hooks
+ * using the structured source metadata in the content layer.
  *
  * VAL-NARR-009: Dependencies shown in caveat frames must use readable
  * labels, not raw internal IDs.
+ *
+ * Updated for the redesigned poster-like hero: evidence hooks and caveats
+ * are now in the condensed inline status framing, not split cards.
  */
 describe("Hero evidence framing", () => {
-  it("renders an evidence hook on the 'The Vision Ahead' hero card", () => {
+  it("renders evidence hooks in the hero status framing", () => {
     render(<Home />);
-    // Find the vision card by its title text
-    const visionTitle = screen.getByText("The Vision Ahead");
-    // The evidence hook should be within the same card container
-    const card = visionTitle.closest("[class*='rounded-lg']")!;
-    expect(card).toBeTruthy();
-    const hookInCard = within(card as HTMLElement).getByTestId("evidence-hook");
-    expect(hookInCard).toBeInTheDocument();
+    const statusFraming = screen.getByTestId("hero-status-framing");
+    const hooks = within(statusFraming).getAllByTestId("evidence-hook");
+    expect(hooks.length).toBeGreaterThan(0);
   });
 
-  it("the vision hero evidence hook carries the source label from content", () => {
+  it("live status indicator has an evidence hook with source label", () => {
     render(<Home />);
-    const visionTitle = screen.getByText("The Vision Ahead");
-    const card = visionTitle.closest("[class*='rounded-lg']")!;
-    const hookInCard = within(card as HTMLElement).getByTestId("evidence-hook");
+    const liveStatus = screen.getByTestId("hero-live-status");
+    const hookInLive = within(liveStatus).getByTestId("evidence-hook");
+    expect(hookInLive).toBeInTheDocument();
+    // The source label should be "BETTER Docs" per narrative.ts hero-live-today block
+    expect(hookInLive.textContent).toContain("BETTER Docs");
+  });
+
+  it("future status indicator has an evidence hook with source label", () => {
+    render(<Home />);
+    const futureStatus = screen.getByTestId("hero-future-status");
+    const hookInFuture = within(futureStatus).getByTestId("evidence-hook");
+    expect(hookInFuture).toBeInTheDocument();
     // The source label should be "BETTER Roadmap" per narrative.ts hero-vision block
-    expect(hookInCard.textContent).toContain("BETTER Roadmap");
+    expect(hookInFuture.textContent).toContain("BETTER Roadmap");
   });
 
-  it("both hero split cards (Live Today and Vision Ahead) have evidence hooks", () => {
+  it("both live and future status indicators have evidence hooks", () => {
     render(<Home />);
-    const liveTitle = screen.getByText("Live Today");
-    const liveCard = liveTitle.closest("[class*='rounded-lg']")!;
+    const liveStatus = screen.getByTestId("hero-live-status");
     expect(
-      within(liveCard as HTMLElement).getByTestId("evidence-hook")
+      within(liveStatus).getByTestId("evidence-hook")
     ).toBeInTheDocument();
 
-    const visionTitle = screen.getByText("The Vision Ahead");
-    const visionCard = visionTitle.closest("[class*='rounded-lg']")!;
+    const futureStatus = screen.getByTestId("hero-future-status");
     expect(
-      within(visionCard as HTMLElement).getByTestId("evidence-hook")
+      within(futureStatus).getByTestId("evidence-hook")
     ).toBeInTheDocument();
   });
 
@@ -57,11 +63,10 @@ describe("Hero evidence framing", () => {
     }
   });
 
-  it("hero vision card caveat dependencies render as readable text", () => {
+  it("hero caveat frame dependencies render as readable text", () => {
     render(<Home />);
-    const visionTitle = screen.getByText("The Vision Ahead");
-    const card = visionTitle.closest("[class*='rounded-lg']")!;
-    const caveatFrame = within(card as HTMLElement).getByTestId("caveat-frame");
+    const heroSection = screen.getByTestId("hero-section");
+    const caveatFrame = within(heroSection).getByTestId("caveat-frame");
     const text = caveatFrame.textContent ?? "";
     // Should contain readable labels, not IDs like pe-terminal-open
     expect(text).not.toContain("pe-terminal-open");

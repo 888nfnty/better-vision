@@ -55,17 +55,15 @@ describe("VAL-VISUAL-001: Content-first hero renders before effects", () => {
     render(<Home />);
     // Brand headline
     expect(screen.getByText("BETTER")).toBeInTheDocument();
-    // Dominant promise line (poster-like composition)
-    expect(
-      screen.getByText("The future of prediction-market intelligence")
-    ).toBeInTheDocument();
+    // Dominant tagline (poster-like composition)
+    expect(screen.getByTestId("hero-tagline")).toBeInTheDocument();
 
     // Supporting copy (plain-language definition)
     expect(screen.getByText(/prediction-market intelligence platform/)).toBeInTheDocument();
 
-    // Primary CTA
-    expect(screen.getByTestId("cta-explore-roadmap")).toBeInTheDocument();
-    expect(screen.getByTestId("cta-whats-live")).toBeInTheDocument();
+    // Primary and secondary CTAs
+    expect(screen.getByTestId("cta-primary")).toBeInTheDocument();
+    expect(screen.getByTestId("cta-secondary")).toBeInTheDocument();
   });
 
   it("hero content has a higher z-index than visual effect layers", () => {
@@ -78,21 +76,21 @@ describe("VAL-VISUAL-001: Content-first hero renders before effects", () => {
 });
 
 describe("VAL-VISUAL-002: Post-initialization hero remains readable", () => {
-  it("live/vision split cards remain present with the visual system active", () => {
+  it("inline status framing remains present with the visual system active", () => {
     render(<Home />);
-    expect(screen.getByText("Live Today")).toBeInTheDocument();
-    expect(screen.getByText("The Vision Ahead")).toBeInTheDocument();
+    expect(screen.getByTestId("hero-live-status")).toBeInTheDocument();
+    expect(screen.getByTestId("hero-future-status")).toBeInTheDocument();
   });
 
   it("CTAs remain clickable after visual system integration", () => {
     render(<Home />);
-    const exploreCTA = screen.getByTestId("cta-explore-roadmap");
-    const liveCTA = screen.getByTestId("cta-whats-live");
+    const primaryCTA = screen.getByTestId("cta-primary");
+    const secondaryCTA = screen.getByTestId("cta-secondary");
     // Both should be anchor elements with href
-    expect(exploreCTA.tagName).toBe("A");
-    expect(liveCTA.tagName).toBe("A");
-    expect(exploreCTA.getAttribute("href")).toBe("#roadmap");
-    expect(liveCTA.getAttribute("href")).toBe("#live-now");
+    expect(primaryCTA.tagName).toBe("A");
+    expect(secondaryCTA.tagName).toBe("A");
+    expect(primaryCTA.getAttribute("href")).toBe("#live-now");
+    expect(secondaryCTA.getAttribute("href")).toBe("#roadmap");
   });
 });
 
@@ -117,8 +115,8 @@ describe("VAL-VISUAL-003: Reduced-motion preserves hierarchy and usability", () 
     // Headline still present
     expect(screen.getByText("BETTER")).toBeInTheDocument();
     // CTAs still present
-    expect(screen.getByTestId("cta-explore-roadmap")).toBeInTheDocument();
-    expect(screen.getByTestId("cta-whats-live")).toBeInTheDocument();
+    expect(screen.getByTestId("cta-primary")).toBeInTheDocument();
+    expect(screen.getByTestId("cta-secondary")).toBeInTheDocument();
     // Maturity badges still present
     expect(screen.getAllByTestId("maturity-badge").length).toBeGreaterThan(0);
   });
@@ -131,9 +129,9 @@ describe("VAL-VISUAL-004: Runtime fallback handles failures cleanly", () => {
 
     // All core hero elements should still be present
     expect(screen.getByText("BETTER")).toBeInTheDocument();
-    expect(screen.getByText("Live Today")).toBeInTheDocument();
-    expect(screen.getByText("The Vision Ahead")).toBeInTheDocument();
-    expect(screen.getByTestId("cta-explore-roadmap")).toBeInTheDocument();
+    expect(screen.getByTestId("hero-live-status")).toBeInTheDocument();
+    expect(screen.getByTestId("hero-future-status")).toBeInTheDocument();
+    expect(screen.getByTestId("cta-primary")).toBeInTheDocument();
   });
 
   it("no broken layers or blank surfaces in fallback mode", () => {

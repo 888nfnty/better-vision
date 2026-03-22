@@ -1,0 +1,166 @@
+import { render, screen, within } from "@testing-library/react";
+import Home from "../page";
+
+/**
+ * Hero composition tests for the tradebetter-led redesign.
+ *
+ * VAL-NARR-011: The first viewport reads as one poster-like composition.
+ * VAL-NARR-012: BETTER brand is dominant above the fold.
+ * VAL-NARR-001: Hero explains BETTER in plain language.
+ * VAL-NARR-002: Hero separates live product reality from future vision
+ *               without relying on split-card pattern.
+ * VAL-NARR-010: CTAs honest about destination with live path prominent.
+ */
+describe("Hero poster-like composition (VAL-NARR-011)", () => {
+  it("hero section exists as one composition container", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    expect(hero).toBeInTheDocument();
+  });
+
+  it("hero does NOT contain split side-by-side card panels", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    // The old design used two side-by-side rounded-lg bordered cards
+    // for "Live Today" and "The Vision Ahead". The redesign should NOT
+    // have that split-card pattern within the hero.
+    const splitCards = hero.querySelectorAll(
+      '[data-testid="hero-split-card"]'
+    );
+    expect(splitCards.length).toBe(0);
+  });
+
+  it("hero contains a single dominant brand heading", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    const heading = within(hero).getByRole("heading", { level: 1 });
+    expect(heading).toBeInTheDocument();
+    expect(heading.textContent).toContain("BETTER");
+  });
+
+  it("hero visual system wraps the composition", () => {
+    render(<Home />);
+    const visualSystem = screen.getByTestId("hero-visual-system");
+    expect(visualSystem).toBeInTheDocument();
+    // Content should be inside the visual system
+    const heroContent = within(visualSystem).getByTestId("hero-content");
+    expect(heroContent).toBeInTheDocument();
+  });
+});
+
+describe("BETTER brand dominance (VAL-NARR-012)", () => {
+  it("BETTER brand mark has the largest heading treatment", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    const h1 = within(hero).getByRole("heading", { level: 1 });
+    // The h1 should have glow/accent treatment making BETTER dominant
+    expect(h1.textContent).toContain("BETTER");
+    // Should have accent glow styling
+    expect(h1.innerHTML).toContain("glow-accent");
+  });
+
+  it("hero has a tagline below the brand mark", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    const tagline = within(hero).getByTestId("hero-tagline");
+    expect(tagline).toBeInTheDocument();
+    expect(tagline.textContent!.length).toBeGreaterThan(10);
+  });
+});
+
+describe("Plain-language definition (VAL-NARR-001)", () => {
+  it("hero contains a plain-language definition of BETTER", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    // Should contain the definition text
+    expect(hero.textContent).toMatch(/prediction-market intelligence/i);
+  });
+});
+
+describe("Live vs future framing without split cards (VAL-NARR-002)", () => {
+  it("hero conveys live product reality", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    // Live framing should be present in the hero
+    const liveIndicator = within(hero).getByTestId("hero-live-status");
+    expect(liveIndicator).toBeInTheDocument();
+    expect(liveIndicator.textContent).toMatch(/live|shipping|today/i);
+  });
+
+  it("hero conveys future vision", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    // Future framing should be present
+    const futureIndicator = within(hero).getByTestId("hero-future-status");
+    expect(futureIndicator).toBeInTheDocument();
+    expect(futureIndicator.textContent).toMatch(/vision|roadmap|planned|ahead|building/i);
+  });
+
+  it("live and future framing use inline/condensed layout, not split cards", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    // The framing container should be a single flow, not split cards
+    const framingContainer = within(hero).getByTestId("hero-status-framing");
+    expect(framingContainer).toBeInTheDocument();
+    // Should NOT have the old split-card layout markers
+    const oldSplitCards = framingContainer.querySelectorAll('[data-testid="hero-split-card"]');
+    expect(oldSplitCards.length).toBe(0);
+  });
+});
+
+describe("Evidence and caveats in hero (VAL-NARR-008, VAL-NARR-009)", () => {
+  it("hero contains at least one evidence hook", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    const hooks = hero.querySelectorAll('[data-testid="evidence-hook"]');
+    expect(hooks.length).toBeGreaterThan(0);
+  });
+
+  it("hero contains caveat framing for future-facing claims", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    const caveats = hero.querySelectorAll('[data-testid="caveat-frame"]');
+    expect(caveats.length).toBeGreaterThan(0);
+  });
+});
+
+describe("CTA hierarchy and honesty (VAL-NARR-010)", () => {
+  it("primary CTA leads to live product or proof surface", () => {
+    render(<Home />);
+    const primaryCta = screen.getByTestId("cta-primary");
+    expect(primaryCta).toBeInTheDocument();
+    // Primary CTA should go to live content
+    const href = primaryCta.getAttribute("href");
+    expect(href).toMatch(/#live-now|https:\/\/.*betteragent|#evidence/);
+  });
+
+  it("secondary CTA leads to roadmap exploration", () => {
+    render(<Home />);
+    const secondaryCta = screen.getByTestId("cta-secondary");
+    expect(secondaryCta).toBeInTheDocument();
+    const href = secondaryCta.getAttribute("href");
+    expect(href).toMatch(/#roadmap/);
+  });
+
+  it("CTA labels are honest about their destinations", () => {
+    render(<Home />);
+    const primaryCta = screen.getByTestId("cta-primary");
+    const secondaryCta = screen.getByTestId("cta-secondary");
+    // Primary CTA should mention live/product reality
+    expect(primaryCta.textContent).toMatch(/live|product|see|try/i);
+    // Secondary should mention exploration
+    expect(secondaryCta.textContent).toMatch(/explore|roadmap|vision/i);
+  });
+});
+
+describe("Maturity badges in hero (VAL-NARR-006 regression)", () => {
+  it("hero renders maturity badges", () => {
+    render(<Home />);
+    const hero = screen.getByTestId("hero-section");
+    const badges = hero.querySelectorAll('[data-testid="maturity-badge"]');
+    expect(badges.length).toBeGreaterThan(0);
+    // Should have at least a live badge
+    const statuses = Array.from(badges).map((b) => b.getAttribute("data-status"));
+    expect(statuses).toContain("live");
+  });
+});

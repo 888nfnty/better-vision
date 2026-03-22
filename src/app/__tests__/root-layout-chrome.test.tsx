@@ -121,9 +121,11 @@ describe("RootLayout shared chrome — Section structure", () => {
     expect(heroSection).toBeInTheDocument();
     // Hero should contain the plain-language definition
     expect(heroSection!.textContent).toContain("prediction-market intelligence");
-    // Hero should distinguish live from planned
-    expect(heroSection!.textContent).toContain("Live Today");
-    expect(heroSection!.textContent).toContain("The Vision Ahead");
+    // Hero should distinguish live from planned via inline status framing
+    const liveStatus = heroSection!.querySelector('[data-testid="hero-live-status"]');
+    const futureStatus = heroSection!.querySelector('[data-testid="hero-future-status"]');
+    expect(liveStatus).toBeInTheDocument();
+    expect(futureStatus).toBeInTheDocument();
   });
 
   it("architecture section has #architecture anchor for nav", () => {

@@ -18,8 +18,9 @@ describe("Home page", () => {
   // VAL-NARR-002: Hero separates live product reality from future vision
   it("separates live product from future vision before scroll", () => {
     render(<Home />);
-    expect(screen.getByText("Live Today")).toBeInTheDocument();
-    expect(screen.getByText("The Vision Ahead")).toBeInTheDocument();
+    // Redesigned hero uses inline status framing, not split cards
+    expect(screen.getByTestId("hero-live-status")).toBeInTheDocument();
+    expect(screen.getByTestId("hero-future-status")).toBeInTheDocument();
   });
 
   // VAL-NARR-003: Current live scope and freshness are visible
@@ -84,16 +85,18 @@ describe("Home page", () => {
     expect(riskItems.length).toBeGreaterThan(0);
   });
 
-  // VAL-NARR-010: CTAs are honest about destination
+  // VAL-NARR-010: CTAs are honest about destination — live path is primary
   it("renders honest CTAs with correct destinations", () => {
     render(<Home />);
-    const roadmapCta = screen.getByTestId("cta-explore-roadmap");
-    expect(roadmapCta).toHaveAttribute("href", "#roadmap");
-    expect(roadmapCta.textContent).toContain("Explore");
+    // Primary CTA leads to live product surface
+    const primaryCta = screen.getByTestId("cta-primary");
+    expect(primaryCta).toHaveAttribute("href", "#live-now");
+    expect(primaryCta.textContent).toMatch(/live/i);
 
-    const liveCta = screen.getByTestId("cta-whats-live");
-    expect(liveCta).toHaveAttribute("href", "#live-now");
-    expect(liveCta.textContent).toContain("Live");
+    // Secondary CTA leads to roadmap exploration
+    const secondaryCta = screen.getByTestId("cta-secondary");
+    expect(secondaryCta).toHaveAttribute("href", "#roadmap");
+    expect(secondaryCta.textContent).toMatch(/roadmap/i);
   });
 
   // Section placeholders still present

@@ -22,7 +22,8 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* ---------------------------------------------------------------- */}
-      {/* Hero Section — VAL-NARR-001, VAL-NARR-002, VAL-VISUAL-000–004 */}
+      {/* Hero Section — VAL-NARR-001, VAL-NARR-002, VAL-NARR-011,       */}
+      {/* VAL-NARR-012, VAL-VISUAL-000–004                                */}
       {/* Poster-like first viewport: one dominant BETTER composition,    */}
       {/* compressed copy, BETTER blue branding, no dashboard cards.      */}
       {/* ---------------------------------------------------------------- */}
@@ -33,75 +34,86 @@ export default function Home() {
       >
         <HeroVisualSystem>
           <div className="flex min-h-screen flex-col items-center justify-center px-4 py-20 text-center">
-            <div className="mx-auto max-w-4xl">
-              {/* Brand signal — BETTER is unmistakable */}
-              <h1 className="mb-6 font-terminal text-5xl font-extrabold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
+            <div className="mx-auto max-w-3xl">
+              {/* Brand signal — BETTER is the loudest element (VAL-NARR-012) */}
+              <h1 className="mb-4 font-terminal text-6xl font-extrabold leading-[1.05] tracking-tight sm:text-7xl lg:text-8xl">
                 <span className="glow-accent text-accent">BETTER</span>
               </h1>
 
-              {/* Single dominant promise — one sentence */}
-              <p className="mx-auto mb-4 max-w-2xl text-xl font-medium leading-snug text-foreground sm:text-2xl">
-                The future of prediction-market intelligence
+              {/* Tagline — one dominant promise */}
+              <p
+                className="mx-auto mb-6 max-w-2xl text-xl font-medium leading-snug text-foreground sm:text-2xl lg:text-3xl"
+                data-testid="hero-tagline"
+              >
+                Prediction-market intelligence, automated.
               </p>
 
               {/* Plain-language definition (VAL-NARR-001) */}
               {heroDefinition && (
-                <p className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-secondary">
+                <p className="mx-auto mb-8 max-w-xl text-base leading-relaxed text-secondary">
                   {heroDefinition.body}
                 </p>
               )}
 
-              {/* Live vs Vision framing (VAL-NARR-002) — condensed inline */}
-              <div className="mx-auto mb-10 flex max-w-2xl flex-col gap-3 text-left sm:flex-row sm:gap-4">
-                {heroLiveToday && (
-                  <div className="flex-1 rounded-lg border border-accent-green/20 bg-accent-green/5 p-4 backdrop-blur-sm">
-                    <div className="mb-2 flex items-center gap-2">
+              {/* Live vs future status framing (VAL-NARR-002) — inline condensed, no split cards */}
+              <div
+                className="mx-auto mb-8 max-w-2xl"
+                data-testid="hero-status-framing"
+              >
+                <div className="inline-flex flex-wrap items-center justify-center gap-x-6 gap-y-3 rounded-lg border border-border/50 bg-background/40 px-6 py-3 backdrop-blur-sm">
+                  {/* Live status */}
+                  {heroLiveToday && (
+                    <div
+                      className="flex items-center gap-2"
+                      data-testid="hero-live-status"
+                    >
                       <MaturityBadge status="live" />
-                      <span className="font-terminal text-xs font-medium text-accent-green">
-                        {heroLiveToday.title}
+                      <span className="text-sm text-secondary">
+                        Terminal &amp; copy-trading shipping now
                       </span>
+                      <EvidenceHook source={heroLiveToday.source} />
                     </div>
-                    <p className="text-sm leading-relaxed text-secondary">
-                      {heroLiveToday.body}
-                    </p>
-                    <EvidenceHook source={heroLiveToday.source} className="mt-2" />
-                  </div>
-                )}
+                  )}
 
-                {heroVision && (
-                  <div className="flex-1 rounded-lg border border-accent-warn/20 bg-accent-warn/5 p-4 backdrop-blur-sm">
-                    <div className="mb-2 flex items-center gap-2">
+                  {/* Divider */}
+                  <span className="hidden h-4 w-px bg-border sm:block" aria-hidden="true" />
+
+                  {/* Future status */}
+                  {heroVision && (
+                    <div
+                      className="flex items-center gap-2"
+                      data-testid="hero-future-status"
+                    >
                       <MaturityBadge status="planned" />
-                      <span className="font-terminal text-xs font-medium text-accent-warn">
-                        {heroVision.title}
+                      <span className="text-sm text-secondary">
+                        Vaults, agents &amp; HyperEVM ahead
                       </span>
+                      <EvidenceHook source={heroVision.source} />
                     </div>
-                    <p className="text-sm leading-relaxed text-secondary">
-                      {heroVision.body}
-                    </p>
-                    <EvidenceHook source={heroVision.source} className="mt-2" />
-                    {heroVision.confidence && (
-                      <CaveatFrame confidence={heroVision.confidence} className="mt-2" />
-                    )}
-                  </div>
+                  )}
+                </div>
+
+                {/* Caveat framing for future-facing claims (VAL-NARR-009) */}
+                {heroVision?.confidence && (
+                  <CaveatFrame confidence={heroVision.confidence} className="mx-auto mt-3 max-w-lg" />
                 )}
               </div>
 
-              {/* Hero CTAs — VAL-NARR-010: honest about destination */}
+              {/* Hero CTAs — VAL-NARR-010: live/proof path is primary */}
               <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                 <a
-                  href="#roadmap"
+                  href="#live-now"
                   className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-8 text-sm font-semibold text-background transition-colors hover:bg-accent-bright"
-                  data-testid="cta-explore-roadmap"
+                  data-testid="cta-primary"
                 >
-                  Explore the Roadmap
+                  See What&apos;s Live
                 </a>
                 <a
-                  href="#live-now"
+                  href="#roadmap"
                   className="inline-flex h-12 items-center justify-center rounded-md border border-border px-8 text-sm font-medium text-secondary transition-colors hover:border-accent hover:text-foreground"
-                  data-testid="cta-whats-live"
+                  data-testid="cta-secondary"
                 >
-                  See What&apos;s Live Now
+                  Explore the Roadmap
                 </a>
               </div>
             </div>

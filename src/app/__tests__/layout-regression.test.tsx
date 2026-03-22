@@ -50,37 +50,33 @@ describe("Shared navigation regression", () => {
   });
 });
 
-describe("Hero split-card structure regression", () => {
-  it("hero renders both Live Today and The Vision Ahead cards", () => {
+describe("Hero poster-like composition regression", () => {
+  it("hero renders inline live and future status indicators", () => {
     render(<Home />);
-    expect(screen.getByText("Live Today")).toBeInTheDocument();
-    expect(screen.getByText("The Vision Ahead")).toBeInTheDocument();
+    expect(screen.getByTestId("hero-live-status")).toBeInTheDocument();
+    expect(screen.getByTestId("hero-future-status")).toBeInTheDocument();
   });
 
-  it("Live Today card carries the live maturity badge", () => {
+  it("live status indicator carries the live maturity badge", () => {
     render(<Home />);
-    const liveTitle = screen.getByText("Live Today");
-    const card = liveTitle.closest("[class*='rounded-lg']")!;
-    // Look for maturity badge within the card
-    const badge = card.querySelector('[data-testid="maturity-badge"]');
+    const liveStatus = screen.getByTestId("hero-live-status");
+    const badge = liveStatus.querySelector('[data-testid="maturity-badge"]');
     expect(badge).toBeInTheDocument();
     expect(badge).toHaveAttribute("data-status", "live");
   });
 
-  it("The Vision Ahead card carries a non-live maturity badge", () => {
+  it("future status indicator carries a non-live maturity badge", () => {
     render(<Home />);
-    const visionTitle = screen.getByText("The Vision Ahead");
-    const card = visionTitle.closest("[class*='rounded-lg']")!;
-    const badge = card.querySelector('[data-testid="maturity-badge"]');
+    const futureStatus = screen.getByTestId("hero-future-status");
+    const badge = futureStatus.querySelector('[data-testid="maturity-badge"]');
     expect(badge).toBeInTheDocument();
     expect(badge?.getAttribute("data-status")).not.toBe("live");
   });
 
-  it("The Vision Ahead card includes a caveat frame", () => {
+  it("hero includes a caveat frame for future-facing claims", () => {
     render(<Home />);
-    const visionTitle = screen.getByText("The Vision Ahead");
-    const card = visionTitle.closest("[class*='rounded-lg']")!;
-    const caveat = card.querySelector('[data-testid="caveat-frame"]');
+    const heroSection = screen.getByTestId("hero-section");
+    const caveat = heroSection.querySelector('[data-testid="caveat-frame"]');
     expect(caveat).toBeInTheDocument();
   });
 });
