@@ -20,6 +20,7 @@ Intended application architecture and implementation patterns for this mission.
 - The ASCII layer should be canvas-based and visibly animated via glyph-mapped frames, not a DOM `<pre>` grid with sparse random mutations.
 - Use actual proof surfaces near the top of the page: product/product-like imagery, workflow framing, evidence hooks, trust signals, or market proof should appear before heavy roadmap density.
 - The shell should now be a full graph-first mindmap surface with clear focal-node selection, orientation recovery, and detail panels; ordinary vertical sections may support the experience, but they should not be the primary navigation model.
+- Graph-shell surfaces are intentionally unmounted when unfocused, so any roadmap, tokenomics, or other cross-surface state that must survive shell handoffs needs to live above that boundary (for example in a shell-level persistence provider) instead of inside surface-local component state.
 - Prefer one unified graph/content model that can represent hero identity, proof, roadmap, token policy, architecture, evidence, and risks as connected BETTER domains.
 - Current quirk: flywheel node/status data still lives inline in `src/components/architecture/FlywheelExplorer.tsx`, so consistency tests must currently render the component instead of importing a shared typed flywheel content model.
 - It is acceptable to introduce graph/layout/pan-zoom tooling if it materially supports the approved shell rewrite.

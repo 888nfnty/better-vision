@@ -1,0 +1,26 @@
+{
+  "featureId": "graph-shell-cross-surface-context-persistence-polish",
+  "reviewedAt": "2026-03-22T09:10:08.479471Z",
+  "commitId": "1910daaa4cc38374e6c37a52db58d11d5f5a73a0",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The fix adequately resolves the prior scrutiny blockers. `GraphShell` now wraps the shell in `GraphShellPersistenceProvider`, `ScenarioSwitcher` initializes from and syncs tokenomics scenario/input state through that provider, and `RoadmapAtlas` does the same for `expandedBranches`, so both state buckets survive the shell's unmount/remount boundary. The new `CrossSurfacePersistence.test.tsx` mounts the real Tokenomics and Roadmap surfaces through `GraphShell` and covers round-trip handoffs plus back/forward-style hash restoration instead of relying on placeholder mock surfaces. I did not find remaining blocking or non-blocking defects specific to this fix in the reviewed diff.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The shared architecture guidance still does not document a key graph-shell state pattern: inactive graph surfaces are intentionally unmounted, so any surface-local state that must survive cross-surface handoffs needs to live above that boundary (for example in a shell-level persistence provider). That omission likely contributed to the original miss.",
+      "evidence": ".factory/library/architecture.md:5 says shared state patterns belong in the architecture library and lines 22-23 describe the graph-first shell, but the doc does not mention unmounted-surface persistence. In the app, `src/components/graph/GraphShell.tsx:317-395` conditionally renders only the focused surface, and this fix introduces `src/components/graph/GraphShellPersistence.tsx:78-106` plus consumer sync points in `src/components/tokenomics/ScenarioSwitcher.tsx:81-111` and `src/components/roadmap/RoadmapAtlas.tsx:128-152` specifically to preserve cross-surface state above that boundary."
+    },
+    {
+      "area": "skills",
+      "observation": "The frontend skill's handoff-reporting requirement is still being missed: this worker appears to have followed a test-first flow, but the handoff still marks `followedProcedure=true` without citing a named pre-change failing expectation as the skill explicitly requires.",
+      "evidence": "/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:28 requires handoffs to cite at least one newly failing test expectation written before implementation. The handoff at /Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-22T09-05-17-160Z__graph-shell-cross-surface-context-persistence-polish__50259ca6-7826-476a-ac7a-166d8a9eb6e5.json:55-91 lists the added tests and still reports `followedProcedure: true`, but does not name a specific failing expectation; the transcript skeleton for worker session `50259ca6-7826-476a-ac7a-166d8a9eb6e5` explicitly states "All 6 tests fail as expected" before the implementation edits."
+    }
+  ],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/graph-first-shell-and-token-policy/scrutiny/reviews/graph-shell-cross-surface-handoffs-and-context.json",
+  "summary": "Pass. This rerun fixes the two original blockers by persisting tokenomics scenario/input state and roadmap expanded-branch state above the graph-shell unmount boundary, and it replaces the earlier placeholder persistence assertions with real GraphShell regression coverage that mounts the actual Tokenomics and Roadmap surfaces. I did not find remaining feature-specific code defects, though I noted one architecture-documentation gap and one recurring skill-reporting gap for scrutiny triage."
+}

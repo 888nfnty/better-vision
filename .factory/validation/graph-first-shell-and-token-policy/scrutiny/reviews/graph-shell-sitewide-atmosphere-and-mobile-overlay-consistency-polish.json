@@ -1,0 +1,26 @@
+{
+  "featureId": "graph-shell-sitewide-atmosphere-and-mobile-overlay-consistency-polish",
+  "reviewedAt": "2026-03-22T09:09:21Z",
+  "commitId": "8ff33b5",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The fix adequately resolves the prior blocker. Compared with the original failed diff, `SiteAtmosphere` no longer stops at a static gradient/scanline continuation layer: the fix commit moves the real shipped Radiant shader and Hermes ASCII canvas into the site-wide shell wrapper, preserves the fallback/readability layers, updates the mobile overlay links to the shell's mono treatment, and adds focused regression plus browser coverage for lower-page, graph/detail, and mobile-overlay states. I did not find any remaining blocking or non-blocking code issues in the reviewed feature.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "Procedure-adherence evidence is still looser than the frontend skill currently requires. The worker clearly ran failing tests first in the transcript skeleton, but the handoff still marks `followedProcedure=true` without explicitly citing a pre-implementation failing expectation by name. The skill or review rubric should clarify whether listing the added tests is enough, or whether handoffs must always call out a specific failing expectation verbatim.",
+      "evidence": "/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:28 requires workers to cite at least one newly failing test expectation in the handoff. The transcript skeleton in /Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/worker-transcripts.jsonl:54 shows the worker created the regression file and reported \"6 tests failing as expected\" before implementation, but the handoff at /Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-22T08-32-57-246Z__graph-shell-sitewide-atmosphere-and-mobile-overlay-consistency-polish__0610779b-95c2-4472-97de-e0fe0ee9a4cc.json:59-98 only lists added tests while lines 110-112 still report `followedProcedure: true`."
+    },
+    {
+      "area": "skills",
+      "observation": "The immersive-layer procedure appears ambiguous for fix-only follow-up work. The skill says immersive-layer handoffs must cite the exact Radiant and Hermes upstream URLs/files used, but this fix handoff only references the already-shipped `HeroShaderCanvas` and `AsciiCanvasRenderer` components while still marking `followedProcedure=true`. The shared guidance should clarify whether reuse-only atmosphere extensions must restate provenance or may rely on the prior feature's provenance record.",
+      "evidence": "/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:24 requires immersive-layer handoffs to cite the exact Radiant/Hermes URLs/files used. In /Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-22T08-32-57-246Z__graph-shell-sitewide-atmosphere-and-mobile-overlay-consistency-polish__0610779b-95c2-4472-97de-e0fe0ee9a4cc.json:10-11, the handoff describes extending the shipped shader/canvas components but does not restate exact upstream URLs/files, while lines 110-112 still report `followedProcedure: true`."
+    }
+  ],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/graph-first-shell-and-token-policy/scrutiny/reviews/graph-shell-logotype-theme-and-atmosphere.json",
+  "summary": "Pass. This rerun fixes the original scrutiny blocker by replacing the lower-page shell's static continuation layer with the real shipped Radiant shader and Hermes ASCII renderer, keeps readability protections in place, and aligns the mobile overlay nav links with the shell's mono typography. No remaining code issues were found in the reviewed feature; I only noted two shared-state/skill-guidance follow-ups around handoff evidence requirements."
+}

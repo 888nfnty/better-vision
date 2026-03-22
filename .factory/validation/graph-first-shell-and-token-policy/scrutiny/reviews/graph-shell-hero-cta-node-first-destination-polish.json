@@ -1,0 +1,21 @@
+{
+  "featureId": "graph-shell-hero-cta-node-first-destination-polish",
+  "reviewedAt": "2026-03-22T09:09:58Z",
+  "commitId": "51a3474eb493fba35f683b6f88a7999b7b7256b2",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Reviewing the original graph-shell diff, the later regression that reintroduced `#proof`, and this fix diff shows the remaining hero-CTA blocker is now resolved. `src/app/page.tsx` again points the primary hero CTA at `#graph-proof`, existing expectations were updated, and the new regression file covers the hero CTA, shared navigation destinations, proof-section in-page CTAs, and proof-node hash parsing so a prominent legacy anchor-scroll route cannot quietly return through the main shell. I did not find any remaining blocking or non-blocking issues in the reviewed fix.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "The milestone's recorded blocker attribution is stale: the original `graph-shell-navigation-and-node-first-exploration` commit already changed the hero CTA to `#graph-proof`, and the legacy `#proof` destination was reintroduced later by `graph-shell-cross-surface-handoffs-and-context` before this fix restored it. Shared review state should distinguish the original reviewed feature from a later stacked regression so blocker ownership stays traceable.",
+      "evidence": "`git show 29b15a4305a8435c73c03b770a23358bfba54522 -- src/app/page.tsx` changes the primary CTA from `#live-now` to `#graph-proof`; `git show b532c10a4bf2c5280f9af4c679a7ab6243df9b63 -- src/app/page.tsx` changes it from `#graph-proof` back to `#proof`; the prior review at `.factory/validation/graph-first-shell-and-token-policy/scrutiny/reviews/graph-shell-navigation-and-node-first-exploration.json` and synthesis file still attribute the blocker to `graph-shell-navigation-and-node-first-exploration`."
+    }
+  ],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/graph-first-shell-and-token-policy/scrutiny/reviews/graph-shell-navigation-and-node-first-exploration.json",
+  "summary": "Pass. The fix restores the hero primary CTA to the proof graph focus-state path, updates the affected expectations, and adds focused regression coverage that guards hero and other prominent in-page CTA destinations against reverting to legacy section anchors. One synthesis-worthy observation remains: the original blocker appears to have been introduced by a later stacked commit, so the current scrutiny state over-attributes that regression to the earlier graph-shell feature."
+}

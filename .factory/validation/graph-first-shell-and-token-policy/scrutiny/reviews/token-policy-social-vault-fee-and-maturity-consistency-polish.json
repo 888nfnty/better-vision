@@ -1,0 +1,15 @@
+{
+  "featureId": "token-policy-social-vault-fee-and-maturity-consistency-polish",
+  "reviewedAt": "2026-03-22T09:09:56.899222Z",
+  "commitId": "934d6d798325ecf706152f524d4c5eb6005e27e1",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The fix cleanly resolves the prior blocker: FeeStackValueFlow now matches the canonical 20% social-vault performance fee already introduced by the original token-policy revenue model, and the remaining Social Vault maturity split is now explicitly differentiated as feature maturity (in progress) versus modeled access-gate maturity (planned).",
+    "issues": []
+  },
+  "sharedStateObservations": [],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/graph-first-shell-and-token-policy/scrutiny/reviews/token-policy-recalibration-and-whale-revenue-model.json",
+  "summary": "Pass. I reviewed the fix transcript skeleton plus both the original failed diff and the fix diff. The stale 10% fee text/source in src/components/tokenomics/FeeStackValueFlow.tsx was corrected to the canonical 20% figure and the new regression suite now guards fee agreement and the intended maturity differentiation across the affected token-policy surfaces."
+}
