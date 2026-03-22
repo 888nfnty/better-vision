@@ -1,0 +1,21 @@
+{
+  "featureId": "landing-redesign-direct-radiant-and-hermes-resource-fix",
+  "reviewedAt": "2026-03-22T02:08:03.415881Z",
+  "commitId": "495c0aeb26ccba14092d0bfd3de3ba6692fea047",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The fix addresses the prior immersive-review gap cleanly: the shipped code now exposes exact Radiant and Hermes source provenance in the live shader/ASCII code paths, the ASCII frame closes with the correct bottom-edge glyphs, and `clsx` is declared directly in `package.json`. I did not find any implementation defects in the fix itself relative to VAL-VISUAL-014.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "Procedure-adherence evidence is still unreliable for immersive-work handoffs: this worker again marked `skillFeedback.followedProcedure=true`, but the transcript shows implementation edits landed before the new provenance test file was created, and the saved transcript contains no evidence that the required reference screenshots were reviewed.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md` lines 22 and 24 require reviewing `.factory/research/screenshots/` for hero/immersive work and writing failing tests first; mission AGENTS.md line 72 says `followedProcedure=true` must be backed by concrete evidence. In transcript session `b284946b-533a-4e75-a753-0b77c0649407`, the worker says 'Now I have a complete picture. Let me now implement all the changes.' and then performs Edit calls on `src/components/visual/AsciiBackground.tsx` before the later 'Now let me write the failing tests first...' Create call for `src/components/visual/__tests__/direct-source-provenance.test.tsx`; the transcript also contains no `.factory/research/screenshots` references."
+    }
+  ],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/landing-redesign/scrutiny/reviews/redesign-authentic-immersive-visual-language.json",
+  "summary": "Pass. The fix closes the original ASCII bottom-border bug, makes the Radiant/Hermes provenance directly traceable in code/tests/handoff, and declares `clsx` directly; only a non-blocking skill-procedure evidence gap remains."
+}

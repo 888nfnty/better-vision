@@ -1,57 +1,45 @@
 {
   "milestone": "landing-redesign",
-  "round": 1,
-  "status": "fail",
+  "round": 2,
+  "status": "pass",
   "validatorsRun": {
     "test": {
       "passed": true,
-      "command": "cd /Users/test/vision && npm run test",
+      "command": "npm --prefix \"/Users/test/vision\" run test",
       "exitCode": 0
     },
     "typecheck": {
       "passed": true,
-      "command": "cd /Users/test/vision && npx tsc --noEmit",
+      "command": "npm --prefix \"/Users/test/vision\" run typecheck",
       "exitCode": 0
     },
     "lint": {
       "passed": true,
-      "command": "cd /Users/test/vision && npm run lint",
+      "command": "npm --prefix \"/Users/test/vision\" run lint",
+      "exitCode": 0
+    },
+    "build": {
+      "passed": true,
+      "command": "npm --prefix \"/Users/test/vision\" run build",
       "exitCode": 0
     }
   },
   "reviewsSummary": {
-    "total": 4,
-    "passed": 3,
-    "failed": 1,
-    "failedFeatures": [
-      "redesign-tradebetter-led-hero-composition-and-branding"
-    ]
+    "total": 2,
+    "passed": 2,
+    "failed": 0,
+    "failedFeatures": []
   },
-  "blockingIssues": [
-    {
-      "featureId": "redesign-tradebetter-led-hero-composition-and-branding",
-      "severity": "blocking",
-      "description": "src/app/page.tsx:73 overstates live availability by changing the hero copy from the source-of-truth closed-beta framing to \"Terminal & copy-trading shipping now\", which violates the redesign requirement that live-vs-future framing remain honest."
-    }
-  ],
+  "blockingIssues": [],
   "appliedUpdates": [],
   "suggestedGuidanceUpdates": [
     {
       "target": "skills",
-      "suggestion": "Tighten the frontend-experience-worker procedure and/or handoff rubric so `skillFeedback.followedProcedure=true` requires concrete evidence for redesign-specific screenshot review and test-first ordering (for example, cited screenshot paths plus explicit failing-test evidence).",
-      "evidence": "All four reviewed landing-redesign features marked `followedProcedure=true`, but reviewers for redesign-design-system-baseline-and-tooling, redesign-tradebetter-led-hero-composition-and-branding, redesign-proof-led-landing-sequence-and-cta-flow, and redesign-authentic-immersive-visual-language all reported missing screenshot-review evidence; two of those reviews also found implementation preceding new failing tests.",
+      "suggestion": "Refine the frontend-experience-worker procedure and handoff rubric so `skillFeedback.followedProcedure=true` either requires concrete evidence of redesign screenshot review and failing tests before implementation, or explicitly documents a narrower exception path for copy/test-only landing-page fixes.",
+      "evidence": "The round-1 synthesis already flagged missing screenshot-review evidence and test-first gaps across the landing-redesign milestone. Round 2 repeated the same pattern in both fix reviews: landing-redesign-hero-live-honesty-fix again claimed full procedure adherence without transcript evidence of required library/screenshot review, while landing-redesign-direct-radiant-and-hermes-resource-fix again showed implementation edits landing before the new provenance test file and no saved screenshot-review evidence.",
       "isSystemic": true
     }
   ],
-  "rejectedObservations": [
-    {
-      "observation": "The repeated screenshot-review evidence gaps from redesign-tradebetter-led-hero-composition-and-branding and redesign-proof-led-landing-sequence-and-cta-flow.",
-      "reason": "duplicate of the consolidated systemic skills recommendation above"
-    },
-    {
-      "observation": "The repeated test-first adherence gaps from redesign-design-system-baseline-and-tooling and redesign-authentic-immersive-visual-language.",
-      "reason": "duplicate of the consolidated systemic skills recommendation above"
-    }
-  ],
-  "previousRound": null
+  "rejectedObservations": [],
+  "previousRound": ".factory/validation/landing-redesign/scrutiny/synthesis.round-1.json"
 }

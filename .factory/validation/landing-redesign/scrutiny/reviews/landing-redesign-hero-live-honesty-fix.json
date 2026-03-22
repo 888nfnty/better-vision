@@ -1,0 +1,21 @@
+{
+  "featureId": "landing-redesign-hero-live-honesty-fix",
+  "reviewedAt": "2026-03-22T02:06:32.313359Z",
+  "commitId": "ae4f239",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The original blocker is resolved: the fix replaces the overstated hero wording introduced in `redesign-tradebetter-led-hero-composition-and-branding` with an explicit closed-beta qualifier, keeps the compressed BETTER-led hero hierarchy intact, and tightens the regression tests so generic shipping-now wording no longer satisfies the hero availability check.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The `frontend-experience-worker` procedure is stricter than the copy-only fix workflow that actually happened: this hero fix changed live-status wording and tests, but the worker still marked `skillFeedback.followedProcedure=true` without reading any `.factory/library/*.md` files or the screenshot references that the skill currently requires for hero changes. Either the skill needs an explicit exception for copy/test-only hero fixes, or handoff review should stop treating these runs as full procedure compliance.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md` step 1 requires reading relevant library files and step 3 requires reviewing `.factory/library/design-system.md` plus `.factory/research/screenshots/` for landing-page/hero changes. The transcript skeleton for session `207d2180-6e9a-45a7-b5d1-773ff8c5f183` shows reads of mission docs plus `src/app/page.tsx`, `src/app/__tests__/hero-composition.test.tsx`, `src/content/narrative.ts`, and `src/components/ProofModule.tsx`, but no `.factory/library/*.md` or screenshot reads; the handoff still records `skillFeedback.followedProcedure=true`."
+    }
+  ],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/landing-redesign/scrutiny/reviews/redesign-tradebetter-led-hero-composition-and-branding.json",
+  "summary": "Pass: the fix adequately addresses the prior hero-honesty blocker by restoring the closed-beta qualifier in the hero, toning down the adjacent live-now description, and strengthening hero regression coverage so generic shipping-now phrasing cannot pass the reviewed tests."
+}
