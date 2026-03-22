@@ -1,0 +1,21 @@
+{
+  "featureId": "visual-source-overhaul-static-fallback-and-canvas-resilience-fix",
+  "reviewedAt": "2026-03-22T05:06:53.645526Z",
+  "commitId": "54ea15cd559c0b4f77d3be25b08cfe455d262628",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "I reviewed the two prior failed features (`f0d47bf2979b38ec22e05f54193c34441456c209` and `bf15b0e1a163ea6fe25dbca20b5484258b6db2cd`), the earlier Hermes renderer review follow-ups, and the fix commit (`54ea15cd559c0b4f77d3be25b08cfe455d262628`). The fix closes the original fallback defects cleanly: `AsciiBackground` and `AsciiCanvasRenderer` now both become static when `fallback` is active, `HeroVisualSystem` exposes `data-canvas-ready` and the stylesheet reveals the DOM ASCII layer when 2D canvas initialization fails, `data-motion-layers` is now consistent with the truly static fallback state, `FeedbackBuffer.apply()` decays and reuses prior buffer contents instead of clearing them away, and the layered-motion regression now correctly awaits `waitFor(...)`. I did not find any remaining blocking or non-blocking code issues in the reviewed fix relative to the prior failures and the stated fix scope.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "Procedure-adherence evidence is still unreliable for immersive visual fixes: this worker marked `skillFeedback.followedProcedure=true`, but the transcript skeleton does not show the required library/design-system/screenshot review before editing the hero visual system.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:20` requires reading the relevant `.factory/library/*.md` files before changes, and `.../SKILL.md:22` separately requires reviewing `.factory/library/design-system.md` plus `.factory/research/screenshots/` for hero/immersive work. In `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/worker-transcripts.jsonl:44`, the fix transcript shows only `LS` on `/Users/test/vision/.factory/library` before source-file reads/edits, with no visible `Read` of `.factory/library/design-system.md` or any `.factory/research/screenshots/*`; mission guidance at `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/AGENTS.md:75` says `followedProcedure=true` must be backed by concrete evidence."
+    }
+  ],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/visual-source-overhaul/scrutiny/reviews/visual-source-overhaul-radiant-asset-background.json; /Users/test/vision/.factory/validation/visual-source-overhaul/scrutiny/reviews/visual-source-overhaul-layered-motion-and-fallback-differentiation.json",
+  "summary": "Pass. The fix adequately resolves both prior visual-source-overhaul scrutiny failures: failure fallback is now truly static, the canvas-init path has a visible non-canvas backup, motion metadata matches the rendered fallback state, the feedback buffer now preserves decayed trails, and the layered-motion async regression actually awaits its assertion. I also noted one recurring skill-adherence evidence gap around required library/design screenshot review."
+}
