@@ -14,8 +14,13 @@ Environment variables, external dependencies, and setup notes.
 - No databases, queues, or containerized services are part of this mission
 - `gh` is authenticated and may be used for repository creation/push
 - Global `vercel` CLI is not installed; use `npx vercel` if deployment requires it
+- Playwright CLI is available via `npx playwright` and has already been used to capture redesign reference screenshots
 - BETTER reference sources are read-only:
   - `/Users/test/tradebetter-docs`
   - `/Users/test/better`
+- Public redesign references already captured to `/Users/test/vision/.factory/research/screenshots/`:
+  - `vision-current-hero.png`
+  - `tradebetter-hero.png`
+  - `radiant-hero.png`
 - User-provided favicon source asset (read-only, import into repo as needed):
   - `/Users/test/Downloads/Better_Design/Logo/Better_Isotype_Light.svg`

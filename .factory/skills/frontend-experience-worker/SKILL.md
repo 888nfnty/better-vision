@@ -19,14 +19,17 @@ Use this skill for app scaffold work, navigation, roadmap and mindmap UI, immers
 
 1. Read `mission.md`, mission `AGENTS.md`, and the relevant `.factory/library/*.md` files before making changes.
 2. Inspect the existing app structure, scripts, components, and content/data contracts. Reuse the established patterns instead of inventing parallel ones.
-3. Write failing tests first for the changed component or behavior. Cover navigation, interaction, accessibility, and state logic before implementation.
-4. Implement the feature with the BETTER visual language in mind: premium dark terminal feel, clear maturity labels, honest CTAs, and resilient fallback states.
-5. If the feature touches roadmap or visual surfaces, verify desktop, narrow/mobile layout, keyboard interaction, and reduced-motion or fallback behavior.
-6. Run focused tests during iteration, then run the manifest commands for `lint`, `typecheck`, `test`, and `build`.
-7. Use `agent-browser` to exercise the changed flows at `http://127.0.0.1:3100`. Record exactly what you clicked, what changed, and what state labels or destinations you observed.
-8. For browser validation, prefer one stable `agent-browser` session per flow: open the page, wait for the target surface, use explicit interactions for navigation/scroll/focus, and only fall back to eval-style helpers when normal interaction commands cannot reliably reach the intended state.
-9. If the feature includes deployment or release work, validate the production-like output after build and use `gh` or `npx vercel` only when the feature explicitly requires it.
-10. Stop every process you started. In your handoff, include the exact browser checks, viewport/fallback checks, and any remaining environment blocker.
+3. If the feature changes the landing page, hero, or immersive visual system, review `.factory/library/design-system.md` and the reference screenshots in `.factory/research/screenshots/` before making changes. Treat them as hierarchy and atmosphere guardrails, not as assets to clone literally.
+4. Write failing tests first for the changed component or behavior. Cover navigation, interaction, accessibility, and state logic before implementation.
+5. Implement the feature with the BETTER visual language in mind: tradebetter-led hierarchy, premium dark terminal feel, restrained card use, honest CTAs, and resilient fallback states.
+6. If the feature touches the hero or immersive visuals, keep the first viewport as one dominant composition with BETTER as the loudest signal and 2-3 intentional motions at most.
+7. If the feature touches roadmap or visual surfaces, verify desktop, narrow/mobile layout, keyboard interaction, and reduced-motion or fallback behavior.
+8. Run focused tests during iteration, then run the manifest commands for `lint`, `typecheck`, `test`, and `build`.
+9. Use `agent-browser` to exercise the changed flows at `http://127.0.0.1:3100`. Record exactly what you clicked, what changed, and what state labels or destinations you observed.
+10. For browser validation, prefer one stable `agent-browser` session per flow: open the page, wait for the target surface, use explicit interactions for navigation/scroll/focus, and only fall back to eval-style helpers when normal interaction commands cannot reliably reach the intended state.
+11. For major visual rewrites, include at least one check that explicitly evaluates hero composition, brand dominance, proof visibility, and whether shader/ascii layers improved the result without crowding the text.
+12. If the feature includes deployment or release work, validate the production-like output after build and use `gh` or `npx vercel` only when the feature explicitly requires it.
+13. Stop every process you started. In your handoff, include the exact browser checks, viewport/fallback checks, and any remaining environment blocker.
 
 ## Example Handoff
 

@@ -9,6 +9,7 @@ Primary validation surface: **browser**
 Required tool: **agent-browser**
 
 Core flows to validate:
+- redesign hero hierarchy, brand dominance, proof visibility, and CTA focus
 - hero comprehension and live-vs-vision framing
 - desktop and mobile navigation destinations
 - roadmap exploration, detail panels, deep links, and history restoration
@@ -29,8 +30,10 @@ Core flows to validate:
 ## Flow Validator Guidance: browser
 
 - Use `agent-browser` for all browser validation against `http://127.0.0.1:3100`.
+- For redesign work, use the captured public reference screenshots in `.factory/research/screenshots/` as visual guardrails when evaluating composition, hierarchy, and atmosphere.
 - Stay inside the assigned assertion scope and treat the running local Next.js app as shared infrastructure; do not restart it unless the parent validator explicitly asks.
 - Use a non-default browser session name and close it before finishing.
 - Capture concrete evidence for every assertion you evaluate: visible copy, destination behavior, and any console/runtime issues.
+- Explicitly note whether the first viewport reads as one composition, whether BETTER branding is unmistakable, and whether shader/ascii layers improve the surface without obscuring readability.
 - For this mission, run only one browser validator at a time because the visual layer can increase runtime cost.
 - Do not modify application code or mission state files from a flow validator; write only the assigned flow report and evidence artifacts.
