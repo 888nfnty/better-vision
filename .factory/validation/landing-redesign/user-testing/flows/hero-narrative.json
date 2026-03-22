@@ -1,0 +1,224 @@
+{
+  "groupId": "hero-narrative",
+  "surface": "browser",
+  "testedAt": "2026-03-22T02:25:32.089682Z",
+  "isolation": {
+    "appUrl": "http://127.0.0.1:3100",
+    "browserSession": "d8f3cd931a1c__hero",
+    "missionDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83",
+    "evidenceDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/evidence/landing-redesign/hero-narrative"
+  },
+  "assertionsTested": [
+    "VAL-NARR-001",
+    "VAL-NARR-002",
+    "VAL-NARR-003",
+    "VAL-NARR-004",
+    "VAL-NARR-005",
+    "VAL-NARR-008",
+    "VAL-NARR-009",
+    "VAL-NARR-010",
+    "VAL-NARR-011",
+    "VAL-NARR-012"
+  ],
+  "toolsUsed": [
+    "agent-browser",
+    "curl"
+  ],
+  "assertionResults": [
+    {
+      "id": "VAL-NARR-001",
+      "title": "Hero explains BETTER in plain language",
+      "status": "pass",
+      "reason": "The first viewport explicitly defines BETTER as a prediction-market intelligence platform with AI signal discovery and one-click Polymarket copy trading.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-full-composition.png",
+          "landing-redesign/hero-narrative/hero-body-text.txt"
+        ],
+        "observations": [
+          "Hero copy reads: 'BETTER is a prediction-market intelligence platform that combines AI-powered signal discovery with one-click copy trading on Polymarket.'",
+          "The explanation includes audience/context ('from curious newcomers to committed whales') rather than relying on slogan-only branding."
+        ],
+        "consoleErrors": "none (only React DevTools/HMR info logs)"
+      }
+    },
+    {
+      "id": "VAL-NARR-002",
+      "title": "Hero separates live product reality from future vision",
+      "status": "pass",
+      "reason": "Above the fold, the hero distinguishes live closed-beta Terminal/copy trading from planned vaults, agents, and HyperEVM work, with a nearby directional caveat.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-full-composition.png",
+          "landing-redesign/hero-narrative/landing-full-page.png"
+        ],
+        "observations": [
+          "Hero badges show 'Live — Terminal & copy-trading in closed beta' and 'Planned — Vaults, agents & HyperEVM ahead'.",
+          "A caveat box directly under the badges says these are directional ambitions, not commitments."
+        ],
+        "consoleErrors": "none"
+      }
+    },
+    {
+      "id": "VAL-NARR-003",
+      "title": "Current live scope and freshness are visible",
+      "status": "pass",
+      "reason": "The early live section specifies current capabilities and includes both a status date and BETTER Docs source cue, avoiding generic availability language.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/hero-narrative/mobile-live-now-destination.png",
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-full-composition.png"
+        ],
+        "observations": [
+          "The 'What's Live Today' section states 'Status as of 2026-Q1 · Source: BETTER Docs · docs.betteragent.ai'.",
+          "Live items are specific: BETTER Terminal (Closed Beta), Lite Mode, Token Access Gate & FDV Ratchet, Trading Tax Revenue, and Community Signal Sharing."
+        ],
+        "consoleErrors": "none"
+      }
+    },
+    {
+      "id": "VAL-NARR-004",
+      "title": "Primary navigation exposes required destinations",
+      "status": "pass",
+      "reason": "Desktop and mobile navigation both expose clear destination links, and tested anchors landed on the intended sections without leaving the page in a broken overlay state.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-annotated.png",
+          "landing-redesign/hero-narrative/VAL-NARR-004-mobile-nav-open.png",
+          "landing-redesign/hero-narrative/VAL-NARR-004-desktop-nav-destination-flow-2.webm",
+          "landing-redesign/hero-narrative/desktop-what-is-better-destination.png",
+          "landing-redesign/hero-narrative/VAL-NARR-004-mobile-roadmap-overlay-bug-2.png",
+          "landing-redesign/hero-narrative/mobile-live-now-destination.png",
+          "landing-redesign/hero-narrative/mobile-evidence-destination.png",
+          "landing-redesign/hero-narrative/mobile-risks-destination.png"
+        ],
+        "observations": [
+          "Desktop nav exposes What is BETTER, Live Now, Roadmap, Tokenomics, Architecture, Evidence & Sources, and Risks & Caveats; tested anchors reached #what-is-better, #roadmap, #evidence, and #risks, and the desktop recording traversed Live Now → Roadmap → Tokenomics → Architecture → Evidence & Sources → Risks & Caveats.",
+          "Mobile menu exposes the same labels; tested taps reached #what-is-better, #live-now, #roadmap, #evidence, and #risks."
+        ],
+        "consoleErrors": "none"
+      }
+    },
+    {
+      "id": "VAL-NARR-005",
+      "title": "Navigation labels remain understandable without insider context",
+      "status": "pass",
+      "reason": "Primary nav and nearby section labels use common-language destination names rather than BETTER-specific jargon.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-annotated.png",
+          "landing-redesign/hero-narrative/VAL-NARR-004-mobile-nav-open.png",
+          "landing-redesign/hero-narrative/mobile-live-now-destination.png",
+          "landing-redesign/hero-narrative/mobile-evidence-destination.png",
+          "landing-redesign/hero-narrative/mobile-risks-destination.png"
+        ],
+        "observations": [
+          "Labels such as 'What is BETTER', 'Live Now', 'Roadmap', 'Tokenomics', 'Architecture', 'Evidence & Sources', and 'Risks & Caveats' are understandable to a first-time visitor.",
+          "Destination headings reinforce the same plain-language framing: 'What's Live Today', 'Evidence & Sources', and 'Risks & Caveats'."
+        ],
+        "consoleErrors": "none"
+      }
+    },
+    {
+      "id": "VAL-NARR-008",
+      "title": "Aggressive claims expose evidence hooks",
+      "status": "fail",
+      "reason": "Claims do show visible BETTER Docs citation hooks, but the tested external BETTER Docs target does not resolve, so the citation path does not successfully reach a claim-relevant source.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-annotated.png",
+          "landing-redesign/hero-narrative/mobile-evidence-destination.png",
+          "landing-redesign/hero-narrative/VAL-NARR-008-docs-link-error.png"
+        ],
+        "observations": [
+          "Hero and live-state claims display visible 'BETTER Docs as of 2026-Q1' hooks adjacent to the content.",
+          "Clicking the BETTER Docs hook opened an error tab instead of source material; browser navigation failed with ERR_NAME_NOT_RESOLVED and curl verification returned 'Could not resolve host: docs.betteragent.ai'.",
+          "The local 'Evidence & Sources' section itself is reachable, but the claim-specific external citation target did not resolve during testing."
+        ],
+        "consoleErrors": "none on the local page; external BETTER Docs link failed to resolve"
+      }
+    },
+    {
+      "id": "VAL-NARR-009",
+      "title": "Aggressive and future-facing claims carry nearby caveats or confidence framing",
+      "status": "pass",
+      "reason": "Future-facing claims are paired with immediate caveat and dependency framing in both the hero and roadmap surfaces instead of reading as guaranteed capability.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-full-composition.png",
+          "landing-redesign/hero-narrative/VAL-NARR-010-explore-roadmap-destination.png",
+          "landing-redesign/hero-narrative/desktop-risks-caveats-destination.png"
+        ],
+        "observations": [
+          "The hero caveat states: 'These are directional ambitions, not commitments. Timelines, scope, and feasibility depend on market conditions, technical execution, and adoption.'",
+          "Roadmap cards include inline caveat banners and dependency notes, and the dedicated Risks & Caveats section reinforces the uncertainty framing."
+        ],
+        "consoleErrors": "none"
+      }
+    },
+    {
+      "id": "VAL-NARR-010",
+      "title": "Calls to action are honest about destination, availability, and hierarchy",
+      "status": "pass",
+      "reason": "The primary hero CTA leads to the live/proof section, while the secondary CTA leads to roadmap exploration; the visual hierarchy makes the live path primary.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/hero-narrative/VAL-NARR-010-cta-inventory.png",
+          "landing-redesign/hero-narrative/VAL-NARR-010-see-whats-live-destination.png",
+          "landing-redesign/hero-narrative/VAL-NARR-010-explore-roadmap-destination.png"
+        ],
+        "observations": [
+          "'See What's Live' is the prominent filled CTA and lands on the live section rather than implying an unavailable product action.",
+          "'Explore the Roadmap' is visually secondary and lands on the roadmap section, matching an exploration promise."
+        ],
+        "consoleErrors": "none"
+      }
+    },
+    {
+      "id": "VAL-NARR-011",
+      "title": "First viewport is one poster-like hero composition",
+      "status": "pass",
+      "reason": "The first viewport reads as a single centered hero composition with one dominant brand statement, supporting copy, status chips, caveat, and CTA pair rather than a dashboard cluster.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-full-composition.png",
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-annotated.png"
+        ],
+        "observations": [
+          "Above the fold there are no competing stat strips or card grids; the supporting elements all reinforce the same hero statement.",
+          "The atmospheric background remains behind a single central narrative stack."
+        ],
+        "consoleErrors": "none"
+      }
+    },
+    {
+      "id": "VAL-NARR-012",
+      "title": "BETTER brand is dominant above the fold",
+      "status": "pass",
+      "reason": "The oversized BETTER wordmark and logo make BETTER the unmistakable primary brand signal before any scroll.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-full-composition.png",
+          "landing-redesign/hero-narrative/VAL-NARR-011-first-viewport-annotated.png"
+        ],
+        "observations": [
+          "The word 'BETTER' is the largest element in the first viewport and sits above the plain-language explanatory line.",
+          "Secondary UI elements stay visually subordinate to the BETTER mark and headline."
+        ],
+        "consoleErrors": "none"
+      }
+    }
+  ],
+  "frictions": [
+    {
+      "description": "The repeated external BETTER Docs citation target (`docs.betteragent.ai`) did not resolve from either the browser or curl during validation.",
+      "resolved": false,
+      "resolution": "Retried via browser navigation and curl; both returned host-resolution failure.",
+      "affectedAssertions": [
+        "VAL-NARR-008"
+      ]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 10 assigned narrative/navigation assertions on the local browser surface. 9 passed and 1 failed: VAL-NARR-008 failed because the visible BETTER Docs evidence hooks did not resolve to a reachable source target. No local-page console/runtime errors were observed beyond normal React DevTools/HMR info logs."
+}

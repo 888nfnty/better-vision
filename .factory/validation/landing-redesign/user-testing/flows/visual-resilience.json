@@ -1,0 +1,109 @@
+{
+  "groupId": "visual-resilience",
+  "surface": "browser",
+  "testedAt": "2026-03-22T02:43:16Z",
+  "isolation": {
+    "missionDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83",
+    "appUrl": "http://127.0.0.1:3100",
+    "browserSession": "d8f3cd931a1c__visualr",
+    "evidenceDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/evidence/landing-redesign/visual-resilience"
+  },
+  "assertionsTested": [
+    "VAL-VISUAL-001",
+    "VAL-VISUAL-002",
+    "VAL-VISUAL-003",
+    "VAL-VISUAL-004"
+  ],
+  "toolsUsed": [
+    "agent-browser",
+    "Read",
+    "Grep"
+  ],
+  "assertionResults": [
+    {
+      "id": "VAL-VISUAL-001",
+      "status": "pass",
+      "reason": "The first viewport renders a coherent BETTER hero before advanced effects settle: headline, supporting copy, status framing, and both CTAs are already visible about 100ms after navigation.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/visual-resilience/VAL-VISUAL-001-first-load.webm",
+          "landing-redesign/visual-resilience/VAL-VISUAL-001-hero-before-effects.png"
+        ],
+        "observations": [
+          "The early screenshot captured the hero with the dominant 'BETTER' headline, supporting copy, live/planned status chips, and both CTAs already readable before any advanced visual layer became necessary for comprehension.",
+          "The first-load recording shows the page reaching a usable content-first state immediately, with no blank hero shell or effect-dependent blocking during initial paint."
+        ],
+        "console": "No page errors. Console output was limited to development-only React DevTools notices and '[HMR] connected'.",
+        "network": "No additional API/XHR requests were captured during the first-load validation.",
+        "codeReferences": [
+          "src/components/visual/HeroVisualSystem.tsx:24-25"
+        ]
+      }
+    },
+    {
+      "id": "VAL-VISUAL-002",
+      "status": "pass",
+      "reason": "After the visual effects initialize, the hero remains readable and interactive: copy stays legible, status framing remains visible, and the primary CTA successfully navigates to live scope.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/visual-resilience/VAL-VISUAL-002-hero-after-effects.png",
+          "landing-redesign/visual-resilience/VAL-VISUAL-002-hero-interaction-after-effects.webm"
+        ],
+        "observations": [
+          "The settled screenshot shows the shader/ASCII atmosphere enhancing the hero without obscuring the BETTER headline, supporting copy, or CTA labels.",
+          "The interaction recording confirms the primary 'See What's Live' CTA remains clickable after effect initialization, lands on `#live-now`, and does not get trapped behind any visual layer."
+        ],
+        "console": "No page errors. Console output was limited to development-only React DevTools notices and '[HMR] connected'.",
+        "network": "No additional API/XHR requests were captured during the post-initialization interaction flow.",
+        "codeReferences": [
+          "src/components/visual/__tests__/visual-system-integration.test.tsx:78-95"
+        ]
+      }
+    },
+    {
+      "id": "VAL-VISUAL-003",
+      "status": "pass",
+      "reason": "Reduced-motion mode removes non-essential motion while preserving the hero hierarchy and CTA usability: the page renders in a stable state with core messaging and controls intact.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/visual-resilience/VAL-VISUAL-003-reduced-motion-flow.webm",
+          "landing-redesign/visual-resilience/VAL-VISUAL-003-reduced-motion.png"
+        ],
+        "observations": [
+          "DOM inspection during reduced-motion emulation confirmed `matchMedia('(prefers-reduced-motion: reduce)')` matched, the shader canvas was not rendered, the ASCII layer used the `ascii-bg-static` class, and the hero entrance animation computed to `none`.",
+          "The reduced-motion screenshot still preserves clear BETTER branding, supporting hierarchy, and both CTAs, so the experience stays usable without animated effects."
+        ],
+        "console": "No page errors. Console output was limited to development-only React DevTools notices and '[HMR] connected'.",
+        "network": "No additional API/XHR requests were captured during reduced-motion validation.",
+        "codeReferences": [
+          "src/components/visual/HeroVisualSystem.tsx:27-28",
+          "src/app/globals.css:215-245"
+        ]
+      }
+    },
+    {
+      "id": "VAL-VISUAL-004",
+      "status": "pass",
+      "reason": "When WebGL support is disabled, the hero falls back cleanly: content stays readable, the CSS radiant fallback and ASCII layer still render, and controls are not trapped or visually blanked.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/visual-resilience/VAL-VISUAL-004-fallback-flow.webm",
+          "landing-redesign/visual-resilience/VAL-VISUAL-004-fallback-state.png"
+        ],
+        "observations": [
+          "Running the browser with `--disable-gpu,--disable-webgl` still produced a complete hero with readable text, visible CTA controls, and non-broken background treatment rather than an empty layer stack.",
+          "The fallback screenshot shows the CSS gradient fallback plus the DOM-driven ASCII background remaining visible, and no console/runtime error trapped interaction or blanked the surface."
+        ],
+        "console": "No page errors. Console output was limited to development-only React DevTools notices and '[HMR] connected'.",
+        "network": "No additional API/XHR requests were captured during fallback validation.",
+        "codeReferences": [
+          "src/components/visual/HeroVisualSystem.tsx:28-34",
+          "src/app/globals.css:138-176"
+        ]
+      }
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Validated 4 visual-resilience assertions on the live landing page. All 4 passed: content-first rendering was visible before effects initialized, the settled hero remained readable and interactive, reduced-motion preserved hierarchy while removing non-essential motion, and WebGL-disabled fallback handling stayed clean without broken layers or trapped controls. No runtime errors were observed; console output was limited to development-only React DevTools/HMR notices."
+}

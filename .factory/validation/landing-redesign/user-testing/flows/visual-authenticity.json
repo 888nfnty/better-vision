@@ -1,0 +1,178 @@
+{
+  "groupId": "visual-authenticity",
+  "surface": "browser",
+  "testedAt": "2026-03-22T02:36:52.455751+00:00",
+  "isolation": {
+    "missionDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83",
+    "appUrl": "http://127.0.0.1:3100",
+    "browserSession": "d8f3cd931a1c__visuala",
+    "evidenceDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/evidence/landing-redesign/visual-authenticity"
+  },
+  "assertionsTested": [
+    "VAL-VISUAL-000",
+    "VAL-VISUAL-011",
+    "VAL-VISUAL-012",
+    "VAL-VISUAL-013",
+    "VAL-VISUAL-014"
+  ],
+  "toolsUsed": [
+    "agent-browser",
+    "Read",
+    "Grep"
+  ],
+  "assertionResults": [
+    {
+      "id": "VAL-VISUAL-000",
+      "status": "pass",
+      "reason": "The shipped hero presents a premium dark, tradebetter-led poster composition with dominant BETTER branding, a visible Radiant-derived blue shader field, and a materially visible Hermes-style ASCII terminal layer rather than a generic landing-page backdrop.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/visual-authenticity/VAL-VISUAL-000-hero-visual-system-headed.png",
+          "landing-redesign/visual-authenticity/VAL-VISUAL-000-full-page-headed.png"
+        ],
+        "observations": [
+          "Headed-browser inspection confirmed WebGL support and a mounted shader canvas spanning the full hero at 1440x1200 with computed opacity 0.85, plus a mounted ASCII layer with rgba(0, 170, 255, 0.12) tint.",
+          "The first viewport reads as a single BETTER-led composition: oversized BETTER wordmark, centered copy/CTAs, dark HFT palette, blue atmospheric depth, and an ASCII terminal frame visibly sitting behind the live/planned status chips."
+        ],
+        "console": "No page errors. Console output was limited to development-only React DevTools notices and '[HMR] connected'.",
+        "network": "No additional API/XHR requests were captured during the settled hero inspection.",
+        "sourceReferences": [
+          "https://radiant-shaders.com/shader/fluid-amber",
+          "https://radiant-shaders.com/shader/eclipse-glow",
+          "https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video"
+        ],
+        "codeReferences": [
+          "src/components/visual/HeroVisualSystem.tsx:10-15",
+          "src/components/visual/HeroShaderCanvas.tsx:10-25",
+          "src/components/visual/AsciiBackground.tsx:9-32",
+          "src/app/globals.css:138-176"
+        ]
+      }
+    },
+    {
+      "id": "VAL-VISUAL-011",
+      "status": "pass",
+      "reason": "Hero motion stays limited to subtle shader drift, sparse ASCII character mutation, and a one-shot content entrance; the page does not present noisy ambient loops or competing animation systems.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/visual-authenticity/VAL-VISUAL-011-hero-motion-headed.webm",
+          "landing-redesign/visual-authenticity/VAL-VISUAL-000-hero-visual-system-headed.png"
+        ],
+        "observations": [
+          "The headed recording shows only slow background shimmer and occasional ASCII changes while the text and CTAs remain stable and readable in their rest state.",
+          "Shipped motion contract is explicit in code: HeroVisualSystem declares exactly 3 intentional motions; HeroShaderCanvas uses slow time multiplier 0.06; AsciiBackground throttles updates to ~4fps with ~5% mutation per cycle; the hero entrance animation runs once with iterationCount=1 and duration 0.8s."
+        ],
+        "console": "No page errors. Console output was limited to development-only React DevTools notices and '[HMR] connected'.",
+        "network": "No additional API/XHR requests were captured during hero motion recording.",
+        "codeReferences": [
+          "src/components/visual/HeroVisualSystem.tsx:19-21",
+          "src/components/visual/HeroShaderCanvas.tsx:89-90",
+          "src/components/visual/AsciiBackground.tsx:26-30",
+          "src/components/visual/AsciiBackground.tsx:163-207",
+          "src/app/globals.css:204-223"
+        ]
+      }
+    },
+    {
+      "id": "VAL-VISUAL-012",
+      "status": "pass",
+      "reason": "The shader reads as a substantive Radiant adaptation: an organic, domain-warped blue depth field with caustic highlights that materially shapes the hero composition instead of behaving like a flat generic glow.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/visual-authenticity/VAL-VISUAL-000-hero-visual-system-headed.png"
+        ],
+        "observations": [
+          "Visually, the hero shows a broad, uneven blue field with soft luminance peaks and depth behind the BETTER headline/copy, not a simple radial gradient sticker; it influences the whole composition from behind the content block to the viewport edges.",
+          "Code provenance is direct: HeroShaderCanvas cites Radiant Fluid Amber as the primary source and Eclipse Glow as the supporting source, then implements Radiant-style fBM, domain warping, and smoothstepped caustic highlights before remapping the palette to BETTER blue."
+        ],
+        "console": "No page errors. Console output was limited to development-only React DevTools notices and '[HMR] connected'.",
+        "network": "No additional API/XHR requests were captured during shader inspection.",
+        "sourceReferences": [
+          "https://radiant-shaders.com/shader/fluid-amber",
+          "https://radiant-shaders.com/shader/eclipse-glow"
+        ],
+        "codeReferences": [
+          "src/components/visual/HeroShaderCanvas.tsx:10-25",
+          "src/components/visual/HeroShaderCanvas.tsx:45-69",
+          "src/components/visual/HeroShaderCanvas.tsx:89-127",
+          "src/components/visual/HeroShaderCanvas.tsx:281-283"
+        ]
+      }
+    },
+    {
+      "id": "VAL-VISUAL-013",
+      "status": "pass",
+      "reason": "The ASCII atmosphere is materially visible and reads as an intentional BETTER terminal texture: a framed 100x32 grid with box-drawing characters, block shading, and sparse data glyphs that remains legible in the hero rather than disappearing into the background.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/visual-authenticity/VAL-VISUAL-000-hero-visual-system-headed.png"
+        ],
+        "observations": [
+          "The hero screenshot clearly shows the ASCII frame and internal glyph field behind the copy/status panel, and DOM inspection found a 32-line, 3231-character preformatted grid using top/bottom border glyphs plus structure/data characters.",
+          "AsciiBackground directly cites Hermes ascii-video and its architecture/composition/effects references, adapting PAL_BOX, PAL_BLOCKS, and PAL_HERMES palettes into a centered terminal viewport with deliberate 4fps / 5% mutation behavior."
+        ],
+        "console": "No page errors. Console output was limited to development-only React DevTools notices and '[HMR] connected'.",
+        "network": "No additional API/XHR requests were captured during ASCII inspection.",
+        "sourceReferences": [
+          "https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video",
+          "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/ascii-video/references/architecture.md",
+          "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/ascii-video/references/effects.md",
+          "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/ascii-video/references/composition.md"
+        ],
+        "codeReferences": [
+          "src/components/visual/AsciiBackground.tsx:9-30",
+          "src/components/visual/AsciiBackground.tsx:38-55",
+          "src/components/visual/AsciiBackground.tsx:68-132",
+          "src/components/visual/AsciiBackground.tsx:163-207",
+          "src/app/globals.css:160-176"
+        ]
+      }
+    },
+    {
+      "id": "VAL-VISUAL-014",
+      "status": "pass",
+      "reason": "Both required source adaptations are traceable in shipped code and correspond to visible hero behavior: Radiant sources map to the blue shader field, while Hermes sources map to the structured ASCII terminal atmosphere.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/visual-authenticity/VAL-VISUAL-000-hero-visual-system-headed.png"
+        ],
+        "observations": [
+          "HeroVisualSystem documents the exact provenance split: Radiant adaptation routes through HeroShaderCanvas and Hermes adaptation routes through AsciiBackground, matching the visible blue shader layer plus ASCII frame/glyph texture on the page.",
+          "Traceability is concrete rather than inspirational: Radiant Fluid Amber/Eclipse Glow URLs are embedded in HeroShaderCanvas comments next to the implemented domain-warp / caustic logic, and Hermes ascii-video URLs are embedded in AsciiBackground comments next to the implemented palette, grid, and temporal-coherence logic."
+        ],
+        "console": "No page errors. Console output was limited to development-only React DevTools notices and '[HMR] connected'.",
+        "network": "No additional API/XHR requests were captured during provenance inspection.",
+        "sourceReferences": [
+          "https://radiant-shaders.com/shader/fluid-amber",
+          "https://radiant-shaders.com/shader/eclipse-glow",
+          "https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video",
+          "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/ascii-video/references/architecture.md",
+          "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/ascii-video/references/effects.md",
+          "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/ascii-video/references/composition.md"
+        ],
+        "codeReferences": [
+          "src/components/visual/HeroVisualSystem.tsx:30-34",
+          "src/components/visual/HeroShaderCanvas.tsx:10-25",
+          "src/components/visual/HeroShaderCanvas.tsx:93-113",
+          "src/components/visual/AsciiBackground.tsx:9-30",
+          "src/components/visual/AsciiBackground.tsx:38-55"
+        ]
+      }
+    }
+  ],
+  "frictions": [
+    {
+      "description": "The initial headless agent-browser run reported webglSupport=false, so only the CSS fallback and ASCII layer rendered even though the page loaded correctly.",
+      "resolved": true,
+      "resolution": "Retried the same assigned browser session in headed mode (`--headed`), which restored WebGL support and confirmed the shipped shader canvas on the real browser surface.",
+      "affectedAssertions": [
+        "VAL-VISUAL-000",
+        "VAL-VISUAL-011",
+        "VAL-VISUAL-012",
+        "VAL-VISUAL-014"
+      ]
+    }
+  ],
+  "blockers": [],
+  "summary": "Validated 5 visual-authenticity assertions on the live landing page. All 5 passed in the headed real-browser run: the BETTER hero shows a premium dark one-poster composition with visible Radiant-derived shader depth and Hermes-derived ASCII atmosphere, hero motion stays intentionally limited, and both source adaptations are directly traceable to shipped code that matches visible behavior. No page errors were observed; console output only contained development-mode React DevTools/HMR notices."
+}

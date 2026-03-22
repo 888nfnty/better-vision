@@ -31,6 +31,7 @@ Core flows to validate:
 ## Flow Validator Guidance: browser
 
 - Use `agent-browser` for all browser validation against `http://127.0.0.1:3100`.
+- If a visual-authenticity pass reports `webglSupport=false` in headless mode, rerun the same isolated session in headed mode before failing shader assertions; this environment can hide the shipped WebGL canvas in headless browser runs.
 - For redesign work, use the captured public reference screenshots in `.factory/research/screenshots/` as visual guardrails when evaluating composition, hierarchy, and atmosphere.
 - Stay inside the assigned assertion scope and treat the running local Next.js app as shared infrastructure; do not restart it unless the parent validator explicitly asks.
 - Use a non-default browser session name and close it before finishing.

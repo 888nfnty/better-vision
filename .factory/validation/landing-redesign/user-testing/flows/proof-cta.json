@@ -1,0 +1,115 @@
+{
+  "groupId": "proof-cta",
+  "surface": "browser",
+  "testedAt": "2026-03-22T02:31:12.118051+00:00",
+  "isolation": {
+    "missionDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83",
+    "appUrl": "http://127.0.0.1:3100",
+    "browserSession": "d8f3cd931a1c__proof",
+    "evidenceDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/evidence/landing-redesign/proof-cta"
+  },
+  "assertionsTested": [
+    "VAL-NARR-013",
+    "VAL-CROSS-001",
+    "VAL-CROSS-009",
+    "VAL-CROSS-010",
+    "VAL-CROSS-011"
+  ],
+  "toolsUsed": [
+    "agent-browser"
+  ],
+  "assertionResults": [
+    {
+      "id": "VAL-NARR-013",
+      "status": "pass",
+      "reason": "A dedicated proof surface ('Built and Shipping') appears immediately after the hero and before the roadmap section, showing live product evidence before dense roadmap detail.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/proof-cta/VAL-NARR-013-proof-before-roadmap.png",
+          "landing-redesign/proof-cta/VAL-NARR-013-proof-surface.png"
+        ],
+        "observations": [
+          "DOM section order placed #proof at ~1657px and #roadmap at ~3745px, with #live-now between them.",
+          "The proof surface lists live terminal, on-chain access gating, real copy trading, and Lite Mode with BETTER Docs proof links."
+        ],
+        "console": "No page errors. Console showed only dev-mode info messages for React DevTools and HMR connection.",
+        "network": "No API/XHR activity was required for the in-page anchor flow."
+      }
+    },
+    {
+      "id": "VAL-CROSS-001",
+      "status": "pass",
+      "reason": "The first-visit flow explains BETTER in plain language, names traders/newcomers/whales as the audience, distinguishes Live vs Planned in the hero, and reaches proof/live sections before roadmap detail.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/proof-cta/VAL-CROSS-010-hero-annotated.png",
+          "landing-redesign/proof-cta/VAL-CROSS-001-first-visit.webm",
+          "landing-redesign/proof-cta/VAL-NARR-013-proof-surface.png"
+        ],
+        "observations": [
+          "Hero copy: 'BETTER is a prediction-market intelligence platform...' with audience framing 'from curious newcomers to committed whales'.",
+          "Hero status chips and caveat separate live reality from future ambition before scroll, then the first scroll reaches the proof surface and live-now section ahead of roadmap content."
+        ],
+        "console": "No page errors. Console showed only dev-mode info messages for React DevTools and HMR connection.",
+        "network": "No API/XHR activity was required for the in-page anchor flow."
+      }
+    },
+    {
+      "id": "VAL-CROSS-009",
+      "status": "pass",
+      "reason": "The early landing hierarchy is single-purpose and proof-led: hero explains BETTER, proof section demonstrates shipped reality, live-now inventories current scope, then maturity labels prepare users for roadmap exploration.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/proof-cta/landing-proof-cta-full.png",
+          "landing-redesign/proof-cta/VAL-NARR-013-proof-surface.png",
+          "landing-redesign/proof-cta/VAL-CROSS-009-roadmap-entry.png"
+        ],
+        "observations": [
+          "Early section order observed: #what-is-better -> #proof -> #live-now -> maturity-label explainer -> #roadmap.",
+          "The roadmap does not appear until after the proof and live-now surfaces, so deeper exploration follows rather than competes with the early proof sequence."
+        ],
+        "console": "No page errors. Console showed only dev-mode info messages for React DevTools and HMR connection.",
+        "network": "No API/XHR activity was required for the in-page anchor flow."
+      }
+    },
+    {
+      "id": "VAL-CROSS-010",
+      "status": "pass",
+      "reason": "The most visually prominent hero CTA is the filled 'See What's Live' button, and clicking it moves to the live-now section before any roadmap exploration path.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/proof-cta/VAL-CROSS-010-hero-annotated.png",
+          "landing-redesign/proof-cta/VAL-CROSS-010-primary-cta-click.png",
+          "landing-redesign/proof-cta/VAL-CROSS-010-live-destination.png"
+        ],
+        "observations": [
+          "Hero CTA inventory showed primary 'See What's Live' linking to #live-now and secondary 'Explore the Roadmap' linking to #roadmap.",
+          "Clicking the primary CTA updated the URL to http://127.0.0.1:3100/#live-now and landed on the 'What's Live Today' section."
+        ],
+        "console": "No page errors. Console showed only dev-mode info messages for React DevTools and HMR connection.",
+        "network": "No API/XHR activity was required for the in-page anchor flow."
+      }
+    },
+    {
+      "id": "VAL-CROSS-011",
+      "status": "pass",
+      "reason": "CTA labels and destinations stay aligned across hero, proof, nav, and roadmap entry paths: live-oriented CTAs point to #live-now or BETTER Docs, while exploratory CTAs point to #roadmap.",
+      "evidence": {
+        "paths": [
+          "landing-redesign/proof-cta/VAL-CROSS-010-hero-annotated.png",
+          "landing-redesign/proof-cta/VAL-CROSS-011-proof-live-cta-click.png",
+          "landing-redesign/proof-cta/VAL-CROSS-011-roadmap-cta-click.png"
+        ],
+        "observations": [
+          "Extracted CTA map: hero 'See What's Live' -> #live-now; hero 'Explore the Roadmap' -> #roadmap; proof 'See Full Live Scope' -> #live-now; proof 'Read the Docs' -> https://docs.betteragent.ai; nav 'Live Now' -> #live-now.",
+          "Clicking the proof CTA produced #live-now and clicking the secondary hero CTA produced #roadmap, matching their promises without switching maturity framing."
+        ],
+        "console": "No page errors. Console showed only dev-mode info messages for React DevTools and HMR connection.",
+        "network": "No API/XHR activity was required for the in-page anchor flow."
+      }
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Validated 5 proof/CTA assertions on the live landing page. All 5 passed: the page is proof-led before roadmap detail, first-visit framing is fast and clear, the early hierarchy stays single-purpose, the primary hero CTA goes to live scope first, and CTA promises remain consistent across hero/proof/navigation surfaces. No runtime errors were observed; console output was limited to development-only React DevTools/HMR notices."
+}
