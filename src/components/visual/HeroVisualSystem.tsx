@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { VisualEffectsProvider } from "./VisualEffectsProvider";
+import { VisualEffectsProvider, useVisualEffects } from "./VisualEffectsProvider";
 import { HeroShaderCanvas } from "./HeroShaderCanvas";
 import { AsciiBackground } from "./AsciiBackground";
 import { AsciiCanvasRenderer } from "./AsciiCanvasRenderer";
@@ -35,6 +35,13 @@ import { AsciiCanvasRenderer } from "./AsciiCanvasRenderer";
  * Reduced-motion (VAL-VISUAL-003): all 3 motions stop; static layers persist.
  * Fallback (VAL-VISUAL-004): WebGL failure → CSS gradient + static ASCII canvas remain.
  *
+ * Visual state differentiation (VAL-VISUAL-017):
+ *   Enhanced state: WebGL shader + ASCII canvas both active → dramatic moving depth.
+ *   Fallback state: CSS gradient + static layers → coherent but clearly less dramatic.
+ *   The data-visual-state attribute exposes which mode is active for headed-browser
+ *   validation (VAL-VISUAL-018) and CSS-driven layering differentiation.
+ *   data-motion-layers tracks the count of active motion systems (shader + ascii = 2).
+ *
  * Provenance (VAL-VISUAL-014, VAL-VISUAL-015):
  *   Radiant adaptation: vendored Radiant Fluid Amber shader asset
  *     → radiant-fluid-amber.glsl.ts (simplex noise, mod289/permute, q→r→f domain warp)
@@ -53,6 +60,26 @@ export function HeroVisualSystem({
 }: {
   children: React.ReactNode;
 }) {
+  return (
+    <VisualEffectsProvider>
+      <HeroVisualSystemInner>{children}</HeroVisualSystemInner>
+    </VisualEffectsProvider>
+  );
+}
+
+/**
+ * Inner component that consumes the VisualEffectsProvider context.
+ * Exposes data-visual-state and data-motion-layers attributes on the
+ * wrapper div so headed browser validation (VAL-VISUAL-018) can
+ * distinguish the enhanced state from fallback/reduced-motion modes.
+ */
+function HeroVisualSystemInner({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { ready, reducedMotion, fallback } = useVisualEffects();
+
   // SSR-safe mount detection for client-only layers
   const hasMounted = useSyncExternalStore(
     emptySubscribe,
@@ -60,48 +87,65 @@ export function HeroVisualSystem({
     () => false,
   );
 
+  // Compute visual state for data attribute (VAL-VISUAL-017)
+  // Enhanced: WebGL shader is ready and motion is allowed
+  // Fallback: WebGL failed or is unavailable
+  // Reduced-motion: user prefers reduced motion
+  const visualState = reducedMotion
+    ? "reduced-motion"
+    : ready && !fallback
+      ? "enhanced"
+      : "fallback";
+
+  // Count active motion layers (VAL-VISUAL-018)
+  // In enhanced mode: shader (1) + ASCII canvas (1) = 2
+  // In fallback: 0 (no active motion layers — CSS gradient is static)
+  // In reduced-motion: 0
+  const motionLayers =
+    visualState === "enhanced" ? 2 : 0;
+
   return (
-    <VisualEffectsProvider>
+    <div
+      data-testid="hero-visual-system"
+      data-visual-state={visualState}
+      data-motion-layers={motionLayers}
+      className="relative overflow-hidden"
+    >
+      {/* Layer 0: CSS-only radiant fallback gradient (always visible, no JS) */}
       <div
-        data-testid="hero-visual-system"
-        className="relative overflow-hidden"
+        className="hero-radiant-fallback absolute inset-0"
+        aria-hidden="true"
+        data-testid="hero-radiant-fallback"
+      />
+
+      {/* Layer 1: WebGL Radiant shader (client-only, graceful fallback) */}
+      {hasMounted && <HeroShaderCanvas />}
+
+      {/* Layer 2: Hermes ASCII canvas renderer — real-time multi-grid (VAL-VISUAL-016) */}
+      {hasMounted && <AsciiCanvasRenderer />}
+
+      {/* Layer 2b: Legacy DOM ASCII fallback (hidden when canvas is available, kept for non-canvas envs) */}
+      {hasMounted && <AsciiBackground />}
+
+      {/* Layer 3: CSS scanline overlay — terminal texture */}
+      <div
+        className="scanline-overlay absolute inset-0 z-[3]"
+        aria-hidden="true"
+      />
+
+      {/* Layer 4: Vignette + readability gradient */}
+      <div
+        className="hero-vignette absolute inset-0 z-[4]"
+        aria-hidden="true"
+      />
+
+      {/* Layer 10: Content — M3 entrance animation via CSS */}
+      <div
+        data-testid="hero-content"
+        className="hero-entrance relative z-10"
       >
-        {/* Layer 0: CSS-only radiant fallback gradient (always visible, no JS) */}
-        <div
-          className="hero-radiant-fallback absolute inset-0"
-          aria-hidden="true"
-          data-testid="hero-radiant-fallback"
-        />
-
-        {/* Layer 1: WebGL Radiant shader (client-only, graceful fallback) */}
-        {hasMounted && <HeroShaderCanvas />}
-
-        {/* Layer 2: Hermes ASCII canvas renderer — real-time multi-grid (VAL-VISUAL-016) */}
-        {hasMounted && <AsciiCanvasRenderer />}
-
-        {/* Layer 2b: Legacy DOM ASCII fallback (hidden when canvas is available, kept for non-canvas envs) */}
-        {hasMounted && <AsciiBackground />}
-
-        {/* Layer 3: CSS scanline overlay — terminal texture */}
-        <div
-          className="scanline-overlay absolute inset-0 z-[3]"
-          aria-hidden="true"
-        />
-
-        {/* Layer 4: Vignette + readability gradient */}
-        <div
-          className="hero-vignette absolute inset-0 z-[4]"
-          aria-hidden="true"
-        />
-
-        {/* Layer 10: Content — M3 entrance animation via CSS */}
-        <div
-          data-testid="hero-content"
-          className="hero-entrance relative z-10"
-        >
-          {children}
-        </div>
+        {children}
       </div>
-    </VisualEffectsProvider>
+    </div>
   );
 }

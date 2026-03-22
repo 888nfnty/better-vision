@@ -205,6 +205,74 @@ body {
 }
 
 /* -----------------------------------------------------------------------
+   Visual state differentiation (VAL-VISUAL-017)
+   Enhanced state (WebGL + canvas active): dramatic, moving layers dominate.
+   Fallback state (no WebGL): CSS gradient becomes the primary atmosphere,
+     rendered stronger so fallback still feels atmospheric but is clearly
+     less dramatic than the enhanced state.
+   Reduced-motion state: static layers only, motion suppressed.
+   ----------------------------------------------------------------------- */
+
+/* Enhanced state: WebGL shader provides the real depth — dim the CSS fallback
+   gradient so it doesn't compete with the moving shader, and boost the
+   ASCII canvas to create a layered motion atmosphere. */
+[data-visual-state="enhanced"] .hero-radiant-fallback {
+  opacity: 0.15;
+  transition: opacity 0.8s ease;
+}
+
+[data-visual-state="enhanced"] .ascii-canvas-renderer {
+  opacity: 0.30;
+  transition: opacity 0.8s ease;
+}
+
+[data-visual-state="enhanced"] .scanline-overlay {
+  opacity: 0.6;
+}
+
+/* Fallback state: no WebGL shader — the CSS gradient must carry the
+   atmospheric load alone. Stronger gradient + reveal the DOM ASCII layer
+   to maintain texture, but the result is clearly static compared to enhanced. */
+[data-visual-state="fallback"] .hero-radiant-fallback {
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+[data-visual-state="fallback"] .ascii-canvas-renderer {
+  opacity: 0.18;
+}
+
+[data-visual-state="fallback"] .ascii-background {
+  opacity: 0.12;
+}
+
+[data-visual-state="fallback"] .ascii-background .ascii-text {
+  color: rgba(0, 170, 255, 0.10);
+}
+
+[data-visual-state="fallback"] .scanline-overlay {
+  opacity: 0.4;
+}
+
+/* Reduced-motion state: all layers static, dimmed for readability.
+   Atmospheric presence is preserved but motion is completely suppressed. */
+[data-visual-state="reduced-motion"] .hero-radiant-fallback {
+  opacity: 0.85;
+}
+
+[data-visual-state="reduced-motion"] .ascii-canvas-renderer {
+  opacity: 0.12;
+}
+
+[data-visual-state="reduced-motion"] .ascii-background {
+  opacity: 0.08;
+}
+
+[data-visual-state="reduced-motion"] .scanline-overlay {
+  opacity: 0.3;
+}
+
+/* -----------------------------------------------------------------------
    Vignette gradient for hero text readability
    ----------------------------------------------------------------------- */
 
