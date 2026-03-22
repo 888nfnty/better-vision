@@ -21,16 +21,17 @@ Use this skill for app scaffold work, navigation, roadmap and mindmap UI, immers
 2. Inspect the existing app structure, scripts, components, and content/data contracts. Reuse the established patterns instead of inventing parallel ones.
 3. If the feature changes the landing page, hero, or immersive visual system, review `.factory/library/design-system.md` and the reference screenshots in `.factory/research/screenshots/` before making changes. Treat them as hierarchy and atmosphere guardrails, not as assets to clone literally.
 4. If the feature touches the immersive layer, you must directly adapt concrete implementation resources from both `radiant-shaders.com` and `https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video`; handoff notes must cite the exact URLs/files used and how BETTER adapted them.
-5. Write failing tests first for the changed component or behavior. Cover navigation, interaction, accessibility, and state logic before implementation. In your handoff, cite at least one newly failing test expectation you wrote before the implementation change.
-6. Implement the feature with the BETTER visual language in mind: tradebetter-led hierarchy, premium dark terminal feel, restrained card use, honest CTAs, and resilient fallback states.
-7. If the feature touches the hero or immersive visuals, keep the first viewport as one dominant composition with BETTER as the loudest signal and 2-3 intentional motions at most.
-8. If the feature touches roadmap or visual surfaces, verify desktop, narrow/mobile layout, keyboard interaction, and reduced-motion or fallback behavior.
-9. Run focused tests during iteration, then run the manifest commands for `lint`, `typecheck`, `test`, and `build`.
-10. Use `agent-browser` to exercise the changed flows at `http://127.0.0.1:3100`. Record exactly what you clicked, what changed, and what state labels or destinations you observed.
-11. For browser validation, prefer one stable `agent-browser` session per flow: open the page, wait for the target surface, use explicit interactions for navigation/scroll/focus, and only fall back to eval-style helpers when normal interaction commands cannot reliably reach the intended state.
-12. For major visual rewrites, include at least one check that explicitly evaluates hero composition, brand dominance, proof visibility, and whether shader/ascii layers improved the result without crowding the text. Also cite the screenshot paths or public source references you reviewed.
-13. If the feature includes deployment or release work, validate the production-like output after build and use `gh` or `npx vercel` only when the feature explicitly requires it.
-14. Stop every process you started. In your handoff, include the exact browser checks, viewport/fallback checks, the cited screenshot/source evidence, and any remaining environment blocker.
+5. The approved immersive implementation path is specific: use a vendored real Radiant background asset and a real-time Hermes-derived ASCII canvas renderer. Do not satisfy this requirement with a custom approximation shader plus a synthetic DOM text grid.
+6. Write failing tests first for the changed component or behavior. Cover navigation, interaction, accessibility, and state logic before implementation. In your handoff, cite at least one newly failing test expectation you wrote before the implementation change.
+7. Implement the feature with the BETTER visual language in mind: tradebetter-led hierarchy, premium dark terminal feel, restrained card use, honest CTAs, and resilient fallback states.
+8. If the feature touches the hero or immersive visuals, keep the first viewport as one dominant composition with BETTER as the loudest signal and 2-3 intentional motions at most.
+9. If the feature touches roadmap or visual surfaces, verify desktop, narrow/mobile layout, keyboard interaction, and reduced-motion or fallback behavior.
+10. Run focused tests during iteration, then run the manifest commands for `lint`, `typecheck`, `test`, and `build`.
+11. Use `agent-browser` to exercise the changed flows at `http://127.0.0.1:3100`. Record exactly what you clicked, what changed, and what state labels or destinations you observed.
+12. For browser validation, prefer one stable `agent-browser` session per flow: open the page, wait for the target surface, use explicit interactions for navigation/scroll/focus, and only fall back to eval-style helpers when normal interaction commands cannot reliably reach the intended state.
+13. For major visual rewrites, include at least one check that explicitly evaluates hero composition, brand dominance, proof visibility, unmistakable moving shader/ascii background behavior, and whether the enhanced state is materially stronger than the static fallback. Also cite the screenshot paths or public source references you reviewed.
+14. If the feature includes deployment or release work, validate the production-like output after build and use `gh` or `npx vercel` only when the feature explicitly requires it.
+15. Stop every process you started. In your handoff, include the exact browser checks, viewport/fallback checks, the cited screenshot/source evidence, and any remaining environment blocker.
 
 ## Example Handoff
 

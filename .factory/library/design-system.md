@@ -23,6 +23,7 @@ BETTER should feel like a premium terminal-native market weapon: darker, sharper
 - The redesign is not acceptable unless the shipped implementation uses concrete resources adapted from **both** Radiant and the Hermes ASCII-video skill.
 - Workers must cite the exact URLs/files they adapted in their handoff.
 - “Inspired by” is not enough; the delivered site must contain identifiable implementation material from both sources.
+- The approved next-pass implementation is specific: use a **vendored real Radiant background asset** and a **real-time ASCII canvas renderer** derived from Hermes pipeline concepts. Do not ship another custom shader + synthetic DOM grid approximation.
 
 ## First-Viewport Rules
 
@@ -63,6 +64,12 @@ Recommended section jobs:
 - External source inputs that must be concretely represented in the shipped visual system:
   - `https://radiant-shaders.com`
   - `https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video`
+
+## Approved Motion Background Path
+
+- Radiant: vendor a real Radiant shader asset/file into the hero/background stack
+- Hermes: implement moving ASCII with a canvas renderer rooted in multi-grid composition, glyph mapping, tonemap, feedback, and visible temporal motion
+- The enhanced state must look materially stronger than the static fallback state in headed browser testing
 
 ## Anti-Patterns
 

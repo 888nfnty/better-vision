@@ -16,6 +16,8 @@ Intended application architecture and implementation patterns for this mission.
 - Favor section-led layouts over repeated bordered cards. Each section should have one job: establish identity, prove the product, deepen the thesis, explain the roadmap, or convert.
 - Keep immersive effects behind the DOM-first content. Shader and ASCII layers should enrich atmosphere, motion, and material feel without becoming the only visual anchor.
 - The immersive layer must directly adapt concrete source material from both Radiant and the Hermes ASCII-video skill; do not satisfy this requirement with purely original-but-similar effects.
+- The approved architecture is now: static CSS fallback layer -> vendored Radiant background asset -> Hermes-derived moving ASCII canvas layer -> readability overlays -> hero content.
+- The ASCII layer should be canvas-based and visibly animated via glyph-mapped frames, not a DOM `<pre>` grid with sparse random mutations.
 - Use actual proof surfaces near the top of the page: product/product-like imagery, workflow framing, evidence hooks, trust signals, or market proof should appear before heavy roadmap density.
 - The roadmap surface should combine scroll storytelling with an explorable graph or mindmap interface.
 - The scenario engine should separate canonical current BETTER facts from future scenario assumptions and illustrative outputs.
