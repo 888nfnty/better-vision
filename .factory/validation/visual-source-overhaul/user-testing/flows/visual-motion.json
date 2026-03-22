@@ -1,0 +1,148 @@
+{
+  "groupId": "visual-motion",
+  "surface": "browser",
+  "testedAt": "2026-03-22T05:17:54.536533+00:00",
+  "isolation": {
+    "missionDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83",
+    "appUrl": "http://127.0.0.1:3100",
+    "browserSession": "73715791363e__visualmotion",
+    "evidenceDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/evidence/visual-source-overhaul/visual-motion",
+    "headed": true
+  },
+  "assertionsTested": [
+    "VAL-VISUAL-015",
+    "VAL-VISUAL-016",
+    "VAL-VISUAL-017",
+    "VAL-VISUAL-018"
+  ],
+  "toolsUsed": [
+    "agent-browser",
+    "Read",
+    "Grep",
+    "LS"
+  ],
+  "assertionResults": [
+    {
+      "id": "VAL-VISUAL-015",
+      "status": "pass",
+      "reason": "The headed hero uses a real vendored Radiant Fluid Amber shader asset from shipped code, and the visible moving background can be traced directly to that vendored asset path rather than to a placeholder or comment-only citation.",
+      "evidence": {
+        "paths": [
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-015-016-017-018-hero-top-enhanced.png",
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-018-headed-background-motion-rerun.webm"
+        ],
+        "observations": [
+          "Headed DOM inspection on the live page reported data-visual-state='enhanced', data-motion-layers='2', data-canvas-ready='true', shaderCanvas=true, and shaderOpacity='0.85'.",
+          "The hero screenshot shows the animated blue fluid field visibly moving behind the BETTER headline and CTA stack; it reads as a shipped background layer, not a static gradient placeholder."
+        ],
+        "console": "No page errors. Console output only showed the React DevTools development notice and '[HMR] connected'.",
+        "network": "No additional network or API requests were captured during settled hero validation.",
+        "shippedAssetPath": "src/components/visual/radiant-fluid-amber.glsl.ts",
+        "sourceReferences": [
+          "https://github.com/pbakaus/radiant/blob/main/static/fluid-amber.html",
+          "https://radiant-shaders.com/shader/fluid-amber"
+        ],
+        "codeReferences": [
+          "src/components/visual/radiant-fluid-amber.glsl.ts:1-24",
+          "src/components/visual/radiant-fluid-amber.glsl.ts:49-57",
+          "src/components/visual/radiant-fluid-amber.glsl.ts:108-136",
+          "src/components/visual/HeroShaderCanvas.tsx:11-17",
+          "src/components/visual/HeroShaderCanvas.tsx:99-111",
+          "src/components/visual/HeroShaderCanvas.tsx:155-186",
+          "src/components/visual/HeroVisualSystem.tsx:14-15",
+          "src/components/visual/HeroVisualSystem.tsx:112-129"
+        ]
+      }
+    },
+    {
+      "id": "VAL-VISUAL-016",
+      "status": "pass",
+      "reason": "The shipped ASCII layer is rendered by a real-time Hermes-derived canvas renderer with glyph palettes, screen-blended multi-grid composition, and feedback logic, while the legacy DOM <pre> grid remains hidden in the enhanced state.",
+      "evidence": {
+        "paths": [
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-015-016-017-018-hero-top-enhanced.png",
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-018-headed-background-motion-rerun.webm"
+        ],
+        "observations": [
+          "Live DOM inspection reported asciiCanvas=true, canvasCount=2, data-canvas-ready='true', asciiCanvasOpacity='0.3', asciiDomDisplay='block', asciiDomOpacity='0', and a mounted fallback PRE node with 32 lines / 3231 characters hidden behind the visible canvas layer.",
+          "The enhanced hero visibly shows a canvas-rendered ASCII atmosphere over the Radiant layer, while shipped code cites Hermes PAL_BOX, PAL_BLOCKS, PAL_HERMES, screen blending, FeedbackBuffer trails, and an 8fps frame interval instead of a synthetic visible DOM text grid."
+        ],
+        "console": "No page errors. Console output only showed the React DevTools development notice and '[HMR] connected'.",
+        "network": "No additional network or API requests were captured during ASCII renderer validation.",
+        "sourceReferences": [
+          "https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video",
+          "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/ascii-video/references/architecture.md",
+          "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/ascii-video/references/composition.md"
+        ],
+        "codeReferences": [
+          "src/components/visual/HeroVisualSystem.tsx:50-54",
+          "src/components/visual/HeroVisualSystem.tsx:112-129",
+          "src/components/visual/AsciiCanvasRenderer.tsx:33-34",
+          "src/components/visual/AsciiCanvasRenderer.tsx:83-90",
+          "src/components/visual/AsciiCanvasRenderer.tsx:119-135",
+          "src/components/visual/AsciiCanvasRenderer.tsx:441-500",
+          "src/components/visual/AsciiCanvasRenderer.tsx:552-575",
+          "src/components/visual/AsciiCanvasRenderer.tsx:647-652"
+        ]
+      }
+    },
+    {
+      "id": "VAL-VISUAL-017",
+      "status": "pass",
+      "reason": "The enhanced visual stack is materially stronger than the fallback: the headed enhanced hero shows bright fluid motion plus stronger ASCII atmosphere, while the browser-side WebGL-disabled fallback becomes darker, flatter, and static with no active motion layers.",
+      "evidence": {
+        "paths": [
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-015-016-017-018-hero-top-enhanced.png",
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-017-static-fallback-state.png",
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-017-enhanced-vs-fallback-comparison.webm",
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-017-static-fallback-motion-check.webm"
+        ],
+        "observations": [
+          "Enhanced state metadata on the live hero was data-visual-state='enhanced', data-motion-layers='2', shaderCanvas=true, and asciiCanvasOpacity='0.3'.",
+          "After relaunching the same headed session with --disable-gpu,--disable-webgl before page load, fallback metadata changed to data-visual-state='fallback', data-motion-layers='0', shaderCanvas=false, and asciiCanvasOpacity='0.18'.",
+          "The visual comparison is obvious in screenshots: the enhanced hero has bright swirling Radiant depth behind the wordmark and body copy, while the fallback hero keeps the same readable composition but drops to a dimmer static grid/gradient treatment.",
+          "A direct browser screenshot diff from the fallback view against the enhanced baseline reported 16.74% pixel change (289239 / 1728000 pixels), supporting that the fallback is not a near-identical variant."
+        ],
+        "console": "No page errors. Console output only showed the React DevTools development notice and '[HMR] connected'.",
+        "network": "No additional network or API requests were captured during enhanced-vs-fallback comparison.",
+        "codeReferences": [
+          "src/components/visual/HeroVisualSystem.tsx:37-46",
+          "src/components/visual/HeroVisualSystem.tsx:97-115",
+          "src/app/globals.css:219-249",
+          "src/app/globals.css:236-245"
+        ]
+      }
+    },
+    {
+      "id": "VAL-VISUAL-018",
+      "status": "pass",
+      "reason": "Headed browser evidence shows real visible background motion over time in the rendered hero itself: both the Radiant field and ASCII atmosphere shift between captured frames while the content layout stays fixed.",
+      "evidence": {
+        "paths": [
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-018-headed-background-motion-rerun.webm",
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-018-motion-frame-a.png",
+          "visual-source-overhaul/visual-motion/VAL-VISUAL-018-motion-frame-b.png"
+        ],
+        "observations": [
+          "Frame A and Frame B were captured from the same headed hero viewport 2.5 seconds apart; the BETTER wordmark and CTA block remain fixed while the blue fluid background and ASCII patterning shift around them.",
+          "A direct browser screenshot diff between the later headed hero frame and Frame A reported 10.63% pixel change (183644 / 1728000 pixels), which is consistent with visible on-page motion rather than metadata-only inference.",
+          "The headed motion recording shows the moving Radiant background and ASCII atmosphere together on the rendered page surface."
+        ],
+        "console": "No page errors. Console output only showed the React DevTools development notice and '[HMR] connected'.",
+        "network": "No additional network or API requests were captured during headed motion recording."
+      }
+    }
+  ],
+  "frictions": [
+    {
+      "description": "To validate the degraded static fallback without changing app code, the browser had to be relaunched with --disable-gpu,--disable-webgl before page load; disabling WebGL after load would not switch the live page into fallback mode.",
+      "resolved": true,
+      "resolution": "Closed and reopened the same required session name in headed mode with browser launch args, then recaptured the hero at scrollY=0 for the fallback comparison.",
+      "affectedAssertions": [
+        "VAL-VISUAL-017"
+      ]
+    }
+  ],
+  "blockers": [],
+  "summary": "Validated 4 visual-motion assertions in a headed browser session against http://127.0.0.1:3100. All 4 passed: the hero ships a traceable vendored Radiant Fluid Amber asset, the ASCII layer is a Hermes-derived real-time canvas renderer, the enhanced state is materially more dramatic than the static WebGL-disabled fallback, and headed frame/video evidence shows real visible background motion over time. No page errors were observed; console output only contained development-mode React DevTools/HMR notices."
+}

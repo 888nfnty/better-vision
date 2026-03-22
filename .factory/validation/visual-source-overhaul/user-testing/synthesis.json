@@ -1,0 +1,27 @@
+{
+  "milestone": "visual-source-overhaul",
+  "round": 1,
+  "status": "pass",
+  "assertionsSummary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-VISUAL-015",
+    "VAL-VISUAL-016",
+    "VAL-VISUAL-017",
+    "VAL-VISUAL-018"
+  ],
+  "failedAssertions": [],
+  "blockedAssertions": [],
+  "appliedUpdates": [
+    {
+      "target": "user-testing.md",
+      "description": "Documented that the reliable browser-only way to force the visual-source-overhaul static fallback is to relaunch the browser session before page load with WebGL disabled (for example --disable-gpu,--disable-webgl).",
+      "source": "flow-report"
+    }
+  ],
+  "previousRound": null
+}

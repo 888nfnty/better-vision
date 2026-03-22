@@ -34,6 +34,7 @@ Core flows to validate:
 - Use `agent-browser` for all browser validation against `http://127.0.0.1:3100`.
 - The current `agent-browser` CLI uses `open` to start a session against a URL; `launch` is not a supported subcommand in this environment.
 - If a visual-authenticity pass reports `webglSupport=false` in headless mode, rerun the same isolated session in headed mode before failing shader assertions; this environment can hide the shipped WebGL canvas in headless browser runs.
+- For the `visual-source-overhaul` fallback comparison, the reliable browser-only way to force the static degraded state is to relaunch the validation session before page load with WebGL disabled (for example `--disable-gpu,--disable-webgl`); toggling WebGL after the page is already mounted does not flip the live hero into fallback mode.
 - For redesign work, use the captured public reference screenshots in `.factory/research/screenshots/` as visual guardrails when evaluating composition, hierarchy, and atmosphere.
 - Stay inside the assigned assertion scope and treat the running local Next.js app as shared infrastructure; do not restart it unless the parent validator explicitly asks.
 - Use a non-default browser session name and close it before finishing.
