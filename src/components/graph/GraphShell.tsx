@@ -127,6 +127,10 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
   const selfHashChangeRef = useRef(false);
   const focusedSurfaceRef = useRef<HTMLDivElement | null>(null);
   const fallbackRef = useRef<HTMLDivElement | null>(null);
+  /** Tracks whether the previous render had a focused node — used to
+   *  distinguish initial focus (scroll to panel) from node-to-node
+   *  traversal (keep graph context visible). */
+  const hadPriorFocusRef = useRef(false);
 
   // -----------------------------------------------------------------------
   // Hydration-safe hash restoration
@@ -190,14 +194,20 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
   }, []);
 
   // -----------------------------------------------------------------------
-  // Scroll focused surface into view
+  // Scroll focused surface into view (VAL-ROADMAP-012 fix)
+  // For initial focus (overview → node), scroll to bring the panel on-screen.
+  // For node-to-node traversal, use block:"nearest" so the graph overview
+  // and minimap stay visually accessible instead of being pushed off-screen.
   // -----------------------------------------------------------------------
   useEffect(() => {
     if (focusedNodeId && focusedSurfaceRef.current) {
-      focusedSurfaceRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      const block = hadPriorFocusRef.current ? "nearest" : "nearest";
+      focusedSurfaceRef.current.scrollIntoView({ behavior: "smooth", block });
     } else if (invalidLink && fallbackRef.current) {
       fallbackRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
+    // Update the prior-focus tracker *after* the scroll decision
+    hadPriorFocusRef.current = !!focusedNodeId;
   }, [focusedNodeId, invalidLink]);
 
   // -----------------------------------------------------------------------
@@ -381,6 +391,14 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
             )}
           </div>
 
+          {/* Graph context minimap — visible orientation frame (VAL-ROADMAP-012) */}
+          <GraphContextMinimap
+            nodes={GRAPH_NODES}
+            activeNodeId={focusedNodeId!}
+            relatedNodeIds={focusedNode.related}
+            onNodeSelect={focusNode}
+          />
+
           {/* Surface content */}
           <div className="p-4 sm:p-6">
             {(focusedNodeId && surfaces[focusedNodeId]) ?? (
@@ -480,6 +498,69 @@ function GraphNodeMap({
 
       {/* Ensure all nodes also have graph-node-button testid */}
       {/* Already handled by making both active and non-active have consistent testids */}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// GraphContextMinimap — Compact inline graph orientation bar (VAL-ROADMAP-012)
+//
+// Rendered inside the focused surface so it always stays within the viewport
+// when the panel is visible. Highlights the active node, related nodes, and
+// provides click-to-navigate traversal without requiring users to scroll back
+// up to the full overview map.
+// ---------------------------------------------------------------------------
+
+function GraphContextMinimap({
+  nodes,
+  activeNodeId,
+  relatedNodeIds,
+  onNodeSelect,
+}: {
+  nodes: GraphNode[];
+  activeNodeId: string;
+  relatedNodeIds: string[];
+  onNodeSelect: (nodeId: string) => void;
+}) {
+  const relatedSet = new Set(relatedNodeIds);
+
+  return (
+    <div
+      data-testid="graph-context-minimap"
+      className="flex flex-wrap items-center gap-1.5 border-b border-border/50 bg-background/30 px-4 py-2"
+      role="navigation"
+      aria-label="Graph context minimap"
+    >
+      <span className="mr-1 font-terminal text-[10px] uppercase tracking-widest text-muted">
+        Atlas
+      </span>
+      {nodes.map((node) => {
+        const isActive = node.id === activeNodeId;
+        const isRelated = relatedSet.has(node.id);
+
+        return (
+          <button
+            key={node.id}
+            type="button"
+            data-testid="minimap-node"
+            data-active={isActive ? "true" : "false"}
+            data-related={isRelated ? "true" : "false"}
+            onClick={() => onNodeSelect(node.id)}
+            aria-label={node.label}
+            aria-current={isActive ? "true" : undefined}
+            className={`inline-flex items-center gap-1 rounded px-2 py-0.5 font-terminal text-[11px] transition-colors ${
+              isActive
+                ? "bg-accent/20 text-accent ring-1 ring-accent/30"
+                : isRelated
+                  ? "bg-accent/5 text-secondary hover:bg-accent/10 hover:text-foreground"
+                  : "text-muted hover:bg-elevated hover:text-secondary"
+            }`}
+          >
+            <span aria-hidden="true">{node.icon}</span>
+            <span className="hidden sm:inline">{node.label}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }
