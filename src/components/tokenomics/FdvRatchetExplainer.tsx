@@ -12,7 +12,7 @@ import type { SourceCue, ConfidenceFrame } from "@/content";
 const ratchetSource: SourceCue = {
   type: "canonical",
   label: "BETTER Docs",
-  href: "https://docs.betteragent.ai",
+  href: "https://docs.tradebetter.app",
   asOf: "2026-Q1",
   note: "The FDV ratchet is a live, on-chain mechanism.",
 };

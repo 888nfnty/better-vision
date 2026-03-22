@@ -61,7 +61,7 @@ export default function ProofModule() {
         {/* Proof section CTA — consistent with hero's live-first direction (VAL-CROSS-011) */}
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <a
-            href="https://docs.betteragent.ai"
+            href="https://docs.tradebetter.app"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-8 text-sm font-semibold text-background transition-colors hover:bg-accent-bright"

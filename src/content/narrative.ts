@@ -21,7 +21,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
     order: 1,
@@ -35,7 +35,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
     order: 2,
@@ -73,7 +73,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
     order: 1,
@@ -87,7 +87,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
     order: 2,
@@ -101,7 +101,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
     order: 3,
@@ -115,7 +115,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
       note: "Lite Mode is live with a 2% per-fill fee.",
     },
@@ -134,7 +134,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
     order: 1,
@@ -148,7 +148,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
       note: "Lite Mode is live with a 2% per-fill fee.",
     },
@@ -163,7 +163,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
     order: 3,
@@ -177,7 +177,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
     order: 4,
@@ -191,7 +191,7 @@ export const NARRATIVE_BLOCKS: NarrativeBlock[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
     order: 5,

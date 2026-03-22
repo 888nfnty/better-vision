@@ -34,7 +34,7 @@ const FEE_STACK: FeeItem[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
   },
@@ -48,7 +48,7 @@ const FEE_STACK: FeeItem[] = [
     source: {
       type: "canonical",
       label: "BETTER Docs",
-      href: "https://docs.betteragent.ai",
+      href: "https://docs.tradebetter.app",
       asOf: "2026-Q1",
     },
   },

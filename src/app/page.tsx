@@ -143,12 +143,12 @@ export default function Home() {
           <p className="mx-auto mt-2 max-w-2xl text-center text-xs text-muted" data-testid="freshness-cue">
             Status as of 2026-Q1 · Source: BETTER Docs ·{" "}
             <a
-              href="https://docs.betteragent.ai"
+              href="https://docs.tradebetter.app"
               target="_blank"
               rel="noopener noreferrer"
               className="underline transition-colors hover:text-secondary"
             >
-              docs.betteragent.ai
+              docs.tradebetter.app
             </a>
           </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -302,12 +302,12 @@ export default function Home() {
           <p className="mt-6 text-center text-xs text-muted">
             For the latest verified information, always refer to{" "}
             <a
-              href="https://docs.betteragent.ai"
+              href="https://docs.tradebetter.app"
               target="_blank"
               rel="noopener noreferrer"
               className="underline transition-colors hover:text-secondary"
             >
-              docs.betteragent.ai
+              docs.tradebetter.app
             </a>
             {" "}as the canonical source of truth.
           </p>

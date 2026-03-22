@@ -7,7 +7,7 @@ describe("EvidenceHook", () => {
     type: "canonical",
     label: "BETTER Docs",
     asOf: "2026-Q1",
-    href: "https://docs.betteragent.ai",
+    href: "https://docs.tradebetter.app",
   };
 
   const scenarioSource: SourceCue = {
@@ -34,7 +34,7 @@ describe("EvidenceHook", () => {
     render(<EvidenceHook source={canonicalSource} />);
     const hook = screen.getByTestId("evidence-hook");
     expect(hook.tagName).toBe("A");
-    expect(hook).toHaveAttribute("href", "https://docs.betteragent.ai");
+    expect(hook).toHaveAttribute("href", "https://docs.tradebetter.app");
     expect(hook).toHaveAttribute("target", "_blank");
     expect(hook).toHaveAttribute("rel", "noopener noreferrer");
   });
