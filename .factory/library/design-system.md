@@ -18,6 +18,12 @@ BETTER should feel like a premium terminal-native market weapon: darker, sharper
 - `https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video` — atmospheric ASCII/video system concepts and production-safe pipeline ideas
 - OpenAI delightful frontends guidance — one-composition hero, brand first, fewer cards, one job per section, 2-3 intentional motions
 
+## Hard Source Requirement
+
+- The redesign is not acceptable unless the shipped implementation uses concrete resources adapted from **both** Radiant and the Hermes ASCII-video skill.
+- Workers must cite the exact URLs/files they adapted in their handoff.
+- “Inspired by” is not enough; the delivered site must contain identifiable implementation material from both sources.
+
 ## First-Viewport Rules
 
 - BETTER branding must be unmistakable in the first screen.
@@ -54,6 +60,9 @@ Recommended section jobs:
 - Core implementation candidates: `motion`, `lenis`, `ogl`, `class-variance-authority`, `tailwind-merge`
 - Visual verification: `agent-browser` plus Playwright screenshots when useful for reference comparison
 - Optional workflow additions if needed: Storybook, design-token tooling, Figma/MCP-based review
+- External source inputs that must be concretely represented in the shipped visual system:
+  - `https://radiant-shaders.com`
+  - `https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video`
 
 ## Anti-Patterns
 

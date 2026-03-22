@@ -15,6 +15,9 @@ Environment variables, external dependencies, and setup notes.
 - `gh` is authenticated and may be used for repository creation/push
 - Global `vercel` CLI is not installed; use `npx vercel` if deployment requires it
 - Playwright CLI is available via `npx playwright` and has already been used to capture redesign reference screenshots
+- Required external design-source inputs for the redesign:
+  - `https://radiant-shaders.com`
+  - `https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video`
 - BETTER reference sources are read-only:
   - `/Users/test/tradebetter-docs`
   - `/Users/test/better`

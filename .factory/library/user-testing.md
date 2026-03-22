@@ -10,6 +10,7 @@ Required tool: **agent-browser**
 
 Core flows to validate:
 - redesign hero hierarchy, brand dominance, proof visibility, and CTA focus
+- direct use of both Radiant and Hermes ASCII-video source material in the shipped visual system
 - hero comprehension and live-vs-vision framing
 - desktop and mobile navigation destinations
 - roadmap exploration, detail panels, deep links, and history restoration
@@ -35,5 +36,6 @@ Core flows to validate:
 - Use a non-default browser session name and close it before finishing.
 - Capture concrete evidence for every assertion you evaluate: visible copy, destination behavior, and any console/runtime issues.
 - Explicitly note whether the first viewport reads as one composition, whether BETTER branding is unmistakable, and whether shader/ascii layers improve the surface without obscuring readability.
+- When validating the immersive system, record which concrete Radiant and Hermes ASCII-video source resources are present in the shipped implementation and how they show up on the page.
 - For this mission, run only one browser validator at a time because the visual layer can increase runtime cost.
 - Do not modify application code or mission state files from a flow validator; write only the assigned flow report and evidence artifacts.
