@@ -20,7 +20,7 @@ Use this skill for features dominated by source synthesis, typed content/data mo
 1. Read `mission.md`, mission `AGENTS.md`, and the relevant `.factory/library/*.md` files before changing anything.
 2. Inspect the existing content/data/model files and match the established naming, typing, and status-label patterns.
 3. Write failing tests first for any schema, parser, calculator, scenario engine, or rendered content behavior you are changing.
-4. Implement the minimum typed models, content modules, and UI wiring needed to make the new tests pass.
+4. Implement the minimum typed models, content modules, and UI wiring needed to make the new tests pass. If implementation edits land before the new failing tests are established, report `followedProcedure=false` in your handoff.
 5. Preserve the distinction between canonical current BETTER facts, scenario assumptions, and illustrative roadmap ideas.
 6. If you add or change numbers, thresholds, or claims, update the evidence/source or assumption hooks in the same feature.
 7. Run focused tests while iterating, then run the manifest commands for `lint`, `typecheck`, `test`, and `build`.
