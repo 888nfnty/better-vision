@@ -9,14 +9,16 @@ import Home from "@/app/page";
  */
 
 beforeEach(() => {
-  // Default: no reduced motion, no WebGL
+  // Default: no reduced motion, no WebGL, desktop-class capability
   HTMLCanvasElement.prototype.getContext = jest.fn().mockReturnValue(null);
 
   Object.defineProperty(window, "matchMedia", {
     writable: true,
     configurable: true,
     value: jest.fn().mockImplementation((query: string) => ({
-      matches: false,
+      matches:
+        query === "(pointer: fine)" ||
+        query === "(min-width: 1025px)",
       media: query,
       addEventListener: jest.fn(),
       removeEventListener: jest.fn(),

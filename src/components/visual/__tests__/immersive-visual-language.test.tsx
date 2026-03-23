@@ -62,7 +62,10 @@ function mockReducedMotion(enabled: boolean) {
     writable: true,
     configurable: true,
     value: jest.fn().mockImplementation((query: string) => ({
-      matches: enabled ? query === "(prefers-reduced-motion: reduce)" : false,
+      matches:
+        (enabled && query === "(prefers-reduced-motion: reduce)") ||
+        (!enabled && query === "(pointer: fine)") ||
+        (!enabled && query === "(min-width: 1025px)"),
       media: query,
       addEventListener: jest.fn(),
       removeEventListener: jest.fn(),

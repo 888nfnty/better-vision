@@ -20,9 +20,13 @@
   --bg-elevated: #1f1f28;
   --bg-raised: #272732;
 
-  /* Foreground scale */
-  --text-primary: #eaeaf2;
-  --text-secondary: #9898b0;
+  /* Foreground scale — crisp near-pure white primary text (VAL-VISUAL-024)
+   * tradebetter.app uses pure white (#ffffff) for primary headings and body.
+   * We use #f5f5fa (near-pure white with subtle cool cast) to maintain
+   * the terminal aesthetic while reading as crisp white against near-black.
+   * Previous value #eaeaf2 read too grey; this tightens tradebetter parity. */
+  --text-primary: #f5f5fa;
+  --text-secondary: #a0a0b8;
   --text-muted: #5a5a78;
 
   /* tradebetter electric-blue emphasis
@@ -399,6 +403,52 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* -----------------------------------------------------------------------
+   Constrained device capability gating (VAL-VISUAL-025)
+   Mobile, tablet, and other constrained device classes do not run heavy
+   shader, ASCII-canvas, or continuous-animation layers. They receive a
+   visibly cheaper but hierarchy-preserving fallback that relies on the
+   CSS gradient + scanline texture for atmosphere.
+   ----------------------------------------------------------------------- */
+
+[data-device-class="constrained"] .hero-radiant-fallback {
+  opacity: 1;
+  transition: none;
+}
+
+[data-device-class="constrained"] .scanline-overlay {
+  opacity: 0.35;
+}
+
+/* On constrained devices the site-atmosphere gradient is the primary
+   atmospheric layer — boost it slightly for visual continuity */
+[data-device-class="constrained"] .site-atmosphere-gradient {
+  opacity: 1;
+}
+
+/* Smoother low-cost motion for constrained states (VAL-VISUAL-025)
+   Instead of full shader/canvas animation, constrained devices get
+   a subtle CSS-driven gradient shift for premium feel without GPU cost */
+[data-device-class="constrained"] .hero-radiant-fallback {
+  background:
+    radial-gradient(
+      ellipse 120% 80% at 50% 60%,
+      rgba(69, 94, 255, 0.25) 0%,
+      rgba(40, 50, 160, 0.12) 40%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 30% 40%,
+      rgba(69, 94, 255, 0.10) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 50% 60% at 70% 50%,
+      rgba(50, 60, 180, 0.08) 0%,
+      transparent 55%
+    );
 }
 
 /* -----------------------------------------------------------------------

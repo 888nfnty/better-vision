@@ -25,6 +25,26 @@ import Home from "../page";
 import { SiteAtmosphere } from "@/components/visual/SiteAtmosphere";
 import MobileNav from "@/components/MobileNav";
 
+// Mock desktop-class capability so heavy layers render in tests
+beforeEach(() => {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    configurable: true,
+    value: jest.fn().mockImplementation((query: string) => ({
+      matches:
+        query === "(pointer: fine)" ||
+        query === "(min-width: 1025px)",
+      media: query,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
+});
+
 // Helper: renders Home wrapped in SiteAtmosphere (mimics layout.tsx structure)
 function renderWithAtmosphere() {
   return render(

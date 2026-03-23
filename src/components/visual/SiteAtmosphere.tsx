@@ -60,7 +60,7 @@ function SiteAtmosphereInner({
 }: {
   children: React.ReactNode;
 }) {
-  const { canvasReady } = useVisualEffects();
+  const { canvasReady, isDesktopCapable } = useVisualEffects();
 
   // SSR-safe mount detection for client-only layers
   const hasMounted = useSyncExternalStore(
@@ -69,37 +69,42 @@ function SiteAtmosphereInner({
     () => false,
   );
 
+  // Device class for capability gating (VAL-VISUAL-025)
+  const deviceClass = isDesktopCapable ? "desktop" : "constrained";
+
   return (
     <div
       data-testid="site-atmosphere"
       data-canvas-ready={canvasReady ? "true" : "false"}
+      data-device-class={deviceClass}
       className="relative"
     >
       {/* Persistent atmospheric background — REAL Radiant/Hermes layers */}
       <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
-        {/* CSS radiant fallback gradient — always visible, WebGL-fail safety net */}
+        {/* CSS radiant fallback gradient — always visible on all devices,
+            WebGL-fail safety net and constrained-device primary atmosphere */}
         <div className="site-atmosphere-gradient absolute inset-0" />
 
-        {/* Real Radiant shader layer — same vendored Fluid Amber asset as hero,
-            reduced opacity via CSS class for readability below the hero */}
-        {hasMounted && (
+        {/* Real Radiant shader layer — desktop only (VAL-VISUAL-025)
+            Same vendored Fluid Amber asset as hero, reduced opacity */}
+        {hasMounted && isDesktopCapable && (
           <div className="site-atmosphere-shader absolute inset-0">
             <HeroShaderCanvas />
           </div>
         )}
 
-        {/* Real Hermes ASCII canvas renderer — multi-grid composition,
-            reduced opacity via CSS class for readability below the hero */}
-        {hasMounted && (
+        {/* Real Hermes ASCII canvas renderer — desktop only (VAL-VISUAL-025)
+            Multi-grid composition, reduced opacity */}
+        {hasMounted && isDesktopCapable && (
           <div className="site-atmosphere-ascii absolute inset-0">
             <AsciiCanvasRenderer />
           </div>
         )}
 
-        {/* Legacy DOM ASCII fallback (non-canvas environments) */}
-        {hasMounted && <AsciiBackground />}
+        {/* Legacy DOM ASCII fallback — desktop only (non-canvas environments) */}
+        {hasMounted && isDesktopCapable && <AsciiBackground />}
 
-        {/* Scanline overlay for terminal texture continuity */}
+        {/* Scanline overlay — lightweight terminal texture (all devices) */}
         <div className="scanline-overlay absolute inset-0 opacity-30" />
       </div>
 

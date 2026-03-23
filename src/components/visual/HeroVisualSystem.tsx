@@ -81,7 +81,7 @@ function HeroVisualSystemInner({
 }: {
   children: React.ReactNode;
 }) {
-  const { ready, reducedMotion, fallback, canvasReady } = useVisualEffects();
+  const { ready, reducedMotion, fallback, canvasReady, isDesktopCapable } = useVisualEffects();
 
   // SSR-safe mount detection for client-only layers
   const hasMounted = useSyncExternalStore(
@@ -90,19 +90,25 @@ function HeroVisualSystemInner({
     () => false,
   );
 
+  // Device class for capability gating (VAL-VISUAL-025)
+  // Heavy shader, ASCII-canvas, and continuous-animation layers only
+  // activate on desktop-class clients. Mobile/tablet/constrained get
+  // a cheaper but hierarchy-preserving fallback.
+  const deviceClass = isDesktopCapable ? "desktop" : "constrained";
+
   // Compute visual state for data attribute (VAL-VISUAL-017)
-  // Enhanced: WebGL shader is ready and motion is allowed
-  // Fallback: WebGL failed or is unavailable
+  // Enhanced: WebGL shader is ready, motion is allowed, AND device is desktop-class
+  // Fallback: WebGL failed, unavailable, or device is constrained
   // Reduced-motion: user prefers reduced motion
   const visualState = reducedMotion
     ? "reduced-motion"
-    : ready && !fallback
+    : ready && !fallback && isDesktopCapable
       ? "enhanced"
       : "fallback";
 
   // Count active motion layers (VAL-VISUAL-018)
-  // In enhanced mode: shader (1) + ASCII canvas (1) = 2
-  // In fallback: 0 (no active motion layers — CSS gradient is static)
+  // In enhanced mode on desktop: shader (1) + ASCII canvas (1) = 2
+  // In fallback or constrained: 0 (no active motion layers)
   // In reduced-motion: 0
   const motionLayers =
     visualState === "enhanced" ? 2 : 0;
@@ -113,6 +119,7 @@ function HeroVisualSystemInner({
       data-visual-state={visualState}
       data-motion-layers={motionLayers}
       data-canvas-ready={canvasReady ? "true" : "false"}
+      data-device-class={deviceClass}
       className="relative overflow-hidden"
     >
       {/* Layer 0: CSS-only radiant fallback gradient (always visible, no JS) */}
@@ -122,16 +129,16 @@ function HeroVisualSystemInner({
         data-testid="hero-radiant-fallback"
       />
 
-      {/* Layer 1: WebGL Radiant shader (client-only, graceful fallback) */}
-      {hasMounted && <HeroShaderCanvas />}
+      {/* Layer 1: WebGL Radiant shader — desktop only (VAL-VISUAL-025) */}
+      {hasMounted && isDesktopCapable && <HeroShaderCanvas />}
 
-      {/* Layer 2: Hermes ASCII canvas renderer — real-time multi-grid (VAL-VISUAL-016) */}
-      {hasMounted && <AsciiCanvasRenderer />}
+      {/* Layer 2: Hermes ASCII canvas renderer — desktop only (VAL-VISUAL-025) */}
+      {hasMounted && isDesktopCapable && <AsciiCanvasRenderer />}
 
       {/* Layer 2b: Legacy DOM ASCII fallback (hidden when canvas is available, kept for non-canvas envs) */}
-      {hasMounted && <AsciiBackground />}
+      {hasMounted && isDesktopCapable && <AsciiBackground />}
 
-      {/* Layer 3: CSS scanline overlay — terminal texture */}
+      {/* Layer 3: CSS scanline overlay — terminal texture (all devices) */}
       <div
         className="scanline-overlay absolute inset-0 z-[3]"
         aria-hidden="true"
