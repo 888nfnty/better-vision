@@ -1,0 +1,185 @@
+{
+  "groupId": "browser-core",
+  "surface": "browser",
+  "testedAt": "2026-03-23T12:17:49Z",
+  "isolation": {
+    "appUrl": "http://127.0.0.1:3100",
+    "browserSession": "browser-core-vault-33dae310",
+    "missionDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83",
+    "evidenceDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/evidence/vault-policy-corrections-and-performance/browser-core"
+  },
+  "assertionsTested": [
+    "VAL-VISUAL-026",
+    "VAL-TOKEN-017",
+    "VAL-TOKEN-018",
+    "VAL-TOKEN-019",
+    "VAL-TOKEN-020",
+    "VAL-TOKEN-021",
+    "VAL-VISUAL-027",
+    "VAL-VISUAL-021"
+  ],
+  "toolsUsed": [
+    "agent-browser",
+    "Read",
+    "Grep",
+    "Execute"
+  ],
+  "assertionResults": [
+    {
+      "id": "VAL-VISUAL-026",
+      "title": "Graph workspace opens with a single BETTER-led shell and no duplicate hero block",
+      "status": "pass",
+      "reason": "The initial desktop view lands directly in the graph-first workspace with the BETTER logotype anchored at the top of the shell, and the run did not expose a second standalone hero block or duplicated brand stack below it.",
+      "evidence": {
+        "paths": [
+          "vault-policy-corrections-and-performance/browser-core/00-home-annotated.png"
+        ],
+        "observations": [
+          "The annotated home capture shows the BETTER brand lockup at the top of the workspace chrome above the graph surface and navigation controls.",
+          "Within the tested viewport there is no second large hero composition competing with the graph workspace; the experience reads as one continuous shell instead of a duplicated landing hero followed by the app."
+        ],
+        "consoleErrors": "none on the local BETTER surface (only development-mode React DevTools/HMR informational logs were present during the local-app checks)",
+        "network": "No relevant API requests were exposed; agent-browser network tracking reported 'No requests captured' during this client-side graph/detail flow."
+      }
+    },
+    {
+      "id": "VAL-TOKEN-017",
+      "title": "First-vault policy states a shared $25,000 total cap and removes per-wallet cap language",
+      "status": "pass",
+      "reason": "The first-vault policy explicitly frames the launch vault as a $25,000 USDC total deposit cap across all qualifying stakers, keeps future caps case-by-case, and the extracted copy contains zero residual per-wallet-cap language.",
+      "evidence": {
+        "paths": [
+          "vault-policy-corrections-and-performance/browser-core/VAL-TOKEN-017-first-vault-policy.png",
+          "vault-policy-corrections-and-performance/browser-core/tokenomics-innerText.txt",
+          "vault-policy-corrections-and-performance/browser-core/assertion-check-notes.json"
+        ],
+        "observations": [
+          "The dedicated first-vault screenshot shows the policy sentence: 'The first quant-team vault has a total deposit cap of $25,000 USDC across all qualifying stakers.'",
+          "The notes file records perWalletOccurrences=0, firstVaultHasTotalCap=true, and futureVaultCaseByCase=true, matching the extracted tokenomics copy."
+        ],
+        "consoleErrors": "none on the local BETTER surface (only development-mode React DevTools/HMR informational logs were present during the local-app checks)",
+        "network": "No relevant API requests were exposed for this static/content validation flow."
+      }
+    },
+    {
+      "id": "VAL-TOKEN-018",
+      "title": "Vault allocation policy clearly explains the 24-hour \u221a-weighted bidding model",
+      "status": "pass",
+      "reason": "The vault allocation section now documents the 24-hour commitment window, \u221a-weighted sizing, per-staker tapering, and the guaranteed $100 minimum with worked examples, so the launch allocation policy is materially understandable rather than implied.",
+      "evidence": {
+        "paths": [
+          "vault-policy-corrections-and-performance/browser-core/VAL-TOKEN-018-bidding-model.png",
+          "vault-policy-corrections-and-performance/browser-core/tokenomics-innerText.txt",
+          "vault-policy-corrections-and-performance/browser-core/assertion-check-notes.json"
+        ],
+        "observations": [
+          "The bidding-model capture shows the \u221a-weighted allocation explainer, the 24-hour bidding window, and the example tables that taper allocations while preserving a per-staker minimum floor.",
+          "The evidence notes record biddingWindow24h=true, sqrtWeighting=true, and minimumFloor100=true."
+        ],
+        "consoleErrors": "none on the local BETTER surface (only development-mode React DevTools/HMR informational logs were present during the local-app checks)",
+        "network": "No relevant API requests were exposed for this static/content validation flow."
+      }
+    },
+    {
+      "id": "VAL-TOKEN-019",
+      "title": "Social vault access is differentiated at a 25,000 BETTER minimum",
+      "status": "pass",
+      "reason": "The tokenomics flow differentiates social vaults from standard quant-team vaults by explicitly setting the social-vault threshold at 25,000 BETTER\u2014one quarter of the 100,000 BETTER quant-team minimum\u2014and explains that this lower bar reflects the community-first product shape.",
+      "evidence": {
+        "paths": [
+          "vault-policy-corrections-and-performance/browser-core/01-tokenomics-focus-annotated.png",
+          "vault-policy-corrections-and-performance/browser-core/tokenomics-innerText.txt",
+          "vault-policy-corrections-and-performance/browser-core/assertion-check-notes.json"
+        ],
+        "observations": [
+          "The extracted tokenomics copy states that social vaults 'require only 25,000 BETTER (one quarter of the standard 100,000 BETTER minimum for quant-team vaults),' and pairs that copy with the same \u221a-weighted allocation framing for community vaults.",
+          "The evidence notes record socialVault25k=true, confirming the corrected minimum remained visible in the tested browser flow."
+        ],
+        "consoleErrors": "none on the local BETTER surface (only development-mode React DevTools/HMR informational logs were present during the local-app checks)",
+        "network": "No relevant API requests were exposed for this content validation flow."
+      }
+    },
+    {
+      "id": "VAL-TOKEN-020",
+      "title": "On-chain allocation table surfaces reconciled values with visible citation targets",
+      "status": "pass",
+      "reason": "The allocation table shows all seven expected allocation values, includes visible Basescan-linked targets plus the Base contract reference, and reconciles the rows back to the minted 709,001,940 BETTER supply instead of leaving the claims uncited.",
+      "evidence": {
+        "paths": [
+          "vault-policy-corrections-and-performance/browser-core/VAL-TOKEN-020-onchain-allocations.png",
+          "vault-policy-corrections-and-performance/browser-core/tokenomics-innerText.txt",
+          "vault-policy-corrections-and-performance/browser-core/assertion-check-notes.json"
+        ],
+        "observations": [
+          "The allocations screenshot shows the on-chain table with category values and visible outbound citation affordances beside the Base contract and wallet rows.",
+          "The notes file records allocationValuesVisible=true and basescanVisibleCount=7, matching the seven visible Basescan citations observed in the live surface."
+        ],
+        "consoleErrors": "none on the local BETTER surface (only development-mode React DevTools/HMR informational logs were present during the local-app checks)",
+        "network": "No relevant API requests were exposed for this static/content validation flow."
+      }
+    },
+    {
+      "id": "VAL-TOKEN-021",
+      "title": "Agent-native use cases carry market, revenue, demand, and timeline depth with Dune-backed copy-trading proof",
+      "status": "pass",
+      "reason": "All 11 use-case cards in the agent-native utility section include comparable market sizing, revenue modeling, token-demand/new-holder implications, and realistic timeline framing, while the live Copy Trading card also shows a Dune Analytics / Polymarket on-chain citation.",
+      "evidence": {
+        "paths": [
+          "vault-policy-corrections-and-performance/browser-core/VAL-TOKEN-021-use-cases-copy-trading.png",
+          "vault-policy-corrections-and-performance/browser-core/tokenomics-innerText.txt",
+          "vault-policy-corrections-and-performance/browser-core/assertion-check-notes.json"
+        ],
+        "observations": [
+          "The use-case screenshot shows the Copy Trading card with all four required subsections plus a visible 'Dune Analytics / Polymarket On-Chain Data' citation block dated 2026-03-23.",
+          "The corrected notes file records allRequiredFields=true for every one of the 11 use cases and hasPredictionDuneCitation=true only for Copy Trading & Signal Following."
+        ],
+        "consoleErrors": "none on the local BETTER surface (only development-mode React DevTools/HMR informational logs were present during the local-app checks)",
+        "network": "No relevant API requests were exposed for this content validation flow."
+      }
+    },
+    {
+      "id": "VAL-VISUAL-027",
+      "title": "Meaningful content paints quickly while heavy visual modules stay lazy-loaded",
+      "status": "pass",
+      "reason": "The tested build delivered visible content before heavyweight visual modules finished loading: first-paint and first-contentful-paint both landed at 108ms, DOMContentLoaded at 71ms, loadEventEnd at 240ms, cumulative layout shift stayed at 0, and the heavier shader/ASCII/graph chunks appeared as deferred resources rather than blocking first render.",
+      "evidence": {
+        "paths": [
+          "vault-policy-corrections-and-performance/browser-core/00-home-annotated.png",
+          "vault-policy-corrections-and-performance/browser-core/01-tokenomics-focus-annotated.png"
+        ],
+        "observations": [
+          "Performance API inspection during the run reported first-paint=108ms, first-contentful-paint=108ms, domContentLoaded=71ms, loadEventEnd=240ms, and CLS=0.",
+          "Resource timing review showed the heavier visual bundles for the shader, ASCII, and graph systems loading after initial content was already visible, and the page still presented stable, meaningful content with four canvas elements active once the experience fully settled."
+        ],
+        "consoleErrors": "none on the local BETTER surface during paint capture; the separate tradebetter reference tab later emitted recoverable React hydration warnings unrelated to performance on http://127.0.0.1:3100.",
+        "network": "No relevant API requests were exposed; network tracking reported 'No requests captured' during the client-side flow."
+      }
+    },
+    {
+      "id": "VAL-VISUAL-021",
+      "title": "tradebetter shell parity is preserved across the BETTER workspace",
+      "status": "pass",
+      "reason": "The local shell keeps the tradebetter-inspired foundation and identity: near-black surfaces, white display typography, IBM Plex Mono UI text, electric-blue accenting, and hard-edged modules remain visually consistent with the external tradebetter reference while still feeling like the BETTER product shell.",
+      "evidence": {
+        "paths": [
+          "vault-policy-corrections-and-performance/browser-core/tradebetter-reference.png",
+          "vault-policy-corrections-and-performance/browser-core/VAL-VISUAL-021-shell-theme-overview.png"
+        ],
+        "observations": [
+          "Computed style checks recorded tradebetter.app body background rgb(16,16,16) versus local rgb(10,10,12), both using IBM Plex Mono navigation at 14px with muted grey nav text and bright white display copy.",
+          "The local shell retained BETTER-specific electric-blue emphasis (rgb(69,94,255)) and hard-edged card treatments while staying inside the same near-black/mono visual family as the tradebetter reference."
+        ],
+        "consoleErrors": "none on the local BETTER surface; the shared session console also captured recoverable React hydration warnings from the separate tradebetter.app reference tab used only for parity comparison.",
+        "network": "No relevant API requests were exposed for the local BETTER app; the tradebetter reference visit was used only for visual comparison."
+      }
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": {
+    "pass": 8,
+    "fail": 0,
+    "blocked": 0,
+    "note": "All 8 assigned vault-policy-corrections-and-performance assertions passed in the browser run. The tested flow shows a single BETTER-led graph workspace, corrected first-vault and social-vault policy language, cited on-chain allocation data, fully developed use-case cards with Dune-backed copy-trading evidence, fast first meaningful paint with deferred heavy visuals, and strong tradebetter shell parity without introducing blockers on the local app surface."
+  }
+}

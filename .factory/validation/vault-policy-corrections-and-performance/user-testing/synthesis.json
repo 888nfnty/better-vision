@@ -1,0 +1,25 @@
+{
+  "milestone": "vault-policy-corrections-and-performance",
+  "round": 1,
+  "status": "pass",
+  "assertionsSummary": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-TOKEN-017",
+    "VAL-TOKEN-018",
+    "VAL-TOKEN-019",
+    "VAL-TOKEN-020",
+    "VAL-TOKEN-021",
+    "VAL-VISUAL-021",
+    "VAL-VISUAL-026",
+    "VAL-VISUAL-027"
+  ],
+  "failedAssertions": [],
+  "blockedAssertions": [],
+  "appliedUpdates": [],
+  "previousRound": null
+}
