@@ -82,7 +82,17 @@ export default function SupplyAllocation() {
                   {formatNumber(alloc.tokens)}
                 </td>
                 <td className="py-3">
-                  <EvidenceHook source={alloc.source} />
+                  <div className="flex flex-col gap-1">
+                    <EvidenceHook source={alloc.source} />
+                    {alloc.source.note && (
+                      <span
+                        className="block text-[11px] leading-snug text-muted"
+                        data-testid="allocation-evidence-detail"
+                      >
+                        {alloc.source.note}
+                      </span>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
