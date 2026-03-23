@@ -28,6 +28,7 @@ Each roadmap or economics item should have typed fields for:
 - The site shell should be driven by a typed graph model, not only stacked section data.
 - Core BETTER surfaces such as identity, proof, roadmap, token policy, architecture, evidence, and risks should be representable as connected nodes or clusters with stable IDs.
 - The model should support focal-node selection, orientation recovery, deep-linkable detail states, and clear parent/child or dependency relationships.
+- The model should also support a guided investor route through the graph so users can traverse thesis, product, proof, moat, business model, roadmap gates, valuation logic, and appendix detail without leaving the workspace.
 
 ## Dependency conventions
 - Narrative `ConfidenceFrame.dependencies` values are rendered directly to users, so they must stay as readable user-facing notes rather than internal IDs.
@@ -65,3 +66,10 @@ In addition to tier data, the content model should support:
 - modeled higher-tier whale-product gates (social vaults, personal AI-crafted vaults, related premium surfaces)
 - referral-incentive policy fields (reward source, caps, anti-abuse framing, maturity/source cues)
 - revenue-return pathways mapping major product offerings back into the broader BETTER ecosystem
+- stake-to-vault-share estimation fields (user stake, total staked BETTER, modeled qualifying pool, estimated vault-cap share, deposit-cap interactions, worked examples)
+
+## Execution and valuation model extensions
+The content model should also support:
+- execution-plan fields for each major roadmap step (workstreams, major dependency classes, proof gates, realistic bounded timing window, and confidence label using the public `Committed` / `Planned` / `Directional` vocabulary from `economics.md`)
+- investor-facing stage summaries (why this stage matters, what gets unlocked, what still has to be proven)
+- conservative valuation-corridor fields per stage (low/high corridor, comparable set, proof assumptions, and explicit non-promise framing)

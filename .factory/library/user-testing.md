@@ -11,15 +11,18 @@ Required tool: **agent-browser**
 Core flows to validate:
 - BETTER logotype asset rendering in the header, hero, and mobile overlay
 - graph-first mindmap shell entry, node selection, orientation recovery, and non-scroll-first navigation feel
+- guided investor path through the graph so the story reads coherently as a pitch, not a disconnected atlas
 - redesign hero hierarchy, brand dominance, proof visibility, and CTA focus
 - direct use of both Radiant and Hermes ASCII-video source material in the shipped visual system
 - visibly moving Radiant background motion and visibly moving ASCII structure in the enhanced state
 - site-wide persistence of the immersive background treatment beyond the hero
+- tradebetter-faithful color/tone treatment with crisp pure white primary text
 - hero comprehension and live-vs-vision framing
 - desktop and mobile navigation destinations
 - roadmap exploration, detail panels, deep links, and history restoration
-- tokenomics tier clarity, minted-supply presentation, first-vault qualification/cap math, whale-first utilities, referral incentives, revenue-return modeling, and scenario switching
+- tokenomics tier clarity, minted-supply presentation, first-vault qualification/cap math, statistically rigorous stake-to-vault-share modeling, whale-first utilities, referral incentives, revenue-return modeling, valuations, realistic timeframes, and scenario switching
 - architecture and cost-band storytelling
+- smooth low-cost motion and balanced live-desktop-only background behavior
 - reduced-motion behavior and runtime visual fallbacks
 - CTA honesty and official external exits
 - production refresh and direct-route behavior
@@ -44,10 +47,13 @@ Core flows to validate:
 - Capture concrete evidence for every assertion you evaluate: visible copy, destination behavior, and any console/runtime issues.
 - Explicitly note whether the first viewport reads as one composition, whether BETTER branding is unmistakable, and whether shader/ascii layers improve the surface without obscuring readability.
 - For the graph-first overhaul, explicitly note whether the experience feels like an explorable mindmap rather than a standard stacked scroll page, and capture the orientation-recovery method the user can rely on.
+- Explicitly note whether the graph also functions as an investor-readable pitch path without forcing the user to hunt across disconnected nodes.
 - When validating the immersive system, record which concrete Radiant and Hermes ASCII-video source resources are present in the shipped implementation and how they show up on the page.
 - Validate that the global atmospheric layer remains visibly present after the hero and across major graph/detail states.
+- Validate that primary text appears as crisp pure white against the dark shell and that secondary text, not the main body copy, carries the grey tone.
 - Validate that token supply is presented as the minted `709,001,940 BETTER` figure from the new Base contract, and that first-vault examples clearly show the `100,000 BETTER` minimum plus the baseline `$25,000` cap.
-- Validate that higher-tier whale-product gates, referral incentives, and per-product revenue-return modeling are visibly explained and clearly framed as canonical versus modeled where applicable.
+- Validate that higher-tier whale-product gates, referral incentives, per-product revenue-return modeling, execution-plan detail, realistic timing windows, conservative valuation corridors, and stake-to-vault-share estimation are visibly explained and clearly framed as canonical versus modeled where applicable.
+- Validate that desktop retains the balanced live atmosphere while constrained/mobile conditions shed motion cost gracefully without losing the premium feel.
 - Capture evidence that the enhanced state is materially different from the static fallback state; a faint or barely changing background should fail.
 - When an immersive feature exposes both `fallback` and `reduced-motion` visual states, validate them separately; reduced motion is not sufficient evidence for failure-fallback behavior.
 - For this mission, run only one browser validator at a time because the visual layer can increase runtime cost.

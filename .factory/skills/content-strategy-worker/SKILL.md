@@ -23,9 +23,11 @@ Use this skill for features dominated by source synthesis, typed content/data mo
 4. Implement the minimum typed models, content modules, and UI wiring needed to make the new tests pass. If implementation edits land before the new failing tests are established, report `followedProcedure=false` in your handoff.
 5. Preserve the distinction between canonical current BETTER facts, scenario assumptions, and illustrative roadmap ideas.
 6. If you add or change numbers, thresholds, or claims, update the evidence/source or assumption hooks in the same feature.
-7. Run focused tests while iterating, then run the manifest commands for `lint`, `typecheck`, `test`, and `build`.
-8. Use `agent-browser` to verify the changed surfaces, especially tier ladders, calculators, scenario switching, and evidence hooks.
-9. Stop any process you started. In your handoff, call out every changed number/model, every source/assumption surface you touched, and any remaining ambiguity.
+7. If the feature touches roadmap execution detail, valuation framing, or vault-share modeling, separate clearly between canonical current facts, conservative modeled corridors, external dependencies, and internal build-speed assumptions.
+8. For vault or allocation modeling, ensure the UI can explain user stake, total staked BETTER, qualifying pool share, estimated vault-cap share, and deposit-cap rules without collapsing them into one ambiguous number.
+9. Run focused tests while iterating, then run the manifest commands for `lint`, `typecheck`, `test`, and `build`.
+10. Use `agent-browser` to verify the changed surfaces, especially tier ladders, calculators, scenario switching, execution-plan panels, valuation modules, and evidence hooks.
+11. Stop any process you started. In your handoff, call out every changed number/model, every source/assumption surface you touched, and any remaining ambiguity.
 
 ## Example Handoff
 

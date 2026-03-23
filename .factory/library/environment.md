@@ -17,6 +17,7 @@ Environment variables, external dependencies, and setup notes.
 - Playwright CLI is available via `npx playwright` and has already been used to capture redesign reference screenshots
 - `pinchtab` and Chrome are available locally for live public-page scraping/screenshot capture
 - `agent-browser` is the required browser validator and may also be used for runtime/computed-style inspection when public reference parity requires more than screenshots
+- The production target still includes Vercel basic-tier hosting constraints, so heavy always-on background systems should be treated as progressive enhancement rather than assumed baseline runtime budget
 - Required external design-source inputs for the redesign:
   - `https://radiant-shaders.com`
   - `https://github.com/NousResearch/hermes-agent/tree/main/skills/creative/ascii-video`

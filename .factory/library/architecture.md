@@ -20,12 +20,18 @@ Intended application architecture and implementation patterns for this mission.
 - The ASCII layer should be canvas-based and visibly animated via glyph-mapped frames, not a DOM `<pre>` grid with sparse random mutations.
 - Use actual proof surfaces near the top of the page: product/product-like imagery, workflow framing, evidence hooks, trust signals, or market proof should appear before heavy roadmap density.
 - The shell should now be a full graph-first mindmap surface with clear focal-node selection, orientation recovery, and detail panels; ordinary vertical sections may support the experience, but they should not be the primary navigation model.
+- Prefer a real graph workspace architecture (for example `@xyflow/react` / React Flow with deterministic layout, sticky inspector, minimap, and explicit camera/orientation state) over a long page that merely swaps large sections behind graph-like controls.
 - Graph-shell surfaces are intentionally unmounted when unfocused, so any roadmap, tokenomics, or other cross-surface state that must survive shell handoffs needs to live above that boundary (for example in a shell-level persistence provider) instead of inside surface-local component state.
 - Prefer one unified graph/content model that can represent hero identity, proof, roadmap, token policy, architecture, evidence, and risks as connected BETTER domains.
+- The graph workspace should also support an investor-readable route through the same content: thesis, wedge, proof, moat, business model, roadmap gates, valuation logic, and appendix detail should be traversable without leaving the graph shell.
 - Current quirk: flywheel node/status data still lives inline in `src/components/architecture/FlywheelExplorer.tsx`, so consistency tests must currently render the component instead of importing a shared typed flywheel content model.
 - It is acceptable to introduce graph/layout/pan-zoom tooling if it materially supports the approved shell rewrite.
 - The BETTER logotype asset should replace the current text wordmarks in the header, hero, and mobile-overlay surfaces.
 - Extend the Radiant/Hermes atmospheric stack across the whole site so the experience reads as one continuous world, not a hero-only treatment.
+- Optimize the atmosphere for **balanced live desktop only** performance: one coordinated live background system, progressive enhancement on capable devices, cheaper fallbacks elsewhere, and no redundant always-on heavy layers competing for the same frame budget.
 - The scenario engine should separate canonical current BETTER facts from future scenario assumptions and illustrative outputs.
 - Token policy models should separate canonical contract facts (for example minted supply) from modeled whale-policy proposals, and user-facing surfaces must expose which values are canonical versus inferred.
+- Execution-plan models should separate internal build work, external dependencies, proof gates, and realistic timing windows so the roadmap can explain how each stage gets delivered rather than only what the stage is called.
+- Valuation models should be stage-gated and comparable-backed, presenting conservative value corridors tied to proof milestones rather than headline promises.
+- Vault-capacity models should support stake-share estimation: given user stake, total staked BETTER, and vault-cap assumptions, the UI should estimate the user’s implied share of first-vault and modeled whale-vault initial deposit capacity.
 - Heavy visuals must support reduced-motion mode and runtime fallback states without blocking content.

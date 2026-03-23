@@ -28,3 +28,22 @@ Worker-facing economic facts and roadmap expansion guidance for BETTER.
 - Cover agent-native mechanics such as bonded agents, delegation, data bounties, premium API lanes, LLM credits, and exclusive whale products
 - Cover revenue layers across consumer, pro, whale, and enterprise segments, and show how each major product family can feed value or revenue back into the broader BETTER ecosystem
 - Distinguish canonical current values from scenario-based or illustrative future values
+
+## Execution timing guidance
+- The site should explain not just what ships next, but how each major stage gets delivered: internal build workstreams, external dependencies, proof gates, and realistic timing windows.
+- AI-agent workflows and large model budgets can materially compress internal implementation cycles, but they do not eliminate the time needed for audits, legal review, venue integrations, partnerships, liquidity proving, or distribution ramp.
+- Preferred public timing labels: `Committed`, `Planned`, and `Directional`, each with a proof gate and the main dependency that could extend the timeline.
+
+## Valuation framing guidance
+- Present **conservative stage-based valuation corridors**, not promised numbers.
+- Tie each corridor to milestone proof gates such as live product proof, revenue proof, audited vault readiness, multi-venue readiness, or recurring software/data revenue.
+- Use comparable categories such as prediction-market infrastructure, AI-native finance tools, and crypto data/software businesses to explain why the corridor changes from one stage to the next.
+
+## Vault-share modeling guidance
+- The first-vault and modeled whale-vault surfaces should let users estimate how their staked BETTER compares to total staked BETTER and how that ratio maps to an estimated share of initial deposit capacity.
+- Distinguish clearly between:
+  - token stake as a percentage of the qualifying staked pool
+  - modeled allocation weight or queue priority
+  - estimated share of initial vault capacity
+  - actual deposit cap rules
+- Show worked examples for at least a minimum qualifying holder and a higher-tier whale case.

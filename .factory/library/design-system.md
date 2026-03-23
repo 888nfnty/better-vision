@@ -11,6 +11,8 @@ Authoritative visual direction for the BETTER redesign follow-up.
 
 BETTER should feel like a premium terminal-native market weapon: darker, sharper, more cinematic, and more singular than a generic roadmap or SaaS explainer.
 
+The experience should now read as a **dynamic graph workspace with an investor-readable story spine**, not as a long-form deck or a set of oversized sections hidden behind graph buttons.
+
 ## Approved Reference Anchors
 
 - `tradebetter.app` — primary landing-page composition, brand presence, terminal voice, and urgency
@@ -57,6 +59,8 @@ Recommended section jobs:
 - Use 2-3 intentional motions only
 - Prefer entrance, scroll-linked depth, and tactile hover/reveal over constant ambient noise
 - All motion must remain usable on mobile and degrade cleanly under reduced motion
+- Prefer cheaper transform/opacity motion and graph-camera transitions over expensive always-on ambient simulation
+- Smoothness matters more than spectacle: the goal is confident, low-latency motion, not maximal animation density
 
 ## Token Direction
 
@@ -64,6 +68,7 @@ Recommended section jobs:
 - Backgrounds: near-black with stronger tonal layering than the current build
 - Typography: terminal/mono identity with one restrained supporting sans at most
 - Surfaces: reduce bordered-card repetition; favor layout, spacing, dividers, and large modules
+- Primary copy should read as **pure white**, not grey-white; reserve grey tokens for secondary/supporting text only
 
 ## Tradebetter Theme Signals — Extracted and Shipped
 
@@ -82,10 +87,12 @@ These are now the shipped theme tokens. The tradebetter electric-blue replaces t
 - The immersive Radiant/Hermes atmosphere must remain visible across the full site, not just the hero.
 - The shell should feel graph-first and mindmap-led: users should navigate through focal nodes, detail states, and orientation aids rather than reading a normal section-anchor document.
 - Use the BETTER logotype asset in the header, hero, and mobile-overlay brand surfaces.
+- Use a sticky inspector / detail dock and clear orientation controls so the graph stays intelligible while still functioning as a pitch.
+- The graph must support a coherent investor path through thesis, product, proof, moat, business model, roadmap gates, valuation logic, and appendix detail.
 
 ## Tooling Direction
 
-- Core implementation candidates: `motion`, `lenis`, `ogl`, `class-variance-authority`, `tailwind-merge`
+- Core implementation candidates: `@xyflow/react` or equivalent graph workspace tooling, deterministic layout tooling such as ELK, `motion`, `ogl`, `class-variance-authority`, `tailwind-merge`
 - Visual verification: `agent-browser` plus Playwright screenshots when useful for reference comparison
 - Optional workflow additions if needed: Storybook, design-token tooling, Figma/MCP-based review
 - External source inputs that must be concretely represented in the shipped visual system:
@@ -98,6 +105,8 @@ These are now the shipped theme tokens. The tradebetter electric-blue replaces t
 - Hermes: implement moving ASCII with a canvas renderer rooted in multi-grid composition, glyph mapping, tonemap, feedback, and visible temporal motion
 - The enhanced state must look materially stronger than the static fallback state in headed browser testing
 - Keep the same atmospheric family active beyond the hero so the whole site stays inside the same visual world
+- Optimize for **balanced live desktop only**: use progressive enhancement, lighter update loops, and lower-cost fallbacks on constrained devices or hosting tiers
+- Prefer pre-rendered or mostly static layered art under the live atmosphere when that preserves the feel with materially better runtime performance
 
 ## Anti-Patterns
 
