@@ -198,6 +198,24 @@ const UTILITY_MECHANICS: UtilityMechanic[] = [
       dependencies: ["Whale-First Tier Ladder", "Autonomous Strategy Agents"],
     },
   },
+  {
+    id: "util-enterprise-data-licensing",
+    title: "Enterprise Data Licensing",
+    status: "planned",
+    description:
+      "B2B data licensing and custom analytics packages for institutions. BETTER's unique prediction-market signals, vault performance data, and agent behavior datasets are licensed to hedge funds, trading desks, and research firms.",
+    tokenRole:
+      "Enterprise API keys require BETTER holding or staking. Institutional clients acquire large, stable positions for operational access — non-speculative demand.",
+    source: {
+      type: "scenario_based",
+      label: "BETTER Roadmap",
+      note: "Enterprise data licensing leverages BETTER's proprietary data moat from live products.",
+    },
+    confidence: {
+      caveat: "Enterprise data products depend on sufficient proprietary data accumulation from live products and an enterprise sales infrastructure.",
+      dependencies: ["Whale-First Tier Ladder", "Enterprise-Grade Data Pipeline"],
+    },
+  },
 ];
 
 /** Look up the use-case analysis for a utility mechanic by ID */

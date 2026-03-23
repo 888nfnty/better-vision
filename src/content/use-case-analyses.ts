@@ -285,6 +285,35 @@ export const USE_CASE_ANALYSES: UseCaseAnalysis[] = [
   {
     id: "util-whale-exclusives",
     comparableMarketSize:
+      "Premium crypto products market: VIP/whale tiers are a proven monetization layer across major exchanges — Binance VIP handles $100B+ monthly institutional volume with tiered fee discounts, priority support, and exclusive products. OTC desks (Cumberland, Circle Trade, Jump Crypto) process $1–5B+ monthly in block trades for whales and institutions. Private alpha signal services: crypto-native research firms (Delphi Digital, Messari Enterprise) charge $20K–$100K+ annually for institutional-grade research access.",
+    revenueModel:
+      "Tiered premium subscriptions for Whale (500K BETTER) and Apex (2M BETTER) holders: personal AI-crafted vault strategies with higher performance fees (25–30% vs. 20% standard), private alpha signal channels, early vault preview access, bespoke agent configurations, and OTC facilitation services. Revenue scales with whale count and engagement — each whale represents high ARPU ($5K–$50K+ annually) with minimal incremental cost.",
+    estimatedRevenueRange: "$0.5–10M+ annualized (scenario-dependent)",
+    tokenDemandImplications:
+      "Highest per-user token demand: Whale tier minimum is 500,000 BETTER; Apex requires 2,000,000 BETTER. These exclusive products create strong aspirational demand — Standard-tier holders have a clear incentive to acquire more BETTER to unlock premium features. Whale-exclusive products also create the stickiest holders: switching costs are extreme because losing tier status means losing access to personal AI vaults, alpha signals, and priority allocations. Each new whale locks 500K–2M+ BETTER indefinitely.",
+    realisticTimeline:
+      "Q3–Q4 2026 (Planned): Initial personal AI vault offering and private alpha channels for Whale tier. H1 2027: Bespoke agent configurations and OTC facilitation for Apex tier. H2 2027: Full premium product suite with curated research feeds and institutional services.",
+    keyDependencies: [
+      "Whale-tier user base reaching critical mass (est. 200+ Whale holders)",
+      "AI model quality for personalized vault strategy generation",
+      "Sufficient signal/data differentiation to justify premium pricing",
+      "Legal framework for OTC facilitation and institutional services",
+    ],
+    source: {
+      type: "external",
+      label: "Exchange VIP Programs / Industry Reports",
+      asOf: "2026-03-23",
+      note:
+        "Binance VIP volume from public exchange data. OTC desk volumes from industry estimates (Cumberland, Circle). Premium research pricing from Delphi Digital, Messari enterprise tiers.",
+    },
+  },
+
+  // -----------------------------------------------------------------------
+  // 11. Enterprise Data Licensing (Planned)
+  // -----------------------------------------------------------------------
+  {
+    id: "util-enterprise-data-licensing",
+    comparableMarketSize:
       "Enterprise blockchain market: projected to reach $287.8B by 2032 at 47.5% CAGR. Crypto data platforms (Chainalysis: $200M+ ARR; Nansen, Messari, Glassnode, Amberdata): $1B+ combined revenue. Financial data industry (Bloomberg: $11B+, Refinitiv: $6B, S&P: $4B+). CoinGecko Pro, CoinMarketCap Enterprise, and Kaiko demonstrate premium crypto data demand.",
     revenueModel:
       "Data licensing subscriptions: institutions pay monthly/annual fees for BETTER's unique prediction-market data, vault performance metrics, agent behavior data. Custom data packages for hedge funds, trading desks, academic researchers. Licensed AI models trained on BETTER's proprietary data, sold as SaaS. Token-gated access requiring BETTER holding or staking.",
