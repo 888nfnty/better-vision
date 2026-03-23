@@ -361,7 +361,8 @@ The hero uses a layered background stack:
 3. **Electric blue gradient glow**: `linear-gradient(228deg, #455eff00 63%, #455eff)` — creates a blue atmospheric corner glow bleeding from the left side
 4. **Dark overlay gradient**: `linear-gradient(#0000 0%, #000000a6 100%)` — darkens the bottom of the hero for text readability
 5. **Film grain overlay**: Subtle texture on top of everything
-6. **Scanline texture**: Faint horizontal repeating lines (visible in hero screenshot — terminal monitor effect)
+
+For the approved BETTER implementation, treat this atmospheric texture as **film grain only**. Do **not** ship a separate scanline layer; the current mission guidance explicitly replaces prior scanline/ASCII texture treatments with the film grain overlay.
 
 ### Blue Atmospheric Glow
 

@@ -1,0 +1,39 @@
+{
+  "featureId": "redesign-liquid-metal-cards-and-glass-morphism",
+  "reviewedAt": "2026-03-23T14:31:15.208837Z",
+  "commitId": "f0bdc3a91c0e49f9cb247958f0e2266d1e93a4db",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "Fail. The feature introduced a reusable LiquidMetalCard and converted several major surfaces, but it does not fully satisfy the contract that all cards across graph nodes, surfaces, detail panels, and content modules receive the liquid-metal treatment. Many shipped cards now use a static .glass-card helper with no cursor-tracking sheen, and some visible modules still retain the older accent/surface card styling entirely.",
+    "issues": [
+      {
+        "file": "src/app/globals.css",
+        "line": 213,
+        "severity": "blocking",
+        "description": "The shared `.glass-card` utility only applies a static glass background plus a simple hover opacity change; it never renders the required cursor-tracking `#455eff` radial sheen. Cards that were migrated to this helper instead of `LiquidMetalCard` — for example `src/components/roadmap/RoadmapNodeDetail.tsx:30`, `src/components/roadmap/ExecutionPlanPanel.tsx:28`, `src/components/tokenomics/VaultCapacityModel.tsx:220`, and `src/components/tokenomics/ReferralIncentives.tsx:46` — therefore miss the core liquid-metal interaction required by the feature contract."
+      },
+      {
+        "file": "src/components/tokenomics/FdvRatchetExplainer.tsx",
+        "line": 96,
+        "severity": "blocking",
+        "description": "The rollout is incomplete: this visible tokenomics content module still uses the legacy `rounded-lg border border-accent/20 bg-accent/5` card treatment instead of the required glass-morphism base. Because the feature promises replacement of all card treatments across content modules, leaving this module unchanged means the implementation does not fully cover the requested scope. Similar legacy callout cards remain in `src/components/tokenomics/TokenUtilitySurface.tsx:271` and `src/components/roadmap/ExecutionPlanPanel.tsx:46`."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The mission-level visual guidance is internally inconsistent on whether liquid-metal cards should use backdrop blur. The feature contract and features.json require `backdrop-filter:blur(10px)`, but the mission AGENTS and design reference both say tradebetter cards should use opacity-only glass with no backdrop blur.",
+      "evidence": "Mission AGENTS: `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/AGENTS.md:138` says 'No backdrop-blur.' The library references repeat that guidance in `/Users/test/vision/.factory/library/tradebetter-exact-design-reference.md:235` and `:891`, and `/Users/test/vision/.factory/library/design-system.md:324`. But `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/features.json:2418-2425` still requires `backdrop-filter:blur(10px)`."
+    },
+    {
+      "area": "skills",
+      "observation": "`frontend-experience-worker` requires design-system/tradebetter-reference review and either the approved tradebetter extraction workflow (`FetchUrl`, `pinchtab`) or an explicit citation of reused artifacts. The transcript skeleton for this worker session does not show those reads/tool calls, yet the handoff still reports `followedProcedure: true`.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:22-23` require reading `design-system.md` and using/citing tradebetter extraction artifacts for theme-parity work. Searching the full transcript skeleton for session `82da2328-1833-4a8e-8fa3-df0ee49dca47` found no `design-system.md`, `tradebetter-exact-design-reference`, `FetchUrl`, or `pinchtab` entries, while the handoff at `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T13-49-49-560Z__redesign-liquid-metal-cards-and-glass-morphism__82da2328-1833-4a8e-8fa3-df0ee49dca47.json:110` sets `followedProcedure` to true."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Review failed. The commit adds LiquidMetalCard and updates many surfaces, but the implementation still leaves visible legacy card treatments in place and routes many converted cards through a static `.glass-card` helper that lacks the required cursor-tracking liquid-metal sheen. I also noted a shared-state conflict over whether card blur is allowed and a skill-procedure mismatch around required tradebetter reference/extraction evidence."
+}

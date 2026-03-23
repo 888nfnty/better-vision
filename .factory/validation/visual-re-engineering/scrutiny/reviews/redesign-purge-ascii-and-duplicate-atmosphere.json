@@ -1,0 +1,45 @@
+{
+  "featureId": "redesign-purge-ascii-and-duplicate-atmosphere",
+  "reviewedAt": "2026-03-23T14:31:47Z",
+  "commitId": "133bce6",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The commit deletes `AsciiCanvasRenderer.tsx` and `AsciiBackground.tsx`, but it does not meet the feature contract. The reviewed code still mounts two `HeroShaderCanvas` instances, keeps the scanline overlay system that the feature explicitly called out for removal, and leaves many ASCII-specific references/tests in the repo. Because the expected behavior required zero ASCII code remaining, removal of ASCII-related CSS/tests, and exactly one Radiant Fluid Amber shader site-wide, these are blocking gaps.",
+    "issues": [
+      {
+        "file": "src/components/visual/SiteAtmosphere.tsx",
+        "line": 99,
+        "severity": "blocking",
+        "description": "`SiteAtmosphere` still renders `<HeroShaderCanvas />` here, while `HeroVisualSystem.tsx:135` also renders the same shader and the app mounts both wrappers from `src/app/layout.tsx:68` and `src/app/page.tsx:37`. That leaves two concurrent Radiant Fluid Amber shader instances instead of the required single site-wide shader."
+      },
+      {
+        "file": "src/app/globals.css",
+        "line": 129,
+        "severity": "blocking",
+        "description": "The feature required removing the ASCII-related scanline overlay CSS, but `.scanline-overlay` and its visual-state variants remain in `globals.css:129,199,211,223,233,367`, and the overlay is still rendered in `src/components/visual/HeroVisualSystem.tsx:137-139` and `src/components/visual/SiteAtmosphere.tsx:103-104`."
+      },
+      {
+        "file": "src/components/visual/__tests__/immersive-visual-language.test.tsx",
+        "line": 222,
+        "severity": "blocking",
+        "description": "The commit does not achieve the requested zero-ASCII end state. It keeps/adds ASCII-specific tests and string literals such as `AsciiCanvasRenderer`, `AsciiBackground`, and `ascii-*` in `immersive-visual-language.test.tsx:222-274`, `src/app/__tests__/sitewide-atmosphere-and-overlay-consistency.test.tsx:69-111`, `src/app/__tests__/logotype-theme-atmosphere.test.tsx:132-134`, and `src/app/__tests__/bundle-splitting-lazy-loading.test.tsx:130-143`; source comments also still mention ASCII in `src/components/visual/HeroVisualSystem.tsx:23` and `src/components/visual/SiteAtmosphere.tsx:31`. The feature explicitly required removing all ASCII references and all ASCII-related tests."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "The library guidance for the approved atmosphere stack is internally inconsistent about scanlines. One reference doc still presents scanlines as part of the tradebetter atmosphere, while the design-system doc says scanline CSS textures were removed in favor of the film-grain GIF. That mismatch is likely to confuse future workers doing visual cleanup.",
+      "evidence": "`/Users/test/vision/.factory/library/tradebetter-exact-design-reference.md:363-364` lists a scanline texture in the hero background stack, while `/Users/test/vision/.factory/library/design-system.md:301` says `~~Scanline CSS textures~~ — replaced by film grain GIF`."
+    },
+    {
+      "area": "skills",
+      "observation": "The frontend worker skill's test-first procedure does not explain how deletion/purge features should satisfy it. This review's worker marked `followedProcedure=false` for step 14 and explicitly suggested clarifying that removal features should write post-removal verification tests rather than literal pre-change failing assertions.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:33` requires failing tests first; the handoff at `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T13-15-01-142Z__redesign-purge-ascii-and-duplicate-atmosphere__16f8bfe5-0172-4655-a337-f6a76e81134f.json` records that deviation in `handoff.skillFeedback.deviations[0]` and recommends clarifying the procedure for deletion features."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail. The feature removed the dedicated ASCII component files, but it did not finish the required purge: a second shader instance still mounts, scanline overlays remain, and many ASCII references/tests were retained. Shared-state notes: the library docs conflict on scanline vs. film-grain guidance, and the frontend skill needs clearer deletion-feature test-first instructions."
+}

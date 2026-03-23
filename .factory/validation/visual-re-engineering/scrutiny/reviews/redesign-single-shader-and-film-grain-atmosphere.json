@@ -1,0 +1,33 @@
+{
+  "featureId": "redesign-single-shader-and-film-grain-atmosphere",
+  "reviewedAt": "2026-03-23T14:30:42Z",
+  "commitId": "2924d7bdea727eff457469cc45953c859bec434f",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "Fail. The feature does enforce a single Radiant shader instance in `SiteAtmosphere` and adds a 5% lighten-blended film grain layer, but it does not finish the approved atmosphere redesign because the old scanline texture remains in the shipped stack. The mission guidance for this milestone says the film grain layer replaces prior scanline texture treatment, so the resulting background is still a competing multi-texture atmosphere rather than the requested single-shader-plus-film-grain system.",
+    "issues": [
+      {
+        "file": "src/components/visual/SiteAtmosphere.tsx",
+        "line": 106,
+        "severity": "blocking",
+        "description": "The implementation still renders `.scanline-overlay` as part of the live atmosphere, and the same scanline layer is also still rendered in `src/components/visual/HeroVisualSystem.tsx:107` and `src/components/skeletons/HeroVisualSkeleton.tsx:31`, with the texture defined in `src/app/globals.css:195-201`. That conflicts with the milestone guidance that the approved stack is one Radiant shader plus film grain and that the film grain overlay 'replaces any prior scanline or ASCII texture approach,' so the redesign is not fully delivered." 
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "The shared visual references are internally inconsistent about scanlines. Mission guidance and the design-system library say scanline textures were replaced by the film grain layer, but the tradebetter reference doc still describes scanlines as a named part of the visual stack. That makes it easy for workers to preserve scanlines while still believing they are following the reference.",
+      "evidence": "`/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/AGENTS.md:124-128` says the film grain overlay 'replaces any prior scanline or ASCII texture approach'; `/Users/test/vision/.factory/library/design-system.md:288-301` says '~~Scanline CSS textures~~ — replaced by film grain GIF'; but `/Users/test/vision/.factory/library/tradebetter-exact-design-reference.md:349-386` still lists both a film grain overlay and a scanline texture in the reference stack."
+    },
+    {
+      "area": "skills",
+      "observation": "The `frontend-experience-worker` skill's tradebetter-parity procedure was marked as followed even though the saved worker transcript shows reuse of existing tradebetter reference material without the required extraction-step evidence or explicit artifact citation in the handoff. Either the skill needs stricter enforcement or the handoff contract should require a concrete reference citation when reuse is allowed.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:23` requires `FetchUrl`/`pinchtab`/`agent-browser` for tradebetter-led parity work unless the handoff cites the exact committed artifact being reused. The saved transcript skeleton for worker session `42bfeeea-02b2-4623-afc6-71d97b048fa4` shows reads of `tradebetter-exact-design-reference.md` and agent-browser usage, but no `FetchUrl` or `pinchtab` calls, while the handoff file `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T13-30-51-090Z__redesign-single-shader-and-film-grain-atmosphere__42bfeeea-02b2-4623-afc6-71d97b048fa4.json:120-123` still records `\"followedProcedure\": true`."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail. The feature successfully centralizes the Radiant shader and adds a site-wide film grain layer, but it leaves the old scanline texture in the shipped atmosphere stack, so it does not fully satisfy the approved single-shader + film-grain-only redesign. I also noted one shared-state doc conflict about scanlines and one skill-compliance/evidence gap around tradebetter parity reuse."
+}

@@ -1,0 +1,50 @@
+{
+  "featureId": "redesign-tradebetter-exact-design-tokens-and-typography",
+  "reviewedAt": "2026-03-23T14:31:16Z",
+  "commitId": "f5d786afb47476c5bf84992cc8b45d8b131ccf67",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The feature updates core background, heading, button, and spacing tokens, and it does remove the old orange/red token definitions. However, it does not fully satisfy the contract in features.json: blue remains wired and used as a general UI accent instead of gradients only, green still ships as a filled UI treatment instead of status-dot-only, and the global body color still defaults to white rather than #a0a0a0.",
+    "issues": [
+      {
+        "file": "src/app/globals.css",
+        "line": 98,
+        "severity": "blocking",
+        "description": "The reviewed commit still exposes `#455eff` as a general-purpose UI token via `--color-accent`, `--color-accent-secondary`, and `--color-border-accent`, and shipped components continue using it for text, chips, borders, and dots instead of atmospheric gradients only. Representative usages in the same commit include `src/components/ui/Heading.tsx:42` (`text-accent` label text), `src/components/graph/GraphShell.tsx:680` (`bg-accent/5 text-accent` on the pitch-path CTA), `src/components/roadmap/ExecutionPlanPanel.tsx:46-50` (blue timing panel), and `src/components/tokenomics/SupplyAllocation.tsx:34-41` (blue metric labels). That directly misses the expected behavior `#455eff blue used for atmospheric gradients only`."
+      },
+      {
+        "file": "src/components/ui/Button.tsx",
+        "line": 30,
+        "severity": "blocking",
+        "description": "The `live` button variant still renders a filled green background (`bg-accent-green`), even though the feature contract says neon green `#00ff00` is for status dots only. The same commit also keeps a green-filled live badge treatment in `src/components/MaturityBadge.tsx:10-13` (`bg-accent-green/15 text-accent-green border-accent-green/30`). Because the design atoms explicitly forbid green on CTA/background treatments, this is a contract miss rather than a cosmetic follow-up."
+      },
+      {
+        "file": "src/app/globals.css",
+        "line": 126,
+        "severity": "blocking",
+        "description": "`body` still defaults to `color: var(--text-primary)` (`#ffffff`), so unstyled body copy renders as white instead of the required IBM Plex Mono body gray `#a0a0a0`. The feature updated many individual components to `text-secondary`, but the global body rule still contradicts the expected behavior and the handoff claim that body text was rewritten to `#a0a0a0`."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The tradebetter-parity procedure is still ambiguous about when workers may reuse committed extraction artifacts instead of rerunning `FetchUrl`/`pinchtab`. This worker only read `.factory/library/tradebetter-exact-design-reference.md`, never invoked `FetchUrl` or `pinchtab`, and still marked `skillFeedback.followedProcedure=true`. The skill and mission guidance should make the reuse path more explicit and require the exact reused artifact path to be cited in the handoff.",
+      "evidence": "Mission guidance `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/AGENTS.md:57` and skill step `/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:23` require the approved extraction workflow for tradebetter-led theme parity. The transcript skeleton for worker session `75ce83e2-8fd2-429b-a515-6af9c2125425` shows a `Read` of `/Users/test/vision/.factory/library/tradebetter-exact-design-reference.md` but no `FetchUrl` or `pinchtab` calls, while the handoff file `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T14-05-08-192Z__redesign-tradebetter-exact-design-tokens-and-typography__75ce83e2-8fd2-429b-a515-6af9c2125425.json` still reports `\"followedProcedure\": true`."
+    },
+    {
+      "area": "skills",
+      "observation": "The frontend-experience-worker handoff rubric still is not being enforced for the test-first citation requirement. The transcript shows the worker created a new failing test first, but the final handoff only lists the added test file/cases and still marks `followedProcedure=true` without citing a specific failing expectation written before implementation.",
+      "evidence": "Skill step `/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:33` says the handoff must cite at least one newly failing test expectation or mark `followedProcedure=false`. The transcript skeleton for session `75ce83e2-8fd2-429b-a515-6af9c2125425` shows the new file `src/app/__tests__/tradebetter-exact-design-tokens.test.ts` being created and executed before implementation, but the handoff file `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T14-05-08-192Z__redesign-tradebetter-exact-design-tokens-and-typography__75ce83e2-8fd2-429b-a515-6af9c2125425.json` only enumerates test files/cases and does not quote one concrete failing expectation."
+    },
+    {
+      "area": "conventions",
+      "observation": "There is still no clear shared-state convention for where ad hoc visual audit artifacts belong, which led this feature commit to add `VISUAL_UX_AUDIT.md` at the repo root even though related design-reference artifacts already live under `.factory/library/`.",
+      "evidence": "`git show --stat f5d786afb47476c5bf84992cc8b45d8b131ccf67` shows `create mode 100644 VISUAL_UX_AUDIT.md`. Existing design/reference artifacts already live in `/Users/test/vision/.factory/library/` (for example `tradebetter-exact-design-reference.md` and `tradebetter-comparison-evidence.md`), but neither mission `AGENTS.md` nor the skill documents where new audit notes should be stored."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail. The feature lands the new background, heading, and spacing tokens, but it misses several explicit design-atom constraints: blue still ships as a general UI accent, green still appears as filled CTA/badge treatment rather than status-dot-only, and the global body color remains white instead of #a0a0a0. I also recorded skill/procedure gaps around tradebetter extraction-artifact reuse, missing handoff citation of a pre-implementation failing test expectation, and the lack of a documented home for visual audit artifacts."
+}

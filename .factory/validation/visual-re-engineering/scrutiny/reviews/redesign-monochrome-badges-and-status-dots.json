@@ -1,0 +1,21 @@
+{
+  "featureId": "redesign-monochrome-badges-and-status-dots",
+  "reviewedAt": "2026-03-23T14:30:12Z",
+  "commitId": "c509043",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The implementation satisfies the feature contract. `src/components/MaturityBadge.tsx` now renders `live` as an 8px green dot plus white text, keeps `in_progress`/`planned`/`speculative` as monochrome text-only states, and removes the old colored pill backgrounds. A repo-wide search shows maturity-status consumers all flow through `MaturityBadge`, so the redesign propagates across the updated surfaces without API churn.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The visual-work procedure is not fully auditable from the recorded evidence. The frontend-experience-worker skill requires visual features to read `.factory/library/design-system.md` (and relevant reference material) before implementation, but this worker transcript does not show those reads even though `handoff.skillFeedback.followedProcedure` is `true`.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md` step 3 requires `.factory/library/design-system.md` review for landing-page/visual-system changes. The transcript skeleton for worker session `ffbd9a2f-814a-483a-9873-da384e3d62cf` shows mission/AGENTS/services reads, then moves directly into source-file inspection and test creation; string checks against the saved transcript found no `.factory/library/design-system.md` or `tradebetter-exact-design-reference.md` reads, while the handoff still reports `skillFeedback.followedProcedure=true`."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Pass. The code change cleanly replaces the old rainbow maturity badge styling with the required monochrome + green-only system and the test additions cover the new badge contract. Shared-state note: the skill/procedure evidence for visual-library review is not fully auditable from the recorded transcript despite `followedProcedure=true`."
+}

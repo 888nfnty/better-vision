@@ -1,0 +1,38 @@
+{
+  "featureId": "redesign-clean-graph-workspace-and-information-flow",
+  "reviewedAt": "2026-03-23T14:32:09.509198Z",
+  "commitId": "3d23775",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The implementation delivers the core chrome cleanup requested by VAL-VISUAL-033: `GraphShell` removes the persistent minimap, focused-surface minimap, investor-path progress bar, and sticky inspector dock, leaving the overview bar, node grid, and depth-on-demand surface as the dominant flow. I found one non-blocking fidelity issue: the investor-path affordance still adds a second stacked guidance row ahead of the grid, so the default workspace is not quite reduced to only one clean top-nav + graph grid yet.",
+    "issues": [
+      {
+        "file": "src/components/graph/GraphShell.tsx",
+        "line": 687,
+        "severity": "non_blocking",
+        "description": "`InvestorPathAffordance` still renders the static `8 gates · problem → wedge → proof → moat → business model → roadmap → valuation → evidence` summary directly beneath the orientation bar. The major chrome layers are gone, but this leftover guidance row still competes with the 'single lightweight orientation mechanism' / 'one clean top nav + graph node grid' goal, so the workspace is not fully as pared back as the feature description calls for."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "`frontend-experience-worker` still points shell/navigation work toward minimap + sticky-inspector chrome that the current visual direction has explicitly removed.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:31` says shell work should prefer a graph workspace with `minimap/orientation controls, and a sticky inspector`, but mission guidance now says to simplify graph chrome to one clean navigation model and remove redundant controls (`/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/AGENTS.md:182-185`)."
+    },
+    {
+      "area": "knowledge",
+      "observation": "The shared architecture library still documents sticky-inspector/minimap chrome as the preferred graph-shell pattern, so future workers could reintroduce the layers this feature just removed.",
+      "evidence": "`/Users/test/vision/.factory/library/architecture.md:25` recommends a graph workspace with `sticky inspector, minimap, and explicit camera/orientation state`, which now conflicts with the mission's graph-chrome simplification guidance in `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/AGENTS.md:182-185`."
+    },
+    {
+      "area": "skills",
+      "observation": "The skill-adherence record is not fully auditable for this shell change: the skill requires a design-system review before shell work, but the saved transcript does not show that read even though the handoff reports `followedProcedure=true`.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:22` requires reading `.factory/library/design-system.md` for shell changes. String checks against the transcript skeleton for worker session `41e2400c-e310-4807-b31d-83263870eafe` found no `Read` of that file, while the handoff still reports `skillFeedback.followedProcedure=true` with no deviations in `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T14-21-49-426Z__redesign-clean-graph-workspace-and-information-flow__41e2400c-e310-4807-b31d-83263870eafe.json:120-121`."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Pass with one non-blocking issue. The feature removes the requested chrome layers and restores a much cleaner graph-first workspace, but the investor-path affordance still leaves a secondary guidance row ahead of the grid. Shared-state follow-up: the frontend skill and architecture library still describe minimap/sticky-inspector patterns that this mission direction now rejects, and the recorded skill-adherence evidence for required design-system review is incomplete."
+}
