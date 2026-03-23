@@ -173,18 +173,6 @@ describe("VAL-VISUAL-025: Explicit desktop capability gating", () => {
     expect(shaderCanvases.length).toBe(0);
   });
 
-  it("heavy ASCII canvas layers do not render when device is constrained", () => {
-    mockMatchMedia({
-      "(pointer: coarse)": true,
-      "(max-width: 1024px)": true,
-      "(prefers-reduced-motion: reduce)": false,
-    });
-
-    render(<Home />);
-    const asciiCanvases = screen.queryAllByTestId("ascii-canvas-renderer");
-    expect(asciiCanvases.length).toBe(0);
-  });
-
   it("constrained fallback preserves visual hierarchy with CSS gradient layers", () => {
     mockMatchMedia({
       "(pointer: coarse)": true,
@@ -210,8 +198,8 @@ describe("VAL-VISUAL-025: Explicit desktop capability gating", () => {
 
 describe("VAL-VISUAL-025: Deferred heavy-layer loading", () => {
   it("heavy visual layers use dynamic import or deferred mounting", () => {
-    // The SiteAtmosphere/HeroVisualSystem should defer heavy layers
-    // Check the source uses dynamic import or useSyncExternalStore mount guard
+    // The SiteAtmosphere/HeroVisualSystem should defer heavy layers.
+    // Check the source uses dynamic import or useSyncExternalStore mount guard.
     const atmosphereSrc = fs.readFileSync(
       path.resolve(__dirname, "../SiteAtmosphere.tsx"),
       "utf-8",

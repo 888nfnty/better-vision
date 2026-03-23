@@ -2,9 +2,9 @@
  * Tests for the authentic BETTER immersive visual language
  *
  * Covers:
- * - VAL-VISUAL-011: Hero motion is intentional and limited (3 motions, no ambient loops)
+ * - VAL-VISUAL-011: Hero motion is intentional and limited (2 motions, no ambient loops)
  * - VAL-VISUAL-012: Shader layer feels authentically Radiant-influenced
- * - VAL-VISUAL-013: ASCII atmosphere is materially present and authentic
+ * - VAL-VISUAL-028: All ASCII layers permanently removed
  * - VAL-VISUAL-000: Signature visual system is visibly present (upgraded)
  * - VAL-VISUAL-001: Content-first hero renders before effects (preserved)
  * - VAL-VISUAL-003: Reduced-motion preserves hierarchy (preserved)
@@ -14,7 +14,6 @@ import fs from "fs";
 import path from "path";
 import { render, screen, waitFor } from "@testing-library/react";
 import Home from "@/app/page";
-import { AsciiBackground } from "../AsciiBackground";
 import { HeroShaderCanvas } from "../HeroShaderCanvas";
 import { VisualEffectsProvider, useVisualEffects } from "../VisualEffectsProvider";
 
@@ -106,20 +105,6 @@ describe("VAL-VISUAL-011: Hero motion is intentional and limited", () => {
     );
     expect(heroEntranceRule).not.toBeNull();
     expect(heroEntranceRule![0]).not.toContain("infinite");
-  });
-
-  it("ASCII background does NOT use a CSS infinite pulse animation", () => {
-    const globalsCss = fs.readFileSync(
-      path.resolve(__dirname, "../../../app/globals.css"),
-      "utf-8"
-    );
-    // The animated ASCII class should not reference infinite pulse
-    const animatedAscii = globalsCss.match(
-      /\.ascii-bg-animated\s+\.ascii-text\s*\{[\s\S]*?\}/
-    );
-    if (animatedAscii) {
-      expect(animatedAscii[0]).not.toContain("animation:");
-    }
   });
 
   it("vendored shader time scale produces slow motion (not frenetic)", () => {
@@ -233,115 +218,56 @@ describe("VAL-VISUAL-012: Shader feels authentically Radiant-influenced", () => 
 // VAL-VISUAL-013: ASCII atmosphere is materially present and authentic
 // ---------------------------------------------------------------------------
 
-describe("VAL-VISUAL-013: ASCII atmosphere is materially present and authentic", () => {
-  it("ASCII text uses materially visible color in CSS (not 0.04 opacity)", () => {
+// VAL-VISUAL-028: All ASCII layers permanently removed
+describe("VAL-VISUAL-028: Zero ASCII code remaining", () => {
+  it("no ASCII-related CSS classes exist in globals.css", () => {
     const globalsCss = fs.readFileSync(
       path.resolve(__dirname, "../../../app/globals.css"),
       "utf-8"
     );
-    const asciiTextRule = globalsCss.match(
-      /\.ascii-background\s+\.ascii-text\s*\{[\s\S]*?\}/
-    );
-    expect(asciiTextRule).not.toBeNull();
-    // Should use a visible opacity (>= 0.08)
-    const colorMatch = asciiTextRule![0].match(/rgba\([^)]*,\s*([\d.]+)\s*\)/);
-    if (colorMatch) {
-      const alpha = parseFloat(colorMatch[1]);
-      expect(alpha).toBeGreaterThanOrEqual(0.08);
-    }
+    expect(globalsCss).not.toContain(".ascii-canvas-renderer");
+    expect(globalsCss).not.toContain(".ascii-background");
+    expect(globalsCss).not.toContain(".ascii-bg-animated");
+    expect(globalsCss).not.toContain(".ascii-bg-static");
+    expect(globalsCss).not.toContain(".ascii-text");
+    expect(globalsCss).not.toContain("site-atmosphere-ascii");
   });
 
-  it("ASCII grid uses structured terminal characters including borders", () => {
-    render(
-      <VisualEffectsProvider>
-        <AsciiBackground />
-      </VisualEffectsProvider>
-    );
-    const bg = screen.getByTestId("ascii-background");
-    const text = bg.textContent ?? "";
-    // Should contain terminal box-drawing characters for structure
-    expect(text).toMatch(/[┌┐└┘│─├┤┬┴┼]/);
-    // Should contain block characters for texture
-    expect(text).toMatch(/[░▒▓]/);
-  });
-
-  it("ASCII grid contains data-stream highlight characters", () => {
-    render(
-      <VisualEffectsProvider>
-        <AsciiBackground />
-      </VisualEffectsProvider>
-    );
-    const bg = screen.getByTestId("ascii-background");
-    const text = bg.textContent ?? "";
-    // Should include data-stream characters
-    expect(text).toMatch(/[01$>_●◆]/);
-  });
-
-  it("ASCII text content has material length (not a tiny grid)", () => {
-    render(
-      <VisualEffectsProvider>
-        <AsciiBackground />
-      </VisualEffectsProvider>
-    );
-    const bg = screen.getByTestId("ascii-background");
-    const text = bg.textContent ?? "";
-    // At least 100 * 32 = 3200 characters with borders
-    expect(text.length).toBeGreaterThan(2000);
-  });
-
-  it("static ASCII grid preserves structure in reduced-motion mode", () => {
-    mockReducedMotion(true);
-
-    render(
-      <VisualEffectsProvider>
-        <AsciiBackground />
-      </VisualEffectsProvider>
-    );
-    const bg = screen.getByTestId("ascii-background");
-    expect(bg.className).toContain("ascii-bg-static");
-    const text = bg.textContent ?? "";
-    // Still shows structured characters
-    expect(text).toMatch(/[┌┐│─]/);
-    expect(text.length).toBeGreaterThan(2000);
-  });
-
-  it("ASCII grid renders static content in fallback mode (WebGL failure stops animation)", () => {
-    render(
-      <VisualEffectsProvider forceFallback>
-        <AsciiBackground />
-      </VisualEffectsProvider>
-    );
-    const bg = screen.getByTestId("ascii-background");
-    // ASCII renders visible content but is static when WebGL has failed.
-    // The fallback state must be truly static so data-motion-layers=0 is
-    // accurate and the enhanced-vs-fallback differentiation is honest.
-    expect(bg).toBeInTheDocument();
-    expect(bg.className).toContain("ascii-bg-static");
-    expect(bg.className).not.toContain("ascii-bg-animated");
-    const text = bg.textContent ?? "";
-    expect(text).toMatch(/[┌┐│─]/);
-    expect(text.length).toBeGreaterThan(2000);
-  });
-
-  it("ASCII font styling uses terminal monospace for authenticity", () => {
-    render(
-      <VisualEffectsProvider>
-        <AsciiBackground />
-      </VisualEffectsProvider>
-    );
-    const pre = screen.getByTestId("ascii-text-content");
-    expect(pre.className).toContain("font-terminal");
-  });
-
-  it("canvas-based ASCII renderer exists alongside DOM fallback (VAL-VISUAL-016)", () => {
+  it("HeroVisualSystem does not reference any ASCII components", () => {
     const heroSrc = fs.readFileSync(
       path.resolve(__dirname, "../HeroVisualSystem.tsx"),
       "utf-8"
     );
-    // Canvas renderer is the primary ASCII layer
-    expect(heroSrc).toContain("AsciiCanvasRenderer");
-    // DOM fallback is still present
-    expect(heroSrc).toContain("AsciiBackground");
+    expect(heroSrc).not.toContain("AsciiCanvasRenderer");
+    expect(heroSrc).not.toContain("AsciiBackground");
+  });
+
+  it("SiteAtmosphere does not reference any ASCII components", () => {
+    const atmSrc = fs.readFileSync(
+      path.resolve(__dirname, "../SiteAtmosphere.tsx"),
+      "utf-8"
+    );
+    expect(atmSrc).not.toContain("AsciiCanvasRenderer");
+    expect(atmSrc).not.toContain("AsciiBackground");
+  });
+
+  it("visual/index.ts does not export ASCII components", () => {
+    const indexSrc = fs.readFileSync(
+      path.resolve(__dirname, "../index.ts"),
+      "utf-8"
+    );
+    expect(indexSrc).not.toContain("AsciiBackground");
+    expect(indexSrc).not.toContain("AsciiCanvasRenderer");
+  });
+
+  it("AsciiCanvasRenderer.tsx file does not exist", () => {
+    const filePath = path.resolve(__dirname, "../AsciiCanvasRenderer.tsx");
+    expect(fs.existsSync(filePath)).toBe(false);
+  });
+
+  it("AsciiBackground.tsx file does not exist", () => {
+    const filePath = path.resolve(__dirname, "../AsciiBackground.tsx");
+    expect(fs.existsSync(filePath)).toBe(false);
   });
 });
 
@@ -350,14 +276,13 @@ describe("VAL-VISUAL-013: ASCII atmosphere is materially present and authentic",
 // ---------------------------------------------------------------------------
 
 describe("VAL-VISUAL-000: Signature BETTER visual system is present (upgraded)", () => {
-  it("hero visual system contains Radiant fallback, shader slot, and ASCII layer", () => {
+  it("hero visual system contains Radiant fallback and shader slot", () => {
     render(<Home />);
     expect(screen.getByTestId("hero-visual-system")).toBeInTheDocument();
     expect(screen.getByTestId("hero-radiant-fallback")).toBeInTheDocument();
-    expect(screen.getByTestId("ascii-background")).toBeInTheDocument();
   });
 
-  it("visual layers are ordered: fallback → shader → ASCII → scanline → vignette → content", () => {
+  it("visual layers are ordered: fallback → shader → scanline → vignette → content", () => {
     render(<Home />);
     const system = screen.getByTestId("hero-visual-system");
     const children = Array.from(system.children);
@@ -367,16 +292,12 @@ describe("VAL-VISUAL-000: Signature BETTER visual system is present (upgraded)",
       (c as HTMLElement).dataset?.testid === "hero-radiant-fallback" ||
       c.className?.includes("hero-radiant-fallback")
     );
-    const asciiIdx = children.findIndex((c) =>
-      (c as HTMLElement).dataset?.testid === "ascii-background"
-    );
     const contentIdx = children.findIndex((c) =>
       (c as HTMLElement).dataset?.testid === "hero-content"
     );
 
     // Content should be last (highest z-index)
     expect(contentIdx).toBeGreaterThan(fallbackIdx);
-    expect(contentIdx).toBeGreaterThan(asciiIdx);
   });
 });
 

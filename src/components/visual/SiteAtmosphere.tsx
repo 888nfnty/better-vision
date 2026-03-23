@@ -7,52 +7,39 @@ import { VisualEffectsProvider, useVisualEffects } from "./VisualEffectsProvider
 /**
  * Dynamic imports for heavy visual components — aggressive bundle splitting.
  *
- * VAL-VISUAL-027: HeroShaderCanvas (WebGL), AsciiCanvasRenderer (canvas),
- * and AsciiBackground (DOM fallback) are dynamically imported with ssr:false
- * so they do not block first meaningful paint. The CSS-only radiant fallback
- * gradient and scanline overlay render immediately for content-first loading.
+ * VAL-VISUAL-027: HeroShaderCanvas (WebGL) is dynamically imported with
+ * ssr:false so it does not block first meaningful paint. The CSS-only
+ * radiant fallback gradient and scanline overlay render immediately for
+ * content-first loading.
  */
 const HeroShaderCanvas = dynamic(
   () => import("./HeroShaderCanvas").then((mod) => mod.HeroShaderCanvas),
   { ssr: false }
 );
 
-const AsciiCanvasRenderer = dynamic(
-  () => import("./AsciiCanvasRenderer").then((mod) => mod.AsciiCanvasRenderer),
-  { ssr: false }
-);
-
-const AsciiBackground = dynamic(
-  () => import("./AsciiBackground").then((mod) => mod.AsciiBackground),
-  { ssr: false }
-);
-
 /**
- * SiteAtmosphere — extends the real Radiant/Hermes immersive background
+ * SiteAtmosphere — extends the Radiant Fluid Amber immersive background
  * treatment across the entire site shell, not just the hero.
  *
- * VAL-VISUAL-020: Radiant and Hermes atmosphere remains materially visible
- * across hero, graph rest states, focused detail states, mobile overlay
- * states, and lower-page exploration states.
+ * VAL-VISUAL-020: Radiant atmosphere remains materially visible across
+ * hero, graph rest states, focused detail states, mobile overlay states,
+ * and lower-page exploration states.
  *
  * VAL-VISUAL-022: Persistent atmosphere preserves readable copy, controls,
  * and focus states across the full shell.
  *
- * This component wraps the <main> content and renders a persistent
- * atmospheric background using the REAL shipped Radiant/Hermes layers
- * (at reduced opacity for readability) rather than falling back to a
- * static-only CSS gradient treatment:
+ * VAL-VISUAL-028: All ASCII layers have been permanently removed.
+ * VAL-VISUAL-029: Only ONE Radiant Fluid Amber shader instance runs
+ * site-wide. The hero's HeroVisualSystem renders the full-strength shader;
+ * this SiteAtmosphere provides the CSS fallback gradient and scanline
+ * overlay for continuity below the hero without duplicating the shader.
  *
- *   - Vendored Radiant Fluid Amber WebGL shader (same as hero, lower opacity)
- *   - Hermes-derived ASCII canvas renderer (real-time multi-grid, lower opacity)
- *   - Legacy DOM ASCII fallback (for non-canvas environments)
+ * This component wraps the <main> content and renders a persistent
+ * atmospheric background:
+ *
+ *   - Vendored Radiant Fluid Amber WebGL shader (reduced opacity, desktop only)
  *   - CSS radiant fallback gradient (always visible, for WebGL-fail cases)
  *   - Scanline overlay for terminal texture continuity
- *
- * The hero section has its own full-strength HeroVisualSystem layers.
- * Below the hero, this component provides a lighter but still materially
- * visible continuation of the SAME atmospheric implementation so the site
- * feels like one continuous immersive environment.
  *
  * The atmosphere uses pointer-events:none and stays behind content (z-0)
  * so it never blocks interactions or reduces readability.
@@ -74,14 +61,14 @@ export function SiteAtmosphere({
 
 /**
  * Inner component that consumes VisualEffectsProvider context to manage
- * the real Radiant/Hermes atmosphere layers across the full shell.
+ * the Radiant atmosphere layers across the full shell.
  */
 function SiteAtmosphereInner({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { canvasReady, isDesktopCapable } = useVisualEffects();
+  const { isDesktopCapable } = useVisualEffects();
 
   // SSR-safe mount detection for client-only layers
   const hasMounted = useSyncExternalStore(
@@ -96,11 +83,10 @@ function SiteAtmosphereInner({
   return (
     <div
       data-testid="site-atmosphere"
-      data-canvas-ready={canvasReady ? "true" : "false"}
       data-device-class={deviceClass}
       className="relative"
     >
-      {/* Persistent atmospheric background — REAL Radiant/Hermes layers */}
+      {/* Persistent atmospheric background — Radiant shader + CSS layers */}
       <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
         {/* CSS radiant fallback gradient — always visible on all devices,
             WebGL-fail safety net and constrained-device primary atmosphere */}
@@ -113,17 +99,6 @@ function SiteAtmosphereInner({
             <HeroShaderCanvas />
           </div>
         )}
-
-        {/* Real Hermes ASCII canvas renderer — desktop only (VAL-VISUAL-025)
-            Multi-grid composition, reduced opacity */}
-        {hasMounted && isDesktopCapable && (
-          <div className="site-atmosphere-ascii absolute inset-0">
-            <AsciiCanvasRenderer />
-          </div>
-        )}
-
-        {/* Legacy DOM ASCII fallback — desktop only (non-canvas environments) */}
-        {hasMounted && isDesktopCapable && <AsciiBackground />}
 
         {/* Scanline overlay — lightweight terminal texture (all devices) */}
         <div className="scanline-overlay absolute inset-0 opacity-30" />

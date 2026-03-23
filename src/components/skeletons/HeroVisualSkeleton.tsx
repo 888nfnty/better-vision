@@ -1,6 +1,6 @@
 /**
  * HeroVisualSkeleton — lightweight placeholder rendered while the heavy
- * HeroVisualSystem (WebGL shader + ASCII canvas) is loading.
+ * HeroVisualSystem (WebGL shader) is loading.
  *
  * VAL-VISUAL-001: Content-first hero renders before effects initialize.
  * VAL-VISUAL-027: Skeleton screens for progressive loading.

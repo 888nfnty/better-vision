@@ -25,8 +25,8 @@ export interface VisualEffectsState {
   /**
    * Whether the client satisfies desktop-class conditions for heavy layers.
    * Desktop-class = fine pointer + wide viewport (>1024px) + no reduced motion.
-   * Mobile/tablet/constrained devices get `false` and skip heavy shader,
-   * ASCII-canvas, and continuous-animation layers. (VAL-VISUAL-025)
+   * Mobile/tablet/constrained devices get `false` and skip heavy shader
+   * and continuous-animation layers. (VAL-VISUAL-025)
    */
   isDesktopCapable: boolean;
   /** Signal that effects are ready */
@@ -73,8 +73,8 @@ function useReducedMotion(): boolean {
 // ---------------------------------------------------------------------------
 // Hook to detect desktop-class capability (VAL-VISUAL-025)
 // Desktop-class = fine pointer + wide viewport (>1024px) + no reduced motion.
-// This composite gate ensures heavy shader, ASCII-canvas, and continuous-
-// animation layers only activate on desktop-class clients.
+// This composite gate ensures heavy shader and continuous-animation layers
+// only activate on desktop-class clients.
 // ---------------------------------------------------------------------------
 
 function useDesktopCapable(reducedMotion: boolean): boolean {

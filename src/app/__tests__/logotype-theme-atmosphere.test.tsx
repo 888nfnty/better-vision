@@ -129,12 +129,9 @@ describe("tradebetter theme parity (VAL-VISUAL-000, VAL-VISUAL-021)", () => {
     expect(content).toMatch(/vec3\(0\.27,\s*0\.37,\s*1\.0\)/);
   });
 
-  it("ASCII canvas uses tradebetter electric-blue hue", () => {
+  it("ASCII layers have been removed (VAL-VISUAL-028)", () => {
     const asciiPath = path.resolve(__dirname, "../../components/visual/AsciiCanvasRenderer.tsx");
-    const content = fs.readFileSync(asciiPath, "utf-8");
-    // Hue should be ~0.636 (tradebetter electric-blue), not 0.555 (old cyan)
-    expect(content).toContain("0.636");
-    expect(content).toContain("tradebetter");
+    expect(fs.existsSync(asciiPath)).toBe(false);
   });
 });
 

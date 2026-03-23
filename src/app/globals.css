@@ -181,56 +181,8 @@ body {
 }
 
 /* -----------------------------------------------------------------------
-   Hermes-derived ASCII Canvas Renderer (VAL-VISUAL-016)
-   Real-time canvas-based multi-grid renderer — primary ASCII layer
-   ----------------------------------------------------------------------- */
-
-.ascii-canvas-renderer {
-  pointer-events: none;
-  z-index: 2;
-  /* Tuned opacity: materially visible atmospheric layer without
-     overwhelming hero content readability. Higher than the old DOM
-     layer but below the vignette/content layers. */
-  opacity: 0.22;
-}
-
-/* -----------------------------------------------------------------------
-   Legacy DOM-based ASCII atmosphere (fallback)
-   Hidden when the canvas renderer is available — kept for
-   non-canvas environments and test/SSR contexts.
-   ----------------------------------------------------------------------- */
-
-.ascii-background {
-  pointer-events: none;
-  z-index: 1;
-  /* Visually hidden when canvas renderer is the primary layer */
-  opacity: 0;
-}
-
-.ascii-background .ascii-text {
-  /* Center the ASCII grid within the hero */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: max-content;
-  /* Materially visible tradebetter electric-blue tint */
-  color: rgba(69, 94, 255, 0.12);
-}
-
-/* Animated state: no constant pulse — the character transitions ARE the motion */
-.ascii-bg-animated .ascii-text {
-  /* No CSS animation; animation happens via sparse JS character transitions */
-}
-
-/* Static state: slightly dimmer but still clearly visible */
-.ascii-bg-static .ascii-text {
-  opacity: 0.65;
-}
-
-/* -----------------------------------------------------------------------
    Visual state differentiation (VAL-VISUAL-017)
-   Enhanced state (WebGL + canvas active): dramatic, moving layers dominate.
+   Enhanced state (WebGL shader active): dramatic, moving depth.
    Fallback state (no WebGL): CSS gradient becomes the primary atmosphere,
      rendered stronger so fallback still feels atmospheric but is clearly
      less dramatic than the enhanced state.
@@ -238,15 +190,9 @@ body {
    ----------------------------------------------------------------------- */
 
 /* Enhanced state: WebGL shader provides the real depth — dim the CSS fallback
-   gradient so it doesn't compete with the moving shader, and boost the
-   ASCII canvas to create a layered motion atmosphere. */
+   gradient so it doesn't compete with the moving shader. */
 [data-visual-state="enhanced"] .hero-radiant-fallback {
   opacity: 0.15;
-  transition: opacity 0.8s ease;
-}
-
-[data-visual-state="enhanced"] .ascii-canvas-renderer {
-  opacity: 0.30;
   transition: opacity 0.8s ease;
 }
 
@@ -255,39 +201,11 @@ body {
 }
 
 /* Fallback state: no WebGL shader — the CSS gradient must carry the
-   atmospheric load alone. Stronger gradient + reveal the DOM ASCII layer
-   to maintain texture, but the result is clearly static compared to enhanced. */
+   atmospheric load alone. Stronger gradient for atmospheric presence,
+   but the result is clearly static compared to enhanced. */
 [data-visual-state="fallback"] .hero-radiant-fallback {
   opacity: 1;
   transition: opacity 0.8s ease;
-}
-
-[data-visual-state="fallback"] .ascii-canvas-renderer {
-  opacity: 0.18;
-}
-
-[data-visual-state="fallback"] .ascii-background {
-  opacity: 0.12;
-}
-
-[data-visual-state="fallback"] .ascii-background .ascii-text {
-  color: rgba(69, 94, 255, 0.10);
-}
-
-/* When 2D canvas renderer failed to initialize, reveal the DOM-based
-   ASCII fallback so users still see a coherent non-canvas backup path
-   instead of an empty or hidden ASCII layer. */
-[data-canvas-ready="false"] .ascii-background {
-  opacity: 0.15;
-}
-
-[data-canvas-ready="false"] .ascii-background .ascii-text {
-  color: rgba(69, 94, 255, 0.12);
-}
-
-/* When canvas IS ready, hide the DOM fallback (avoid double-rendering) */
-[data-canvas-ready="true"] .ascii-background {
-  opacity: 0;
 }
 
 [data-visual-state="fallback"] .scanline-overlay {
@@ -296,8 +214,8 @@ body {
 
 /* Constrained state (mobile/tablet): CSS gradient carries the atmosphere
    with a low-cost drift animation providing visible motion. No WebGL
-   shader or ASCII canvas layers — those are desktop-only. The animated
-   gradient shift gives a premium feel without GPU-heavy live rendering. */
+   shader layers — those are desktop-only. The animated gradient shift
+   gives a premium feel without GPU-heavy live rendering. */
 [data-visual-state="constrained"] .hero-radiant-fallback {
   opacity: 1;
 }
@@ -312,23 +230,15 @@ body {
   opacity: 0.85;
 }
 
-[data-visual-state="reduced-motion"] .ascii-canvas-renderer {
-  opacity: 0.12;
-}
-
-[data-visual-state="reduced-motion"] .ascii-background {
-  opacity: 0.08;
-}
-
 [data-visual-state="reduced-motion"] .scanline-overlay {
   opacity: 0.3;
 }
 
 /* -----------------------------------------------------------------------
    Site-wide atmosphere gradient (VAL-VISUAL-020)
-   Extends Radiant/Hermes atmospheric language across the full shell —
-   lighter than the hero but materially visible so the site reads as one
-   coherent immersive environment.
+   Extends Radiant atmospheric language across the full shell — lighter
+   than the hero but materially visible so the site reads as one coherent
+   immersive environment.
    ----------------------------------------------------------------------- */
 
 .site-atmosphere-gradient {
@@ -370,24 +280,6 @@ body {
 }
 
 /* -----------------------------------------------------------------------
-   Site-wide real Hermes ASCII canvas layer (VAL-VISUAL-020)
-   Renders the Hermes-derived multi-grid ASCII canvas renderer at reduced
-   opacity across the full shell — lighter than the hero but materially
-   present. Creates terminal-texture depth continuity across graph/detail,
-   lower-page, and mobile-overlay states.
-   ----------------------------------------------------------------------- */
-
-.site-atmosphere-ascii {
-  pointer-events: none;
-  opacity: 0.12;
-}
-
-.site-atmosphere-ascii canvas {
-  width: 100%;
-  height: 100%;
-}
-
-/* -----------------------------------------------------------------------
    Vignette gradient for hero text readability
    ----------------------------------------------------------------------- */
 
@@ -420,16 +312,16 @@ body {
 /* -----------------------------------------------------------------------
    Constrained device capability gating (VAL-VISUAL-025)
    Mobile, tablet, and other constrained device classes do not run heavy
-   shader, ASCII-canvas, or continuous-animation layers. They receive a
-   visibly cheaper but hierarchy-preserving fallback that relies on the
-   CSS gradient + scanline texture for atmosphere.
+   shader or continuous-animation layers. They receive a visibly cheaper
+   but hierarchy-preserving fallback that relies on the CSS gradient +
+   scanline texture for atmosphere.
    ----------------------------------------------------------------------- */
 
 /* -----------------------------------------------------------------------
    Low-cost motion for constrained/mobile states (VAL-VISUAL-025)
-   Instead of full shader/canvas animation, constrained devices get a
-   real CSS-driven gradient drift animation — visibly animated without
-   GPU-heavy WebGL or canvas layers. Uses background-position animation
+   Instead of full shader animation, constrained devices get a real
+   CSS-driven gradient drift animation — visibly animated without
+   GPU-heavy WebGL layers. Uses background-position animation
    for efficient compositing on mobile GPUs.
    ----------------------------------------------------------------------- */
 
@@ -503,11 +395,5 @@ body {
     animation: none;
     opacity: 1;
     transform: none;
-  }
-
-  /* ASCII: force static dim state */
-  .ascii-bg-animated .ascii-text,
-  .ascii-background .ascii-text {
-    opacity: 0.5;
   }
 }

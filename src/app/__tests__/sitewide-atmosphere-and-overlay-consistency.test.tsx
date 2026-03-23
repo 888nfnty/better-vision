@@ -2,19 +2,17 @@
  * Regression tests for site-wide atmosphere continuity and mobile-overlay
  * typography consistency.
  *
- * Addresses the scrutiny findings from graph-shell-logotype-theme-and-atmosphere:
- *
- * 1. VAL-VISUAL-020: Radiant/Hermes atmosphere must remain materially visible
- *    across the full shell — not just the hero. The SiteAtmosphere component
- *    must include real Radiant/Hermes layers (shader + ASCII canvas) in addition
- *    to the CSS fallback gradient, so graph/detail, lower-page, and mobile-overlay
- *    states feel like one continuous atmospheric environment.
+ * 1. VAL-VISUAL-020: Radiant atmosphere must remain materially visible across
+ *    the full shell — not just the hero. The SiteAtmosphere component includes
+ *    real Radiant shader layers plus the CSS fallback gradient.
  *
  * 2. VAL-VISUAL-022: Shell readability must hold under the persistent immersive
  *    background — the extended atmosphere must not block content interactions.
  *
  * 3. Mobile overlay nav links must use the shell's mono UI treatment (font-terminal)
  *    rather than falling back to default sans styling.
+ *
+ * VAL-VISUAL-028: All ASCII layers have been permanently removed.
  */
 import React from "react";
 import fs from "fs";
@@ -68,13 +66,14 @@ describe("Site-wide atmosphere includes real Radiant/Hermes layers (VAL-VISUAL-0
     expect(content).toContain("VisualEffectsProvider");
   });
 
-  it("SiteAtmosphere renders the Hermes ASCII canvas renderer", () => {
+  it("SiteAtmosphere does not reference removed ASCII components (VAL-VISUAL-028)", () => {
     const componentPath = path.resolve(
       __dirname,
       "../../components/visual/SiteAtmosphere.tsx"
     );
     const content = fs.readFileSync(componentPath, "utf-8");
-    expect(content).toContain("AsciiCanvasRenderer");
+    expect(content).not.toContain("AsciiCanvasRenderer");
+    expect(content).not.toContain("AsciiBackground");
   });
 
   it("SiteAtmosphere renders the Radiant shader canvas", () => {
@@ -86,17 +85,13 @@ describe("Site-wide atmosphere includes real Radiant/Hermes layers (VAL-VISUAL-0
     expect(content).toContain("HeroShaderCanvas");
   });
 
-  it("site atmosphere layer includes ascii-canvas-renderer and shader in DOM", async () => {
+  it("site atmosphere layer does not contain ASCII elements (VAL-VISUAL-028)", () => {
     renderWithAtmosphere();
     const atmosphere = document.querySelector('[data-testid="site-atmosphere"]');
     expect(atmosphere).toBeInTheDocument();
-    // AsciiCanvasRenderer loads via dynamic import (VAL-VISUAL-027)
-    // Wait for dynamically imported components to resolve.
-    // Multiple instances may exist (SiteAtmosphere + HeroVisualSystem inside Home).
-    const asciiCanvases = await screen.findAllByTestId("ascii-canvas-renderer");
-    // Note: AsciiCanvasRenderer renders a <canvas> element
-    // In test (JSDOM) the canvas may not init WebGL, but the element should be present
-    expect(asciiCanvases.length).toBeGreaterThan(0);
+    // ASCII layers have been permanently removed
+    expect(screen.queryByTestId("ascii-canvas-renderer")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("ascii-background")).not.toBeInTheDocument();
   });
 
   it("SiteAtmosphere applies reduced opacity to its Radiant/Hermes layers for readability", () => {
@@ -109,11 +104,11 @@ describe("Site-wide atmosphere includes real Radiant/Hermes layers (VAL-VISUAL-0
     expect(content).toMatch(/opacity/i);
   });
 
-  it("SiteAtmosphere CSS has site-specific atmosphere-shader and atmosphere-ascii classes", () => {
+  it("SiteAtmosphere CSS has site-specific atmosphere-shader class but no ASCII class (VAL-VISUAL-028)", () => {
     const globalsPath = path.resolve(__dirname, "../globals.css");
     const content = fs.readFileSync(globalsPath, "utf-8");
     expect(content).toContain("site-atmosphere-shader");
-    expect(content).toContain("site-atmosphere-ascii");
+    expect(content).not.toContain("site-atmosphere-ascii");
   });
 });
 

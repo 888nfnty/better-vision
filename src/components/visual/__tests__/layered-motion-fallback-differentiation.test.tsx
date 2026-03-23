@@ -2,16 +2,17 @@
  * VAL-VISUAL-017: Enhanced visual state is dramatically distinct from static fallback.
  * VAL-VISUAL-018: Headed browser validation shows visible background motion.
  *
- * Tests that the layered motion system (Radiant + ASCII) produces an enhanced
- * state that is materially more dramatic than the static/degraded fallback,
- * and that the system exposes state metadata for headed-browser validation.
+ * Tests that the Radiant shader motion system produces an enhanced state that
+ * is materially more dramatic than the static/degraded fallback, and that
+ * the system exposes state metadata for headed-browser validation.
+ *
+ * VAL-VISUAL-028: All ASCII layers have been permanently removed.
  */
 import fs from "fs";
 import path from "path";
 import { render, screen, waitFor } from "@testing-library/react";
 import Home from "@/app/page";
 import { HeroShaderCanvas } from "../HeroShaderCanvas";
-import { AsciiCanvasRenderer } from "../AsciiCanvasRenderer";
 import { VisualEffectsProvider } from "../VisualEffectsProvider";
 
 // ---------------------------------------------------------------------------
@@ -183,18 +184,6 @@ describe("VAL-VISUAL-017: Enhanced visual state is dramatically distinct from st
     expect(fallbackGradient![0]).toMatch(/opacity:\s*[0-9.]+/);
   });
 
-  it("enhanced state ASCII canvas is more visible than fallback ASCII", () => {
-    const globalsCss = fs.readFileSync(
-      path.resolve(__dirname, "../../../app/globals.css"),
-      "utf-8",
-    );
-    // Enhanced state: canvas renderer at higher opacity, DOM fallback hidden
-    const enhancedCanvas = globalsCss.match(
-      /\[data-visual-state="enhanced"\]\s+\.ascii-canvas-renderer[\s\S]*?\}/
-    );
-    expect(enhancedCanvas).not.toBeNull();
-  });
-
   it("shader canvas has materially higher opacity than the fallback gradient", () => {
     HTMLCanvasElement.prototype.getContext = jest
       .fn()
@@ -240,11 +229,11 @@ describe("VAL-VISUAL-017: Enhanced visual state is dramatically distinct from st
     });
 
     render(<Home />);
-    // Enhanced state must have 2 active motion layers (shader + ASCII canvas)
+    // Enhanced state must have 1 active motion layer (shader only, ASCII removed)
     await waitFor(() => {
       const system = screen.getByTestId("hero-visual-system");
       const layers = system.getAttribute("data-motion-layers");
-      expect(Number(layers)).toBeGreaterThanOrEqual(2);
+      expect(Number(layers)).toBeGreaterThanOrEqual(1);
     });
   });
 });
@@ -271,38 +260,6 @@ describe("VAL-VISUAL-018: System exposes metadata for headed browser motion vali
       </VisualEffectsProvider>,
     );
     expect(screen.getByTestId("hero-shader-canvas")).toBeInTheDocument();
-  });
-
-  it("ASCII canvas renderer is identifiable via data-testid for browser validation", () => {
-    const mockCtx = {
-      clearRect: jest.fn(),
-      fillRect: jest.fn(),
-      fillText: jest.fn(),
-      drawImage: jest.fn(),
-      measureText: jest.fn().mockReturnValue({ width: 8 }),
-      canvas: { width: 800, height: 600, getBoundingClientRect: () => ({ width: 800, height: 600, top: 0, left: 0, right: 800, bottom: 600 }) },
-      globalAlpha: 1,
-      globalCompositeOperation: "source-over",
-      font: "",
-      textBaseline: "top",
-      fillStyle: "#ffffff",
-    };
-    HTMLCanvasElement.prototype.getContext = jest
-      .fn()
-      .mockImplementation((type: string) => {
-        if (type === "2d") return mockCtx;
-        return null;
-      });
-    HTMLCanvasElement.prototype.getBoundingClientRect = jest.fn().mockReturnValue({
-      width: 800, height: 600, top: 0, left: 0, right: 800, bottom: 600,
-    });
-
-    render(
-      <VisualEffectsProvider>
-        <AsciiCanvasRenderer />
-      </VisualEffectsProvider>,
-    );
-    expect(screen.getByTestId("ascii-canvas-renderer")).toBeInTheDocument();
   });
 
   it("visual system wrapper with data-visual-state and data-motion-layers enables browser pixel comparison", () => {

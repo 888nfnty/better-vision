@@ -127,20 +127,20 @@ describe("Dynamic import structure (VAL-VISUAL-027)", () => {
     // Should use next/dynamic for HeroShaderCanvas
     expect(source).toMatch(/dynamic\s*\(/);
     expect(source).toMatch(/import\(.*HeroShaderCanvas/);
-    // Should use next/dynamic for AsciiCanvasRenderer
-    expect(source).toMatch(/import\(.*AsciiCanvasRenderer/);
-    // Should use next/dynamic for AsciiBackground
-    expect(source).toMatch(/import\(.*AsciiBackground/);
+    // VAL-VISUAL-028: ASCII components have been permanently removed
+    expect(source).not.toMatch(/AsciiCanvasRenderer/);
+    expect(source).not.toMatch(/AsciiBackground/);
   });
 
   it("HeroVisualSystem dynamically imports heavy visual components", () => {
     const source = readSource("../../components/visual/HeroVisualSystem.tsx");
 
-    // Should use next/dynamic for heavy components
+    // Should use next/dynamic for HeroShaderCanvas
     expect(source).toMatch(/dynamic\s*\(/);
     expect(source).toMatch(/import\(.*HeroShaderCanvas/);
-    expect(source).toMatch(/import\(.*AsciiCanvasRenderer/);
-    expect(source).toMatch(/import\(.*AsciiBackground/);
+    // VAL-VISUAL-028: ASCII components have been permanently removed
+    expect(source).not.toMatch(/AsciiCanvasRenderer/);
+    expect(source).not.toMatch(/AsciiBackground/);
   });
 });
 
