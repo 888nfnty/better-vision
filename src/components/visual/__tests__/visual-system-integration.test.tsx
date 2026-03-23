@@ -51,13 +51,13 @@ describe("VAL-VISUAL-000: Signature visual system is present", () => {
     expect(screen.getByTestId("hero-visual-system")).toBeInTheDocument();
   });
 
-  it("hero section carries the premium dark terminal aesthetic", () => {
+  it("atlas carries the premium dark terminal aesthetic", () => {
     render(<Home />);
     const heroVisual = screen.getByTestId("hero-visual-system");
     expect(heroVisual).toBeInTheDocument();
-    // The hero visual system wrapper should exist
-    const hero = screen.getByTestId("hero-section");
-    expect(hero).toBeInTheDocument();
+    // The compact brand band should exist (replaces the old hero-section)
+    const brandBand = screen.getByTestId("compact-brand-band");
+    expect(brandBand).toBeInTheDocument();
   });
 });
 
@@ -152,8 +152,8 @@ describe("VAL-VISUAL-004: Runtime fallback handles failures cleanly", () => {
 
   it("no broken layers or blank surfaces in fallback mode", () => {
     render(<Home />);
-    const heroSection = screen.getByTestId("hero-section");
-    // Hero section should have visible content, not be empty
-    expect(heroSection.textContent!.length).toBeGreaterThan(100);
+    const brandBand = screen.getByTestId("compact-brand-band");
+    // Brand band should have visible content, not be empty
+    expect(brandBand.textContent!.length).toBeGreaterThan(100);
   });
 });

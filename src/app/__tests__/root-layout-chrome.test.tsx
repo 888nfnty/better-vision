@@ -79,30 +79,28 @@ describe("RootLayout shared chrome — Footer", () => {
 });
 
 describe("RootLayout shared chrome — Section structure", () => {
-  it("page renders hero, atlas, and proof sections in correct order", async () => {
+  it("page renders compact brand band, atlas, and proof sections in correct order", async () => {
     render(<Home />);
-    const hero = document.getElementById("what-is-better");
-    // ProofModule loads via dynamic import (VAL-VISUAL-027)
+    const brandBand = screen.getByTestId("compact-brand-band");
     const proof = await screen.findByTestId("proof-section");
     const atlas = document.getElementById("atlas");
 
-    expect(hero).toBeInTheDocument();
+    expect(brandBand).toBeInTheDocument();
     expect(proof).toBeInTheDocument();
     expect(atlas).toBeInTheDocument();
 
-    // Atlas (graph workspace, genuinely first) → Hero → Proof (supplementary)
-    // VAL-ROADMAP-014: default loaded state is a pure graph workspace — graph-first
-    expect(atlas!.compareDocumentPosition(hero!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(hero!.compareDocumentPosition(proof) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // Atlas contains the brand band; proof follows atlas.
+    expect(atlas!.contains(brandBand)).toBe(true);
+    expect(brandBand.compareDocumentPosition(proof) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
-  it("hero section explains BETTER before requiring scroll (VAL-CROSS-001)", () => {
+  it("brand band explains BETTER before requiring scroll (VAL-CROSS-001)", () => {
     render(<Home />);
-    const heroSection = document.getElementById("what-is-better");
-    expect(heroSection).toBeInTheDocument();
-    expect(heroSection!.textContent).toContain("prediction-market intelligence");
-    const liveStatus = heroSection!.querySelector('[data-testid="hero-live-status"]');
-    const futureStatus = heroSection!.querySelector('[data-testid="hero-future-status"]');
+    const brandBand = screen.getByTestId("compact-brand-band");
+    expect(brandBand).toBeInTheDocument();
+    expect(brandBand.textContent).toContain("prediction-market intelligence");
+    const liveStatus = brandBand.querySelector('[data-testid="hero-live-status"]');
+    const futureStatus = brandBand.querySelector('[data-testid="hero-future-status"]');
     expect(liveStatus).toBeInTheDocument();
     expect(futureStatus).toBeInTheDocument();
   });

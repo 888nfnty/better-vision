@@ -45,10 +45,10 @@ describe("BETTER logotype asset (VAL-VISUAL-019, VAL-VISUAL-023)", () => {
     expect(repoContent).toContain("343.999");
   });
 
-  it("hero renders the BETTER logotype image, not text-only wordmark", () => {
+  it("brand band renders the BETTER logotype image, not text-only wordmark", () => {
     render(<Home />);
-    const hero = screen.getByTestId("hero-section");
-    const logotypeImg = hero.querySelector('img[data-testid="hero-logotype"]');
+    const brandBand = screen.getByTestId("compact-brand-band");
+    const logotypeImg = brandBand.querySelector('img[data-testid="hero-logotype"]');
     expect(logotypeImg).toBeInTheDocument();
     expect(logotypeImg!.getAttribute("src")).toContain("better-logotype");
   });
@@ -80,12 +80,11 @@ describe("BETTER logotype asset (VAL-VISUAL-019, VAL-VISUAL-023)", () => {
 // ---------------------------------------------------------------------------
 
 describe("BETTER brand dominance via logotype (VAL-NARR-012)", () => {
-  it("hero h1 contains the logotype image, not just text", () => {
+  it("brand band h1 contains the logotype image, not just text", () => {
     render(<Home />);
-    const hero = screen.getByTestId("hero-section");
-    const h1 = within(hero).getByRole("heading", { level: 1 });
+    const brandBand = screen.getByTestId("compact-brand-band");
+    const h1 = within(brandBand).getByRole("heading", { level: 1 });
     expect(h1).toBeInTheDocument();
-    // h1 should contain the logotype img
     const logotypeImg = h1.querySelector('img[data-testid="hero-logotype"]');
     expect(logotypeImg).toBeInTheDocument();
   });
@@ -155,14 +154,14 @@ describe("Full-shell atmosphere (VAL-VISUAL-020)", () => {
     const atmosphere = document.querySelector('[data-testid="site-atmosphere"]');
     expect(atmosphere).toBeInTheDocument();
     // Graph-first shell: major surfaces are inside the atlas section and graph shell.
-    // Check that the hero and atlas sections are within the atmosphere.
-    const hero = document.getElementById("what-is-better");
+    // Check that the brand band, atlas, and proof are within the atmosphere.
+    const brandBand = document.querySelector('[data-testid="compact-brand-band"]');
     const atlas = document.getElementById("atlas");
     const proof = document.getElementById("proof");
-    expect(hero).toBeInTheDocument();
+    expect(brandBand).toBeInTheDocument();
     expect(atlas).toBeInTheDocument();
     expect(proof).toBeInTheDocument();
-    expect(atmosphere!.contains(hero!)).toBe(true);
+    expect(atmosphere!.contains(brandBand!)).toBe(true);
     expect(atmosphere!.contains(atlas!)).toBe(true);
     expect(atmosphere!.contains(proof!)).toBe(true);
   });
@@ -191,14 +190,17 @@ describe("Shell readability under persistent atmosphere (VAL-VISUAL-022)", () =>
   it("sections have readable content layers above the atmosphere", () => {
     renderWithAtmosphere();
     // Graph-first shell: major surfaces are inside the atlas section and graph shell.
-    // Check that the hero, proof, and atlas sections have readable content.
-    const sections = ["what-is-better", "proof", "atlas"];
+    // Check that the proof and atlas sections have readable content.
+    const sections = ["proof", "atlas"];
     for (const id of sections) {
       const section = document.getElementById(id);
       expect(section).toBeInTheDocument();
-      // Section should have visible text content
       expect(section!.textContent!.length).toBeGreaterThan(10);
     }
+    // Also check the compact brand band
+    const brandBand = document.querySelector('[data-testid="compact-brand-band"]');
+    expect(brandBand).toBeInTheDocument();
+    expect(brandBand!.textContent!.length).toBeGreaterThan(10);
   });
 
   it("content layer is positioned above the atmosphere background", () => {

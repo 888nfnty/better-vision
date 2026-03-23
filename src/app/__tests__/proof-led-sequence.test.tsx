@@ -39,11 +39,11 @@ describe("Proof-before-density ordering (VAL-NARR-013)", () => {
     expect(graphShell).toBeInTheDocument();
   });
 
-  it("proof section appears after the hero section in DOM order", async () => {
+  it("proof section appears after the compact brand band in DOM order", async () => {
     render(<Home />);
-    const hero = screen.getByTestId("hero-section");
+    const brandBand = screen.getByTestId("compact-brand-band");
     const proof = await screen.findByTestId("proof-section");
-    const comparison = hero.compareDocumentPosition(proof);
+    const comparison = brandBand.compareDocumentPosition(proof);
     expect(comparison & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
@@ -65,15 +65,14 @@ describe("Proof-before-density ordering (VAL-NARR-013)", () => {
 describe("Section hierarchy is proof-led and single-purpose (VAL-CROSS-009)", () => {
   it("landing page sections appear in graph-workspace-first order", async () => {
     render(<Home />);
-    const hero = screen.getByTestId("hero-section");
+    const brandBand = screen.getByTestId("compact-brand-band");
     const proof = await screen.findByTestId("proof-section");
     const atlas = document.getElementById("atlas");
 
-    // Atlas (graph workspace, genuinely first) → Hero → Proof (supplementary)
+    // Atlas contains brand band and graph shell. Proof is supplementary below.
     // VAL-ROADMAP-014: default loaded state is a pure graph workspace — graph-first
-    // VAL-CROSS-014: graph workspace has investor-path entry, no proof-page handoff
-    expect(atlas!.compareDocumentPosition(hero) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(hero.compareDocumentPosition(proof) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(atlas!.contains(brandBand)).toBe(true);
+    expect(brandBand.compareDocumentPosition(proof) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it("proof section has a single dominant job (proof/trust)", async () => {
@@ -142,10 +141,10 @@ describe("CTA promises stay consistent across surfaces (VAL-CROSS-011)", () => {
 describe("First-visit comprehension flow (VAL-CROSS-001)", () => {
   it("first sections explain BETTER, show proof, then offer graph exploration", async () => {
     render(<Home />);
-    // Hero: what BETTER is
-    const hero = screen.getByTestId("hero-section");
-    expect(hero.textContent).toMatch(/BETTER/);
-    expect(hero.textContent).toMatch(/prediction-market/i);
+    // Brand band: what BETTER is
+    const brandBand = screen.getByTestId("compact-brand-band");
+    expect(brandBand.textContent).toMatch(/BETTER/);
+    expect(brandBand.textContent).toMatch(/prediction-market/i);
 
     // Proof: why to trust BETTER
     const proof = await screen.findByTestId("proof-section");
@@ -159,9 +158,9 @@ describe("First-visit comprehension flow (VAL-CROSS-001)", () => {
   it("proof surface is visible without extensive scrolling past dense content", async () => {
     render(<Home />);
     const proof = await screen.findByTestId("proof-section");
-    const hero = screen.getByTestId("hero-section");
-    // Proof is the immediate next major section after hero
-    const comparison = hero.compareDocumentPosition(proof);
+    const brandBand = screen.getByTestId("compact-brand-band");
+    // Proof follows the brand band and graph workspace
+    const comparison = brandBand.compareDocumentPosition(proof);
     expect(comparison & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 });

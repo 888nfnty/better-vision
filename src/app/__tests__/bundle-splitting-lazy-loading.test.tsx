@@ -132,15 +132,15 @@ describe("Dynamic import structure (VAL-VISUAL-027)", () => {
 // ---------------------------------------------------------------------------
 
 describe("Content-first rendering (VAL-VISUAL-001, VAL-VISUAL-027)", () => {
-  it("hero tagline and definition are visible in initial page render", () => {
+  it("brand band tagline and definition are visible in initial page render", () => {
     render(<Home />);
-    // The tagline should be visible immediately (not blocked by heavy JS)
+    // The tagline should be visible immediately (server-rendered compact brand band)
     const tagline = screen.getByTestId("hero-tagline");
     expect(tagline).toBeInTheDocument();
     expect(tagline.textContent).toContain("Prediction-market intelligence");
   });
 
-  it("hero CTAs are visible in initial page render", () => {
+  it("brand band CTAs are visible in initial page render", () => {
     render(<Home />);
     expect(screen.getByTestId("cta-primary")).toBeInTheDocument();
     expect(screen.getByTestId("cta-secondary")).toBeInTheDocument();

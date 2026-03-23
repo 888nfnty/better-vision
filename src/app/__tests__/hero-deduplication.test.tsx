@@ -1,28 +1,24 @@
 /**
- * Hero deduplication and logotype visibility tests.
+ * Hero deduplication, logotype visibility, and graph-first ordering tests.
  *
  * VAL-VISUAL-026: The page does not render a duplicate standalone hero
  * beneath the graph workspace. The BETTER logotype SVG is visible at the
  * top of the graph-first workspace. Only one hero/brand surface exists.
+ *
+ * Graph-first ordering: GraphExplorer is the primary above-the-fold
+ * surface. Only a minimal compact brand treatment (logotype + tagline)
+ * exists — no full hero section above the graph workspace.
  */
 import { render, screen } from "@testing-library/react";
 import Home from "../page";
 
 describe("Hero deduplication (VAL-VISUAL-026)", () => {
-  it("does NOT render a standalone hero section beneath the graph workspace", () => {
+  it("does NOT render a standalone hero section — uses compact brand band instead", () => {
     render(<Home />);
-    // There should be exactly ONE hero/brand surface (inside the atlas),
-    // not a separate standalone hero section below the graph.
+    // No standalone hero-section (data-testid="hero-section") should exist.
+    // The brand treatment is a compact band (data-testid="compact-brand-band").
     const heroSections = document.querySelectorAll('[data-testid="hero-section"]');
-    // Should have exactly one hero surface, integrated into the graph workspace
-    expect(heroSections.length).toBe(1);
-
-    // The single hero surface should be INSIDE the atlas section (graph workspace),
-    // not a separate sibling section after it.
-    const atlas = document.getElementById("atlas");
-    expect(atlas).toBeInTheDocument();
-    const heroSection = heroSections[0];
-    expect(atlas!.contains(heroSection)).toBe(true);
+    expect(heroSections.length).toBe(0);
   });
 
   it("BETTER logotype SVG is prominent at the top of the graph-first workspace", () => {
@@ -30,7 +26,7 @@ describe("Hero deduplication (VAL-VISUAL-026)", () => {
     const atlas = document.getElementById("atlas");
     expect(atlas).toBeInTheDocument();
 
-    // The logotype should be inside the atlas section (graph workspace)
+    // The logotype should be inside the atlas section (compact brand band)
     const logotype = atlas!.querySelector('img[data-testid="hero-logotype"]');
     expect(logotype).toBeInTheDocument();
     expect(logotype!.getAttribute("src")).toContain("better-logotype");
@@ -38,18 +34,39 @@ describe("Hero deduplication (VAL-VISUAL-026)", () => {
 
   it("only one hero/brand surface exists in the entire page", () => {
     render(<Home />);
-    // Count all hero-section testids in the page
+    // No standalone hero-section should exist
     const heroSections = document.querySelectorAll('[data-testid="hero-section"]');
-    expect(heroSections.length).toBe(1);
+    expect(heroSections.length).toBe(0);
+
+    // The compact brand band should exist exactly once
+    const brandBands = document.querySelectorAll('[data-testid="compact-brand-band"]');
+    expect(brandBands.length).toBe(1);
   });
 
-  it("the hero/brand band appears before the graph node grid", () => {
+  it("graph-first ordering: compact brand band appears before graph shell, both inside atlas", async () => {
     render(<Home />);
-    const heroBrand = screen.getByTestId("hero-section");
-    const graphOverview = screen.getByTestId("graph-overview");
+    const atlas = document.getElementById("atlas");
+    expect(atlas).toBeInTheDocument();
 
-    // Hero/brand should come before graph overview in DOM order
-    const position = heroBrand.compareDocumentPosition(graphOverview);
+    const brandBand = screen.getByTestId("compact-brand-band");
+    const graphShell = await screen.findByTestId("graph-shell");
+
+    // Both are inside the atlas section
+    expect(atlas!.contains(brandBand)).toBe(true);
+    expect(atlas!.contains(graphShell)).toBe(true);
+
+    // The compact brand band appears before the graph shell (as a header)
+    const position = brandBand.compareDocumentPosition(graphShell);
     expect(position & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("no full hero section exists above the graph workspace", async () => {
+    render(<Home />);
+    const atlas = document.getElementById("atlas");
+    expect(atlas).toBeInTheDocument();
+
+    // No data-testid="hero-section" should exist anywhere in the atlas
+    const heroSections = atlas!.querySelectorAll('[data-testid="hero-section"]');
+    expect(heroSections.length).toBe(0);
   });
 });
