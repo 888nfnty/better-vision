@@ -150,7 +150,7 @@ export default function VaultCapacityModel() {
               onClick={() => setActiveScenario(key)}
               className={`rounded-lg px-4 py-2 font-terminal text-sm transition-colors ${
                 activeScenario === key
-                  ? "text-accent ring-1 ring-[rgba(69,94,255,0.30)]"
+                  ? "text-foreground ring-1 ring-[rgba(255,255,255,0.20)]"
                   : "text-secondary hover:text-foreground"
               }`}
               style={{

@@ -180,7 +180,7 @@ export default function FirstVaultPolicy() {
           <LiquidMetalCard
             key={ex.label}
             className={`p-4 ${
-              ex.qualifies ? "ring-1 ring-[rgba(69,94,255,0.30)]" : ""
+              ex.qualifies ? "ring-1 ring-[rgba(255,255,255,0.20)]" : ""
             }`}
             data-testid="first-vault-example"
             data-qualifies={String(ex.qualifies)}

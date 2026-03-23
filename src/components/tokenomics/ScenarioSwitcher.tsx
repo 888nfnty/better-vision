@@ -159,7 +159,7 @@ export default function ScenarioSwitcher() {
             onClick={() => handleScenarioChange(level)}
             className={`flex-1 rounded-lg px-4 py-3 text-center font-terminal text-sm font-medium transition-all ${
               activeLevel === level
-                ? "text-accent ring-1 ring-[rgba(69,94,255,0.30)]"
+                ? "text-foreground ring-1 ring-[rgba(255,255,255,0.20)]"
                 : "text-secondary hover:text-foreground"
             }`}
             style={{

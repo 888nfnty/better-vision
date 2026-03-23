@@ -138,7 +138,7 @@ function TierDetailCard({ tier }: { tier: TokenTier }) {
   return (
     <LiquidMetalCard
       className={`p-4 ${
-        isWhaleOrAbove ? "ring-1 ring-[rgba(69,94,255,0.30)]" : ""
+        isWhaleOrAbove ? "ring-1 ring-[rgba(255,255,255,0.20)]" : ""
       }`}
       data-testid="tier-detail-card"
       data-tier-id={tier.id}

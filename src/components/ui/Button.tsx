@@ -28,7 +28,7 @@ const buttonVariants = cva(
         ghost:
           "text-secondary hover:text-foreground hover:bg-surface",
         live:
-          "bg-accent-green text-[#101010] hover:bg-accent-green/90 font-semibold",
+          "bg-white text-[#101010] hover:shadow-[0px_0px_16px_0px_rgba(255,255,255,0.75)] font-semibold",
       },
       size: {
         sm: "h-8 px-3 text-xs",

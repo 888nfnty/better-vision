@@ -85,7 +85,7 @@
 @theme inline {
   /* Backgrounds */
   --color-background: var(--bg-primary);
-  --color-foreground: var(--text-primary);
+  --color-foreground: var(--text-secondary);
   --color-surface: var(--bg-surface);
   --color-elevated: var(--bg-elevated);
   --color-raised: var(--bg-raised);
@@ -94,14 +94,16 @@
   --color-muted: var(--text-muted);
   --color-secondary: var(--text-secondary);
 
-  /* Accent — BETTER blue primary */
-  --color-accent: var(--accent-primary);
-  --color-accent-bright: var(--accent-primary-bright);
-  --color-accent-dim: var(--accent-primary-dim);
+  /* Accent — white for UI text/border highlights (NOT blue).
+   * #455eff is reserved for atmospheric background gradients only.
+   * UI accent classes (text-accent, bg-accent, border-accent) use white. */
+  --color-accent: #ffffff;
+  --color-accent-bright: #e6e6e6;
+  --color-accent-dim: #a0a0a0;
 
   /* Supporting accents — neon green for status dots only */
   --color-accent-green: var(--accent-green);
-  --color-accent-secondary: var(--accent-primary-bright);
+  --color-accent-secondary: #a0a0a0;
 
   /* Grayscale palette for UI states that previously used colored accents.
    * tradebetter uses only green + blue accents; everything else is grayscale. */
@@ -125,7 +127,7 @@ html {
 
 body {
   background: var(--bg-primary);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-family: var(--font-mono), "IBM Plex Mono", monospace;
 }
 

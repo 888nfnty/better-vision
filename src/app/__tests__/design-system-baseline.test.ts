@@ -33,8 +33,8 @@ describe("Design system baseline", () => {
       expect(globalsCss).toContain("--border-accent:");
     });
 
-    it("maps accent to BETTER blue in the Tailwind theme", () => {
-      expect(globalsCss).toContain("--color-accent: var(--accent-primary)");
+    it("maps accent to white in the Tailwind theme (blue reserved for atmospheric gradients only)", () => {
+      expect(globalsCss).toContain("--color-accent: #ffffff");
     });
 
     it("maps accent-green for tailwind usage", () => {

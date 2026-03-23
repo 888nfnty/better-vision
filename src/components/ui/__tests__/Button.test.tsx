@@ -28,10 +28,12 @@ describe("Button", () => {
     expect(btn.className).toContain("text-secondary");
   });
 
-  it("renders live variant with green accent", () => {
+  it("renders live variant with white background (not green fill)", () => {
     render(<Button variant="live">Live Action</Button>);
     const btn = screen.getByRole("button", { name: "Live Action" });
-    expect(btn.className).toContain("bg-accent-green");
+    // Live CTA uses white bg like primary — green is reserved for status dots only
+    expect(btn.className).toContain("bg-white");
+    expect(btn.className).not.toContain("bg-accent-green");
   });
 
   it("has SQUARE corners (0px radius) — tradebetter brutalist style", () => {
