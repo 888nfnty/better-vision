@@ -1,0 +1,21 @@
+{
+  "featureId": "investor-visual-enhanced-path-runtime-smoothness-evidence",
+  "reviewedAt": "2026-03-23T04:46:27.063943Z",
+  "commitId": "af863d3518cfb14b68e7b38b4b549b4b2bb4434f",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Pass. I reviewed the original failed feature review plus the rerun fix feature together. The original rerun commit `2be94f8` added the constrained/mobile motion path and tradebetter comparison evidence, but its desktop runtime observation was still fallback-only as the prior review noted. The follow-up commit `af863d3` directly closes that remaining blocker by adding repo-committed headed/GPU evidence under `.factory/evidence/enhanced-path-runtime/`. That evidence explicitly records `data-visual-state=enhanced` and `data-motion-layers=2` during measurement (`.factory/evidence/enhanced-path-runtime/README.md:27-32,51`), confirms four active canvases with two WebGL layers on ANGLE Metal / Apple M1 Pro (`README.md:39-45` and `:151-154`), captures concrete runtime metrics from the active enhanced path including 37.7 effective FPS, 86.6% smooth frames, and zero severe jank (`README.md:57-64`), reports zero long tasks (`README.md:85-89`), and documents deferred heavy-layer loading with first contentful paint at 172 ms (`README.md:97-115`). I also reviewed the committed screenshot pair `enhanced-frame-a.png` / `enhanced-frame-b.png`, which shows visible atmospheric differences between captures consistent with motion while the enhanced path was active. That is the exact evidence type the prior blocking review required, so the fix resolves the outstanding VAL-VISUAL-025 gap without requiring further code changes.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The frontend-experience-worker skill's failing-tests-first requirement is too rigid for evidence-capture-only fixes that do not modify application code or behavior.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:29` requires new failing tests before implementation, but the evidence-only fix handoff `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T04-42-53-444Z__investor-visual-enhanced-path-runtime-smoothness-evidence__5e944e48-d723-4042-b02a-1cd9af60d6ee.json:65-74` shows a justified deviation because the feature only captured headed-browser runtime evidence and made no code change."
+    }
+  ],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/investor-grade-mindmap-performance-valuation/scrutiny/reviews/investor-visual-parity-mobile-motion-and-evidence-gaps-fix.json",
+  "summary": "Pass. The original rerun still failed because its desktop observation stayed in fallback mode, but the follow-up fix now commits headed/GPU-capable evidence from an actually active enhanced desktop session (`data-visual-state=enhanced`, `data-motion-layers=2`) with concrete smoothness, long-task, and deferred-load observations, so the prior VAL-VISUAL-025 blocker is resolved."
+}

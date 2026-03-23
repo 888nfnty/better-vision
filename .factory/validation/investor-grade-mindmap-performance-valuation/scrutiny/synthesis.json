@@ -1,64 +1,50 @@
 {
   "milestone": "investor-grade-mindmap-performance-valuation",
-  "round": 3,
-  "status": "fail",
+  "round": 4,
+  "status": "pass",
   "validatorsRun": {
     "test": {
       "passed": true,
-      "command": "npm run test",
+      "command": "npm --prefix \"/Users/test/vision\" run test",
       "exitCode": 0
     },
     "typecheck": {
       "passed": true,
-      "command": "npx tsc --noEmit",
+      "command": "npx --prefix \"/Users/test/vision\" tsc --noEmit -p \"/Users/test/vision/tsconfig.json\"",
       "exitCode": 0
     },
     "lint": {
       "passed": true,
-      "command": "npm run lint",
+      "command": "npm --prefix \"/Users/test/vision\" run lint",
+      "exitCode": 0
+    },
+    "build": {
+      "passed": true,
+      "command": "npm --prefix \"/Users/test/vision\" run build",
       "exitCode": 0
     }
   },
   "reviewsSummary": {
     "total": 2,
-    "passed": 0,
-    "failed": 2,
-    "failedFeatures": [
-      "investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix",
-      "investor-visual-parity-mobile-motion-and-evidence-gaps-fix"
-    ]
+    "passed": 2,
+    "failed": 0,
+    "failedFeatures": []
   },
-  "blockingIssues": [
-    {
-      "featureId": "investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix",
-      "severity": "blocking",
-      "description": "Current HEAD still leaves the `pe-terminal-open` audit gate satisfiable via a private report merely provided to BETTER, so the proof gate is not consistently externally observable/investor-verifiable under VAL-ROADMAP-016."
-    },
-    {
-      "featureId": "investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix",
-      "severity": "blocking",
-      "description": "Current HEAD still leaves the `re-enterprise-data` proof gate dependent on a private signed agreement plus internal usage evidence, so the gate remains non-observable externally under VAL-ROADMAP-016."
-    },
-    {
-      "featureId": "investor-visual-parity-mobile-motion-and-evidence-gaps-fix",
-      "severity": "blocking",
-      "description": "Current HEAD still has no concrete runtime smoothness evidence from an actually active enhanced desktop motion session; the latest recorded desktop observation remains fallback-only (`data-visual-state=fallback`, `data-motion-layers=0`), so the runtime-smoothness half of VAL-VISUAL-025 remains unresolved."
-    }
-  ],
+  "blockingIssues": [],
   "appliedUpdates": [],
   "suggestedGuidanceUpdates": [
     {
-      "target": "content-strategy-worker skill",
-      "suggestion": "Require transcript-visible `.factory/library/*.md` reads before content-model edits, or an explicit handoff deviation when workers proceed without them.",
-      "evidence": "The round-3 review for `investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix` again found no transcript-visible library read before the first edit while the handoff still reported `followedProcedure=true`.",
-      "isSystemic": true
+      "target": "frontend-experience-worker skill",
+      "suggestion": "Allow an explicit evidence-capture-only exception to the failing-tests-first rule, as long as the worker records why no user-facing code changed and still completes the required headed-browser verification.",
+      "evidence": "The review for `investor-visual-enhanced-path-runtime-smoothness-evidence` found a justified deviation because the fix only committed headed-browser runtime evidence and made no application code change, yet the current skill still frames failing tests as mandatory for every feature.",
+      "isSystemic": false
     }
   ],
   "rejectedObservations": [
     {
-      "observation": "Repeat the prior frontend-experience-worker guidance about requiring headed/GPU-capable enhanced-path evidence for VAL-VISUAL-025.",
-      "reason": "already-addressed by current HEAD changes to `.factory/skills/frontend-experience-worker/SKILL.md` in commit `1bbe15f`"
+      "observation": "The content-strategy-worker skill still overstates procedure adherence because fix workers reported `followedProcedure=true` without transcript-visible `.factory/library/*.md` reads before the first edit.",
+      "reason": "duplicate of the prior round's suggested guidance update in `.factory/validation/investor-grade-mindmap-performance-valuation/scrutiny/synthesis.round3.json`; this rerun adds no new remediation beyond the already-documented orchestrator recommendation"
     }
   ],
-  "previousRound": ".factory/validation/investor-grade-mindmap-performance-valuation/scrutiny/synthesis.round2.json"
+  "previousRound": ".factory/validation/investor-grade-mindmap-performance-valuation/scrutiny/synthesis.round3.json"
 }

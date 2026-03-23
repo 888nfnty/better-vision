@@ -1,0 +1,21 @@
+{
+  "featureId": "investor-roadmap-proof-gate-public-observability-fix",
+  "reviewedAt": "2026-03-23T04:46:10.483041Z",
+  "commitId": "8c58bd68d45556b276b4057a3c44771b67d368d3",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Pass. I reviewed the prior failed review, both feature handoffs, both transcript skeletons, commit 2c9ca1d for the original fix, commit 8c58bd6 for the rerun fix, and current HEAD. The rerun changes only the two remaining blockers in `src/content/execution-plans.ts` and adds focused regression tests: `pe-terminal-open` now requires a publicly hosted audit/disclosure surface, and `re-enterprise-data` now requires a public case-study / press-release / named-partnership proof surface. Those two gates are now publicly observable and investor-verifiable rather than satisfiable via private delivery or private agreements, so the prior VAL-ROADMAP-016 failures are resolved without regressing the broader execution-plan coverage added in 2c9ca1d.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The content-strategy-worker skill still overstates procedure adherence: both the original failing worker and the rerun fix worker reported `skillFeedback.followedProcedure=true`, but neither transcript skeleton shows any `.factory/library/*.md` read before the first edit even though the skill requires those reads before changing anything.",
+      "evidence": "`/Users/test/vision/.factory/skills/content-strategy-worker/SKILL.md:20-23` requires reading relevant `.factory/library/*.md` files before changes and writing failing tests first. In `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/worker-transcripts.jsonl`, session `5d66e932-4b1b-4acd-ba24-6ed0b53ef78a` reaches its first `## Tool: Edit` at character 12392 with no `.factory/library/` path present earlier, and session `a1e7e39a-a086-4e01-9694-9c9430cc84b6` reaches its first `## Tool: Edit` at character 8084 with no `.factory/library/` path present earlier; both handoffs still report `\"followedProcedure\": true`."
+    }
+  ],
+  "addressesFailureFrom": "/Users/test/vision/.factory/validation/investor-grade-mindmap-performance-valuation/scrutiny/reviews/investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix.json",
+  "summary": "Pass. The rerun fix directly addresses the two remaining review blockers: `pe-terminal-open` now requires a public audit/disclosure surface, and `re-enterprise-data` now requires a public client-facing pilot proof surface, with targeted tests preventing regression to the prior private/internal wording."
+}

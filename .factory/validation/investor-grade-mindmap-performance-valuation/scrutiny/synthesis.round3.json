@@ -1,0 +1,64 @@
+{
+  "milestone": "investor-grade-mindmap-performance-valuation",
+  "round": 3,
+  "status": "fail",
+  "validatorsRun": {
+    "test": {
+      "passed": true,
+      "command": "npm run test",
+      "exitCode": 0
+    },
+    "typecheck": {
+      "passed": true,
+      "command": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    "lint": {
+      "passed": true,
+      "command": "npm run lint",
+      "exitCode": 0
+    }
+  },
+  "reviewsSummary": {
+    "total": 2,
+    "passed": 0,
+    "failed": 2,
+    "failedFeatures": [
+      "investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix",
+      "investor-visual-parity-mobile-motion-and-evidence-gaps-fix"
+    ]
+  },
+  "blockingIssues": [
+    {
+      "featureId": "investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix",
+      "severity": "blocking",
+      "description": "Current HEAD still leaves the `pe-terminal-open` audit gate satisfiable via a private report merely provided to BETTER, so the proof gate is not consistently externally observable/investor-verifiable under VAL-ROADMAP-016."
+    },
+    {
+      "featureId": "investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix",
+      "severity": "blocking",
+      "description": "Current HEAD still leaves the `re-enterprise-data` proof gate dependent on a private signed agreement plus internal usage evidence, so the gate remains non-observable externally under VAL-ROADMAP-016."
+    },
+    {
+      "featureId": "investor-visual-parity-mobile-motion-and-evidence-gaps-fix",
+      "severity": "blocking",
+      "description": "Current HEAD still has no concrete runtime smoothness evidence from an actually active enhanced desktop motion session; the latest recorded desktop observation remains fallback-only (`data-visual-state=fallback`, `data-motion-layers=0`), so the runtime-smoothness half of VAL-VISUAL-025 remains unresolved."
+    }
+  ],
+  "appliedUpdates": [],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "content-strategy-worker skill",
+      "suggestion": "Require transcript-visible `.factory/library/*.md` reads before content-model edits, or an explicit handoff deviation when workers proceed without them.",
+      "evidence": "The round-3 review for `investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix` again found no transcript-visible library read before the first edit while the handoff still reported `followedProcedure=true`.",
+      "isSystemic": true
+    }
+  ],
+  "rejectedObservations": [
+    {
+      "observation": "Repeat the prior frontend-experience-worker guidance about requiring headed/GPU-capable enhanced-path evidence for VAL-VISUAL-025.",
+      "reason": "already-addressed by current HEAD changes to `.factory/skills/frontend-experience-worker/SKILL.md` in commit `1bbe15f`"
+    }
+  ],
+  "previousRound": ".factory/validation/investor-grade-mindmap-performance-valuation/scrutiny/synthesis.round2.json"
+}
