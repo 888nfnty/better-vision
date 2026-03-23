@@ -51,14 +51,17 @@
    * Previously defined warn and danger accent tokens have been removed. */
 
   /* Borders — tradebetter-exact values
-   * Design system ref: .factory/library/tradebetter-exact-design-reference.md § Borders */
+   * Design system ref: .factory/library/tradebetter-exact-design-reference.md § Borders
+   * NOTE: --border-accent (blue) has been permanently removed.
+   *   #455eff is atmospheric-gradient-only and must not appear in border tokens.
+   *   UI border highlights use --border-active or white-based values. */
   --border-default: #1e1e28;
   --border-active: #2e2e3a;
-  --border-accent: rgba(69, 94, 255, 0.25);
 
-  /* Shadows — tradebetter-exact CTA glow effects */
+  /* Shadows — tradebetter-exact CTA glow effects
+   * NOTE: --glow-green has been permanently removed.
+   *   #00ff00 is status-dot-only and must not appear in glow/shadow tokens. */
   --glow-white: 0px 0px 16px 0px rgba(255, 255, 255, 0.75);
-  --glow-green: 0px 0px 12px 0px rgba(0, 255, 0, 0.5);
 
   /* Typography — tradebetter-exact font stacks
    * Headings: Helvetica Neue Medium (shipped as Geist Sans via --font-display)
@@ -110,10 +113,12 @@
   --color-text-bright: #e6e6e6;
   --color-text-dim: #404040;
 
-  /* Borders */
+  /* Borders
+   * NOTE: --color-border-accent (blue) has been permanently removed.
+   *   #455eff is atmospheric-gradient-only — Tailwind's border-accent
+   *   resolves through --color-accent (#ffffff) instead. */
   --color-border: var(--border-default);
   --color-border-active: var(--border-active);
-  --color-border-accent: var(--border-accent);
 
   /* Fonts */
   --font-sans: var(--font-geist-sans);
@@ -198,20 +203,12 @@ h1, h2, h3, h4, h5, h6 {
    ----------------------------------------------------------------------- */
 
 /* -----------------------------------------------------------------------
-   Glow effects — BETTER blue accent
+   Glow effects
+   NOTE: .glow-accent (blue glow) and .glow-green (green glow) have been
+   permanently removed. #455eff is atmospheric-gradient-only and #00ff00
+   is status-dot-only — neither may appear in text-shadow/glow utilities.
+   The only approved glow is --glow-white for CTA hover effects.
    ----------------------------------------------------------------------- */
-
-.glow-accent {
-  text-shadow: 0 0 12px rgba(69, 94, 255, 0.5),
-    0 0 40px rgba(69, 94, 255, 0.2),
-    0 0 80px rgba(69, 94, 255, 0.05);
-}
-
-/* Green accent glow (for live-status highlights — #00ff00 exact) */
-.glow-green {
-  text-shadow: 0 0 10px rgba(0, 255, 0, 0.3),
-    0 0 20px rgba(0, 255, 0, 0.1);
-}
 
 /* -----------------------------------------------------------------------
    Radiant fallback gradient — CSS-only, always visible

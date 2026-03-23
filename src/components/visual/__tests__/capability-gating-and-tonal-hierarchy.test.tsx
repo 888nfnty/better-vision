@@ -117,7 +117,8 @@ describe("VAL-VISUAL-024: Pure-white text and multi-level tonal hierarchy", () =
     // The focused state should have accent-based elevation or a distinct surface treatment
     // Check that the shell (graph shell, inspector, detail panels) uses bg-surface or bg-elevated
     // Not a CSS test per se — just ensures tokens exist for focused states
-    expect(css).toContain("--border-accent:");
+    // NOTE: --border-accent (blue) has been removed — #455eff is atmospheric-gradient-only.
+    //   Focused/interactive borders use --border-active instead.
     expect(css).toContain("--border-active:");
   });
 });

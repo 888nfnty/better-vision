@@ -29,8 +29,8 @@ describe("Design system baseline", () => {
       expect(globalsCss).toContain("--bg-raised:");
     });
 
-    it("defines an accent border token", () => {
-      expect(globalsCss).toContain("--border-accent:");
+    it("does NOT define --border-accent (blue border removed — #455eff is atmospheric-gradient-only)", () => {
+      expect(globalsCss).not.toMatch(/--border-accent\s*:/);
     });
 
     it("maps accent to white in the Tailwind theme (blue reserved for atmospheric gradients only)", () => {
