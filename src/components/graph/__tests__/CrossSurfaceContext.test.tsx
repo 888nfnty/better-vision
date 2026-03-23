@@ -16,14 +16,46 @@ import { GraphShell } from "../GraphShell";
 import { GRAPH_NODES } from "@/content/graph-nodes";
 import ProofModule from "@/components/ProofModule";
 
-/** Helper: click a graph node button in the main node grid (not minimap/related) */
+/**
+ * Helper: get a graph node button from the overview grid.
+ * If a node is currently focused (grid hidden), returns null.
+ * Use `navigateToNode` for cross-surface navigation that handles
+ * the focused-state grid collapse (VAL-VISUAL-033).
+ */
 function getOverviewNodeButton(name: RegExp) {
-  const nodeButtons = screen.getAllByTestId("graph-node-button");
+  const nodeButtons = screen.queryAllByTestId("graph-node-button");
+  if (nodeButtons.length === 0) return null;
   const match = nodeButtons.find((el) =>
     el.getAttribute("aria-label")?.match(name)
   );
   if (!match) throw new Error(`No graph-node-button matching ${name}`);
   return match;
+}
+
+/**
+ * Helper: navigate to a graph node by its label, handling focused-state
+ * grid collapse. If focused, dispatches a hash change to navigate directly.
+ */
+async function navigateToNode(nodeId: string) {
+  // If the grid is visible, click through it
+  const nodeButtons = screen.queryAllByTestId("graph-node-button");
+  if (nodeButtons.length > 0) {
+    // Find the node by aria-label (use label matching)
+    const match = nodeButtons.find((el) => {
+      const label = el.getAttribute("aria-label")?.toLowerCase() ?? "";
+      return label.includes(nodeId.toLowerCase());
+    });
+    if (match) {
+      const user = userEvent.setup();
+      await user.click(match);
+      return;
+    }
+  }
+  // Grid is hidden (focused state) — navigate via hash change
+  act(() => {
+    window.location.hash = `#graph-${nodeId}`;
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+  });
 }
 
 beforeEach(() => {
@@ -41,7 +73,7 @@ describe("VAL-CROSS-002: Cross-surface context preservation", () => {
     render(<GraphShell />);
 
     // Navigate to Roadmap
-    await user.click(getOverviewNodeButton(/roadmap/i));
+    await user.click(getOverviewNodeButton(/roadmap/i)!);
     expect(window.location.hash).toBe("#graph-roadmap");
 
     // Navigate to a related node (tokenomics)
@@ -69,9 +101,11 @@ describe("VAL-CROSS-002: Cross-surface context preservation", () => {
     render(<GraphShell />);
 
     // Navigate: Roadmap → Architecture → Evidence
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
-    await user.click(getOverviewNodeButton(/^architecture$/i));
-    await user.click(getOverviewNodeButton(/^evidence/i));
+    // After focusing the first node, the grid is hidden (VAL-VISUAL-033),
+    // so subsequent navigations use hash changes to simulate direct traversal.
+    await user.click(getOverviewNodeButton(/^roadmap$/i)!);
+    await navigateToNode("architecture");
+    await navigateToNode("evidence");
 
     // Back to Architecture
     act(() => {
@@ -99,7 +133,7 @@ describe("VAL-CROSS-002: Cross-surface context preservation", () => {
     const user = userEvent.setup();
     render(<GraphShell />);
 
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await user.click(getOverviewNodeButton(/tokenomics/i)!);
 
     // Back to overview (clear hash)
     act(() => {
@@ -126,7 +160,7 @@ describe("VAL-CROSS-003: Scenario state persistence", () => {
     render(<GraphShell surfaces={surfaces} />);
 
     // Navigate to tokenomics
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await user.click(getOverviewNodeButton(/tokenomics/i)!);
 
     // Hash should include tokenomics focus
     expect(window.location.hash).toBe("#graph-tokenomics");
@@ -138,7 +172,7 @@ describe("VAL-CROSS-003: Scenario state persistence", () => {
     render(<GraphShell />);
 
     // Focus on Tokenomics
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await user.click(getOverviewNodeButton(/tokenomics/i)!);
     expect(window.location.hash).toBe("#graph-tokenomics");
 
     // Switch to another surface via hash — simulating back/forward
@@ -159,7 +193,6 @@ describe("VAL-CROSS-003: Scenario state persistence", () => {
 // ---------------------------------------------------------------------------
 describe("VAL-CROSS-012: Shell coherence across major surfaces", () => {
   it("all graph nodes render their surfaces inside the same shell", async () => {
-    const user = userEvent.setup();
     const surfaces: Record<string, React.ReactNode> = {};
     GRAPH_NODES.forEach((node) => {
       surfaces[node.id] = (
@@ -168,15 +201,11 @@ describe("VAL-CROSS-012: Shell coherence across major surfaces", () => {
     });
     render(<GraphShell surfaces={surfaces} />);
 
-    // Visit each surface and verify it renders inside the shell
+    // Visit each surface and verify it renders inside the shell.
+    // After focusing the first node, the grid collapses (VAL-VISUAL-033),
+    // so subsequent navigations use hash changes for direct traversal.
     for (const node of GRAPH_NODES) {
-      // Use graph-node-button testid to avoid matching minimap/related buttons
-      const nodeButtons = screen.getAllByTestId("graph-node-button");
-      const btn = nodeButtons.find((el) =>
-        el.getAttribute("aria-label") === node.label
-      );
-      expect(btn).toBeDefined();
-      await user.click(btn!);
+      await navigateToNode(node.id);
 
       const shell = screen.getByTestId("graph-shell");
       const focused = screen.getByTestId("graph-focused-surface");
@@ -188,21 +217,26 @@ describe("VAL-CROSS-012: Shell coherence across major surfaces", () => {
     }
   });
 
-  it("navigation between surfaces preserves graph overview visibility", async () => {
+  it("navigation between surfaces preserves graph shell and compact toolbar visibility", async () => {
     const user = userEvent.setup();
     render(<GraphShell />);
 
     // Visit Roadmap
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
-    expect(screen.getByTestId("graph-overview")).toBeInTheDocument();
+    await user.click(getOverviewNodeButton(/^roadmap$/i)!);
+    // Graph overview (node grid) is now hidden when focused (VAL-VISUAL-033),
+    // but the compact toolbar and shell remain visible.
+    expect(screen.getByTestId("graph-compact-toolbar")).toBeInTheDocument();
+    expect(screen.getByTestId("graph-shell")).toBeInTheDocument();
 
-    // Visit Tokenomics
-    await user.click(getOverviewNodeButton(/tokenomics/i));
-    expect(screen.getByTestId("graph-overview")).toBeInTheDocument();
+    // Visit Tokenomics via hash navigation (grid hidden)
+    await navigateToNode("tokenomics");
+    expect(screen.getByTestId("graph-compact-toolbar")).toBeInTheDocument();
+    expect(screen.getByTestId("graph-shell")).toBeInTheDocument();
 
     // Visit Architecture
-    await user.click(getOverviewNodeButton(/architecture/i));
-    expect(screen.getByTestId("graph-overview")).toBeInTheDocument();
+    await navigateToNode("architecture");
+    expect(screen.getByTestId("graph-compact-toolbar")).toBeInTheDocument();
+    expect(screen.getByTestId("graph-shell")).toBeInTheDocument();
   });
 
   it("related node traversal maintains continuous shell navigation", async () => {
@@ -210,15 +244,16 @@ describe("VAL-CROSS-012: Shell coherence across major surfaces", () => {
     render(<GraphShell />);
 
     // Start at Roadmap
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    await user.click(getOverviewNodeButton(/^roadmap$/i)!);
 
     // Traverse through related nodes
     let relatedLinks = screen.getAllByTestId("graph-related-link");
     await user.click(relatedLinks[0]); // First related node
 
-    // Shell should still be intact with graph overview + focused surface
+    // Shell should still be intact with compact toolbar + focused surface
+    // (graph overview / node grid is hidden when focused — VAL-VISUAL-033)
     expect(screen.getByTestId("graph-shell")).toBeInTheDocument();
-    expect(screen.getByTestId("graph-overview")).toBeInTheDocument();
+    expect(screen.getByTestId("graph-compact-toolbar")).toBeInTheDocument();
     expect(screen.getByTestId("graph-focused-surface")).toBeInTheDocument();
 
     // Continue traversing
@@ -273,8 +308,6 @@ describe("VAL-CROSS-013: Proof→graph handoff", () => {
 // ---------------------------------------------------------------------------
 describe("Sub-surface state context handoffs", () => {
   it("preserves sub-surface content when switching graph nodes and returning", async () => {
-    const user = userEvent.setup();
-
     const MockRoadmapSurface = () => (
       <div data-testid="mock-roadmap">Roadmap content</div>
     );
@@ -286,16 +319,16 @@ describe("Sub-surface state context handoffs", () => {
 
     render(<GraphShell surfaces={surfaces} />);
 
-    // Focus on roadmap
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    // Focus on roadmap (grid visible in overview)
+    await navigateToNode("roadmap");
     expect(screen.getByTestId("mock-roadmap")).toBeInTheDocument();
 
-    // Switch to tokenomics
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    // Switch to tokenomics (grid hidden in focused state — use hash nav)
+    await navigateToNode("tokenomics");
     expect(screen.getByTestId("mock-tokenomics")).toBeInTheDocument();
 
     // Switch back to roadmap — surface should still render
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    await navigateToNode("roadmap");
     expect(screen.getByTestId("mock-roadmap")).toBeInTheDocument();
   });
 });

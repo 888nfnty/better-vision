@@ -198,4 +198,110 @@ describe("Clean graph workspace (VAL-VISUAL-033)", () => {
     const nextBtn = within(focusedSurface).queryByTestId("investor-path-next");
     expect(nextBtn).toBeInTheDocument();
   });
+
+  // -----------------------------------------------------------------------
+  // FOCUSED STATE: hide the full graph node grid when a node is focused
+  // -----------------------------------------------------------------------
+  it("hides graph node grid when a node is focused", async () => {
+    const user = userEvent.setup();
+    render(<GraphShell />);
+
+    // Grid is visible before focus
+    expect(screen.getAllByTestId("graph-node-button").length).toBe(GRAPH_NODES.length);
+
+    // Focus a node
+    await user.click(getNodeButton(/roadmap/i));
+
+    // Node grid should be hidden (collapsed) when focused
+    expect(screen.queryAllByTestId("graph-node-button")).toHaveLength(0);
+  });
+
+  it("restores graph node grid when returning to overview from focused state", async () => {
+    const user = userEvent.setup();
+    render(<GraphShell />);
+
+    // Focus a node
+    await user.click(getNodeButton(/roadmap/i));
+    expect(screen.queryAllByTestId("graph-node-button")).toHaveLength(0);
+
+    // Go back to overview via the compact toolbar's overview button
+    const toolbar = screen.getByTestId("graph-compact-toolbar");
+    const overviewBtn = within(toolbar).getByRole("button", { name: /overview|recenter/i });
+    await user.click(overviewBtn);
+
+    // Grid should be restored
+    expect(screen.getAllByTestId("graph-node-button").length).toBe(GRAPH_NODES.length);
+  });
+
+  // -----------------------------------------------------------------------
+  // FOCUSED STATE: merged compact toolbar (orientation + investor path affordance)
+  // -----------------------------------------------------------------------
+  it("renders a single compact toolbar merging orientation and investor path in overview", () => {
+    render(<GraphShell />);
+
+    // Should have exactly one compact toolbar element
+    const toolbar = screen.getByTestId("graph-compact-toolbar");
+    expect(toolbar).toBeInTheDocument();
+
+    // The toolbar should contain the orientation bar elements
+    expect(within(toolbar).getByText(/BETTER Atlas/i)).toBeInTheDocument();
+    expect(within(toolbar).getByRole("button", { name: /overview|recenter/i })).toBeInTheDocument();
+
+    // The toolbar should also contain the investor path start button
+    expect(within(toolbar).getByTestId("investor-path-start")).toBeInTheDocument();
+  });
+
+  it("compact toolbar still shows breadcrumb + back + overview when a node is focused", async () => {
+    const user = userEvent.setup();
+    render(<GraphShell />);
+
+    await user.click(getNodeButton(/architecture/i));
+
+    const toolbar = screen.getByTestId("graph-compact-toolbar");
+    // Breadcrumb should show the focused node
+    expect(toolbar.textContent).toContain("Architecture");
+    // Overview button should be present
+    expect(within(toolbar).getByRole("button", { name: /overview|recenter/i })).toBeInTheDocument();
+  });
+
+  // -----------------------------------------------------------------------
+  // FOCUSED STATE: hide investor-path start when pitch path is active
+  // -----------------------------------------------------------------------
+  it("hides investor-path start button when pitch path is active", async () => {
+    const user = userEvent.setup();
+    render(<GraphShell />);
+
+    // Start the pitch path
+    await user.click(screen.getByTestId("investor-path-start"));
+
+    // The general start button should be hidden
+    expect(screen.queryByTestId("investor-path-start")).not.toBeInTheDocument();
+
+    // Prev/next should be visible instead
+    expect(screen.getByTestId("investor-path-next")).toBeInTheDocument();
+  });
+
+  // -----------------------------------------------------------------------
+  // FOCUSED STATE: at most 2 layers visible (compact nav bar + focused content)
+  // -----------------------------------------------------------------------
+  it("shows at most 2 layers when focused: compact toolbar + focused content panel", async () => {
+    const user = userEvent.setup();
+    render(<GraphShell />);
+
+    await user.click(getNodeButton(/roadmap/i));
+
+    const shell = screen.getByTestId("graph-shell");
+
+    // Should have compact toolbar (layer 1)
+    expect(within(shell).getByTestId("graph-compact-toolbar")).toBeInTheDocument();
+
+    // Should have focused surface (layer 2)
+    expect(within(shell).getByTestId("graph-focused-surface")).toBeInTheDocument();
+
+    // Should NOT have the node grid visible (it's hidden)
+    expect(within(shell).queryAllByTestId("graph-node-button")).toHaveLength(0);
+
+    // Should NOT have a separate investor path affordance row
+    expect(within(shell).queryByTestId("investor-path-affordance-row")).not.toBeInTheDocument();
+  });
 });

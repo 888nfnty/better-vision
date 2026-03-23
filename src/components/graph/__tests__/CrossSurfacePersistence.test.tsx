@@ -22,15 +22,32 @@ import { GraphShell } from "../GraphShell";
 import { TokenomicsSurface } from "../surfaces/TokenomicsSurface";
 import { RoadmapSurface } from "../surfaces/RoadmapSurface";
 
-/** Helper: click a graph node button in the main node grid (not minimap) */
-function getOverviewNodeButton(name: RegExp) {
-  const nodeButtons = screen.getAllByTestId("graph-node-button");
-  const match = nodeButtons.find((el) =>
-    el.getAttribute("aria-label")?.match(name)
-  );
-  if (!match) throw new Error(`No graph-node-button matching ${name}`);
-  return match;
+/**
+ * Helper: navigate to a graph node by ID, handling focused-state grid
+ * collapse (VAL-VISUAL-033). If grid is visible, clicks through it.
+ * If grid is hidden (node focused), navigates via hash change.
+ */
+async function navigateToNode(nodeId: string) {
+  const nodeButtons = screen.queryAllByTestId("graph-node-button");
+  if (nodeButtons.length > 0) {
+    const match = nodeButtons.find((el) => {
+      const label = el.getAttribute("aria-label")?.toLowerCase() ?? "";
+      return label.includes(nodeId.toLowerCase());
+    });
+    if (match) {
+      const user = userEvent.setup();
+      await user.click(match);
+      return;
+    }
+  }
+  // Grid hidden — navigate via hash change
+  act(() => {
+    window.location.hash = `#graph-${nodeId}`;
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+  });
 }
+
+
 
 beforeEach(() => {
   window.location.hash = "";
@@ -53,7 +70,7 @@ describe("Tokenomics scenario state persists across surface switches", () => {
     render(<GraphShell surfaces={REAL_SURFACES} />);
 
     // Navigate to tokenomics
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await navigateToNode("tokenomics");
 
     // Find and switch to conservative scenario
     const tabs = screen.getAllByTestId("scenario-tab");
@@ -64,13 +81,13 @@ describe("Tokenomics scenario state persists across surface switches", () => {
     await user.click(conservativeTab!);
     expect(conservativeTab).toHaveAttribute("aria-selected", "true");
 
-    // Navigate away to roadmap
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    // Navigate away to roadmap (grid hidden in focused state — VAL-VISUAL-033)
+    await navigateToNode("roadmap");
     // Tokenomics surface should be unmounted
     expect(screen.queryByTestId("scenario-switcher")).not.toBeInTheDocument();
 
     // Navigate back to tokenomics
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await navigateToNode("tokenomics");
 
     // Conservative scenario should still be selected
     const restoredTabs = screen.getAllByTestId("scenario-tab");
@@ -85,7 +102,7 @@ describe("Tokenomics scenario state persists across surface switches", () => {
     render(<GraphShell surfaces={REAL_SURFACES} />);
 
     // Navigate to tokenomics
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await navigateToNode("tokenomics");
 
     // Enter a token balance
     const balanceInput = screen.getByTestId(
@@ -96,10 +113,10 @@ describe("Tokenomics scenario state persists across surface switches", () => {
     expect(balanceInput.value).toBe("500000");
 
     // Navigate away
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    await navigateToNode("roadmap");
 
     // Navigate back
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await navigateToNode("tokenomics");
 
     // Token balance should be preserved
     const restoredInput = screen.getByTestId(
@@ -113,7 +130,7 @@ describe("Tokenomics scenario state persists across surface switches", () => {
     render(<GraphShell surfaces={REAL_SURFACES} />);
 
     // Navigate to tokenomics
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await navigateToNode("tokenomics");
 
     // Enter a deposit amount
     const depositInput = screen.getByTestId(
@@ -124,10 +141,10 @@ describe("Tokenomics scenario state persists across surface switches", () => {
     expect(depositInput.value).toBe("25000");
 
     // Navigate away
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    await navigateToNode("roadmap");
 
     // Navigate back
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await navigateToNode("tokenomics");
 
     // Deposit amount should be preserved
     const restoredInput = screen.getByTestId(
@@ -146,7 +163,7 @@ describe("Roadmap expanded-branch state persists across surface switches", () =>
     render(<GraphShell surfaces={REAL_SURFACES} />);
 
     // Navigate to roadmap
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    await navigateToNode("roadmap");
 
     // Expand a branch family
     const branchToggles = screen.getAllByTestId("roadmap-branch-toggle");
@@ -161,13 +178,13 @@ describe("Roadmap expanded-branch state persists across surface switches", () =>
       expect(branchToggles[1]).toHaveAttribute("aria-expanded", "true");
     }
 
-    // Navigate away to tokenomics
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    // Navigate away to tokenomics (grid hidden — use hash nav)
+    await navigateToNode("tokenomics");
     // Roadmap surface should be unmounted
     expect(screen.queryByTestId("roadmap-atlas")).not.toBeInTheDocument();
 
     // Navigate back to roadmap
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    await navigateToNode("roadmap");
 
     // Expanded branches should be preserved
     const restoredToggles = screen.getAllByTestId("roadmap-branch-toggle");
@@ -182,15 +199,15 @@ describe("Roadmap expanded-branch state persists across surface switches", () =>
     render(<GraphShell surfaces={REAL_SURFACES} />);
 
     // Navigate to roadmap
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    await navigateToNode("roadmap");
 
     // Expand a branch
     const branchToggles = screen.getAllByTestId("roadmap-branch-toggle");
     await user.click(branchToggles[0]);
     expect(branchToggles[0]).toHaveAttribute("aria-expanded", "true");
 
-    // Navigate to tokenomics
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    // Navigate to tokenomics (grid hidden — use hash nav)
+    await navigateToNode("tokenomics");
 
     // Simulate browser back to roadmap
     act(() => {
@@ -217,7 +234,7 @@ describe("Combined cross-surface context persistence", () => {
     render(<GraphShell surfaces={REAL_SURFACES} />);
 
     // 1. Go to tokenomics, change scenario to upside
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await navigateToNode("tokenomics");
     const tabs = screen.getAllByTestId("scenario-tab");
     const upsideTab = tabs.find(
       (t) => t.getAttribute("data-scenario") === "upside"
@@ -233,13 +250,13 @@ describe("Combined cross-surface context persistence", () => {
     await user.type(balanceInput, "100000");
 
     // 2. Switch to roadmap, expand a branch
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    await navigateToNode("roadmap");
     const branchToggles = screen.getAllByTestId("roadmap-branch-toggle");
     await user.click(branchToggles[0]);
     expect(branchToggles[0]).toHaveAttribute("aria-expanded", "true");
 
     // 3. Switch back to tokenomics — state should persist
-    await user.click(getOverviewNodeButton(/tokenomics/i));
+    await navigateToNode("tokenomics");
     const restoredTabs = screen.getAllByTestId("scenario-tab");
     const restoredUpside = restoredTabs.find(
       (t) => t.getAttribute("data-scenario") === "upside"
@@ -251,7 +268,7 @@ describe("Combined cross-surface context persistence", () => {
     expect(restoredBalance.value).toBe("100000");
 
     // 4. Switch back to roadmap — branches should persist
-    await user.click(getOverviewNodeButton(/^roadmap$/i));
+    await navigateToNode("roadmap");
     const restoredBranches = screen.getAllByTestId("roadmap-branch-toggle");
     expect(restoredBranches[0]).toHaveAttribute("aria-expanded", "true");
   });

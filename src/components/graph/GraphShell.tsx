@@ -436,15 +436,17 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
     <GraphShellPersistenceProvider>
     <div data-testid="graph-shell" className="space-y-6">
       {/* ---------------------------------------------------------------- */}
-      {/* Graph Overview — visual node map (VAL-ROADMAP-001)               */}
-      {/* VAL-VISUAL-033: Clean workspace — one lightweight orientation    */}
-      {/* bar + graph node grid. No competing chrome layers.               */}
+      {/* Compact Toolbar — merged orientation + investor path affordance  */}
+      {/* VAL-VISUAL-033: Single compact toolbar instead of competing      */}
+      {/* orientation bar + investor path affordance as separate layers.   */}
+      {/* When focused, shows breadcrumb + back + overview.                */}
+      {/* When pitch path active, hides start button, shows prev/next.    */}
       {/* ---------------------------------------------------------------- */}
-      <div data-testid="graph-overview" className="relative">
-        {/* Single lightweight orientation bar (VAL-VISUAL-033, VAL-ROADMAP-002) */}
+      <div data-testid="graph-compact-toolbar" className="relative">
+        {/* Orientation row: label + breadcrumb + overview control */}
         <div
           data-testid="graph-orientation-bar"
-          className="mb-4 flex items-center justify-between"
+          className="mb-3 flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
             <span className="font-terminal text-xs font-medium uppercase tracking-widest text-accent">
@@ -480,52 +482,65 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
           </button>
         </div>
 
-        {/* Investor Pitch Path Start / Resume Affordance (VAL-ROADMAP-017, VAL-CROSS-014) */}
-        <InvestorPathAffordance
-          onStart={startPitchPath}
-          onResume={resumePitchPath}
-          showResume={showResumeAffordance}
-          lastGateIndex={pitchPath.lastGateIndex}
-        />
-
-        {/* Invalid deep link fallback (VAL-ROADMAP-007) */}
-        {invalidLink && (
-          <LiquidMetalCard
-            data-testid="graph-invalid-link-fallback"
-            className="mb-4 p-4 text-center"
-            role="alert"
-            ref={fallbackRef}
-            tabIndex={-1}
-          >
-            <p className="text-sm text-[#a0a0a0]">
-              The graph destination you linked to wasn&apos;t found.
-            </p>
-            <p className="mt-1 text-xs text-muted">
-              Explore the BETTER atlas below to find what you&apos;re looking for.
-            </p>
-            <button
-              type="button"
-              onClick={recenter}
-              className="mt-3 inline-flex items-center rounded border border-white/15 px-4 py-1.5 font-terminal text-xs text-[#a0a0a0] transition-colors hover:border-white/20 hover:text-foreground"
-            >
-              Reset &amp; Explore
-            </button>
-          </LiquidMetalCard>
+        {/* Investor Pitch Path Start / Resume — merged into compact toolbar */}
+        {/* Hidden when pitch path is already active (prev/next shown in focused panel instead) */}
+        {!pitchPath.active && (
+          <InvestorPathAffordance
+            onStart={startPitchPath}
+            onResume={resumePitchPath}
+            showResume={showResumeAffordance}
+            lastGateIndex={pitchPath.lastGateIndex}
+          />
         )}
-
-        {/* Graph node map — the explorable mindmap (VAL-ROADMAP-001, VAL-ROADMAP-011) */}
-        <GraphNodeMap
-          nodes={GRAPH_NODES}
-          activeNodeId={activeNodeId}
-          focusedNodeId={focusedNodeId}
-          onNodeSelect={focusNode}
-        />
       </div>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Graph Overview — visual node map (VAL-ROADMAP-001)               */}
+      {/* VAL-VISUAL-033: Collapsed/hidden when a node is focused so only */}
+      {/* the compact toolbar + focused content panel remain (2 layers).  */}
+      {/* ---------------------------------------------------------------- */}
+      {!focusedNodeId && (
+        <div data-testid="graph-overview" className="relative">
+          {/* Invalid deep link fallback (VAL-ROADMAP-007) */}
+          {invalidLink && (
+            <LiquidMetalCard
+              data-testid="graph-invalid-link-fallback"
+              className="mb-4 p-4 text-center"
+              role="alert"
+              ref={fallbackRef}
+              tabIndex={-1}
+            >
+              <p className="text-sm text-[#a0a0a0]">
+                The graph destination you linked to wasn&apos;t found.
+              </p>
+              <p className="mt-1 text-xs text-muted">
+                Explore the BETTER atlas below to find what you&apos;re looking for.
+              </p>
+              <button
+                type="button"
+                onClick={recenter}
+                className="mt-3 inline-flex items-center rounded border border-white/15 px-4 py-1.5 font-terminal text-xs text-[#a0a0a0] transition-colors hover:border-white/20 hover:text-foreground"
+              >
+                Reset &amp; Explore
+              </button>
+            </LiquidMetalCard>
+          )}
+
+          {/* Graph node map — the explorable mindmap (VAL-ROADMAP-001, VAL-ROADMAP-011) */}
+          <GraphNodeMap
+            nodes={GRAPH_NODES}
+            activeNodeId={activeNodeId}
+            focusedNodeId={focusedNodeId}
+            onNodeSelect={focusNode}
+          />
+        </div>
+      )}
 
       {/* ---------------------------------------------------------------- */}
       {/* Focused Surface (VAL-ROADMAP-011, VAL-ROADMAP-012)              */}
       {/* VAL-VISUAL-033: Clean focused panel — no nested minimaps,       */}
       {/* no progress bars, no inspector docks. Just content + traversal. */}
+      {/* When focused: at most 2 layers — compact toolbar + this panel.  */}
       {/* ---------------------------------------------------------------- */}
       {focusedNode && (
         <LiquidMetalCard
