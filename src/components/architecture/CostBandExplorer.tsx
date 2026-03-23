@@ -50,11 +50,11 @@ export default function CostBandExplorer() {
       <h3 className="mb-1 text-lg font-semibold text-foreground">
         Infrastructure Cost Bands
       </h3>
-      <p className="mb-2 text-sm text-secondary">
+      <p className="mb-2 text-sm text-white">
         Rough order-of-magnitude ranges for each infrastructure subsystem — not
         budgets. Each phase shows its assumption basis and the capability it unlocks.
       </p>
-      <p className="mb-6 font-terminal text-xs text-muted">
+      <p className="mb-6 font-terminal text-xs text-white/70">
         Total estimated range across all subsystems:{" "}
         <span className="text-accent">{formatRange(totalLow, totalHigh)}</span>
       </p>
@@ -138,7 +138,7 @@ function SubsystemCostBand({
             <span className="font-semibold text-foreground">{model.title}</span>
             <MaturityBadge status={bestPhase.status} />
           </div>
-          <span className="font-terminal text-xs text-muted">
+          <span className="font-terminal text-xs text-white/70">
             {model.phases.length} phases · {formatRange(model.totalRangeLow, model.totalRangeHigh)}
           </span>
         </div>
@@ -167,7 +167,7 @@ function PhaseCard({ phase, index }: { phase: CostBandPhase; index: number }) {
       data-testid="cost-band-phase"
     >
       <div className="mb-2 flex flex-wrap items-center gap-2">
-        <span className="font-terminal text-xs text-muted" aria-hidden="true">
+        <span className="font-terminal text-xs text-white/70" aria-hidden="true">
           {String(index + 1).padStart(2, "0")}
         </span>
         <h5 className="text-sm font-semibold text-foreground">{phase.name}</h5>
@@ -186,10 +186,10 @@ function PhaseCard({ phase, index }: { phase: CostBandPhase; index: number }) {
 
       {/* Assumption basis */}
       <div className="mb-2" data-testid="assumption-basis">
-        <span className="font-terminal text-xs font-medium uppercase tracking-wider text-[#a0a0a0]">
+        <span className="font-terminal text-xs font-medium uppercase tracking-wider text-white">
           Assumption Basis
         </span>
-        <p className="text-sm text-secondary">{phase.assumptionBasis}</p>
+        <p className="text-sm text-white">{phase.assumptionBasis}</p>
       </div>
 
       {/* Capability unlock */}
@@ -197,12 +197,12 @@ function PhaseCard({ phase, index }: { phase: CostBandPhase; index: number }) {
         <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
           Capability Unlock
         </span>
-        <p className="text-sm text-secondary">{phase.capabilityUnlock}</p>
+        <p className="text-sm text-white">{phase.capabilityUnlock}</p>
       </div>
 
       {/* Dependencies */}
       {phase.dependencies.length > 0 && (
-        <p className="mb-2 text-xs text-muted" data-testid="phase-dependency">
+        <p className="mb-2 text-xs text-white/70" data-testid="phase-dependency">
           <span className="font-terminal font-medium">Requires:</span>{" "}
           {phase.dependencies.map((depId) => getPhaseLabel(depId)).join(", ")}
         </p>

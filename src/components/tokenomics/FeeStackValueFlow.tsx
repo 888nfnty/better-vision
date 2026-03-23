@@ -187,7 +187,7 @@ export default function FeeStackValueFlow() {
         <h3 className="mb-1 text-lg font-semibold text-foreground">
           Fee Stack Breakdown
         </h3>
-        <p className="mb-4 text-sm text-secondary">
+        <p className="mb-4 text-sm text-white">
           Each fee type is separately explained with a worked example showing
           how it flows to protocol revenue.
         </p>
@@ -203,12 +203,12 @@ export default function FeeStackValueFlow() {
                 <h4 className="font-semibold text-foreground">{fee.title}</h4>
                 <MaturityBadge status={fee.status} />
               </div>
-              <p className="mb-2 text-sm text-secondary">{fee.description}</p>
+              <p className="mb-2 text-sm text-white">{fee.description}</p>
               <LiquidMetalCard className="px-3 py-2" data-testid="fee-example">
                 <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
                   Worked Example
                 </span>
-                <p className="mt-0.5 text-sm text-secondary">{fee.example}</p>
+                <p className="mt-0.5 text-sm text-white">{fee.example}</p>
               </LiquidMetalCard>
               <div className="mt-2">
                 <EvidenceHook source={fee.source} />
@@ -223,7 +223,7 @@ export default function FeeStackValueFlow() {
         <h3 className="mb-1 text-lg font-semibold text-foreground">
           Revenue &amp; Value-Flow Mapping
         </h3>
-        <p className="mb-4 text-sm text-secondary">
+        <p className="mb-4 text-sm text-white">
           How consumer, pro, whale, and enterprise segments feed protocol revenue,
           token sinks, and reinvestment — each with explicit maturity labels.
         </p>
@@ -240,16 +240,16 @@ export default function FeeStackValueFlow() {
                   {flow.segment}
                 </h4>
                 <MaturityBadge status={flow.status} />
-                <span className="font-terminal text-xs text-muted">
+                <span className="font-terminal text-xs text-white/70">
                   → {flow.destination}
                 </span>
               </div>
-              <p className="mb-3 text-sm text-secondary">{flow.description}</p>
+              <p className="mb-3 text-sm text-white">{flow.description}</p>
               <div>
-                <span className="font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+                <span className="font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                   Revenue Sources
                 </span>
-                <ul className="mt-1 list-inside list-disc space-y-0.5 text-sm text-secondary">
+                <ul className="mt-1 list-inside list-disc space-y-0.5 text-sm text-white">
                   {flow.sources.map((source) => (
                     <li key={source}>{source}</li>
                   ))}

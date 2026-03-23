@@ -30,7 +30,7 @@ export default function SupplyAllocation() {
       <h3 className="mb-1 text-lg font-semibold text-foreground">
         Token Supply &amp; Allocation
       </h3>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         Minted supply of{" "}
         <span className="font-terminal font-semibold text-accent" data-testid="minted-supply-figure">
           {formatNumber(MINTED_SUPPLY)}
@@ -38,10 +38,10 @@ export default function SupplyAllocation() {
         BETTER tokens on the Base contract — on-chain verified via Dune Analytics
         and basescan.
       </p>
-      <LiquidMetalCard className="mb-4 px-3 py-2 text-xs text-secondary">
+      <LiquidMetalCard className="mb-4 px-3 py-2 text-xs text-white">
         <span className="font-terminal font-medium text-accent">Base Contract:</span>{" "}
         <code className="font-terminal text-foreground">{BASE_CONTRACT.address}</code>
-        <span className="ml-2 text-muted">({BASE_CONTRACT.chain})</span>
+        <span className="ml-2 text-white/70">({BASE_CONTRACT.chain})</span>
         <div className="mt-1">
           <EvidenceHook source={BASE_CONTRACT.source} />
         </div>
@@ -52,16 +52,16 @@ export default function SupplyAllocation() {
         <table className="w-full text-sm" data-testid="allocation-table">
           <thead>
             <tr className="border-b border-border text-left">
-              <th className="pb-2 pr-4 font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-4 font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Category
               </th>
-              <th className="pb-2 pr-4 text-right font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-4 text-right font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Allocation
               </th>
-              <th className="pb-2 pr-4 text-right font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-4 text-right font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Tokens
               </th>
-              <th className="pb-2 font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Source
               </th>
             </tr>
@@ -79,7 +79,7 @@ export default function SupplyAllocation() {
                 <td className="py-3 pr-4 text-right font-terminal text-accent">
                   {alloc.percentage}%
                 </td>
-                <td className="py-3 pr-4 text-right font-terminal text-secondary">
+                <td className="py-3 pr-4 text-right font-terminal text-white">
                   {formatNumber(alloc.tokens)}
                 </td>
                 <td className="py-3">
@@ -87,7 +87,7 @@ export default function SupplyAllocation() {
                     <EvidenceHook source={alloc.source} />
                     {alloc.source.note && (
                       <span
-                        className="block text-[11px] leading-snug text-muted"
+                        className="block text-[11px] leading-snug text-white/70"
                         data-testid="allocation-evidence-detail"
                       >
                         {alloc.source.note}
@@ -113,7 +113,7 @@ export default function SupplyAllocation() {
                     ✓ Reconciled
                   </span>
                 ) : (
-                  <span className="font-terminal text-xs text-[#707070]">
+                  <span className="font-terminal text-xs text-white/60">
                     ✗ Mismatch
                   </span>
                 )}
@@ -145,7 +145,7 @@ export default function SupplyAllocation() {
           );
         })}
       </div>
-      <div className="mt-2 flex flex-wrap gap-3 text-xs text-muted">
+      <div className="mt-2 flex flex-wrap gap-3 text-xs text-white/70">
         {TOKEN_ALLOCATIONS.map((alloc, i) => {
           const dotColors = [
             "bg-white",

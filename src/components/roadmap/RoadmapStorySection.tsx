@@ -77,7 +77,7 @@ export default function RoadmapStorySection({
             >
               {BRANCH_FAMILY_LABELS[family]}
             </h3>
-            <p className="mb-2 text-xs leading-relaxed text-secondary">
+            <p className="mb-2 text-xs leading-relaxed text-white">
               {BRANCH_FAMILY_DESCRIPTIONS[family]}
             </p>
             <div className="flex flex-wrap gap-2">
@@ -93,12 +93,12 @@ export default function RoadmapStorySection({
                 .map((s) => (
                   <span key={s} className="flex items-center gap-1">
                     <MaturityBadge status={s} className="text-[10px]" />
-                    <span className="font-terminal text-[10px] text-muted">
+                    <span className="font-terminal text-[10px] text-white/70">
                       ×{counts[s]}
                     </span>
                   </span>
                 ))}
-              <span className="font-terminal text-[10px] text-muted">
+              <span className="font-terminal text-[10px] text-white/70">
                 {nodes.length} nodes
               </span>
             </div>

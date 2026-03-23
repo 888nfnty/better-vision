@@ -362,7 +362,7 @@ export default function RoadmapAtlas() {
     <div className="space-y-8" data-testid="roadmap-atlas">
       {/* Interactive prompt / legend */}
       <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-terminal text-sm text-secondary">
+        <p className="font-terminal text-sm text-white">
           <span className="text-accent" aria-hidden="true">
             ▶
           </span>{" "}
@@ -372,7 +372,7 @@ export default function RoadmapAtlas() {
         <button
           type="button"
           onClick={collapseAll}
-          className="shrink-0 rounded border border-border px-3 py-1.5 font-terminal text-xs text-secondary transition-colors hover:border-accent hover:text-foreground"
+          className="shrink-0 rounded border border-border px-3 py-1.5 font-terminal text-xs text-white transition-colors hover:border-accent hover:text-foreground"
           aria-label="Collapse all branches"
         >
           Collapse All
@@ -388,17 +388,17 @@ export default function RoadmapAtlas() {
           ref={fallbackRef}
           tabIndex={-1}
         >
-          <p className="text-sm text-[#a0a0a0]">
+          <p className="text-sm text-white">
             The roadmap node you linked to wasn&apos;t found. It may have been
             renamed or removed.
           </p>
-          <p className="mt-1 text-xs text-muted">
+          <p className="mt-1 text-xs text-white/70">
             Explore the full roadmap below to find what you&apos;re looking for.
           </p>
           <button
             type="button"
             onClick={collapseAll}
-            className="mt-3 inline-flex items-center rounded border border-white/15 px-4 py-1.5 font-terminal text-xs text-[#a0a0a0] transition-colors hover:border-white/20 hover:text-foreground"
+            className="mt-3 inline-flex items-center rounded border border-white/15 px-4 py-1.5 font-terminal text-xs text-white transition-colors hover:border-white/20 hover:text-foreground"
           >
             Reset &amp; Explore Roadmap
           </button>
@@ -464,7 +464,7 @@ export default function RoadmapAtlas() {
                     <span className="font-semibold text-foreground">
                       {BRANCH_FAMILY_LABELS[family]}
                     </span>
-                    <span className="ml-2 font-terminal text-xs text-muted">
+                    <span className="ml-2 font-terminal text-xs text-white/70">
                       {nodes.length} nodes
                     </span>
                   </div>
@@ -533,7 +533,7 @@ export default function RoadmapAtlas() {
       {/* Mobile story panels (visible below lg) */}
       <div className="lg:hidden">
         <LiquidMetalCard as="details">
-          <summary className="cursor-pointer p-4 font-terminal text-sm font-medium text-secondary">
+          <summary className="cursor-pointer p-4 font-terminal text-sm font-medium text-white">
             Branch Family Overview
           </summary>
           <div className="border-t border-border p-4">
@@ -581,7 +581,7 @@ function RoadmapNodeItem({
     >
       {/* Connection line indicator */}
       <span
-        className="shrink-0 font-terminal text-xs text-muted"
+        className="shrink-0 font-terminal text-xs text-white/70"
         aria-hidden="true"
       >
         {node.dependencies.length > 0 ? "├─" : "──"}
@@ -599,7 +599,7 @@ function RoadmapNodeItem({
           <MaturityBadge status={node.status} className="text-[10px]" />
         </div>
         {/* Short summary on desktop */}
-        <p className="mt-0.5 hidden text-xs text-muted sm:line-clamp-1 sm:block">
+        <p className="mt-0.5 hidden text-xs text-white/70 sm:line-clamp-1 sm:block">
           {node.summary}
         </p>
       </div>
@@ -607,7 +607,7 @@ function RoadmapNodeItem({
       {/* Not a leaf with sub-expansion */}
       {!hasChildren && (
         <span
-          className="shrink-0 font-terminal text-xs text-muted"
+          className="shrink-0 font-terminal text-xs text-white/70"
           aria-hidden="true"
         >
           →

@@ -34,7 +34,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
           <h4 className="font-terminal text-xs font-medium uppercase tracking-widest text-accent">
             Execution Plan
           </h4>
-          <p className="mt-1 text-sm leading-relaxed text-secondary">
+          <p className="mt-1 text-sm leading-relaxed text-white">
             {plan.investorSummary}
           </p>
         </div>
@@ -55,7 +55,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
           </span>
         </div>
         {plan.timingWindow.mainConstraint && (
-          <p className="mt-1 text-xs text-muted">
+          <p className="mt-1 text-xs text-white/70">
             <span className="font-terminal font-medium">Key constraint:</span>{" "}
             {plan.timingWindow.mainConstraint}
           </p>
@@ -65,13 +65,13 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
       {/* Workstreams — Internal (AI-agent-compressible) */}
       {internalWorkstreams.length > 0 && (
         <div data-testid="execution-plan-internal-workstreams">
-          <h5 className="mb-2 flex items-center gap-2 font-terminal text-[10px] font-medium uppercase tracking-widest text-secondary">
+          <h5 className="mb-2 flex items-center gap-2 font-terminal text-[10px] font-medium uppercase tracking-widest text-white">
             <span
               className="inline-block h-2 w-2 rounded-full bg-accent"
               aria-hidden="true"
             />
             Internal Workstreams
-            <span className="font-normal normal-case tracking-normal text-muted">
+            <span className="font-normal normal-case tracking-normal text-white/70">
               (AI-agent-compressible)
             </span>
           </h5>
@@ -85,7 +85,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
                 <span className="text-xs font-semibold text-foreground">
                   {ws.label}
                 </span>
-                <p className="mt-0.5 text-xs leading-relaxed text-muted">
+                <p className="mt-0.5 text-xs leading-relaxed text-white/70">
                   {ws.description}
                 </p>
               </LiquidMetalCard>
@@ -97,13 +97,13 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
       {/* Workstreams — External (slower outside constraints) */}
       {externalWorkstreams.length > 0 && (
         <div data-testid="execution-plan-external-workstreams">
-          <h5 className="mb-2 flex items-center gap-2 font-terminal text-[10px] font-medium uppercase tracking-widest text-secondary">
+          <h5 className="mb-2 flex items-center gap-2 font-terminal text-[10px] font-medium uppercase tracking-widest text-white">
             <span
               className="inline-block h-2 w-2 rounded-full bg-[#a0a0a0]"
               aria-hidden="true"
             />
             External Workstreams
-            <span className="font-normal normal-case tracking-normal text-muted">
+            <span className="font-normal normal-case tracking-normal text-white/70">
               (outside constraints — not AI-compressible)
             </span>
           </h5>
@@ -117,7 +117,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
                 <span className="text-xs font-semibold text-foreground">
                   {ws.label}
                 </span>
-                <p className="mt-0.5 text-xs leading-relaxed text-muted">
+                <p className="mt-0.5 text-xs leading-relaxed text-white/70">
                   {ws.description}
                 </p>
               </LiquidMetalCard>
@@ -129,12 +129,12 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
       {/* External Dependencies */}
       {plan.externalDependencies.length > 0 && (
         <div data-testid="execution-plan-external-deps">
-          <h5 className="mb-2 font-terminal text-[10px] font-medium uppercase tracking-widest text-secondary">
+          <h5 className="mb-2 font-terminal text-[10px] font-medium uppercase tracking-widest text-white">
             External Dependencies
           </h5>
           <ul className="space-y-1">
             {plan.externalDependencies.map((dep, i) => (
-              <li key={i} className="flex items-start gap-2 text-xs text-muted">
+              <li key={i} className="flex items-start gap-2 text-xs text-white/70">
                 <span
                   className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-[#a0a0a0]/60"
                   aria-hidden="true"
@@ -148,9 +148,9 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
 
       {/* Proof Gates */}
       <div data-testid="execution-plan-proof-gates">
-        <h5 className="mb-2 font-terminal text-[10px] font-medium uppercase tracking-widest text-secondary">
+        <h5 className="mb-2 font-terminal text-[10px] font-medium uppercase tracking-widest text-white">
           Proof Gates
-          <span className="ml-1 font-normal normal-case tracking-normal text-muted">
+          <span className="ml-1 font-normal normal-case tracking-normal text-white/70">
             (externally observable success criteria)
           </span>
         </h5>
@@ -167,7 +167,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
                 </span>
                 <EvidenceHook source={gate.source} />
               </div>
-              <p className="mt-1 text-xs leading-relaxed text-secondary">
+              <p className="mt-1 text-xs leading-relaxed text-white">
                 {gate.criterion}
               </p>
             </LiquidMetalCard>

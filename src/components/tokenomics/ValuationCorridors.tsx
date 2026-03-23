@@ -54,7 +54,7 @@ export default function ValuationCorridors() {
           Planning Logic
         </span>
       </div>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         Conservative stage-based corridors tied to milestone proof gates and
         public comparable categories. Each corridor reflects what comparable
         protocols have achieved at a similar stage — not what BETTER promises.
@@ -83,7 +83,7 @@ export default function ValuationCorridors() {
             </p>
           </div>
         </div>
-        <p className="mt-3 text-xs text-muted">
+        <p className="mt-3 text-xs text-white/70">
           All corridors use the same valuation and supply basis so they are
           directly comparable. No corridor silently switches framing.
         </p>
@@ -114,12 +114,12 @@ export default function ValuationCorridors() {
                   </span>
                 )}
               </div>
-              <p className="mb-3 text-sm text-secondary">{corridor.description}</p>
+              <p className="mb-3 text-sm text-white">{corridor.description}</p>
 
               {/* Numeric bounds + implied token price */}
               <div className="mb-4 grid gap-3 sm:grid-cols-3">
                 <LiquidMetalCard className="px-3 py-2">
-                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     FDV Range
                   </span>
                   <span
@@ -130,7 +130,7 @@ export default function ValuationCorridors() {
                   </span>
                 </LiquidMetalCard>
                 <LiquidMetalCard className="px-3 py-2">
-                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Implied Token Price
                   </span>
                   <span
@@ -141,10 +141,10 @@ export default function ValuationCorridors() {
                   </span>
                 </LiquidMetalCard>
                 <LiquidMetalCard className="px-3 py-2">
-                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Comparables
                   </span>
-                  <span className="text-xs text-secondary" data-testid="corridor-comparables">
+                  <span className="text-xs text-white" data-testid="corridor-comparables">
                     {corridor.comparableCategories.join("; ")}
                   </span>
                 </LiquidMetalCard>
@@ -152,13 +152,13 @@ export default function ValuationCorridors() {
 
               {/* Proof gates */}
               <div className="mb-3">
-                <span className="font-terminal text-xs font-medium uppercase tracking-wider text-[#a0a0a0]">
+                <span className="font-terminal text-xs font-medium uppercase tracking-wider text-white">
                   Proof Gates Required
                 </span>
                 <ul className="mt-1 space-y-1" data-testid="corridor-proof-gates">
                   {corridor.proofGates.map((gate, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm text-secondary">
-                      <span className="mt-1 text-[#a0a0a0]">▸</span>
+                    <li key={idx} className="flex items-start gap-2 text-sm text-white">
+                      <span className="mt-1 text-white">▸</span>
                       <span>{gate}</span>
                     </li>
                   ))}

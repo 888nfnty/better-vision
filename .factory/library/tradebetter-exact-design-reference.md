@@ -67,7 +67,7 @@
 | **Primary Background** | `rgb(16, 16, 16)` | `#101010` | Page background, main canvas |
 | **Secondary Background** | `rgb(25, 26, 29)` | `#191a1d` | Card backgrounds, section panels |
 | **White** | `rgb(255, 255, 255)` | `#ffffff` | Headings, primary text, borders |
-| **Muted Text** | `rgb(160, 160, 160)` | `#a0a0a0` | Body text, descriptions, labels |
+| **Muted Text** | `rgb(160, 160, 160)` | `#a0a0a0` | **OVERRIDDEN — DO NOT USE FOR TEXT**. User directive: ALL text is white (#ffffff). Grey text is forbidden. Use font-size/weight/opacity for hierarchy. |
 | **Dark Gray** | `rgb(64, 64, 64)` | `#404040` | Subdued text, inactive states |
 | **Mid Gray** | `rgb(112, 112, 112)` | `#707070` | Borders, dividers |
 | **Light Gray** | `rgb(230, 230, 230)` | `#e6e6e6` | Emphasized text, bright labels |
@@ -156,7 +156,7 @@ box-shadow: 0px 0px 16px 0px rgba(255, 255, 255, 0.75);
 1. **ALL headings are UPPERCASE** — no exceptions; this is a defining characteristic
 2. **Tight letter-spacing everywhere**: `-0.04em` to `-0.08em` — compressed, dense, technical feel
 3. **Monospace is the primary body font** — IBM Plex Mono signals "terminal" / "code" / "data"
-4. **White headings (#fff), gray body text (#a0a0a0)** — strong 2-level hierarchy
+4. **ALL text white (#fff)** — text hierarchy from font size, weight, and opacity only. No grey text.
 5. **Tight line heights**: Headings at 1.0–1.17, body at 1.4–1.5
 6. **No decorative fonts** — only 2 functional fonts used
 
@@ -803,7 +803,7 @@ ROADMAP // REVENUE // REALISED
 
   /* ====== TEXT ====== */
   --text-primary: #ffffff;                  /* headings — pure white */
-  --text-secondary: #a0a0a0;               /* body text — muted gray */
+  --text-secondary: #ffffff;               /* OVERRIDDEN: all text white per user directive */
   --text-muted: #707070;                   /* deemphasized */
   --text-subtle: #404040;                  /* very subtle */
   --text-bright: #e6e6e6;                  /* emphasized body */

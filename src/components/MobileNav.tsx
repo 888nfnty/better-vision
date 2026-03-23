@@ -43,7 +43,7 @@ export default function MobileNav() {
     <div className="sm:hidden">
       <button
         type="button"
-        className="inline-flex items-center justify-center rounded-md p-2 text-secondary hover:text-foreground"
+        className="inline-flex items-center justify-center rounded-md p-2 text-white hover:text-foreground"
         aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
         aria-expanded={isOpen}
         onClick={toggle}
@@ -97,7 +97,7 @@ export default function MobileNav() {
               <a
                 key={item.href}
                 href={item.href}
-                className="font-terminal rounded-md px-4 py-3 text-sm font-medium text-secondary transition-colors hover:bg-surface hover:text-foreground"
+                className="font-terminal rounded-md px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-surface hover:text-foreground"
                 onClick={close}
                 data-testid="mobile-nav-link"
               >

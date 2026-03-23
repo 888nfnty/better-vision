@@ -87,7 +87,7 @@ export default function NonLinearAllocation() {
         </h3>
         <MaturityBadge status="in_progress" />
       </div>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         Vault allocation uses a <strong>√-weighted bidding model</strong> instead of pure proportional
         allocation. Square-root tapering compresses whale allocations, the per-staker cap bounds
         maximum individual exposure, and the $100 floor guarantees meaningful participation for
@@ -108,11 +108,11 @@ export default function NonLinearAllocation() {
             Weight = √(Staked BETTER) &nbsp;|&nbsp; Cap = max(V/N, V×20%) &nbsp;|&nbsp; Floor = $100
           </code>
         </LiquidMetalCard>
-        <p className="mb-2 text-sm text-secondary">
+        <p className="mb-2 text-sm text-white">
           The <span className="font-semibold text-foreground">square root</span> of each staker&apos;s
           BETTER commitment determines their weight. This creates diminishing returns for larger stakes:
         </p>
-        <ul className="list-inside space-y-1 text-sm text-secondary">
+        <ul className="list-inside space-y-1 text-sm text-white">
           <li>
             <span className="font-terminal text-foreground">100K BETTER:</span> √100,000 = 316 weight
           </li>
@@ -123,35 +123,35 @@ export default function NonLinearAllocation() {
             <span className="font-terminal text-accent">13M BETTER:</span> √13,000,000 = 3,606 weight (130× stake → 11.4× weight)
           </li>
         </ul>
-        <p className="mt-2 text-xs text-muted">
+        <p className="mt-2 text-xs text-white/70">
           A 130× difference in stake translates to only an 11.4× difference in allocation weight.
         </p>
       </LiquidMetalCard>
 
       {/* Worked examples table — 20-staker scenario */}
-      <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-muted">
+      <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-white/70">
         Worked Examples (20-Staker Scenario, $25K Vault)
       </h4>
       <div className="overflow-x-auto">
         <table className="w-full text-sm" data-testid="allocation-examples-table">
           <thead>
             <tr className="border-b border-border text-left">
-              <th className="pb-2 pr-3 font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Staker
               </th>
-              <th className="pb-2 pr-3 text-right font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 text-right font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 BETTER Staked
               </th>
-              <th className="pb-2 pr-3 text-right font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 text-right font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 √-Weight
               </th>
-              <th className="pb-2 pr-3 text-right font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 text-right font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Pure Proportional
               </th>
-              <th className="pb-2 pr-3 text-right font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 text-right font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 √-Bidding Alloc
               </th>
-              <th className="pb-2 font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Effect
               </th>
             </tr>
@@ -166,13 +166,13 @@ export default function NonLinearAllocation() {
                 <td className="py-2.5 pr-3 font-medium text-foreground">
                   {ex.label}
                 </td>
-                <td className="py-2.5 pr-3 text-right font-terminal text-secondary">
+                <td className="py-2.5 pr-3 text-right font-terminal text-white">
                   {ex.stake}
                 </td>
-                <td className="py-2.5 pr-3 text-right font-terminal text-secondary">
+                <td className="py-2.5 pr-3 text-right font-terminal text-white">
                   {ex.sqrtWeight}
                 </td>
-                <td className="py-2.5 pr-3 text-right font-terminal text-muted">
+                <td className="py-2.5 pr-3 text-right font-terminal text-white/70">
                   {ex.pureProportional}
                 </td>
                 <td className="py-2.5 pr-3 text-right font-terminal font-semibold text-accent">
@@ -189,10 +189,10 @@ export default function NonLinearAllocation() {
 
       {/* Key takeaway */}
       <LiquidMetalCard className="mt-4 p-4">
-        <h4 className="mb-2 font-terminal text-xs font-semibold uppercase tracking-wider text-muted">
+        <h4 className="mb-2 font-terminal text-xs font-semibold uppercase tracking-wider text-white/70">
           Key Takeaway
         </h4>
-        <p className="text-sm text-secondary">
+        <p className="text-sm text-white">
           Under pure proportional allocation, the largest holder would take{" "}
           <span className="font-semibold text-foreground">87.8%</span> of the vault. The √-weighted bidding model
           compresses this to <span className="font-semibold text-accent">20%</span> (capped), while a minimum staker&apos;s

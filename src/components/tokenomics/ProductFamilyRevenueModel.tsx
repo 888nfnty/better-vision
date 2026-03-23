@@ -30,11 +30,11 @@ function returnTypeBadgeClass(returnType: string): string {
     case "direct_revenue":
       return "bg-accent/10 text-accent";
     case "ecosystem_value":
-      return "bg-white/[0.06] text-[#e6e6e6]";
+      return "bg-white/[0.06] text-white";
     case "hybrid":
-      return "bg-white/5 text-[#a0a0a0]";
+      return "bg-white/5 text-white";
     default:
-      return "bg-surface text-muted";
+      return "bg-surface text-white/70";
   }
 }
 
@@ -44,7 +44,7 @@ export default function ProductFamilyRevenueModel() {
       <h3 className="mb-1 text-lg font-semibold text-foreground">
         Product-Family Revenue &amp; Value-Return Model
       </h3>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         Each major BETTER product family is modeled with its direct monetized
         revenue path or broader ecosystem-value return, broken out by line and
         labeled with maturity framing.
@@ -68,18 +68,18 @@ export default function ProductFamilyRevenueModel() {
                 {model.returnTypeLabel}
               </span>
             </div>
-            <p className="mb-3 text-sm text-secondary">{model.revenueDescription}</p>
+            <p className="mb-3 text-sm text-white">{model.revenueDescription}</p>
 
             <div className="grid gap-3 sm:grid-cols-2">
               <LiquidMetalCard className="px-3 py-2">
-                <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                   Return Path
                 </span>
-                <p className="text-xs text-secondary">{model.returnPath}</p>
+                <p className="text-xs text-white">{model.returnPath}</p>
               </LiquidMetalCard>
               {model.estimatedRange && (
                 <LiquidMetalCard className="px-3 py-2">
-                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Estimated Range
                   </span>
                   <p className="font-terminal text-xs text-accent">{model.estimatedRange}</p>

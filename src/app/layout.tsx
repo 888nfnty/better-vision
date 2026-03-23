@@ -97,7 +97,7 @@ function Header() {
 
         {/* Desktop navigation */}
         <div
-          className="hidden items-center gap-6 font-terminal text-sm font-medium text-secondary sm:flex"
+          className="hidden items-center gap-6 font-terminal text-sm font-medium text-white sm:flex"
           data-testid="desktop-nav"
         >
           {NAV_ITEMS.map((item) => (
@@ -124,10 +124,10 @@ function Footer() {
     <footer className="border-t border-border bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-          <p className="font-terminal text-sm text-muted">
+          <p className="font-terminal text-sm text-white/70">
             © {new Date().getFullYear()} BETTER. All rights reserved.
           </p>
-          <p className="text-xs text-muted">
+          <p className="text-xs text-white/70">
             This site presents the BETTER ecosystem vision. Maturity labels
             distinguish live features from planned and speculative roadmap
             items.

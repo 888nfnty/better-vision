@@ -3,13 +3,13 @@
  *
  * (a) #455eff must ONLY appear in atmospheric background gradients, never as
  *     a general UI accent on buttons/links/badges. UI accent uses should be
- *     replaced with white (#ffffff) or muted gray (#a0a0a0).
+ *     replaced with white (#ffffff).
  *
  * (b) #00ff00 must ONLY appear as status dots, never as filled CTA/badge
  *     backgrounds. The Button "live" variant must not use a green fill.
  *
- * (c) Global body text must default to #a0a0a0 (--text-secondary), not white.
- *     White is reserved for headings and emphasis only.
+ * (c) Global body text defaults to #ffffff (--text-primary) — all text is
+ *     white per VAL-VISUAL-034.
  */
 import * as fs from "fs";
 import * as path from "path";
@@ -51,22 +51,19 @@ describe("Token purge: design-token discipline", () => {
   });
 
   /* -----------------------------------------------------------------------
-   * (c) Body text defaults to #a0a0a0, not white
+   * (c) Body text defaults to #ffffff via --text-primary (VAL-VISUAL-034: all text white)
    * ----------------------------------------------------------------------- */
 
-  it("body color defaults to --text-secondary (#a0a0a0), not --text-primary", () => {
-    // The body rule should set color to #a0a0a0 or var(--text-secondary)
+  it("body color defaults to --text-primary (#ffffff) — all text is white", () => {
     const bodyRule = GLOBALS_CSS.match(/body\s*\{[^}]*\}/);
     expect(bodyRule).toBeTruthy();
     const bodyContent = bodyRule![0];
-    // Must NOT reference --text-primary for body color
-    expect(bodyContent).not.toMatch(/color:\s*var\(--text-primary\)/);
-    // Must reference --text-secondary
-    expect(bodyContent).toMatch(/color:\s*var\(--text-secondary\)/);
+    // Must reference --text-primary for body color (white)
+    expect(bodyContent).toMatch(/color:\s*var\(--text-primary\)/);
   });
 
-  it("--color-foreground maps to --text-secondary (#a0a0a0) for default body text", () => {
-    expect(GLOBALS_CSS).toMatch(/--color-foreground:\s*var\(--text-secondary\)/);
+  it("--color-foreground maps to --text-primary (#ffffff) for default body text", () => {
+    expect(GLOBALS_CSS).toMatch(/--color-foreground:\s*var\(--text-primary\)/);
   });
 });
 

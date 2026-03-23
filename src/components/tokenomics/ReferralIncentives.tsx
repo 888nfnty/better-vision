@@ -33,7 +33,7 @@ export default function ReferralIncentives() {
         </h3>
         <MaturityBadge status={policy.maturity} />
       </div>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         The BETTER referral program is designed to be sustainable — funded from
         existing protocol revenue rather than inflationary issuance, with
         explicit caps to prevent runaway payouts.
@@ -48,7 +48,7 @@ export default function ReferralIncentives() {
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           Payout Source
         </h4>
-        <p className="text-sm text-secondary">{policy.rewardSourceDescription}</p>
+        <p className="text-sm text-white">{policy.rewardSourceDescription}</p>
       </LiquidMetalCard>
 
       {/* Reward Basis */}
@@ -56,7 +56,7 @@ export default function ReferralIncentives() {
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           How Rewards Are Earned
         </h4>
-        <p className="text-sm text-secondary">{policy.rewardBasis}</p>
+        <p className="text-sm text-white">{policy.rewardBasis}</p>
       </LiquidMetalCard>
 
       {/* Caps */}
@@ -65,13 +65,13 @@ export default function ReferralIncentives() {
           <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
             Per-Referrer Cap
           </span>
-          <p className="mt-1 text-sm text-secondary">{policy.payoutCapPerReferrer}</p>
+          <p className="mt-1 text-sm text-white">{policy.payoutCapPerReferrer}</p>
         </LiquidMetalCard>
         <LiquidMetalCard className="p-4" data-testid="referral-cap-per-referral">
           <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
             Per-Referral Cap
           </span>
-          <p className="mt-1 text-sm text-secondary">{policy.payoutCapPerReferral}</p>
+          <p className="mt-1 text-sm text-white">{policy.payoutCapPerReferral}</p>
         </LiquidMetalCard>
       </div>
 
@@ -80,7 +80,7 @@ export default function ReferralIncentives() {
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           Anti-Abuse Measures
         </h4>
-        <ul className="list-inside list-disc space-y-1 text-sm text-secondary">
+        <ul className="list-inside list-disc space-y-1 text-sm text-white">
           {policy.antiAbuseMeasures.map((measure, i) => (
             <li key={i}>{measure}</li>
           ))}
@@ -92,7 +92,7 @@ export default function ReferralIncentives() {
         <h4 className="mb-2 font-terminal text-sm font-semibold text-accent">
           Sustainability Logic
         </h4>
-        <p className="text-sm text-secondary">{policy.sustainabilityLogic}</p>
+        <p className="text-sm text-white">{policy.sustainabilityLogic}</p>
       </LiquidMetalCard>
 
       <CaveatFrame confidence={referralCaveat} className="mt-4" />

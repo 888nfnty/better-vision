@@ -79,7 +79,7 @@ export default function FdvRatchetExplainer() {
       <h3 className="mb-1 text-lg font-semibold text-foreground">
         Permanent FDV Ratchet
       </h3>
-      <p className="mb-2 text-sm text-secondary">
+      <p className="mb-2 text-sm text-white">
         The FDV ratchet is a one-way mechanism that permanently lowers the
         Terminal access threshold each time BETTER reaches a new fully diluted
         valuation (FDV) milestone. Once the threshold drops, it{" "}
@@ -98,7 +98,7 @@ export default function FdvRatchetExplainer() {
         <h4 className="mb-2 font-terminal text-sm font-semibold text-accent">
           How It Works
         </h4>
-        <ol className="list-inside list-decimal space-y-1 text-sm text-secondary">
+        <ol className="list-inside list-decimal space-y-1 text-sm text-white">
           <li>
             BETTER&apos;s FDV reaches a{" "}
             <span className="font-semibold text-foreground">
@@ -127,7 +127,7 @@ export default function FdvRatchetExplainer() {
       </LiquidMetalCard>
 
       {/* Worked Example */}
-      <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-muted">
+      <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-white/70">
         Worked Example
       </h4>
       <div className="space-y-2" data-testid="ratchet-worked-example">
@@ -143,7 +143,7 @@ export default function FdvRatchetExplainer() {
                 className={`inline-flex h-6 w-6 items-center justify-center rounded-full font-terminal text-xs font-bold ${
                   step.highlight
                     ? "bg-accent text-background"
-                    : "bg-surface text-muted"
+                    : "bg-surface text-white/70"
                 }`}
               >
                 {index + 1}
@@ -151,10 +151,10 @@ export default function FdvRatchetExplainer() {
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-3 text-sm">
-                <span className="font-terminal font-medium text-secondary">
+                <span className="font-terminal font-medium text-white">
                   FDV: {step.fdv}
                 </span>
-                <span className="font-terminal text-xs text-muted">→</span>
+                <span className="font-terminal text-xs text-white/70">→</span>
                 <span
                   className={`font-terminal font-semibold ${
                     step.highlight ? "text-accent" : "text-foreground"
@@ -163,7 +163,7 @@ export default function FdvRatchetExplainer() {
                   Threshold: {step.threshold}
                 </span>
               </div>
-              <p className="mt-1 text-sm text-secondary">{step.explanation}</p>
+              <p className="mt-1 text-sm text-white">{step.explanation}</p>
             </div>
           </LiquidMetalCard>
         ))}

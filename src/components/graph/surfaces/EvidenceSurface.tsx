@@ -6,7 +6,7 @@ import { LiquidMetalCard } from "@/components/LiquidMetalCard";
 export function EvidenceSurface() {
   return (
     <div className="space-y-6">
-      <p className="text-sm text-secondary">
+      <p className="text-sm text-white">
         Every quantitative claim, threshold, and projection on this site traces
         back to a source or assumption. Here&apos;s how to read them.
       </p>
@@ -62,9 +62,9 @@ function EvidenceExplainerCard({
           {label}
         </h3>
       </div>
-      <p className="mb-3 text-sm text-secondary">{description}</p>
+      <p className="mb-3 text-sm text-white">{description}</p>
       <LiquidMetalCard className="px-3 py-2">
-        <p className="font-terminal text-xs text-muted">
+        <p className="font-terminal text-xs text-white/70">
           Example: {example}
         </p>
       </LiquidMetalCard>

@@ -455,16 +455,16 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
             {focusedNode && (
               <span
                 data-testid="graph-breadcrumb"
-                className="font-terminal text-xs text-secondary"
+                className="font-terminal text-xs text-white"
               >
-                <span className="text-muted">→</span>{" "}
+                <span className="text-white/70">→</span>{" "}
                 <span className="text-foreground">{focusedNode.label}</span>
               </span>
             )}
             {!focusedNode && !invalidLink && (
               <span
                 data-testid="graph-breadcrumb"
-                className="font-terminal text-xs text-muted"
+                className="font-terminal text-xs text-white/70"
               >
                 Overview
               </span>
@@ -475,7 +475,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
           <button
             type="button"
             onClick={recenter}
-            className="rounded border border-border px-3 py-1.5 font-terminal text-xs text-secondary transition-colors hover:border-accent hover:text-foreground"
+            className="rounded border border-border px-3 py-1.5 font-terminal text-xs text-white transition-colors hover:border-accent hover:text-foreground"
             aria-label="Return to overview"
           >
             ⊙ Overview
@@ -510,16 +510,16 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
               ref={fallbackRef}
               tabIndex={-1}
             >
-              <p className="text-sm text-[#a0a0a0]">
+              <p className="text-sm text-white">
                 The graph destination you linked to wasn&apos;t found.
               </p>
-              <p className="mt-1 text-xs text-muted">
+              <p className="mt-1 text-xs text-white/70">
                 Explore the BETTER atlas below to find what you&apos;re looking for.
               </p>
               <button
                 type="button"
                 onClick={recenter}
-                className="mt-3 inline-flex items-center rounded border border-white/15 px-4 py-1.5 font-terminal text-xs text-[#a0a0a0] transition-colors hover:border-white/20 hover:text-foreground"
+                className="mt-3 inline-flex items-center rounded border border-white/15 px-4 py-1.5 font-terminal text-xs text-white transition-colors hover:border-white/20 hover:text-foreground"
               >
                 Reset &amp; Explore
               </button>
@@ -556,7 +556,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
                 <button
                   type="button"
                   onClick={recenter}
-                  className="rounded p-1.5 text-secondary transition-colors hover:bg-elevated hover:text-foreground"
+                  className="rounded p-1.5 text-white transition-colors hover:bg-elevated hover:text-foreground"
                   aria-label="Back to overview"
                 >
                   <svg
@@ -581,7 +581,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
                     </span>
                     {focusedNode.label}
                   </h2>
-                  <p className="text-xs text-secondary">{focusedNode.description}</p>
+                  <p className="text-xs text-white">{focusedNode.description}</p>
                 </div>
                 <MaturityBadge status={focusedNode.dominantStatus} />
               </div>
@@ -590,14 +590,14 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
             {/* Related nodes for direct traversal (VAL-ROADMAP-012) */}
             {relatedNodes.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
-                <span className="font-terminal text-xs text-muted">Related:</span>
+                <span className="font-terminal text-xs text-white/70">Related:</span>
                 {relatedNodes.map((related) => (
                   <button
                     key={related.id}
                     type="button"
                     data-testid="graph-related-link"
                     onClick={() => focusNode(related.id)}
-                    className="inline-flex items-center gap-1.5 rounded border border-border px-2.5 py-1 font-terminal text-xs text-secondary transition-colors hover:border-accent hover:text-foreground"
+                    className="inline-flex items-center gap-1.5 rounded border border-border px-2.5 py-1 font-terminal text-xs text-white transition-colors hover:border-accent hover:text-foreground"
                   >
                     <span className="text-accent" aria-hidden="true">
                       {related.icon}
@@ -617,7 +617,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
                   type="button"
                   data-testid="investor-path-prev"
                   onClick={prevGate}
-                  className="inline-flex items-center gap-1.5 rounded border border-border px-3 py-1 font-terminal text-xs text-secondary transition-colors hover:border-accent hover:text-foreground"
+                  className="inline-flex items-center gap-1.5 rounded border border-border px-3 py-1 font-terminal text-xs text-white transition-colors hover:border-accent hover:text-foreground"
                 >
                   ← {INVESTOR_PITCH_GATES[pitchPath.currentGateIndex - 1]?.label}
                 </button>
@@ -644,7 +644,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
           {/* Surface content */}
           <div className="p-4 sm:p-6">
             {(focusedNodeId && surfaces[focusedNodeId]) ?? (
-              <div className="py-8 text-center text-sm text-muted">
+              <div className="py-8 text-center text-sm text-white/70">
                 <p>Select a node to explore its content.</p>
               </div>
             )}
@@ -691,14 +691,14 @@ function InvestorPathAffordance({
           type="button"
           data-testid="investor-path-resume"
           onClick={onResume}
-          className="inline-flex items-center gap-2 rounded-none border border-white/15 px-4 py-2 font-terminal text-xs uppercase tracking-[-0.08em] text-secondary transition-colors hover:border-white/30 hover:text-foreground"
+          className="inline-flex items-center gap-2 rounded-none border border-white/15 px-4 py-2 font-terminal text-xs uppercase tracking-[-0.08em] text-white transition-colors hover:border-white/30 hover:text-foreground"
         >
           <span aria-hidden="true">↩</span>
           Resume at &ldquo;{resumeGate.label}&rdquo;
         </button>
       )}
 
-      <span className="hidden font-terminal text-[10px] text-muted sm:inline">
+      <span className="hidden font-terminal text-[10px] text-white/70 sm:inline">
         {TOTAL_GATES} gates · problem → wedge → proof → moat → business model → roadmap → valuation → evidence
       </span>
     </div>
@@ -747,7 +747,7 @@ function GraphNodeMap({
             {/* Node icon */}
             <span
               className={`shrink-0 font-terminal text-lg ${
-                isFocused ? "text-accent" : isActive ? "text-accent" : "text-muted"
+                isFocused ? "text-accent" : isActive ? "text-accent" : "text-white/70"
               }`}
               aria-hidden="true"
             >
@@ -762,7 +762,7 @@ function GraphNodeMap({
               >
                 {node.label}
               </span>
-              <span className="mt-0.5 block text-xs text-muted line-clamp-2">
+              <span className="mt-0.5 block text-xs text-white/70 line-clamp-2">
                 {node.description}
               </span>
             </div>

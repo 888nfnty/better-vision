@@ -127,7 +127,7 @@ export default function VaultCapacityModel() {
           Interactive
         </span>
       </div>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         Estimate how your staked BETTER translates into vault deposit capacity
         using the √-weighted bidding model. The total vault cap is shared across
         all qualifying stakers — individual allocations are determined by the
@@ -140,7 +140,7 @@ export default function VaultCapacityModel() {
 
       {/* Vault scenario toggle */}
       <div className="mb-6" data-testid="vault-scenario-toggle">
-        <span className="mb-2 block font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+        <span className="mb-2 block font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
           Vault Scenario
         </span>
         <div className="flex flex-wrap gap-2">
@@ -151,7 +151,7 @@ export default function VaultCapacityModel() {
               className={`rounded-lg px-4 py-2 font-terminal text-sm transition-colors ${
                 activeScenario === key
                   ? "text-foreground ring-1 ring-[rgba(255,255,255,0.20)]"
-                  : "text-secondary hover:text-foreground"
+                  : "text-white hover:text-foreground"
               }`}
               style={{
                 background: activeScenario === key ? "rgba(255, 255, 255, 0.14)" : "rgba(255, 255, 255, 0.10)",
@@ -163,13 +163,13 @@ export default function VaultCapacityModel() {
             </button>
           ))}
         </div>
-        <p className="mt-2 text-xs text-muted">{scenario.description}</p>
+        <p className="mt-2 text-xs text-white/70">{scenario.description}</p>
       </div>
 
       {/* Input fields */}
       <div className="mb-6 grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+          <label className="mb-1 block font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
             Your BETTER Stake
           </label>
           <input
@@ -189,7 +189,7 @@ export default function VaultCapacityModel() {
           )}
         </div>
         <div>
-          <label className="mb-1 block font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+          <label className="mb-1 block font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
             Total Staked BETTER
           </label>
           <input
@@ -207,7 +207,7 @@ export default function VaultCapacityModel() {
               Must be between 1 and {formatNumber(MINTED_SUPPLY)} BETTER (minted supply ceiling)
             </p>
           )}
-          <p className="mt-1 text-xs text-muted">
+          <p className="mt-1 text-xs text-white/70">
             Default: {formatNumber(DEFAULT_TOTAL_STAKED)} BETTER (~{Math.round((DEFAULT_TOTAL_STAKED / MINTED_SUPPLY) * 100)}% of minted supply).{" "}
             <span className="text-accent">Adjustable</span> — try different values to see how share changes.
           </p>
@@ -225,7 +225,7 @@ export default function VaultCapacityModel() {
             <div className="mt-1 font-terminal text-2xl font-bold text-foreground" data-testid="vault-share-percentage">
               {estimate.sharePercentage.toFixed(4)}%
             </div>
-            <p className="mt-1 text-xs text-muted">
+            <p className="mt-1 text-xs text-white/70">
               {formatNumber(userStake)} ÷ {formatNumber(totalStaked)} = {estimate.sharePercentage.toFixed(4)}% of the staked pool
             </p>
           </LiquidMetalCard>
@@ -239,7 +239,7 @@ export default function VaultCapacityModel() {
               <div className="mt-1 font-terminal text-lg font-bold text-foreground">
                 {formatUsd(estimate.estimatedAllocationLowUsd)} – {formatUsd(estimate.estimatedAllocationHighUsd)}
               </div>
-              <p className="mt-1 text-xs text-muted">
+              <p className="mt-1 text-xs text-white/70">
                 Statistical estimate with ±20% uncertainty band around the
                 point estimate. This is a <span className="text-accent">modeled capacity share</span> within
                 the total vault cap, determined by the √-weighted bidding allocation model.
@@ -249,13 +249,13 @@ export default function VaultCapacityModel() {
               className="p-4"
               data-testid="vault-total-cap"
             >
-              <span className="font-terminal text-xs font-medium uppercase tracking-wider text-[#a0a0a0]">
+              <span className="font-terminal text-xs font-medium uppercase tracking-wider text-white">
                 Total Vault Cap (Policy)
               </span>
               <div className="mt-1 font-terminal text-lg font-bold text-foreground">
                 {formatUsd(estimate.totalVaultCapUsd)}
               </div>
-              <p className="mt-1 text-xs text-muted">
+              <p className="mt-1 text-xs text-white/70">
                 Total deposits across all qualifying stakers.
                 {activeScenario === "first_vault"
                   ? ` First-vault total cap: $${formatNumber(FIRST_VAULT_POLICY.totalVaultCapUsd)} USDC shared by all stakers.`
@@ -272,10 +272,10 @@ export default function VaultCapacityModel() {
             <div className="mt-1 font-terminal text-2xl font-bold text-foreground">
               {formatUsd(estimate.effectiveDepositUsd)}
             </div>
-            <p className="mt-1 text-xs text-muted">
+            <p className="mt-1 text-xs text-white/70">
               {estimate.capConstrained ? (
                 <>
-                  <span className="text-[#a0a0a0]">Cap-constrained</span> — your modeled share
+                  <span className="text-white">Cap-constrained</span> — your modeled share
                   ({formatUsd(estimate.estimatedAllocationHighUsd)}) exceeds the per-staker cap
                   derived from max(V/N, V×{BIDDING_MODEL_PARAMS.perStakerCapRatio * 100}%), so the cap applies.
                 </>
@@ -289,7 +289,7 @@ export default function VaultCapacityModel() {
           </LiquidMetalCard>
         </div>
       ) : (
-        <LiquidMetalCard className="mb-6 p-4 text-center text-sm text-muted" data-testid="vault-no-results">
+        <LiquidMetalCard className="mb-6 p-4 text-center text-sm text-white/70" data-testid="vault-no-results">
           {!totalStakedValid
             ? "Fix the total staked input to see results."
             : !userStakeValid
@@ -303,27 +303,27 @@ export default function VaultCapacityModel() {
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           Modeled Whale-Vault Assumptions
         </h4>
-        <p className="mb-3 text-xs text-secondary">
-          Whale count and stake distribution are <span className="font-semibold text-[#a0a0a0]">informational-only context</span> — they do not drive the capacity estimate calculation.
+        <p className="mb-3 text-xs text-white">
+          Whale count and stake distribution are <span className="font-semibold text-white">informational-only context</span> — they do not drive the capacity estimate calculation.
           Only vault capacity feeds directly into the model as a calculation input.
         </p>
         <div className="grid gap-3 sm:grid-cols-3">
           <div>
-            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
               Assumed Whale Count
             </span>
             <span className="font-terminal font-semibold text-foreground">
               {WHALE_VAULT_ASSUMPTIONS.assumedWhaleCount} whales
             </span>
             <span
-              className="mt-1 block rounded bg-white/5 px-1.5 py-0.5 font-terminal text-[10px] font-medium text-[#a0a0a0] w-fit"
+              className="mt-1 block rounded bg-white/5 px-1.5 py-0.5 font-terminal text-[10px] font-medium text-white w-fit"
               data-testid="assumption-role-informational"
             >
               Informational Only
             </span>
           </div>
           <div>
-            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
               Assumed Vault Capacity
             </span>
             <span className="font-terminal font-semibold text-foreground">
@@ -337,7 +337,7 @@ export default function VaultCapacityModel() {
             </span>
           </div>
           <div>
-            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
               Minted Supply Ceiling
             </span>
             <span className="font-terminal font-semibold text-foreground">
@@ -345,12 +345,12 @@ export default function VaultCapacityModel() {
             </span>
           </div>
         </div>
-        <p className="mt-3 text-xs text-secondary" data-testid="whale-stake-distribution">
+        <p className="mt-3 text-xs text-white" data-testid="whale-stake-distribution">
           <span className="font-semibold text-foreground">Stake Distribution:</span>{" "}
           {WHALE_VAULT_ASSUMPTIONS.assumedStakeDistribution}
         </p>
         <span
-          className="mt-1 inline-block rounded bg-white/5 px-1.5 py-0.5 font-terminal text-[10px] font-medium text-[#a0a0a0]"
+          className="mt-1 inline-block rounded bg-white/5 px-1.5 py-0.5 font-terminal text-[10px] font-medium text-white"
           data-testid="assumption-role-informational"
         >
           Informational Only

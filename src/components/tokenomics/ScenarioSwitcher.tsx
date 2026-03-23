@@ -135,7 +135,7 @@ export default function ScenarioSwitcher() {
       <h3 className="mb-1 text-lg font-semibold text-foreground">
         Scenario Projections
       </h3>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         Explore three projection scenarios across prediction markets,
         Hyperliquid/HyperEVM, social vaults, AI-agent tooling, and enterprise
         revenue. Switching scenarios updates all outputs while showing exactly
@@ -160,7 +160,7 @@ export default function ScenarioSwitcher() {
             className={`flex-1 rounded-lg px-4 py-3 text-center font-terminal text-sm font-medium transition-all ${
               activeLevel === level
                 ? "text-foreground ring-1 ring-[rgba(255,255,255,0.20)]"
-                : "text-secondary hover:text-foreground"
+                : "text-white hover:text-foreground"
             }`}
             style={{
               background: activeLevel === level ? "rgba(255, 255, 255, 0.14)" : "rgba(255, 255, 255, 0.10)",
@@ -179,10 +179,10 @@ export default function ScenarioSwitcher() {
         className="mb-6 p-4"
         data-testid="user-inputs-panel"
       >
-        <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-muted">
+        <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-white/70">
           Your Position
         </h4>
-        <p className="mb-3 text-xs text-muted">
+        <p className="mb-3 text-xs text-white/70">
           Enter your token balance and a hypothetical vault deposit to see how
           your tier and allocation would look under each scenario. These inputs
           persist when you switch scenarios.
@@ -191,7 +191,7 @@ export default function ScenarioSwitcher() {
           <div>
             <label
               htmlFor="user-token-balance"
-              className="mb-1 block font-terminal text-xs font-medium uppercase tracking-wider text-muted"
+              className="mb-1 block font-terminal text-xs font-medium uppercase tracking-wider text-white/70"
             >
               Token Balance (BETTER)
             </label>
@@ -210,7 +210,7 @@ export default function ScenarioSwitcher() {
           <div>
             <label
               htmlFor="user-deposit-amount"
-              className="mb-1 block font-terminal text-xs font-medium uppercase tracking-wider text-muted"
+              className="mb-1 block font-terminal text-xs font-medium uppercase tracking-wider text-white/70"
             >
               Vault Deposit ($)
             </label>
@@ -233,7 +233,7 @@ export default function ScenarioSwitcher() {
           <div className="mt-4" data-testid="allocation-preview">
             <div className="grid gap-3 sm:grid-cols-3">
               <LiquidMetalCard className="px-3 py-2">
-                <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                   Your Tier
                 </span>
                 <span
@@ -244,16 +244,16 @@ export default function ScenarioSwitcher() {
                 </span>
               </LiquidMetalCard>
               <LiquidMetalCard className="px-3 py-2">
-                <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                   √-Weight
                 </span>
-                <span className="font-terminal text-secondary">
+                <span className="font-terminal text-white">
                   {sqrtWeightFormatted}
                 </span>
               </LiquidMetalCard>
               {parsedBalance >= 100_000 && (
                 <LiquidMetalCard className="px-3 py-2">
-                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Vault Eligible
                   </span>
                   <span className="font-terminal font-semibold text-accent">
@@ -281,12 +281,12 @@ export default function ScenarioSwitcher() {
           <h4 className="mb-1 font-terminal text-sm font-semibold text-accent">
             {activeScenario.label} Scenario
           </h4>
-          <p className="text-sm text-secondary">{activeScenario.description}</p>
+          <p className="text-sm text-white">{activeScenario.description}</p>
         </LiquidMetalCard>
 
         {/* Assumptions panel */}
         <div className="mb-6" data-testid="assumptions-panel">
-          <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-muted">
+          <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-white/70">
             Assumptions
           </h4>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -296,16 +296,16 @@ export default function ScenarioSwitcher() {
                 className="p-3"
                 data-testid="assumption-card"
               >
-                <span className="font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+                <span className="font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                   {SCENARIO_DIMENSION_LABELS[assumption.dimension]}
                 </span>
                 <div className="mt-1 font-terminal text-lg font-semibold text-accent">
                   {assumption.value}{" "}
-                  <span className="text-xs font-normal text-secondary">
+                  <span className="text-xs font-normal text-white">
                     {assumption.unit}
                   </span>
                 </div>
-                <p className="mt-1 text-xs text-muted">{assumption.description}</p>
+                <p className="mt-1 text-xs text-white/70">{assumption.description}</p>
                 <div className="mt-2">
                   <EvidenceHook source={assumption.source} />
                 </div>
@@ -316,7 +316,7 @@ export default function ScenarioSwitcher() {
 
         {/* Projection outputs */}
         <div data-testid="projection-outputs">
-          <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-muted">
+          <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-white/70">
             Projected Outcomes ({SCENARIO_LEVEL_LABELS[activeLevel]})
           </h4>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -332,14 +332,14 @@ export default function ScenarioSwitcher() {
 
         {/* Cross-scenario comparison table */}
         <div className="mt-6" data-testid="projection-comparison">
-          <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-muted">
+          <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-white/70">
             Cross-Scenario Comparison
           </h4>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="pb-2 pr-4 font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+                  <th className="pb-2 pr-4 font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                     Metric
                   </th>
                   {(["conservative", "base", "upside"] as ScenarioLevel[]).map(
@@ -347,7 +347,7 @@ export default function ScenarioSwitcher() {
                       <th
                         key={level}
                         className={`pb-2 pr-4 text-right font-terminal text-xs font-medium uppercase tracking-wider ${
-                          level === activeLevel ? "text-accent" : "text-muted"
+                          level === activeLevel ? "text-accent" : "text-white/70"
                         }`}
                       >
                         {SCENARIO_LEVEL_LABELS[level]}
@@ -367,7 +367,7 @@ export default function ScenarioSwitcher() {
                           className={`py-2.5 pr-4 text-right font-terminal ${
                             level === activeLevel
                               ? "font-semibold text-accent"
-                              : "text-secondary"
+                              : "text-white"
                           }`}
                         >
                           {formatValue(p[level], p.unit)}
@@ -407,7 +407,7 @@ function ProjectionCard({
       className="p-4"
       data-testid="projection-card"
     >
-      <span className="font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+      <span className="font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
         {projection.metric}
       </span>
       <div className="mt-1 font-terminal text-2xl font-bold text-accent">
@@ -418,10 +418,10 @@ function ProjectionCard({
       </div>
       {dependencyLabels.length > 0 && (
         <div className="mt-2">
-          <span className="font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+          <span className="font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
             Depends on:
           </span>
-          <p className="text-xs text-muted">
+          <p className="text-xs text-white/70">
             {dependencyLabels.join(", ")}
           </p>
         </div>

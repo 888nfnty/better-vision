@@ -10,8 +10,8 @@ import { MATURITY_LABELS, type MaturityStatus } from "@/content";
 const STATUS_TEXT_STYLES: Record<MaturityStatus, string> = {
   live: "text-white",
   in_progress: "text-white",
-  planned: "text-[#a0a0a0]",
-  speculative: "text-[#707070]",
+  planned: "text-white/80",
+  speculative: "text-white/60",
 };
 
 /**

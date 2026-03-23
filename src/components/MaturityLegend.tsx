@@ -29,7 +29,7 @@ export default function MaturityLegend({ className = "" }: { className?: string 
       <h3 className="mb-4 font-terminal text-sm font-semibold uppercase tracking-widest text-accent">
         Understanding Maturity Labels
       </h3>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         Every feature, product, and roadmap item on this site carries a maturity
         label so you can tell what&apos;s shipping today versus what&apos;s still being built,
         planned, or explored.
@@ -40,7 +40,7 @@ export default function MaturityLegend({ className = "" }: { className?: string 
             <dt className="shrink-0 pt-0.5">
               <MaturityBadge status={status} />
             </dt>
-            <dd className="text-sm text-secondary">
+            <dd className="text-sm text-white">
               <span className="font-medium text-foreground">
                 {MATURITY_LABELS[status]}:
               </span>{" "}

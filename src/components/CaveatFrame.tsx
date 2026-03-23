@@ -19,12 +19,12 @@ export default function CaveatFrame({
       aria-label="Confidence and caveat framing"
       data-testid="caveat-frame"
     >
-      <p className="text-xs text-[#a0a0a0]">
+      <p className="text-xs text-white">
         <span className="mr-1 font-terminal font-semibold">⚠ Caveat:</span>
         {confidence.caveat}
       </p>
       {confidence.dependencies && confidence.dependencies.length > 0 && (
-        <p className="mt-1 text-xs text-muted">
+        <p className="mt-1 text-xs text-white/70">
           <span className="font-terminal font-medium">Depends on:</span>{" "}
           {confidence.dependencies.join(", ")}
         </p>

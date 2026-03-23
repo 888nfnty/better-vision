@@ -68,7 +68,7 @@ export default function ScarcityExplainer() {
       <h3 className="mb-1 text-lg font-semibold text-foreground">
         Oversubscription &amp; Scarcity Rules
       </h3>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         When vault space, preview slots, or premium capacity is scarce,
         whale-first priority determines how access is allocated. The rules
         below show how each scarcity scenario resolves.
@@ -88,16 +88,16 @@ export default function ScarcityExplainer() {
             <h4 className="mb-2 font-semibold text-foreground">{rule.title}</h4>
             <div className="space-y-2">
               <div>
-                <span className="font-terminal text-xs font-medium uppercase tracking-wider text-[#a0a0a0]">
+                <span className="font-terminal text-xs font-medium uppercase tracking-wider text-white">
                   Scenario
                 </span>
-                <p className="mt-0.5 text-sm text-secondary">{rule.scenario}</p>
+                <p className="mt-0.5 text-sm text-white">{rule.scenario}</p>
               </div>
               <div>
                 <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
                   Resolution
                 </span>
-                <p className="mt-0.5 text-sm text-secondary">{rule.resolution}</p>
+                <p className="mt-0.5 text-sm text-white">{rule.resolution}</p>
               </div>
             </div>
           </LiquidMetalCard>

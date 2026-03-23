@@ -19,12 +19,12 @@ export default function EvidenceHook({
       <SourceIcon type={source.type} />
       <span className="font-medium">{source.label}</span>
       {source.asOf && (
-        <span className="text-muted">as of {source.asOf}</span>
+        <span className="text-white/70">as of {source.asOf}</span>
       )}
     </>
   );
 
-  const baseClasses = `inline-flex items-center gap-1.5 rounded border border-border bg-surface px-2 py-1 font-terminal text-xs text-secondary ${className}`;
+  const baseClasses = `inline-flex items-center gap-1.5 rounded border border-border bg-surface px-2 py-1 font-terminal text-xs text-white ${className}`;
 
   if (source.href) {
     return (

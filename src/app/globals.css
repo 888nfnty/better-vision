@@ -21,14 +21,13 @@
   --bg-elevated: #252530;
   --bg-raised: #2c2c38;
 
-  /* Foreground scale — tradebetter-exact white + gray text hierarchy
-   * Extracted from tradebetter.app Framer source via FetchUrl:
-   *   Primary text: #ffffff (pure white — all headings, CTAs)
-   *   Body text: #a0a0a0 (muted gray — IBM Plex Mono body copy)
-   *   Muted text: #707070 (borders, dividers, deemphasized labels)
+  /* Foreground scale — all text white (VAL-VISUAL-034)
+   * ALL text on the site is white (#ffffff). Text hierarchy is achieved
+   * through font size, weight, and opacity — never grey color values.
+   * --text-muted (#707070) is retained ONLY for non-text uses (borders, dividers).
    * Design system ref: .factory/library/tradebetter-exact-design-reference.md § Color Palette */
   --text-primary: #ffffff;
-  --text-secondary: #a0a0a0;
+  --text-secondary: #ffffff;
   --text-muted: #707070;
 
   /* tradebetter-exact electric-blue emphasis — ATMOSPHERIC GRADIENTS ONLY
@@ -47,7 +46,7 @@
   --accent-green: #00ff00;
 
   /* No competing accent colors — tradebetter uses only 2 accents (green + blue).
-   * All other UI states use grayscale (#404040 → #707070 → #a0a0a0 → #e6e6e6).
+   * All other UI states use grayscale (#404040 → #707070 → #e6e6e6).
    * Previously defined warn and danger accent tokens have been removed. */
 
   /* Borders — tradebetter-exact values
@@ -66,7 +65,7 @@
   /* Typography — tradebetter-exact font stacks
    * Headings: Helvetica Neue Medium (shipped as Geist Sans via --font-display)
    *   ALL CAPS, -0.06em tracking, pure white
-   * Body: IBM Plex Mono (monospace terminal identity), #a0a0a0
+   * Body: IBM Plex Mono (monospace terminal identity), #ffffff
    * Design system ref: .factory/library/tradebetter-exact-design-reference.md § Typography */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-ibm-plex-mono), var(--font-geist-mono);
@@ -88,7 +87,7 @@
 @theme inline {
   /* Backgrounds */
   --color-background: var(--bg-primary);
-  --color-foreground: var(--text-secondary);
+  --color-foreground: var(--text-primary);
   --color-surface: var(--bg-surface);
   --color-elevated: var(--bg-elevated);
   --color-raised: var(--bg-raised);
@@ -101,16 +100,16 @@
    * #455eff is reserved for atmospheric background gradients only.
    * UI accent classes (text-accent, bg-accent, border-accent) use white. */
   --color-accent: #ffffff;
-  --color-accent-bright: #e6e6e6;
-  --color-accent-dim: #a0a0a0;
+  --color-accent-bright: #ffffff;
+  --color-accent-dim: #ffffff;
 
   /* Supporting accents — neon green for status dots only */
   --color-accent-green: var(--accent-green);
-  --color-accent-secondary: #a0a0a0;
+  --color-accent-secondary: #ffffff;
 
   /* Grayscale palette for UI states that previously used colored accents.
    * tradebetter uses only green + blue accents; everything else is grayscale. */
-  --color-text-bright: #e6e6e6;
+  --color-text-bright: #ffffff;
   --color-text-dim: #404040;
 
   /* Borders
@@ -132,7 +131,7 @@ html {
 
 body {
   background: var(--bg-primary);
-  color: var(--text-secondary);
+  color: var(--text-primary);
   font-family: var(--font-mono), "IBM Plex Mono", monospace;
 }
 

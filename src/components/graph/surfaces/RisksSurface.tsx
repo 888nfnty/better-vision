@@ -6,7 +6,7 @@ import { LiquidMetalCard } from "@/components/LiquidMetalCard";
 export function RisksSurface() {
   return (
     <div className="space-y-6">
-      <p className="text-sm text-secondary">
+      <p className="text-sm text-white">
         This site represents BETTER&apos;s vision — not a guarantee. Here are the key uncertainties.
       </p>
 
@@ -33,13 +33,13 @@ export function RisksSurface() {
         />
       </div>
 
-      <p className="text-center text-xs text-muted">
+      <p className="text-center text-xs text-white/70">
         For the latest verified information, always refer to{" "}
         <a
           href="https://docs.tradebetter.app"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline transition-colors hover:text-secondary"
+          className="underline transition-colors hover:text-white/70"
         >
           docs.tradebetter.app
         </a>
@@ -55,8 +55,8 @@ function RiskItem({ title, body }: { title: string; body: string }) {
       className="p-4"
       data-testid="risk-item"
     >
-      <h3 className="mb-1 text-sm font-semibold text-[#a0a0a0]">{title}</h3>
-      <p className="text-sm text-secondary">{body}</p>
+      <h3 className="mb-1 text-sm font-semibold text-white">{title}</h3>
+      <p className="text-sm text-white">{body}</p>
     </LiquidMetalCard>
   );
 }

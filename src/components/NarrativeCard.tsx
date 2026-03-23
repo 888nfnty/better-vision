@@ -35,7 +35,7 @@ export default function NarrativeCard({
       <h3 className="mb-2 text-lg font-semibold text-foreground">
         {block.title}
       </h3>
-      <p className="text-sm leading-relaxed text-secondary">{block.body}</p>
+      <p className="text-sm leading-relaxed text-white">{block.body}</p>
       {isFutureFacing && block.confidence && (
         <CaveatFrame confidence={block.confidence} className="mt-3" />
       )}

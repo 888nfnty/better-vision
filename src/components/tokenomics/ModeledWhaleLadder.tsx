@@ -37,7 +37,7 @@ export default function ModeledWhaleLadder() {
         </h3>
         <MaturityBadge status="planned" />
       </div>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         Beyond the first vault, the whale-first design philosophy extends to
         premium BETTER products. These access gates are{" "}
         <span className="font-semibold text-accent">modeled/inferred policy</span> —
@@ -62,10 +62,10 @@ export default function ModeledWhaleLadder() {
                   Modeled Gate
                 </span>
               </div>
-              <p className="mb-3 text-sm text-secondary">{product.description}</p>
+              <p className="mb-3 text-sm text-white">{product.description}</p>
               <div className="grid gap-3 sm:grid-cols-2">
                 <LiquidMetalCard className="px-3 py-2">
-                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Modeled Minimum
                   </span>
                   <span className="font-terminal font-semibold text-foreground">
@@ -73,7 +73,7 @@ export default function ModeledWhaleLadder() {
                   </span>
                 </LiquidMetalCard>
                 <LiquidMetalCard className="px-3 py-2">
-                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Required Tier
                   </span>
                   <span className="font-terminal font-semibold text-accent">

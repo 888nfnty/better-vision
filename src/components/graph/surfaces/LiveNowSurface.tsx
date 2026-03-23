@@ -10,17 +10,17 @@ export function LiveNowSurface() {
 
   return (
     <div className="space-y-6">
-      <p className="text-sm text-secondary">
+      <p className="text-sm text-white">
         The current production capabilities of the BETTER ecosystem — live today
         for qualifying token holders.
       </p>
-      <p className="text-xs text-muted" data-testid="freshness-cue">
+      <p className="text-xs text-white/70" data-testid="freshness-cue">
         Status as of 2026-Q1 · Source: BETTER Docs ·{" "}
         <a
           href="https://docs.tradebetter.app"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline transition-colors hover:text-secondary"
+          className="underline transition-colors hover:text-white/70"
         >
           docs.tradebetter.app
         </a>

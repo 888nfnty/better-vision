@@ -5,7 +5,7 @@
  * - ALL headings: UPPERCASE, -0.06em tracking, pure white
  * - Font: Helvetica Neue Medium (shipped as Geist Sans via --font-display)
  * - Label: IBM Plex Mono, uppercase, tight tracking, accent color
- * - Description: IBM Plex Mono, #a0a0a0
+ * - Description: IBM Plex Mono, #ffffff (white — all text is white per VAL-VISUAL-034)
  */
 import { type HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
@@ -49,7 +49,7 @@ export function Heading({
       {description && (
         <p
           className={cn(
-            "mt-4 font-terminal text-lg text-secondary tracking-[-0.04em]",
+            "mt-4 font-terminal text-lg text-white tracking-[-0.04em]",
             align === "center" && "mx-auto max-w-2xl"
           )}
         >

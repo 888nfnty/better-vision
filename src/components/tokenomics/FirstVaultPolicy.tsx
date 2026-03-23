@@ -47,7 +47,7 @@ export default function FirstVaultPolicy() {
         </h3>
         <MaturityBadge status="in_progress" />
       </div>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         The first quant-team vault has a <strong>total deposit cap of $25,000 USDC
         across all qualifying stakers</strong>. Individual allocations are determined
         by a √-weighted bidding model with a 24-hour commitment window and a
@@ -67,7 +67,7 @@ export default function FirstVaultPolicy() {
           <div className="mt-1 font-terminal text-2xl font-bold text-foreground" data-testid="first-vault-minimum">
             {formatNumber(FIRST_VAULT_POLICY.minimumBetter)} BETTER
           </div>
-          <p className="mt-1 text-xs text-secondary">
+          <p className="mt-1 text-xs text-white">
             Required for all quant-team vaults (Standard tier or above).
           </p>
         </LiquidMetalCard>
@@ -78,7 +78,7 @@ export default function FirstVaultPolicy() {
           <div className="mt-1 font-terminal text-2xl font-bold text-foreground" data-testid="first-vault-cap">
             ${formatNumber(FIRST_VAULT_POLICY.totalVaultCapUsd)} USDC
           </div>
-          <p className="mt-1 text-xs text-secondary">
+          <p className="mt-1 text-xs text-white">
             Total deposits across ALL qualifying stakers for the first vault. Individual allocations use the per-staker bidding model.
           </p>
         </LiquidMetalCard>
@@ -89,7 +89,7 @@ export default function FirstVaultPolicy() {
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           √-Weighted Bidding Allocation Model
         </h4>
-        <p className="text-sm text-secondary mb-3">
+        <p className="text-sm text-white mb-3">
           Vault allocation uses a <span className="font-semibold text-accent">bidding system</span> with
           a {BIDDING_MODEL_PARAMS.biddingWindowHours}-hour commitment window. Stakers sign a transaction
           committing their BETTER stake for a specific vault. After the window closes, allocations are
@@ -98,7 +98,7 @@ export default function FirstVaultPolicy() {
         </p>
         <div className="grid gap-3 sm:grid-cols-3">
           <LiquidMetalCard className="px-3 py-2">
-            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
               Tapering
             </span>
             <span className="font-terminal font-semibold text-foreground">
@@ -106,7 +106,7 @@ export default function FirstVaultPolicy() {
             </span>
           </LiquidMetalCard>
           <LiquidMetalCard className="px-3 py-2">
-            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
               Per-Staker Cap
             </span>
             <span className="font-terminal font-semibold text-foreground">
@@ -114,7 +114,7 @@ export default function FirstVaultPolicy() {
             </span>
           </LiquidMetalCard>
           <LiquidMetalCard className="px-3 py-2">
-            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+            <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
               Minimum Floor
             </span>
             <span className="font-terminal font-semibold text-foreground">
@@ -122,7 +122,7 @@ export default function FirstVaultPolicy() {
             </span>
           </LiquidMetalCard>
         </div>
-        <p className="mt-3 text-xs text-muted">
+        <p className="mt-3 text-xs text-white/70">
           The hybrid model compresses whale allocations via √-tapering, bounds maximum
           individual exposure via the hard cap, and guarantees meaningful participation
           for every qualifier via the $100 floor.
@@ -134,7 +134,7 @@ export default function FirstVaultPolicy() {
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           Social Vault Minimum: {formatNumber(SOCIAL_VAULT_PARAMS.minimumStake)} BETTER
         </h4>
-        <p className="text-sm text-secondary">
+        <p className="text-sm text-white">
           {SOCIAL_VAULT_PARAMS.differentiationNote}
         </p>
       </LiquidMetalCard>
@@ -144,7 +144,7 @@ export default function FirstVaultPolicy() {
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           Multi-Vault Progression
         </h4>
-        <p className="mb-3 text-sm text-secondary">
+        <p className="mb-3 text-sm text-white">
           {MULTI_VAULT_PROGRESSION.futureCapPolicy}
         </p>
         <div className="space-y-2">
@@ -161,7 +161,7 @@ export default function FirstVaultPolicy() {
                   </span>
                 )}
                 {stage.totalCapUsd === 0 && (
-                  <span className="ml-2 font-terminal text-xs text-muted">
+                  <span className="ml-2 font-terminal text-xs text-white/70">
                     Case-by-case
                   </span>
                 )}
@@ -172,7 +172,7 @@ export default function FirstVaultPolicy() {
       </LiquidMetalCard>
 
       {/* Worked examples */}
-      <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-muted">
+      <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-white/70">
         Worked Examples (20-Staker Scenario)
       </h4>
       <div className="space-y-3" data-testid="first-vault-worked-examples">
@@ -187,20 +187,20 @@ export default function FirstVaultPolicy() {
           >
             <div className="mb-2 flex flex-wrap items-center gap-2">
               <span className="font-semibold text-foreground">{ex.tierName}</span>
-              <span className="font-terminal text-xs text-secondary">
+              <span className="font-terminal text-xs text-white">
                 {formatNumber(ex.betterHolding)} BETTER
               </span>
               <span
                 className={`rounded-full px-2 py-0.5 font-terminal text-xs ${
                   ex.qualifies
                     ? "bg-accent/10 text-accent"
-                    : "bg-surface text-muted"
+                    : "bg-surface text-white/70"
                 }`}
               >
                 {ex.qualifies ? "✓ Qualifies" : "✗ Does not qualify"}
               </span>
               {ex.capped && (
-                <span className="rounded-full bg-white/5 px-2 py-0.5 font-terminal text-xs text-[#a0a0a0]">
+                <span className="rounded-full bg-white/5 px-2 py-0.5 font-terminal text-xs text-white">
                   Capped
                 </span>
               )}
@@ -208,7 +208,7 @@ export default function FirstVaultPolicy() {
             {ex.qualifies && (
               <div className="grid gap-3 sm:grid-cols-3">
                 <LiquidMetalCard className="px-3 py-2">
-                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     √-Weight
                   </span>
                   <span className="font-terminal font-semibold text-foreground">
@@ -216,7 +216,7 @@ export default function FirstVaultPolicy() {
                   </span>
                 </LiquidMetalCard>
                 <LiquidMetalCard className="px-3 py-2">
-                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Estimated Allocation
                   </span>
                   <span className="font-terminal font-semibold text-accent">
@@ -224,7 +224,7 @@ export default function FirstVaultPolicy() {
                   </span>
                 </LiquidMetalCard>
                 <LiquidMetalCard className="px-3 py-2">
-                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     % of Vault
                   </span>
                   <span className="font-terminal font-semibold text-foreground">
@@ -233,7 +233,7 @@ export default function FirstVaultPolicy() {
                 </LiquidMetalCard>
               </div>
             )}
-            <p className="mt-2 text-xs text-muted">{ex.explanation}</p>
+            <p className="mt-2 text-xs text-white/70">{ex.explanation}</p>
           </LiquidMetalCard>
         ))}
       </div>

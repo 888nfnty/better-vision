@@ -34,11 +34,11 @@ The experience reads as a **dynamic graph workspace with an investor-readable st
 | Token | Value | Usage |
 |---|---|---|
 | `--text-primary` | `#ffffff` | Headings — pure white |
-| `--text-secondary` | `#a0a0a0` | Body text — muted gray |
-| `--text-muted` | `#707070` | Deemphasized |
-| `--text-subtle` | `#404040` | Very subtle |
-| `--text-bright` | `#e6e6e6` | Emphasized body |
-| `--text-disabled` | `#575757` | Disabled/inactive |
+| `--text-secondary` | `#ffffff` | **ALL text is white** — user override. No grey text. Hierarchy from size/weight/opacity only. |
+| `--text-muted` | `#707070` | Non-interactive dividers/borders ONLY — never for text |
+| `--text-subtle` | `#404040` | Non-interactive dividers ONLY — never for text |
+| `--text-bright` | `#ffffff` | Emphasized body (now same as primary) |
+| `--text-disabled` | `#575757` | Disabled/inactive elements (non-text) |
 
 ### Accent Colors (TWO ONLY)
 
@@ -83,7 +83,7 @@ is reserved for static status dots/signals only.
 - **Green = status/signal only**: Live dots and similarly minimal signal marks. No green fills or glow utilities.
 - **Blue = atmospheric**: Background gradient glows only — never on text or CTAs.
 - **White = hierarchy anchor**: All headings pure white. White is the loudest "color".
-- **5-level gray scale** for subtle text hierarchy: `#404040` → `#575757` → `#707070` → `#a0a0a0` → `#e6e6e6`
+- **ALL text is white (#ffffff)** — no grey text anywhere. Text hierarchy achieved through font size, weight, and opacity only. Grey values reserved for non-text elements (borders, dividers).
 
 ---
 
@@ -127,9 +127,9 @@ is reserved for static status dots/signals only.
 
 ### Hierarchy
 
-- White headings (`#ffffff`), gray body text (`#a0a0a0`) — strong 2-level hierarchy.
-- Primary copy must read as **crisp pure white**, not grey-white.
-- Reserve grey tokens for secondary/supporting text only.
+- **ALL text is white (#ffffff)** — no grey text. No `#a0a0a0` for any text element.
+- Text hierarchy achieved through font size (H1 > H2 > body), weight (bold > medium > regular), and opacity (100% > 80% > 60%) — never through grey color values.
+- Primary copy must read as **crisp pure white**.
 
 ---
 
@@ -142,32 +142,33 @@ The signature card system uses a **liquid metal** approach — glass-morphism wi
 ```css
 padding: 24px; /* or 32px on larger variants */
 border-radius: 8px;
-background-color: rgba(255, 255, 255, 0.10);
-border: 1px solid rgba(255, 255, 255, 0.20);
+background-color: rgba(255, 255, 255, 0.04); /* nearly transparent — shader shows through */
+border: 1px solid rgba(255, 255, 255, 0.12); /* subtle edge */
 ```
 
 ### Hover / Interaction
 
 ```css
 /* Hover state */
-background-color: rgba(255, 255, 255, 0.15);
+background-color: rgba(255, 255, 255, 0.08);
+box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.03); /* subtle inner glow */
 
 /* Cursor-tracking radial-gradient metallic sheen */
-/* Implemented via CSS custom properties updated on mousemove */
 background-image: radial-gradient(
   circle at var(--mouse-x) var(--mouse-y),
-  rgba(255, 255, 255, 0.15) 0%,
-  transparent 60%
+  rgba(255, 255, 255, 0.30) 0%,   /* strong center highlight */
+  rgba(200, 210, 255, 0.12) 40%,  /* secondary metallic ring */
+  transparent 70%
 );
 ```
 
 ### Card Principles
 
-1. **Borders over shadows**: Cards defined by thin 1px borders, not drop shadows.
-2. **Glass-morphism lite**: `rgba(255,255,255,0.1)` backgrounds for subtle layering.
+1. **Nearly transparent**: Cards at 4% opacity let the shader background show through. They should feel like glass panels floating over the shader, not opaque boxes.
+2. **Borders over shadows**: Thin 1px borders at 12% white for subtle edge definition.
 3. **8px border-radius**: The only radius for content cards.
-4. **No card elevation**: Depth from opacity/color layers, not shadows.
-5. **No backdrop-blur**: Glass effect is opacity-based only.
+4. **Strong cursor sheen**: The metallic sheen must be clearly visible (30%+ center opacity).
+5. **No backdrop-blur**: Glass effect is opacity-based only. No blur that obscures the shader.
 6. **No WebGL**: Cursor-tracking metallic sheen is pure CSS (radial-gradient + mousemove event).
 7. **Left-aligned content** within cards: top-down vertical flow.
 
@@ -184,9 +185,9 @@ Badges are **monochrome + green only**. No rainbow colors. No multi-color palett
 | Status | Visual Treatment |
 |---|---|
 | `Live` | Green dot: 8px circle, `#00ff00`, `border-radius: 1000px`. Optional glow: `box-shadow: 0px 0px 12px 0px rgba(0, 255, 0, 0.5)` |
-| `In progress` | White or light gray text label. No colored dot. |
-| `Planned` | Gray text label (`#a0a0a0`). No colored dot. |
-| `Speculative` | Subtle gray text label (`#707070`). No colored dot. |
+| `In progress` | White text label. No colored dot. |
+| `Planned` | White text label at 80% opacity. No colored dot. |
+| `Speculative` | White text label at 60% opacity. No colored dot. |
 
 ### Status Dot Behavior
 

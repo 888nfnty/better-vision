@@ -26,7 +26,7 @@ const buttonVariants = cva(
         secondary:
           "border border-white text-white hover:bg-white/10",
         ghost:
-          "text-secondary hover:text-foreground hover:bg-surface",
+          "text-white hover:text-foreground hover:bg-surface",
         live:
           "bg-white text-[#101010] hover:shadow-[0px_0px_16px_0px_rgba(255,255,255,0.75)] font-semibold",
       },

@@ -74,16 +74,16 @@ describe("MonochromeBadgeSystem (VAL-VISUAL-032)", () => {
       expect(badge.className).toMatch(/text-(white|foreground|\[#ffffff\])/);
     });
 
-    it("planned renders with gray text", () => {
+    it("planned renders with white text at 80% opacity", () => {
       render(<MaturityBadge status="planned" />);
       const badge = screen.getByTestId("maturity-badge");
-      expect(badge.className).toMatch(/text-\[#a0a0a0\]|text-secondary/);
+      expect(badge.className).toMatch(/text-white\/80/);
     });
 
-    it("speculative renders with dimmer gray text", () => {
+    it("speculative renders with white text at 60% opacity", () => {
       render(<MaturityBadge status="speculative" />);
       const badge = screen.getByTestId("maturity-badge");
-      expect(badge.className).toMatch(/text-\[#707070\]|text-muted/);
+      expect(badge.className).toMatch(/text-white\/60/);
     });
   });
 

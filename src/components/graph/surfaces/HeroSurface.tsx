@@ -21,7 +21,7 @@ export function HeroSurface() {
           <h3 className="mb-2 text-lg font-bold text-foreground">
             What is BETTER?
           </h3>
-          <p className="text-sm leading-relaxed text-secondary">
+          <p className="text-sm leading-relaxed text-white">
             {heroDefinition.body}
           </p>
         </LiquidMetalCard>
@@ -37,7 +37,7 @@ export function HeroSurface() {
             <h4 className="mb-1 text-sm font-semibold text-foreground">
               {heroLiveToday.title}
             </h4>
-            <p className="text-xs text-secondary">{heroLiveToday.body}</p>
+            <p className="text-xs text-white">{heroLiveToday.body}</p>
           </LiquidMetalCard>
         )}
 
@@ -50,7 +50,7 @@ export function HeroSurface() {
             <h4 className="mb-1 text-sm font-semibold text-foreground">
               {heroVision.title}
             </h4>
-            <p className="text-xs text-secondary">{heroVision.body}</p>
+            <p className="text-xs text-white">{heroVision.body}</p>
             {heroVision.confidence && (
               <CaveatFrame confidence={heroVision.confidence} className="mt-3" />
             )}

@@ -15,7 +15,7 @@ export default function NotFound() {
       <h1 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
         Page Not Found
       </h1>
-      <p className="mx-auto mb-8 max-w-md text-secondary">
+      <p className="mx-auto mb-8 max-w-md text-white">
         The page you&apos;re looking for doesn&apos;t exist or may have been
         moved. Explore the BETTER ecosystem roadmap from the home page.
       </p>

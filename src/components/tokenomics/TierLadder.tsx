@@ -29,7 +29,7 @@ export default function TierLadder() {
       <h3 className="mb-1 text-lg font-semibold text-foreground">
         Whale-First Tier Ladder
       </h3>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         Higher BETTER holdings unlock monotonically improving access, allocation,
         preview, agent, and fee advantages. No tier silently loses privileges
         available at a lower level.
@@ -40,25 +40,25 @@ export default function TierLadder() {
         <table className="w-full text-sm" data-testid="tier-comparison-table">
           <thead>
             <tr className="border-b border-border text-left">
-              <th className="pb-2 pr-3 font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Tier
               </th>
-              <th className="pb-2 pr-3 text-right font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 text-right font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Threshold
               </th>
-              <th className="pb-2 pr-3 text-center font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 text-center font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Access
               </th>
-              <th className="pb-2 pr-3 text-center font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 text-center font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Allocation
               </th>
-              <th className="pb-2 pr-3 text-center font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 text-center font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Preview
               </th>
-              <th className="pb-2 pr-3 text-center font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 text-center font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Agents
               </th>
-              <th className="pb-2 pr-3 font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+              <th className="pb-2 pr-3 font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
                 Fee Advantage
               </th>
             </tr>
@@ -93,7 +93,7 @@ function TierRow({ tier, isHighest }: { tier: TokenTier; isHighest: boolean }) {
           {tier.name}
         </span>
       </td>
-      <td className="py-3 pr-3 text-right font-terminal text-secondary">
+      <td className="py-3 pr-3 text-right font-terminal text-white">
         {tier.threshold === 0 ? "None" : `≥ ${formatNumber(tier.threshold)}`}
       </td>
       <td className="py-3 pr-3 text-center">
@@ -105,11 +105,11 @@ function TierRow({ tier, isHighest }: { tier: TokenTier; isHighest: boolean }) {
       <td className="py-3 pr-3 text-center">
         <PriorityIndicator level={tier.previewPriority} max={5} />
       </td>
-      <td className="py-3 pr-3 text-center font-terminal text-secondary">
+      <td className="py-3 pr-3 text-center font-terminal text-white">
         {tier.agentLimit === 0 ? "—" : tier.agentLimit}
       </td>
       <td className="py-3 pr-3 font-terminal text-xs">
-        <span className={tier.feeMultiplier < 1 ? "text-accent" : "text-muted"}>
+        <span className={tier.feeMultiplier < 1 ? "text-accent" : "text-white/70"}>
           {formatFeeAdvantage(tier.feeMultiplier)}
         </span>
       </td>
@@ -147,13 +147,13 @@ function TierDetailCard({ tier }: { tier: TokenTier }) {
         <h4 className={`text-base font-semibold ${isWhaleOrAbove ? "text-accent" : "text-foreground"}`}>
           {tier.name}
         </h4>
-        <span className="font-terminal text-xs text-secondary">
+        <span className="font-terminal text-xs text-white">
           {tier.threshold === 0 ? "No minimum" : `≥ ${formatNumber(tier.threshold)} BETTER`}
         </span>
         <EvidenceHook source={tier.source} />
       </div>
 
-      <p className="mt-2 text-sm text-secondary">{tier.qualificationBasis}</p>
+      <p className="mt-2 text-sm text-white">{tier.qualificationBasis}</p>
 
       {/* Benefit grid */}
       <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -171,14 +171,14 @@ function TierDetailCard({ tier }: { tier: TokenTier }) {
       {/* Exclusive products */}
       {tier.exclusiveProducts.length > 0 && (
         <div className="mt-3">
-          <p className="font-terminal text-xs font-medium uppercase tracking-wider text-muted">
+          <p className="font-terminal text-xs font-medium uppercase tracking-wider text-white/70">
             Exclusive Products
           </p>
           <div className="mt-1 flex flex-wrap gap-1.5">
             {tier.exclusiveProducts.map((product) => (
               <span
                 key={product}
-                className="rounded-full border border-border bg-background px-2.5 py-0.5 font-terminal text-xs text-secondary"
+                className="rounded-full border border-border bg-background px-2.5 py-0.5 font-terminal text-xs text-white"
               >
                 {product}
               </span>
@@ -201,10 +201,10 @@ function BenefitItem({
 }) {
   return (
     <LiquidMetalCard className="px-2.5 py-1.5">
-      <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+      <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
         {label}
       </span>
-      <span className={`text-sm ${highlight ? "font-semibold text-accent" : "text-secondary"}`}>
+      <span className={`text-sm ${highlight ? "font-semibold text-accent" : "text-white"}`}>
         {value}
       </span>
     </LiquidMetalCard>

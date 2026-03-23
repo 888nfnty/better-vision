@@ -12,7 +12,7 @@ export function ProofSurface() {
 
   return (
     <div className="space-y-6">
-      <p className="text-sm leading-relaxed text-secondary">
+      <p className="text-sm leading-relaxed text-white">
         BETTER isn&apos;t a whitepaper — it&apos;s a live product with real users,
         real trades, and real on-chain mechanics.
       </p>
@@ -30,7 +30,7 @@ export function ProofSurface() {
             <h4 className="mb-1 text-sm font-semibold text-foreground">
               {block.title}
             </h4>
-            <p className="text-xs leading-relaxed text-secondary">{block.body}</p>
+            <p className="text-xs leading-relaxed text-white">{block.body}</p>
           </LiquidMetalCard>
         ))}
       </div>

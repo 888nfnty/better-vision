@@ -40,7 +40,7 @@ export default function RoadmapNodeDetail({
         <button
           type="button"
           onClick={onClose}
-          className="shrink-0 rounded p-1 text-secondary transition-colors hover:bg-elevated hover:text-foreground"
+          className="shrink-0 rounded p-1 text-white transition-colors hover:bg-elevated hover:text-foreground"
           aria-label="Close detail panel"
         >
           <svg
@@ -61,7 +61,7 @@ export default function RoadmapNodeDetail({
       </div>
 
       <h3 className="mb-2 text-lg font-bold text-foreground">{node.title}</h3>
-      <p className="mb-3 text-sm leading-relaxed text-secondary">
+      <p className="mb-3 text-sm leading-relaxed text-white">
         {node.summary}
       </p>
 
@@ -77,7 +77,7 @@ export default function RoadmapNodeDetail({
 
       {/* Dependencies — resolved to readable titles */}
       {node.dependencies.length > 0 && (
-        <p className="mb-3 text-xs text-muted">
+        <p className="mb-3 text-xs text-white/70">
           <span className="font-terminal font-medium">Requires:</span>{" "}
           {node.dependencies
             .map((depId) => getNodeById(depId)?.title ?? depId)

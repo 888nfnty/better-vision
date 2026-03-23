@@ -31,7 +31,7 @@ export default function ProofModule() {
         <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl">
           Built and Shipping
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-secondary">
+        <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-white">
           BETTER isn&apos;t a whitepaper — it&apos;s a live product with real
           users, real trades, and real on-chain mechanics. Here&apos;s what&apos;s
           already working.
@@ -53,7 +53,7 @@ export default function ProofModule() {
               <h3 className="mb-2 text-lg font-semibold text-foreground">
                 {block.title}
               </h3>
-              <p className="text-sm leading-relaxed text-secondary">
+              <p className="text-sm leading-relaxed text-white">
                 {block.body}
               </p>
             </LiquidMetalCard>

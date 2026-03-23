@@ -4,7 +4,7 @@
  * Verifies that globals.css matches the tradebetter.app design atoms:
  * - #101010 background
  * - Helvetica Neue Medium for headings (UPPERCASE, -0.06em tracking, white)
- * - IBM Plex Mono for body (#a0a0a0)
+ * - IBM Plex Mono for body (#ffffff — all text is white per VAL-VISUAL-034)
  * - Square CTA buttons (0px radius, white glow on hover)
  * - Neon green #00ff00 for status dots only
  * - #455eff blue for atmospheric gradients only
@@ -33,8 +33,8 @@ describe("Tradebetter-exact design tokens (VAL-VISUAL-031)", () => {
       expect(globalsCss).toContain("--text-primary: #ffffff");
     });
 
-    it("uses #a0a0a0 for body/secondary text", () => {
-      expect(globalsCss).toContain("--text-secondary: #a0a0a0");
+    it("uses #ffffff for body/secondary text (VAL-VISUAL-034: all text white)", () => {
+      expect(globalsCss).toContain("--text-secondary: #ffffff");
     });
 
     it("uses #707070 for muted text", () => {

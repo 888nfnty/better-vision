@@ -25,7 +25,7 @@ describe("Button", () => {
   it("renders ghost variant", () => {
     render(<Button variant="ghost">Ghost</Button>);
     const btn = screen.getByRole("button", { name: "Ghost" });
-    expect(btn.className).toContain("text-secondary");
+    expect(btn.className).toContain("text-white");
   });
 
   it("renders live variant with white background (not green fill)", () => {

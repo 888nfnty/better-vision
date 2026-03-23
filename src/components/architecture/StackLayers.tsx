@@ -129,7 +129,7 @@ export default function StackLayers() {
       <h3 className="mb-1 text-lg font-semibold text-foreground">
         BETTER Stack Architecture
       </h3>
-      <p className="mb-6 text-sm text-secondary">
+      <p className="mb-6 text-sm text-white">
         The technical layers powering BETTER — from live intelligence infrastructure
         to long-range execution ambitions. Each layer shows its current maturity and
         what it depends on.
@@ -150,7 +150,7 @@ export default function StackLayers() {
             </div>
 
             <p
-              className="mb-3 text-sm leading-relaxed text-secondary"
+              className="mb-3 text-sm leading-relaxed text-white"
               data-testid="layer-description"
             >
               {layer.role}
@@ -159,7 +159,7 @@ export default function StackLayers() {
             {/* Dependency sequencing */}
             {layer.dependsOn.length > 0 && (
               <p
-                className="mb-2 text-xs text-muted"
+                className="mb-2 text-xs text-white/70"
                 data-testid="layer-dependency"
               >
                 <span className="font-terminal font-medium">Depends on:</span>{" "}

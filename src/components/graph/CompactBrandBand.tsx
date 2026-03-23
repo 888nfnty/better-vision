@@ -42,7 +42,7 @@ export function CompactBrandBand() {
 
       {/* Plain-language definition (VAL-NARR-001) */}
       {heroDefinition && (
-        <p className="mx-auto mb-4 max-w-xl text-sm leading-relaxed text-secondary">
+        <p className="mx-auto mb-4 max-w-xl text-sm leading-relaxed text-white">
           {heroDefinition.body}
         </p>
       )}
@@ -65,7 +65,7 @@ export function CompactBrandBand() {
               data-testid="hero-live-status"
             >
               <MaturityBadge status="live" />
-              <span className="text-xs text-secondary sm:text-sm">
+              <span className="text-xs text-white sm:text-sm">
                 Terminal &amp; copy-trading in closed beta
               </span>
               <EvidenceHook source={heroLiveToday.source} />
@@ -82,7 +82,7 @@ export function CompactBrandBand() {
               data-testid="hero-future-status"
             >
               <MaturityBadge status="planned" />
-              <span className="text-xs text-secondary sm:text-sm">
+              <span className="text-xs text-white sm:text-sm">
                 Vaults, agents &amp; HyperEVM ahead
               </span>
               <EvidenceHook source={heroVision.source} />

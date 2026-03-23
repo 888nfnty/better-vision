@@ -144,10 +144,10 @@ const FLYWHEEL_NODES: FlywheelNode[] = [
 
 // Category styling
 const CATEGORY_STYLES: Record<string, { bg: string; text: string; label: string }> = {
-  infrastructure: { bg: "bg-white/[0.06] border-white/15", text: "text-[#e6e6e6]", label: "Infrastructure" },
+  infrastructure: { bg: "bg-white/[0.06] border-white/15", text: "text-white", label: "Infrastructure" },
   product: { bg: "bg-accent/10 border-accent/30", text: "text-accent", label: "Product" },
-  revenue: { bg: "bg-white/5 border-white/15", text: "text-[#a0a0a0]", label: "Revenue" },
-  token: { bg: "bg-white/[0.03] border-white/10", text: "text-[#707070]", label: "Token" },
+  revenue: { bg: "bg-white/5 border-white/15", text: "text-white", label: "Revenue" },
+  token: { bg: "bg-white/[0.03] border-white/10", text: "text-white/60", label: "Token" },
 };
 
 function getNodeTitle(id: string): string {
@@ -174,7 +174,7 @@ export default function FlywheelExplorer() {
       <h3 className="mb-1 text-lg font-semibold text-foreground">
         The BETTER Flywheel
       </h3>
-      <p className="mb-6 text-sm text-secondary">
+      <p className="mb-6 text-sm text-white">
         How infrastructure evolution, product layers, revenue lines, and token sinks
         compound into a self-reinforcing ecosystem. Click any node to explore how it
         connects to the rest of the flywheel.
@@ -214,7 +214,7 @@ export default function FlywheelExplorer() {
                           className="text-[10px]"
                         />
                       </div>
-                      <p className="text-xs text-muted line-clamp-2">
+                      <p className="text-xs text-white/70 line-clamp-2">
                         {node.summary}
                       </p>
                     </LiquidMetalCard>
@@ -249,7 +249,7 @@ export default function FlywheelExplorer() {
           <h4 className="mb-2 text-lg font-bold text-foreground">
             {selectedNode.title}
           </h4>
-          <p className="mb-4 text-sm leading-relaxed text-secondary">
+          <p className="mb-4 text-sm leading-relaxed text-white">
             {selectedNode.detail}
           </p>
 
@@ -275,7 +275,7 @@ export default function FlywheelExplorer() {
             if (feedsFrom.length === 0) return null;
             return (
               <LiquidMetalCard className="mt-2 px-3 py-2">
-                <p className="text-xs text-[#e6e6e6]">
+                <p className="text-xs text-white">
                   <span className="mr-1 font-terminal font-semibold">
                     Fed by:
                   </span>

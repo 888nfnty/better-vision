@@ -12,7 +12,7 @@ import VaultCapacityModel from "@/components/tokenomics/VaultCapacityModel";
 export function ValuationSurface() {
   return (
     <div className="space-y-10">
-      <p className="text-sm text-secondary">
+      <p className="text-sm text-white">
         Conservative stage-based valuation corridors tied to milestone proof
         gates and comparable categories, plus rigorous vault-capacity modeling
         for stake-to-deposit-share estimation.

@@ -230,7 +230,7 @@ export default function TokenUtilitySurface() {
       <h3 className="mb-1 text-lg font-semibold text-foreground">
         Agent-Native Token Utility
       </h3>
-      <p className="mb-4 text-sm text-secondary">
+      <p className="mb-4 text-sm text-white">
         Beyond access gating, BETTER tokens power an expanding set of
         agent-native utility mechanics — from strategy execution to delegation
         markets to AI inference credits. Each use case below includes comparable
@@ -267,13 +267,13 @@ function UtilityCard({
         <h4 className="font-semibold text-foreground">{mechanic.title}</h4>
         <MaturityBadge status={mechanic.status} />
       </div>
-      <p className="mb-3 text-sm text-secondary">{mechanic.description}</p>
+      <p className="mb-3 text-sm text-white">{mechanic.description}</p>
 
       <LiquidMetalCard className="mb-3 px-3 py-2">
         <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
           Token Role
         </span>
-        <p className="mt-0.5 text-sm text-secondary">{mechanic.tokenRole}</p>
+        <p className="mt-0.5 text-sm text-white">{mechanic.tokenRole}</p>
       </LiquidMetalCard>
 
       {/* Use-case depth analysis (VAL-TOKEN-021) */}
@@ -295,10 +295,10 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
         className="px-3 py-2"
         data-testid="use-case-market-size"
       >
-        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
           Comparable Market Size
         </span>
-        <p className="mt-0.5 text-xs text-secondary">
+        <p className="mt-0.5 text-xs text-white">
           {analysis.comparableMarketSize}
         </p>
       </LiquidMetalCard>
@@ -308,10 +308,10 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
         className="px-3 py-2"
         data-testid="use-case-revenue-model"
       >
-        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
           Revenue Model
         </span>
-        <p className="mt-0.5 text-xs text-secondary">
+        <p className="mt-0.5 text-xs text-white">
           {analysis.revenueModel}
         </p>
       </LiquidMetalCard>
@@ -334,10 +334,10 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
         className="px-3 py-2"
         data-testid="use-case-token-demand"
       >
-        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
           Token Demand &amp; New Holders
         </span>
-        <p className="mt-0.5 text-xs text-secondary">
+        <p className="mt-0.5 text-xs text-white">
           {analysis.tokenDemandImplications}
         </p>
       </LiquidMetalCard>
@@ -347,10 +347,10 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
         className="px-3 py-2"
         data-testid="use-case-timeline"
       >
-        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
           Realistic Timeline
         </span>
-        <p className="mt-0.5 text-xs text-secondary">
+        <p className="mt-0.5 text-xs text-white">
           {analysis.realisticTimeline}
         </p>
       </LiquidMetalCard>
@@ -358,10 +358,10 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
       {/* Key Dependencies */}
       {analysis.keyDependencies.length > 0 && (
         <LiquidMetalCard className="px-3 py-2">
-          <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+          <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
             Key Dependencies
           </span>
-          <ul className="mt-0.5 list-inside list-disc text-xs text-secondary">
+          <ul className="mt-0.5 list-inside list-disc text-xs text-white">
             {analysis.keyDependencies.map((dep, i) => (
               <li key={i}>{dep}</li>
             ))}
