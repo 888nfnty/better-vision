@@ -2,7 +2,7 @@
  * Tokenomics Section — Main assembly component.
  *
  * Combines all tokenomics sub-components into the full whale-first
- * tokenomics experience. Satisfies VAL-TOKEN-001 through VAL-TOKEN-014.
+ * tokenomics experience. Satisfies VAL-TOKEN-001 through VAL-TOKEN-016.
  */
 
 import SupplyAllocation from "./SupplyAllocation";
@@ -17,6 +17,8 @@ import TokenUtilitySurface from "./TokenUtilitySurface";
 import FeeStackValueFlow from "./FeeStackValueFlow";
 import ReferralIncentives from "./ReferralIncentives";
 import ProductFamilyRevenueModel from "./ProductFamilyRevenueModel";
+import ValuationCorridors from "./ValuationCorridors";
+import VaultCapacityModel from "./VaultCapacityModel";
 
 export default function TokenomicsSection() {
   return (
@@ -56,6 +58,12 @@ export default function TokenomicsSection() {
 
       {/* VAL-TOKEN-014: Product-family revenue/value-return model */}
       <ProductFamilyRevenueModel />
+
+      {/* VAL-TOKEN-015: Conservative stage-based valuation corridors */}
+      <ValuationCorridors />
+
+      {/* VAL-TOKEN-016: Stake-to-vault capacity modeling */}
+      <VaultCapacityModel />
     </div>
   );
 }

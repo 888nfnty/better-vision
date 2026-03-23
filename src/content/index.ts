@@ -121,3 +121,27 @@ export {
   getExecutionPlanForNode,
   getPrimaryRoadmapStageIds,
 } from "./execution-plans";
+
+// Valuation corridors
+export {
+  VALUATION_CORRIDORS,
+  getCorridorById,
+  getLiveAnchorCorridor,
+  computeImpliedTokenPrice,
+  validateValuationCorridors,
+} from "./valuation-corridors";
+export type { ValuationCorridor } from "./valuation-corridors";
+
+// Vault-capacity modeling
+export {
+  computeVaultCapacityEstimate,
+  validateTotalStaked,
+  DEFAULT_TOTAL_STAKED,
+  WHALE_VAULT_ASSUMPTIONS,
+  FIRST_VAULT_DEFAULTS,
+} from "./vault-capacity";
+export type {
+  VaultCapacityInput,
+  VaultCapacityEstimate,
+  WhaleVaultAssumptions,
+} from "./vault-capacity";
