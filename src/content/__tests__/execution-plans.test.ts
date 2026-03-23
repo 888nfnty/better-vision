@@ -258,6 +258,55 @@ describe("Per-Stage Execution Plans", () => {
 });
 
 // ---------------------------------------------------------------------------
+// Public Observability — pe-terminal-open & re-enterprise-data
+// (VAL-ROADMAP-016 external-observability requirement)
+// ---------------------------------------------------------------------------
+
+describe("pe-terminal-open proof gates require public investor-verifiable surfaces", () => {
+  const plan = EXECUTION_PLANS.find((p) => p.nodeId === "pe-terminal-open");
+
+  it("has an execution plan for pe-terminal-open", () => {
+    expect(plan).toBeDefined();
+  });
+
+  it("audit proof gate references a publicly accessible audit or disclosure surface", () => {
+    const auditGate = plan!.proofGates.find(
+      (g) => g.label.toLowerCase().includes("audit")
+    );
+    expect(auditGate).toBeDefined();
+    const criterion = auditGate!.criterion.toLowerCase();
+    // Must reference a public proof surface — not just a private report delivered to BETTER
+    expect(criterion).toMatch(
+      /public(ly)?\s+(accessible|available|visible|viewable|hosted|disclosed|posted|audit)/i
+    );
+    // Must NOT allow private delivery as the sole evidence
+    expect(criterion).not.toMatch(/\bprovides\s+better\b/i);
+  });
+});
+
+describe("re-enterprise-data proof gates require public investor-verifiable surfaces", () => {
+  const plan = EXECUTION_PLANS.find((p) => p.nodeId === "re-enterprise-data");
+
+  it("has an execution plan for re-enterprise-data", () => {
+    expect(plan).toBeDefined();
+  });
+
+  it("enterprise pilot gate references a public client-launch, case-study, or pilot proof surface", () => {
+    const pilotGate = plan!.proofGates.find(
+      (g) => g.label.toLowerCase().includes("pilot") || g.label.toLowerCase().includes("enterprise")
+    );
+    expect(pilotGate).toBeDefined();
+    const criterion = pilotGate!.criterion.toLowerCase();
+    // Must reference a publicly referenceable evidence surface
+    expect(criterion).toMatch(
+      /public(ly)?\s+(referenceable|accessible|available|visible|verifiable|announced|disclosed|viewable)/i
+    );
+    // Must NOT rely solely on private signed agreements as the proof artifact
+    expect(criterion).not.toMatch(/\bsigned\s+(data-licensing\s+)?agreement\b/i);
+  });
+});
+
+// ---------------------------------------------------------------------------
 // Timing Realism Constraints
 // ---------------------------------------------------------------------------
 

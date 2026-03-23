@@ -173,7 +173,7 @@ export const EXECUTION_PLANS: ExecutionPlan[] = [
       {
         label: "Audit completion",
         criterion:
-          "A named third-party security firm publishes or provides BETTER a completed audit report covering smart-contract and execution-layer surfaces",
+          "A named third-party security firm completes an audit of smart-contract and execution-layer surfaces, and the resulting audit report is publicly accessible on the auditor's website, a public GitHub repository, or an equivalent publicly hosted disclosure page verifiable by any investor",
         source: {
           type: "scenario_based",
           label: "BETTER Roadmap",
@@ -781,7 +781,7 @@ export const EXECUTION_PLANS: ExecutionPlan[] = [
       {
         label: "Enterprise pilot",
         criterion:
-          "At least one institutional client completes a paid pilot with a signed data-licensing agreement and documented API usage over ≥ 30 days",
+          "At least one institutional client is publicly referenceable (via a published case study, press release, or named partnership announcement) as completing a paid enterprise data pilot with documented API-delivered prediction-market data over ≥ 30 days",
         source: {
           type: "scenario_based",
           label: "BETTER Roadmap",
