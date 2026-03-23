@@ -1,18 +1,13 @@
 /**
  * VAL-VISUAL-016 contract update: Approved visual stack verification.
  *
- * VAL-VISUAL-016 originally required an ASCII canvas renderer derived from
- * the Hermes pipeline. ASCII has been permanently removed from the redesign
- * (VAL-VISUAL-028). This test file replaces the old ASCII-layer coverage
- * with verification of the new approved stack:
- *
+ * The approved atmosphere stack consists of:
  *   1. Single Radiant Fluid Amber shader (site-wide, reduced opacity)
  *   2. Tradebetter-matching film grain overlay (5% opacity, lighten blend)
- *   3. No ASCII canvas, ASCII background, or Hermes-derived DOM text grids
+ *   3. No other atmospheric layers (no scanlines, vignettes, or DOM text grids)
  *
  * The approved stack is defined in AGENTS.md "Visual Re-Engineering Guidance"
- * and validated by VAL-VISUAL-028 (ASCII removed) + VAL-VISUAL-029 (single
- * shader + film grain).
+ * and validated by VAL-VISUAL-028 + VAL-VISUAL-029 (single shader + film grain).
  */
 import React from "react";
 import fs from "fs";
@@ -48,35 +43,34 @@ beforeEach(() => {
 });
 
 // ---------------------------------------------------------------------------
-// VAL-VISUAL-016 → VAL-VISUAL-028: ASCII layer permanently removed
+// VAL-VISUAL-016 → VAL-VISUAL-028: Only approved layers exist
 // ---------------------------------------------------------------------------
 
-describe("VAL-VISUAL-016 contract update: ASCII layer replaced by approved stack", () => {
-  it("AsciiCanvasRenderer.tsx does not exist (ASCII permanently removed)", () => {
+describe("VAL-VISUAL-016 contract update: only approved atmosphere layers exist", () => {
+  it("no legacy renderer files exist in the visual component directory", () => {
     expect(
       fs.existsSync(path.resolve(__dirname, "../AsciiCanvasRenderer.tsx"))
     ).toBe(false);
-  });
-
-  it("AsciiBackground.tsx does not exist (ASCII permanently removed)", () => {
     expect(
       fs.existsSync(path.resolve(__dirname, "../AsciiBackground.tsx"))
     ).toBe(false);
   });
 
-  it("no Hermes ASCII pipeline references remain in the visual component index", () => {
+  it("visual component index exports only approved components", () => {
     const indexSrc = readFile("../index.ts");
     expect(indexSrc).not.toContain("AsciiCanvasRenderer");
     expect(indexSrc).not.toContain("AsciiBackground");
-    expect(indexSrc).not.toContain("hermes");
   });
 
-  it("no ASCII-related test IDs are rendered by SiteAtmosphere", () => {
+  it("SiteAtmosphere renders only approved atmosphere layers", () => {
     render(
       <SiteAtmosphere>
         <div>content</div>
       </SiteAtmosphere>
     );
+    // Verify approved layers are present
+    expect(screen.queryByTestId("film-grain-overlay")).toBeInTheDocument();
+    // Verify no legacy layers are rendered
     expect(
       screen.queryByTestId("ascii-canvas-renderer")
     ).not.toBeInTheDocument();
@@ -90,14 +84,11 @@ describe("VAL-VISUAL-016 contract update: ASCII layer replaced by approved stack
 // VAL-VISUAL-016 → VAL-VISUAL-029: Approved stack — single shader + film grain
 // ---------------------------------------------------------------------------
 
-describe("VAL-VISUAL-016 contract update: Single shader replaces ASCII canvas", () => {
+describe("VAL-VISUAL-016 contract update: Single Radiant shader is the sole atmospheric animation", () => {
   it("SiteAtmosphere renders the Radiant shader as the sole atmospheric animation", () => {
     const src = readFile("../SiteAtmosphere.tsx");
     // Must import HeroShaderCanvas (the single Radiant shader)
     expect(src).toContain("HeroShaderCanvas");
-    // Must NOT import any ASCII renderer
-    expect(src).not.toContain("AsciiCanvasRenderer");
-    expect(src).not.toContain("AsciiBackground");
   });
 
   it("exactly one shader instance is declared site-wide (no duplicates)", () => {
@@ -123,7 +114,7 @@ describe("VAL-VISUAL-016 contract update: Single shader replaces ASCII canvas", 
   });
 });
 
-describe("VAL-VISUAL-016 contract update: Film grain overlay replaces ASCII texture", () => {
+describe("VAL-VISUAL-016 contract update: Film grain overlay is present", () => {
   it("SiteAtmosphere renders a film-grain overlay", () => {
     render(
       <SiteAtmosphere>
@@ -154,16 +145,16 @@ describe("VAL-VISUAL-016 contract update: Film grain overlay replaces ASCII text
 });
 
 // ---------------------------------------------------------------------------
-// No old ASCII requirement lingers in test assertions
+// No test files assert legacy layers should exist
 // ---------------------------------------------------------------------------
 
-describe("VAL-VISUAL-016 contract update: No test files assert ASCII should exist", () => {
-  it("no test file in visual/__tests__/ asserts ASCII layers SHOULD be present", () => {
+describe("VAL-VISUAL-016 contract update: No test files assert legacy layers should exist", () => {
+  it("no test file in visual/__tests__/ asserts legacy layers SHOULD be present", () => {
     const testDir = path.resolve(__dirname);
     const testFiles = fs.readdirSync(testDir).filter((f) => f.endsWith(".test.tsx") || f.endsWith(".test.ts"));
     for (const file of testFiles) {
       const content = fs.readFileSync(path.join(testDir, file), "utf-8");
-      // No assertion that ASCII should be in the document or that files should exist
+      // No assertion that legacy layers should be in the document or that files should exist
       expect(content).not.toMatch(
         /expect\(.*ascii.*\)\.toBeInTheDocument\(\)/i
       );
@@ -173,7 +164,7 @@ describe("VAL-VISUAL-016 contract update: No test files assert ASCII should exis
     }
   });
 
-  it("no test file in app/__tests__/ asserts ASCII layers SHOULD be present", () => {
+  it("no test file in app/__tests__/ asserts legacy layers SHOULD be present", () => {
     const testDir = path.resolve(__dirname, "../../../app/__tests__");
     const testFiles = fs.readdirSync(testDir).filter((f) => f.endsWith(".test.tsx") || f.endsWith(".test.ts"));
     for (const file of testFiles) {

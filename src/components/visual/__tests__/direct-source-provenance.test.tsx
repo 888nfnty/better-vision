@@ -6,7 +6,7 @@
  * implementation resources from Radiant, and that the adaptation corresponds
  * to visible shipped behavior rather than unused reference material.
  *
- * VAL-VISUAL-028: All ASCII/Hermes layers have been permanently removed.
+ * VAL-VISUAL-028: Only approved atmosphere layers exist (shader + film grain).
  *
  * Source URLs verified:
  *   Radiant: https://radiant-shaders.com/shader/fluid-amber
@@ -90,18 +90,17 @@ describe("VAL-VISUAL-014: Radiant adaptation is traceable", () => {
 });
 
 // ---------------------------------------------------------------------------
-// VAL-VISUAL-028: ASCII/Hermes layers permanently removed
+// VAL-VISUAL-028: Only approved atmosphere layers exist
 // ---------------------------------------------------------------------------
 
-describe("VAL-VISUAL-028: ASCII/Hermes layers removed", () => {
-  it("AsciiBackground.tsx does not exist", () => {
-    const filePath = path.resolve(__dirname, "../AsciiBackground.tsx");
-    expect(fs.existsSync(filePath)).toBe(false);
-  });
-
-  it("AsciiCanvasRenderer.tsx does not exist", () => {
-    const filePath = path.resolve(__dirname, "../AsciiCanvasRenderer.tsx");
-    expect(fs.existsSync(filePath)).toBe(false);
+describe("VAL-VISUAL-028: No legacy renderer files exist", () => {
+  it("legacy renderer files are absent from the visual component directory", () => {
+    expect(
+      fs.existsSync(path.resolve(__dirname, "../AsciiBackground.tsx"))
+    ).toBe(false);
+    expect(
+      fs.existsSync(path.resolve(__dirname, "../AsciiCanvasRenderer.tsx"))
+    ).toBe(false);
   });
 });
 
@@ -126,7 +125,7 @@ describe("VAL-VISUAL-014: HeroVisualSystem documents Radiant source", () => {
     expect(src).toMatch(/Radiant adaptation/i);
   });
 
-  it("HeroVisualSystem does not reference removed ASCII components (VAL-VISUAL-028)", () => {
+  it("HeroVisualSystem only references approved visual components (VAL-VISUAL-028)", () => {
     const src = readSource("HeroVisualSystem.tsx");
     expect(src).not.toContain("AsciiCanvasRenderer");
     expect(src).not.toContain("AsciiBackground");

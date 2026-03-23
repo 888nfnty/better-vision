@@ -4,7 +4,7 @@
  * These tests verify:
  * 1. Fallback is truly static when WebGL/Radiant fails
  * 2. HeroVisualSystem metadata accurately reflects motion layer state
- * 3. VAL-VISUAL-028: All ASCII layers have been permanently removed
+ * 3. VAL-VISUAL-028: Only approved atmosphere layers exist (shader + film grain)
  */
 import { render, screen, waitFor } from "@testing-library/react";
 import Home from "@/app/page";
@@ -112,17 +112,13 @@ beforeEach(() => {
 });
 
 // ---------------------------------------------------------------------------
-// VAL-VISUAL-028: No ASCII layers exist
+// VAL-VISUAL-028: Only approved atmosphere layers exist
 // ---------------------------------------------------------------------------
 
-describe("VAL-VISUAL-028: No ASCII layers in the visual system", () => {
-  it("no ascii-canvas-renderer elements are rendered", () => {
+describe("VAL-VISUAL-028: Only approved atmosphere layers in the visual system", () => {
+  it("no legacy renderer elements are rendered", () => {
     render(<Home />);
     expect(screen.queryByTestId("ascii-canvas-renderer")).not.toBeInTheDocument();
-  });
-
-  it("no ascii-background elements are rendered", () => {
-    render(<Home />);
     expect(screen.queryByTestId("ascii-background")).not.toBeInTheDocument();
   });
 });

@@ -4,14 +4,14 @@
  * Covers:
  * - VAL-VISUAL-011: Hero motion is intentional and limited (2 motions, no ambient loops)
  * - VAL-VISUAL-012: Shader layer feels authentically Radiant-influenced
- * - VAL-VISUAL-028: All ASCII layers permanently removed (replaces old VAL-VISUAL-013/016 ASCII requirement)
+ * - VAL-VISUAL-028: Only approved atmosphere layers exist (shader + film grain)
  * - VAL-VISUAL-000: Signature visual system is visibly present (upgraded)
  * - VAL-VISUAL-001: Content-first hero renders before effects (preserved)
  * - VAL-VISUAL-003: Reduced-motion preserves hierarchy (preserved)
  * - VAL-VISUAL-004: Runtime fallback handles failures cleanly (preserved)
  *
- * Note: VAL-VISUAL-016 (formerly ASCII canvas renderer) now verifies the
- * approved stack (single shader + film grain). See visual-016-approved-stack.test.tsx.
+ * Note: VAL-VISUAL-016 now verifies the approved stack (single shader +
+ * film grain). See visual-016-approved-stack.test.tsx.
  */
 import fs from "fs";
 import path from "path";
@@ -218,14 +218,13 @@ describe("VAL-VISUAL-012: Shader feels authentically Radiant-influenced", () => 
 });
 
 // ---------------------------------------------------------------------------
-// VAL-VISUAL-028: All ASCII layers permanently removed
-// (Replaces old VAL-VISUAL-013 / VAL-VISUAL-016 ASCII requirement.
-//  The approved stack is now: single shader + film grain — see
+// VAL-VISUAL-028: Only approved atmosphere layers exist
+// (The approved stack is: single shader + film grain — see
 //  visual-016-approved-stack.test.tsx for full VAL-VISUAL-016 coverage.)
 // ---------------------------------------------------------------------------
 
-describe("VAL-VISUAL-028: Zero ASCII code remaining", () => {
-  it("no ASCII-related CSS classes exist in globals.css", () => {
+describe("VAL-VISUAL-028: Only approved atmosphere layers in the visual system", () => {
+  it("globals.css contains no legacy atmosphere CSS classes", () => {
     const globalsCss = fs.readFileSync(
       path.resolve(__dirname, "../../../app/globals.css"),
       "utf-8"
@@ -238,7 +237,7 @@ describe("VAL-VISUAL-028: Zero ASCII code remaining", () => {
     expect(globalsCss).not.toContain("site-atmosphere-ascii");
   });
 
-  it("HeroVisualSystem does not reference any ASCII components", () => {
+  it("HeroVisualSystem only references approved visual components", () => {
     const heroSrc = fs.readFileSync(
       path.resolve(__dirname, "../HeroVisualSystem.tsx"),
       "utf-8"
@@ -247,7 +246,7 @@ describe("VAL-VISUAL-028: Zero ASCII code remaining", () => {
     expect(heroSrc).not.toContain("AsciiBackground");
   });
 
-  it("SiteAtmosphere does not reference any ASCII components", () => {
+  it("SiteAtmosphere only references approved visual components", () => {
     const atmSrc = fs.readFileSync(
       path.resolve(__dirname, "../SiteAtmosphere.tsx"),
       "utf-8"
@@ -256,7 +255,7 @@ describe("VAL-VISUAL-028: Zero ASCII code remaining", () => {
     expect(atmSrc).not.toContain("AsciiBackground");
   });
 
-  it("visual/index.ts does not export ASCII components", () => {
+  it("visual/index.ts only exports approved components", () => {
     const indexSrc = fs.readFileSync(
       path.resolve(__dirname, "../index.ts"),
       "utf-8"
@@ -265,14 +264,13 @@ describe("VAL-VISUAL-028: Zero ASCII code remaining", () => {
     expect(indexSrc).not.toContain("AsciiCanvasRenderer");
   });
 
-  it("AsciiCanvasRenderer.tsx file does not exist", () => {
-    const filePath = path.resolve(__dirname, "../AsciiCanvasRenderer.tsx");
-    expect(fs.existsSync(filePath)).toBe(false);
-  });
-
-  it("AsciiBackground.tsx file does not exist", () => {
-    const filePath = path.resolve(__dirname, "../AsciiBackground.tsx");
-    expect(fs.existsSync(filePath)).toBe(false);
+  it("no legacy renderer files exist", () => {
+    expect(
+      fs.existsSync(path.resolve(__dirname, "../AsciiCanvasRenderer.tsx"))
+    ).toBe(false);
+    expect(
+      fs.existsSync(path.resolve(__dirname, "../AsciiBackground.tsx"))
+    ).toBe(false);
   });
 });
 

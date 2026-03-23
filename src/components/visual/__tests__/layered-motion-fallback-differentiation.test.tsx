@@ -6,7 +6,7 @@
  * is materially more dramatic than the static/degraded fallback, and that
  * the system exposes state metadata for headed-browser validation.
  *
- * VAL-VISUAL-028: All ASCII layers have been permanently removed.
+ * VAL-VISUAL-028: Only approved atmosphere layers exist (shader + film grain).
  */
 import fs from "fs";
 import path from "path";
@@ -236,7 +236,7 @@ describe("VAL-VISUAL-017: Enhanced visual state is dramatically distinct from st
     });
 
     render(<SiteAtmosphere><Home /></SiteAtmosphere>);
-    // Enhanced state must have 1 active motion layer (shader only, ASCII removed)
+    // Enhanced state must have 1 active motion layer (shader only)
     await waitFor(() => {
       const system = screen.getByTestId("hero-visual-system");
       const layers = system.getAttribute("data-motion-layers");
