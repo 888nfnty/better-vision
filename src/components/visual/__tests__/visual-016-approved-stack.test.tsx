@@ -99,16 +99,16 @@ describe("VAL-VISUAL-016 contract update: Single Radiant shader is the sole atmo
     expect(heroSrc).not.toContain("<HeroShaderCanvas");
   });
 
-  it("shader runs at reduced opacity for atmospheric subtlety", () => {
+  it("shader runs at materially visible opacity (≥0.55) for visibility against #101010", () => {
     const cssSrc = readFile("../../../app/globals.css");
     const shaderRule = cssSrc.match(/\.site-atmosphere-shader\s*\{[^}]*\}/);
     expect(shaderRule).not.toBeNull();
     const opacityMatch = shaderRule![0].match(/opacity:\s*([\d.]+)/);
     expect(opacityMatch).not.toBeNull();
     const opacity = parseFloat(opacityMatch![1]);
-    // Atmospheric, not dominant: 0.15–0.35
-    expect(opacity).toBeGreaterThanOrEqual(0.15);
-    expect(opacity).toBeLessThanOrEqual(0.35);
+    // Materially visible against #101010 background: 0.55–0.85
+    expect(opacity).toBeGreaterThanOrEqual(0.55);
+    expect(opacity).toBeLessThanOrEqual(0.85);
   });
 });
 

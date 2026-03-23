@@ -63,12 +63,13 @@ describe("VAL-VISUAL-029: Single shader site-wide atmosphere", () => {
     expect(src).not.toContain("<HeroShaderCanvas");
   });
 
-  it("SiteAtmosphere shader runs at reduced but visible opacity (0.15–0.35)", () => {
+  it("SiteAtmosphere shader runs at materially visible opacity (≥0.55)", () => {
     const cssSrc = fs.readFileSync(
       path.resolve(__dirname, "../../../app/globals.css"),
       "utf-8"
     );
-    // The site-atmosphere-shader class should have opacity in the 0.15–0.35 range
+    // The site-atmosphere-shader must be at least 0.55 for material visibility
+    // against the #101010 background (boosted from previous 0.25)
     const shaderRule = cssSrc.match(
       /\.site-atmosphere-shader\s*\{[^}]*\}/
     );
@@ -76,8 +77,8 @@ describe("VAL-VISUAL-029: Single shader site-wide atmosphere", () => {
     const opacityMatch = shaderRule![0].match(/opacity:\s*([\d.]+)/);
     expect(opacityMatch).not.toBeNull();
     const opacity = parseFloat(opacityMatch![1]);
-    expect(opacity).toBeGreaterThanOrEqual(0.15);
-    expect(opacity).toBeLessThanOrEqual(0.35);
+    expect(opacity).toBeGreaterThanOrEqual(0.55);
+    expect(opacity).toBeLessThanOrEqual(0.85);
   });
 });
 

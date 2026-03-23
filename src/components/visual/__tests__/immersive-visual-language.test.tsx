@@ -115,8 +115,9 @@ describe("VAL-VISUAL-011: Hero motion is intentional and limited", () => {
       path.resolve(__dirname, "../radiant-fluid-amber.glsl.ts"),
       "utf-8"
     );
-    // The vendored Radiant shader uses TIME_SCALE = 0.15 (slow organic drift)
-    expect(shaderSource).toMatch(/TIME_SCALE\s*=\s*0\.15/);
+    // The vendored Radiant shader uses TIME_SCALE = 0.25 (increased from 0.15
+    // for more perceptible motion against #101010 background)
+    expect(shaderSource).toMatch(/TIME_SCALE\s*=\s*0\.25/);
   });
 
   it("reduced motion disables hero entrance animation in CSS", () => {

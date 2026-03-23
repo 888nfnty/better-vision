@@ -303,16 +303,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* -----------------------------------------------------------------------
-   Site-wide real Radiant shader layer (VAL-VISUAL-020)
-   Renders the vendored Radiant Fluid Amber shader at reduced opacity
-   across the full shell — lighter than the hero's full-strength layer
-   but materially visible so the site reads as one continuous atmospheric
-   environment. The shader canvas inside is the same asset as the hero.
+   Site-wide real Radiant shader layer (VAL-VISUAL-020, VAL-VISUAL-017)
+   Renders the vendored Radiant Fluid Amber shader at 0.55 opacity —
+   materially visible against the #101010 background so the animated
+   shader is dramatically distinct from the static CSS fallback gradient.
+   Boosted from 0.25 to 0.55 for visibility. The shader canvas inside
+   is the same asset as the hero.
    ----------------------------------------------------------------------- */
 
 .site-atmosphere-shader {
   pointer-events: none;
-  opacity: 0.25;
+  opacity: 0.55;
 }
 
 .site-atmosphere-shader canvas {

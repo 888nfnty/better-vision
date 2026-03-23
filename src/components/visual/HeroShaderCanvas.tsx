@@ -29,8 +29,9 @@ import {
 // pattern loosely inspired by Radiant techniques. That shader was rejected
 // as a "custom lookalike" rather than a real vendored asset.
 //
-// Motion strategy: the Radiant shader uses TIME_SCALE = 0.15 (slow, organic
-// drift) matching M1 in the HeroVisualSystem motion budget.
+// Motion strategy: the Radiant shader uses TIME_SCALE = 0.25 (increased from
+// 0.15 for more perceptible motion) matching M1 in the HeroVisualSystem
+// motion budget. The higher rate ensures visible frame-to-frame change.
 //
 // Fallback: if WebGL is unavailable, triggerFallback() is called and the
 // CSS-only radiant fallback gradient remains visible.

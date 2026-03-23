@@ -104,8 +104,10 @@ export const RADIANT_FLUID_AMBER_FRAGMENT = `
   // amplitude decay. This is the original Radiant implementation.
   // -----------------------------------------------------------------------
 
-  /* Time scale: 0.15 (Radiant default) — slow, deliberate movement */
-  const float TIME_SCALE = 0.15;
+  /* Time scale: 0.25 — increased from Radiant default (0.15) for more
+     perceptible motion against the #101010 background. Ensures consecutive
+     animation frames show >1% pixel difference for material visibility. */
+  const float TIME_SCALE = 0.25;
   /* Amplitude decay: 0.48 (Radiant default) */
   const float AMP_DECAY = 0.48;
 

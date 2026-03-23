@@ -72,7 +72,7 @@ describe("Approved stack: exactly one Radiant Fluid Amber shader mount", () => {
     expect(src).not.toContain("<HeroShaderCanvas");
   });
 
-  it("shader runs at reduced opacity for atmospheric subtlety (0.15–0.35)", () => {
+  it("shader runs at materially visible opacity (≥0.55) for visibility against #101010", () => {
     const cssSrc = readGlobalsCss();
     const shaderRule = cssSrc.match(
       /\.site-atmosphere-shader\s*\{[^}]*\}/
@@ -81,8 +81,8 @@ describe("Approved stack: exactly one Radiant Fluid Amber shader mount", () => {
     const opacityMatch = shaderRule![0].match(/opacity:\s*([\d.]+)/);
     expect(opacityMatch).not.toBeNull();
     const opacity = parseFloat(opacityMatch![1]);
-    expect(opacity).toBeGreaterThanOrEqual(0.15);
-    expect(opacity).toBeLessThanOrEqual(0.35);
+    expect(opacity).toBeGreaterThanOrEqual(0.55);
+    expect(opacity).toBeLessThanOrEqual(0.85);
   });
 });
 
