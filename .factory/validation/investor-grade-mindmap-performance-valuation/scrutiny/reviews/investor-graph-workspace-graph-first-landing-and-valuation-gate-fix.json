@@ -1,0 +1,21 @@
+{
+  "featureId": "investor-graph-workspace-graph-first-landing-and-valuation-gate-fix",
+  "reviewedAt": "2026-03-23T04:12:39.348184Z",
+  "commitId": "e882ac2f361efe1edb4c21e8149232bc9ca70648",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The follow-up resolves the three prior blocking issues. `src/app/page.tsx` now renders the atlas workspace before the hero/proof sections, `gate-valuation` now targets a dedicated `valuation` graph node wired to actual valuation content, and `GraphShell`'s `RESTORE_HASH` path now rehydrates or deactivates guided-path state coherently for hash/back-forward navigation. I did not find new blocking regressions in scope relative to VAL-ROADMAP-014, VAL-ROADMAP-015, VAL-ROADMAP-017, or VAL-CROSS-014.",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The worker reported `skillFeedback.followedProcedure=true`, but the transcript skeleton does not show the required library/design-system reads for a landing/shell change before implementation.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:20-22` requires reading relevant `.factory/library/*.md` files and specifically reviewing `.factory/library/design-system.md` when changing the landing page/hero/shell. In `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/worker-transcripts.jsonl:67`, the fix session records `Execute \"ls /Users/test/vision/.factory/library/\"` and then moves into source/test reads and implementation, but it does not record a `Read` of `design-system.md` or another library markdown file before the edits."
+    }
+  ],
+  "addressesFailureFrom": "investor-graph-workspace-default-and-guided-pitch-path",
+  "summary": "Pass. The rerun makes the default landing genuinely graph-first, routes the guided Valuation gate to real valuation content, and restores guided-path state coherently on hash/back-forward without introducing new blocking regressions in the reviewed scope."
+}

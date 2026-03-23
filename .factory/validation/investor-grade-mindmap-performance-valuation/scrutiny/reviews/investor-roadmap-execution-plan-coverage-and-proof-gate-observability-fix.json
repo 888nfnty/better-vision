@@ -1,0 +1,39 @@
+{
+  "featureId": "investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix",
+  "reviewedAt": "2026-03-23T04:16:10.572489Z",
+  "commitId": "2c9ca1d4333b75a4c152c48bf9ece0f36de50fde",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The follow-up fixes the stage-coverage half of the prior failure: `ti-data-pipeline-phase2` and `sa-premium-api` now have dedicated execution-plan entries, and the strengthened tests cover those omissions. But the proof-gate observability blocker is only partially addressed. Two previously non-observable proof gates remain in the dataset, so the rerun still falls short of VAL-ROADMAP-016 and cannot pass.",
+    "issues": [
+      {
+        "file": "src/content/execution-plans.ts",
+        "line": 174,
+        "severity": "blocking",
+        "description": "The `pe-terminal-open` audit gate is still not consistently externally observable. Its criterion allows success when a security firm merely \"provides BETTER\" the report (`A named third-party security firm publishes or provides BETTER a completed audit report...`), which means the gate can still be satisfied through a private artifact instead of an investor-verifiable public proof surface. This was one of the original blocking observability gaps and the fix commit did not rewrite it."
+      },
+      {
+        "file": "src/content/execution-plans.ts",
+        "line": 782,
+        "severity": "blocking",
+        "description": "The `re-enterprise-data` proof gate remains internally framed: `At least one institutional client completes a paid pilot with a signed data-licensing agreement and documented API usage over ≥ 30 days`. A signed agreement and documented usage can remain private to BETTER and the client, so this still is not an externally observable / investor-verifiable success criterion under VAL-ROADMAP-016."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "Mission shared-state guidance still does not define which roadmap nodes count as \"primary roadmap stages\" for execution-plan coverage, so workers continue inventing local heuristics in code and tests.",
+      "evidence": "`/Users/test/vision/.factory/library/content-model.md:71-75` requires execution-plan fields for each \"major roadmap step\", while `VAL-ROADMAP-016` requires coverage for each \"primary roadmap stage\". The fix encodes its own rule in `src/content/__tests__/execution-plans.test.ts:65-67` by asserting that every visible non-live/non-speculative roadmap node is a primary stage, but that convention is still not documented in mission shared state."
+    },
+    {
+      "area": "skills",
+      "observation": "The worker marked `skillFeedback.followedProcedure=true`, but the transcript skeleton does not show the required `.factory/library/*.md` reads before editing this execution-plan feature.",
+      "evidence": "`/Users/test/vision/.factory/skills/content-strategy-worker/SKILL.md:20-22` requires reading mission files and the relevant `.factory/library/*.md` files before changing anything. For worker session `5d66e932-4b1b-4acd-ba24-6ed0b53ef78a`, the transcript's recorded `Read` targets include mission files, `services.yaml`, and source/test files, but no `.factory/library/*.md` file before the first `Edit`; the handoff `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T03-46-04-484Z__investor-roadmap-execution-plan-coverage-and-proof-gate-observability-fix__5d66e932-4b1b-4acd-ba24-6ed0b53ef78a.json` still reports `\"followedProcedure\": true`."
+    }
+  ],
+  "addressesFailureFrom": "investor-roadmap-execution-plan-and-timing-model",
+  "summary": "Fail. The rerun adds dedicated execution-plan treatment for the two omitted primary stages, but it does not finish the proof-gate observability repair: the audit-completion and enterprise-data proof gates still permit private/internal evidence rather than investor-verifiable public proof surfaces."
+}

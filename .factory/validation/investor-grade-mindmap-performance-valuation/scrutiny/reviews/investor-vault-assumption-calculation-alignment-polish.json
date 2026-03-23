@@ -1,0 +1,21 @@
+{
+  "featureId": "investor-vault-assumption-calculation-alignment-polish",
+  "reviewedAt": "2026-03-23T04:12:34.731032Z",
+  "commitId": "3413bc1e360d4320d9f20f86ce25baea0747e20e",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The follow-up resolves the prior non-blocking rigor gap without regressing VAL-TOKEN-015 or VAL-TOKEN-016. The whale-vault estimate still intentionally runs only on stake, total staked, vault capacity, and the per-wallet cap (`src/content/vault-capacity.ts:141-199`, `src/components/tokenomics/VaultCapacityModel.tsx:100-103`), but the surface now explicitly tells users that whale count and stake distribution are informational-only context while vault capacity is the calculation input (`src/content/vault-capacity.ts:102-115`, `src/components/tokenomics/VaultCapacityModel.tsx:299-355`). The follow-up also adds focused data-model and UI coverage for the new assumption-role framing (`src/content/__tests__/valuation-corridors.test.ts:175-183`, `src/components/tokenomics/__tests__/valuation-and-vault-ui.test.tsx:128-147`).",
+    "issues": []
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "`SourceCue.note` looks like a place to carry evidence-framing details, but the current `EvidenceHook` component does not render note text. Workers can update a source note expecting visible evidence-copy changes even though the rendered hook still only shows the label/as-of metadata.",
+      "evidence": "This fix updates the whale-vault source note in `src/content/vault-capacity.ts:113-114`, but `src/components/EvidenceHook.tsx:18-23` and `:29-39` only render the source label, optional as-of text, and href state; they never render `source.note`."
+    }
+  ],
+  "addressesFailureFrom": "investor-valuation-corridors-and-vault-capacity-model",
+  "summary": "Pass. The follow-up directly addresses the earlier rigor finding by relabeling whale count and stake distribution as informational-only context next to the whale-vault assumptions while preserving vault capacity as the actual calculation input. I found no regressions in the valuation-corridor surface or the stake-share modeling requirements from VAL-TOKEN-015/016."
+}

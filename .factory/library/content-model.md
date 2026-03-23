@@ -34,6 +34,7 @@ Each roadmap or economics item should have typed fields for:
 - Narrative `ConfidenceFrame.dependencies` values are rendered directly to users, so they must stay as readable user-facing notes rather than internal IDs.
 - Roadmap node `dependencies` are typed as stable roadmap-node IDs and should be resolved to readable labels in the UI.
 - Architecture cost-band phase `dependencies` are typed as stable phase IDs in `src/content/types.ts`; keep them ID-backed rather than label-backed if future work touches that model.
+- `SourceCue.note` is currently data-only metadata: `src/components/EvidenceHook.tsx` renders the source label, optional `asOf`, and href state, but not the note text itself. Updating a source note will not change visible evidence-hook copy unless the component rendering changes too.
 
 ## Narrative surface
 - Narrative content is a first-class typed surface alongside roadmap, tokenomics, projections, and architecture content.
