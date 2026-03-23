@@ -39,6 +39,7 @@ Intended application architecture and implementation patterns for this mission.
 ## Performance optimization guidance
 - Use **aggressive code splitting** across all major route boundaries and feature modules.
 - Use **dynamic imports** for the graph workspace and any heavy visualization tooling (e.g. `@xyflow/react`, ELK layout, shader/canvas layers) so they are not in the critical initial bundle.
+- Next.js App Router caveat: `dynamic(() => import(...))` does **not** lazy-load a Server Component's own markup/data. If a below-fold section needs real deferral, put the lazy boundary on a Client Component entrypoint (or otherwise move the deferred work behind a client boundary) instead of dynamically importing a server-only component.
 - **Lazy-load heavy components** such as scenario engines, detailed roadmap panels, vault calculators, and evidence deep-dives behind user interaction or viewport triggers.
 - Implement **skeleton and progressive loading** patterns: show lightweight placeholder UI immediately while heavy graph/visual content streams in.
 - The old standalone hero section must be **removed** and replaced with a **minimal brand band** integrated into the graph workspace — do not ship both a full hero section and a graph workspace hero node.

@@ -1,0 +1,28 @@
+{
+  "featureId": "correction-tradebetter-shell-parity-refresh",
+  "reviewedAt": "2026-03-23T10:42:12Z",
+  "commitId": "3aa7baee3acd0d9d58b3fb65ed652fcf1a6bb553",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Pass. I reviewed the feature handoff, transcript skeleton, commit `3aa7baee3acd0d9d58b3fb65ed652fcf1a6bb553`, and the current source that the refreshed evidence describes. The change is intentionally narrow: it refreshes `.factory/library/tradebetter-comparison-evidence.md` so VAL-VISUAL-021 is re-anchored to the post-hero-dedup/post-performance shell, with fresh tradebetter-vs-BETTER comparisons for color, font, spacing, edge treatment, and shell-wide surfaces. The underlying app still matches the refreshed parity claims: `src/app/page.tsx` keeps a single integrated hero inside the atlas, `src/app/layout.tsx` and `src/components/MobileNav.tsx` keep the BETTER logotype in the header and mobile overlay, `src/app/globals.css` retains the documented tradebetter-led tokens, and graph/detail surfaces continue to use the documented dark elevated modules. I found one non-blocking precision issue in the font table, but it does not overturn the overall shell-parity re-verification.",
+    "issues": [
+      {
+        "file": "/Users/test/vision/.factory/library/tradebetter-comparison-evidence.md",
+        "line": 70,
+        "severity": "non_blocking",
+        "description": "The refreshed font-stack table labels IBM Plex Mono as BETTER Vision's `Primary UI/body font`, but the shipped global body font is still Geist via `body { font-family: var(--font-sans) }` in `src/app/globals.css:109-113`; IBM Plex Mono is applied selectively to nav/terminal chrome. Because VAL-VISUAL-021 calls for concrete shared-attribute evidence, this row should distinguish mono UI chrome from the actual global body font more precisely."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The `frontend-experience-worker` skill's tradebetter-parity procedure no longer matches how successful evidence-refresh work is actually being done. It requires `FetchUrl`, `pinchtab`, and `agent-browser`, but this worker session captured the fresh parity evidence with `FetchUrl` plus `agent-browser` screenshots/computed-style checks and did not invoke `pinchtab`; the handoff's `skillFeedback` only reports the test-first deviation. Either the skill should allow `agent-browser` screenshots as the live-rendered evidence path, or workers should be expected to report skipped `pinchtab` explicitly.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:20-23` requires the tradebetter workflow to use `FetchUrl`, `pinchtab`, and `agent-browser`. In `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/worker-transcripts.jsonl`, session `e2efda00-2e1a-460a-8961-951cf9e4839c` contains `FetchUrl` at character 4742, `agent-browser` at character 4820, screenshot calls at characters 6437 and 8035, and no `pinchtab` substring at all. The handoff only lists the write-tests-first deviation in `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T10-36-39-399Z__correction-tradebetter-shell-parity-refresh__e2efda00-2e1a-460a-8961-951cf9e4839c.json:76-87`."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Pass with one non-blocking evidence-precision issue. The refreshed tradebetter comparison file does re-verify VAL-VISUAL-021 against the updated post-dedup/performance shell, but its font table should stop describing IBM Plex Mono as the global BETTER body font."
+}

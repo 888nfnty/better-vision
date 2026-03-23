@@ -1,0 +1,39 @@
+{
+  "featureId": "correction-vault-policy-total-cap-and-bidding-model",
+  "reviewedAt": "2026-03-23T10:42:42Z",
+  "commitId": "eb5d019818374ad73d3c1bb57c2ded7a392deaba",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The feature rewrites the core first-vault copy, worked examples, and social-vault data in the right direction, and the dedicated bidding-model helper/tests are internally consistent. However, the implementation does not fully satisfy VAL-TOKEN-017/018 because the interactive VaultCapacityModel still runs a legacy linear share estimate instead of the shipped √-weighted bidding model, and the UI still renders multiple visible 'per-wallet' references even though VAL-TOKEN-017 forbids that wording anywhere on the site. Social-vault 25,000 BETTER differentiation is present and explained.",
+    "issues": [
+      {
+        "file": "src/content/vault-capacity.ts",
+        "line": 499,
+        "severity": "blocking",
+        "description": "computeVaultCapacityEstimate still derives the calculator output from a linear share formula `(userStake / totalStaked) * vaultCapacityUsd`, then adds only a ±20% band plus an estimated cap (lines 499-510). It never applies the √-weight formula or the $100 floor required by VAL-TOKEN-018. With the shipped defaults this models a qualifying 100,000 BETTER staker at only about $20-$30 and a 13M BETTER holder at about $3,900, which conflicts with the feature's own 20-staker worked examples ($585 and the $5,000 cap respectively)."
+      },
+      {
+        "file": "src/components/tokenomics/FirstVaultPolicy.tsx",
+        "line": 52,
+        "severity": "blocking",
+        "description": "The corrected policy is still expressed with visible 'per-wallet' phrasing ('not by a per-wallet cap' here, plus 'Not per-wallet' at line 81). VaultCapacityModel repeats the same wording at src/components/tokenomics/VaultCapacityModel.tsx:131-133. VAL-TOKEN-017 is explicit that no reference to per-wallet caps should remain anywhere on the site, so this copy does not satisfy the literal contract even though it is phrased as a negation."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The mission shared state still contains stale pre-correction wording for the vault model. VAL-TOKEN-016 in the validation contract says the output must distinguish a 'first-vault per-wallet deposit cap' from modeled share, which conflicts with the corrected total-cap policy and makes it easier for workers to preserve the old mental model in the calculator.",
+      "evidence": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/validation-contract.md:191-193 still says 'first-vault per-wallet deposit cap (policy rule)'; compare with /Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/AGENTS.md:43-46 and /Users/test/vision/.factory/skills/content-strategy-worker/SKILL.md:27-29, which both describe the corrected total-cap + √-weighted bidding model."
+    },
+    {
+      "area": "conventions",
+      "observation": "Mission guidance and the validation contract are inconsistent about whether negative 'per-wallet' wording is allowed. AGENTS and the skill describe the new rule as '$25k total cap (not per-wallet)', while VAL-TOKEN-017 requires that no per-wallet references exist anywhere on the site. This worker explicitly treated negative mentions as acceptable and shipped them, so the shared rule should be normalized in one place.",
+      "evidence": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/AGENTS.md:43 uses '(not per-wallet)', /Users/test/vision/.factory/skills/content-strategy-worker/SKILL.md:28 says 'Do not use superseded per-wallet cap figures', but /Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/validation-contract.md:195-201 says 'No reference to per-wallet caps exists anywhere on the site'. The shipped copy preserves the term at src/components/tokenomics/FirstVaultPolicy.tsx:50-53,81 and src/components/tokenomics/VaultCapacityModel.tsx:129-133."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail: the feature lands the corrected total-cap narrative, bidding-model helper, and social-vault 25k minimum, but the interactive vault calculator still uses legacy linear math instead of the √-weighted/$100-floor model, and the UI still contains visible 'per-wallet' references that VAL-TOKEN-017 disallows."
+}

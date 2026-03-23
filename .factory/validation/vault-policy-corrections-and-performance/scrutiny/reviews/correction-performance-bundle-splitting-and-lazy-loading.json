@@ -1,0 +1,34 @@
+{
+  "featureId": "correction-performance-bundle-splitting-and-lazy-loading",
+  "reviewedAt": "2026-03-23T10:42:10Z",
+  "commitId": "ad9537a",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The graph workspace and heavy visual layers were moved behind credible client-side dynamic imports with safe fallbacks, but the feature does not actually lazy-load the below-fold proof section it claims to defer. Because the proof section remains a Server Component, the implementation falls short of VAL-VISUAL-027's below-fold lazy-loading requirement and the new tests do not catch that semantic gap.",
+    "issues": [
+      {
+        "file": "src/app/page.tsx",
+        "line": 21,
+        "severity": "blocking",
+        "description": "`ProofModule` is wrapped in `next/dynamic`, but `src/components/ProofModule.tsx` is a Server Component (no `'use client'`). In the App Router, dynamically importing a Server Component does not lazy-load the Server Component itself, only any client children. Since `ProofModule` is server-only markup/data, the below-fold proof section is still not actually deferred, so the implementation does not credibly satisfy the feature's 'Below-fold content is lazy-loaded' requirement."
+      },
+      {
+        "file": "src/app/__tests__/bundle-splitting-lazy-loading.test.tsx",
+        "line": 95,
+        "severity": "non_blocking",
+        "description": "The new proof-section regression test only regex-checks that `page.tsx` contains `dynamic(() => import(...ProofModule))`. It never verifies Next's runtime behavior, so it passes even when the dynamic import provides no actual lazy-loading for a Server Component. That leaves the main semantic risk in VAL-VISUAL-027 unprotected."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "Mission guidance encourages dynamic imports and lazy-loading for performance work, but the shared state does not record the App Router caveat that dynamically importing a Server Component does not lazy-load the server component itself. That omission likely contributed to the proof-section implementation.",
+      "evidence": ".factory/library/architecture.md:41-43 and .factory/skills/frontend-experience-worker/SKILL.md:35 tell workers to use dynamic imports/lazy-load heavy components; Next docs at node_modules/next/dist/docs/01-app/02-guides/lazy-loading.md:76-77 state that only client children of a dynamically imported Server Component are lazy-loaded; src/app/page.tsx:21-25 applies `dynamic()` to src/components/ProofModule.tsx:1-16, which is server-only."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail. Client-side splitting for the graph workspace and heavy visual layers looks sound, but the claimed below-fold `ProofModule` lazy loading is not real in Next App Router because the target is a Server Component. The accompanying test only checks source syntax, so the regression remains unguarded."
+}

@@ -1,0 +1,33 @@
+{
+  "featureId": "correction-use-case-depth-and-revenue-analysis",
+  "reviewedAt": "2026-03-23T10:42:49Z",
+  "commitId": "30b8ad7",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The feature materially improves VAL-TOKEN-021 coverage by adding market size, revenue, demand, timeline, and Dune-backed prediction-market data to the token-utility surface, and the worker followed the content-strategy procedure in the transcript. However, one user-facing use case is wired to the wrong analysis: the Whale Exclusive Products card now renders enterprise data licensing market/revenue/timeline content, which makes the economic thesis internally inconsistent and means the surface does not fully satisfy VAL-TOKEN-021.",
+    "issues": [
+      {
+        "file": "src/content/use-case-analyses.ts",
+        "line": 286,
+        "severity": "blocking",
+        "description": "The `util-whale-exclusives` analysis is actually Enterprise Data Licensing copy (`Enterprise blockchain market`, `Data licensing subscriptions`, planned institutional rollout), but it is rendered under the `Whale Exclusive Products` card defined in `src/components/tokenomics/TokenUtilitySurface.tsx:184-193`. That conflicts with the existing product taxonomy, which already separates `Whale Premium Products` from `Enterprise & API Rails` in `src/content/token-tiers.ts:665-705`. As shipped, users see enterprise-data TAM/revenue/timeline claims under a whale-exclusive card title, so one of the headline use-case analyses is not internally consistent." 
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "There is no documented crosswalk between the research doc's use-case sections and the utility-surface IDs, which makes it easy to attach the wrong analysis to a card and leaves it ambiguous how sections like Enterprise Data Licensing, Cross-Chain Expansion, and OpenServ/BRAID should map into the UI.",
+      "evidence": "`.factory/library/use-case-analysis.md:366-458` defines separate sections for Enterprise Data Licensing, Cross-Chain Expansion, and OpenServ/BRAID Integration, while `src/components/tokenomics/TokenUtilitySurface.tsx:184-193` defines `util-whale-exclusives` as whale-only premium products and `src/content/use-case-analyses.ts:286-307` attaches enterprise-data analysis to that id."
+    },
+    {
+      "area": "conventions",
+      "observation": "The shared-state docs correctly note that `SourceCue.note` is not rendered, but the new use-case work still stores most citation detail only in `note` fields. That means future workers can think they added visible source citations when the UI actually shows only a coarse label unless an `href` is also supplied.",
+      "evidence": "`.factory/library/content-model.md:37` says `SourceCue.note` is data-only metadata; `src/components/EvidenceHook.tsx:20-31` renders only label/asOf/href state; `src/content/use-case-analyses.ts:42-43` is the only use-case source with an `href`, while the remaining entries rely on non-rendered notes."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail. The commit adds substantial VAL-TOKEN-021 depth and Dune-backed prediction-market data, but the Whale Exclusive Products card is populated with enterprise data licensing analysis, creating a user-visible internal inconsistency that blocks approval. Review report written to the scrutiny reviews directory."
+}

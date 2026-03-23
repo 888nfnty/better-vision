@@ -1,0 +1,39 @@
+{
+  "featureId": "correction-on-chain-verified-allocations",
+  "reviewedAt": "2026-03-23T10:42:32.560638+00:00",
+  "commitId": "2aece85",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The feature correctly replaces the old generic allocation buckets with seven on-chain-backed categories and fixes the Team/Treasury mapping, but it does not fully satisfy VAL-TOKEN-020's citation requirement. Several rows expose only generic links while the address/query specifics live in source.note, and those details are never rendered in the visible UI.",
+    "issues": [
+      {
+        "file": "src/content/token-tiers.ts",
+        "line": 244,
+        "severity": "blocking",
+        "description": "The LP / Liquidity and Programmatic Funding rows point to the generic token page, and Airdrop / Migration uses a Dune search URL instead of a stable query/reference (see also lines 255 and 277). Those visible links do not let a user directly verify the displayed 60,903,359 / 25,869,846 / 81,124,021 figures, so the on-chain citations are not actually verifiable from the shipped UI."
+      },
+      {
+        "file": "src/components/EvidenceHook.tsx",
+        "line": 17,
+        "severity": "blocking",
+        "description": "This component renders only source.label, href, and asOf. The allocation-specific evidence details were stored in source.note and passed through SupplyAllocation, but note is never shown, so the page does not surface the promised visible Dune query references or address-level evidence for the updated allocation numbers."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The content-strategy-worker skill says workers must use the Dune CLI to verify on-chain claims, but this feature's transcript/handoff relied on /Users/test/dune_query_results.md and did not record any actual Dune CLI command while still reporting followedProcedure=true. The skill should either explicitly allow mission-provided Dune exports as an alternative or require workers to include concrete CLI evidence in the handoff.",
+      "evidence": "Skill step 10 in /Users/test/vision/.factory/skills/content-strategy-worker/SKILL.md requires 'Use the Dune CLI ... to verify any on-chain claims'. The transcript skeleton excerpt shows a Read of /Users/test/dune_query_results.md, and the handoff verification commands only list lint/typecheck/test/build."
+    },
+    {
+      "area": "conventions",
+      "observation": "The shared content model allows source.note, but the standard EvidenceHook UI does not render it. That makes it easy for workers to believe they shipped visible evidence details when they only populated hidden note fields. This pattern should be documented or the hook updated so evidence-bearing fields have predictable user-visible behavior.",
+      "evidence": "src/content/token-tiers.ts stores allocation-specific verification details in source.note (for example lines 212, 245, 256, 278), but src/components/EvidenceHook.tsx:17-40 renders only the label/asOf/link and drops note entirely."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail: the Team/Treasury remap and totals reconcile correctly, but the feature stops short of VAL-TOKEN-020 because several allocation rows do not ship direct, visible, verifiable Dune/basescan references for the displayed on-chain numbers."
+}

@@ -1,0 +1,34 @@
+{
+  "featureId": "correction-hero-deduplication-and-logotype-fix",
+  "reviewedAt": "2026-03-23T10:42:00.098787+00:00",
+  "commitId": "ae9d137",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The commit does remove the duplicate standalone hero below the atlas and keeps the BETTER logotype visible at the top of the page, so the narrow dedupe target is partially addressed. However, it does so by moving the full hero payload above the graph inside `#atlas`, which regresses the graph-first landing: the graph explorer no longer appears in the initial workspace composition and the worker's own browser evidence says they had to scroll past the hero band to reach it.",
+    "issues": [
+      {
+        "file": "src/app/page.tsx",
+        "line": 41,
+        "severity": "blocking",
+        "description": "Instead of collapsing the duplicate hero into a minimal top-of-workspace brand treatment, this change inserts the full hero payload (logotype, tagline, definition copy, status framing, caveat, and CTAs) before the graph and does not render `GraphExplorer` until line 140. That removes the duplicate hero beneath the graph, but it also turns the default landing back into a hero-first experience rather than the graph-first workspace required by the mission and by VAL-ROADMAP-014 / VAL-CROSS-014. The worker's own handoff confirms the regression: they reported having to scroll down 700px 'past the hero band to see the graph workspace'."
+      },
+      {
+        "file": "src/app/__tests__/graph-first-landing.test.tsx",
+        "line": 29,
+        "severity": "non_blocking",
+        "description": "The regression test was rewritten to assert that the hero band should come before the graph shell. That codifies the behavior above instead of protecting the graph-first contract, so this suite would now pass even though the feature reintroduces the same viewport-order problem that an earlier graph-first fix was meant to eliminate."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The worker marked `skillFeedback.followedProcedure=true`, but the transcript skeleton does not show the required design-system or screenshot review for a landing/hero/shell change before implementation.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:20-23` requires reading relevant `.factory/library/*.md` files and specifically reviewing `.factory/library/design-system.md` plus `.factory/research/screenshots/` when changing the landing page, hero, or shell. The transcript skeleton for session `b81cc49b-0867-4a91-af59-a6e07424e8a7` shows reads of mission docs, `src/app/page.tsx`, graph components, and hero-related tests, but no `Read` of `design-system.md` or screenshot artifacts before the edits; the handoff at `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T08-48-57-590Z__correction-hero-deduplication-and-logotype-fix__b81cc49b-0867-4a91-af59-a6e07424e8a7.json` still records `skillFeedback.followedProcedure=true`."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Fail. The duplicate hero below the atlas is gone, but the fix replaces it with a full hero band above the graph, so the landing stops being graph-first and reintroduces a blocking regression outside the narrow VAL-VISUAL-026 dedupe goal."
+}

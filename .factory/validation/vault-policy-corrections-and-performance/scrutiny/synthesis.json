@@ -1,0 +1,110 @@
+{
+  "milestone": "vault-policy-corrections-and-performance",
+  "round": 1,
+  "status": "fail",
+  "validatorsRun": {
+    "test": {
+      "passed": true,
+      "command": "npm --prefix \"/Users/test/vision\" run test",
+      "exitCode": 0
+    },
+    "typecheck": {
+      "passed": true,
+      "command": "npm --prefix \"/Users/test/vision\" run typecheck",
+      "exitCode": 0
+    },
+    "lint": {
+      "passed": true,
+      "command": "npm --prefix \"/Users/test/vision\" run lint",
+      "exitCode": 0
+    },
+    "build": {
+      "passed": true,
+      "command": "npm --prefix \"/Users/test/vision\" run build",
+      "exitCode": 0
+    }
+  },
+  "reviewsSummary": {
+    "total": 6,
+    "passed": 1,
+    "failed": 5,
+    "failedFeatures": [
+      "correction-hero-deduplication-and-logotype-fix",
+      "correction-vault-policy-total-cap-and-bidding-model",
+      "correction-on-chain-verified-allocations",
+      "correction-use-case-depth-and-revenue-analysis",
+      "correction-performance-bundle-splitting-and-lazy-loading"
+    ]
+  },
+  "blockingIssues": [
+    {
+      "featureId": "correction-hero-deduplication-and-logotype-fix",
+      "severity": "blocking",
+      "description": "The duplicate hero below the atlas was removed, but the fix moved the full hero payload above the graph inside `#atlas`, regressing the required graph-first default workspace."
+    },
+    {
+      "featureId": "correction-vault-policy-total-cap-and-bidding-model",
+      "severity": "blocking",
+      "description": "`VaultCapacityModel` still uses legacy linear share math instead of the shipped √-weighted bidding model with the $100 floor, and the UI still renders visible 'per-wallet' wording that VAL-TOKEN-017 forbids."
+    },
+    {
+      "featureId": "correction-on-chain-verified-allocations",
+      "severity": "blocking",
+      "description": "Several allocation rows still expose generic/search links while the address/query specifics live only in hidden `source.note` metadata, so the shipped UI does not provide direct visible Dune/basescan verification for the displayed on-chain figures."
+    },
+    {
+      "featureId": "correction-use-case-depth-and-revenue-analysis",
+      "severity": "blocking",
+      "description": "The `Whale Exclusive Products` card is wired to enterprise data-licensing analysis, producing a user-visible taxonomy mismatch and leaving one headline use-case surface internally inconsistent."
+    },
+    {
+      "featureId": "correction-performance-bundle-splitting-and-lazy-loading",
+      "severity": "blocking",
+      "description": "`page.tsx` dynamically imports `ProofModule`, but it is a Server Component, so the below-fold proof section is not actually lazy-loaded in Next App Router and the new test only checks source syntax."
+    }
+  ],
+  "appliedUpdates": [
+    {
+      "target": "library",
+      "description": "Added a factual architecture note that dynamically importing a Server Component in Next App Router does not lazy-load the server component itself, so real below-fold deferral must cross a client boundary.",
+      "sourceFeature": "correction-performance-bundle-splitting-and-lazy-loading"
+    }
+  ],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "frontend-experience-worker skill",
+      "suggestion": "When a worker changes the landing page, hero, or shell, require explicit transcript-visible reads of the mandated design-system/screenshot artifacts before they can report `followedProcedure=true`, or require them to mark a deviation if they skip those inputs.",
+      "evidence": "The review for `correction-hero-deduplication-and-logotype-fix` found a landing/shell change handoff claiming `followedProcedure=true` even though the transcript skeleton showed no pre-edit read of `.factory/library/design-system.md` or screenshot artifacts required by the skill.",
+      "isSystemic": false
+    },
+    {
+      "target": "mission guidance",
+      "suggestion": "Normalize the corrected vault-cap language across AGENTS/skills/validation artifacts so the milestone never reintroduces 'per-wallet' wording: update the stale validation-contract reference to a first-vault 'per-wallet deposit cap' and remove the contradictory AGENTS phrasing that still says '(not per-wallet)'.",
+      "evidence": "The review for `correction-vault-policy-total-cap-and-bidding-model` found shared-state drift: `validation-contract.md` still mentions a 'first-vault per-wallet deposit cap', while mission AGENTS/skill guidance describes the corrected total-cap model yet still preserves negated 'per-wallet' language that workers can copy into the UI.",
+      "isSystemic": true
+    },
+    {
+      "target": "content-strategy-worker skill",
+      "suggestion": "Clarify on-chain verification procedure so workers either (a) may rely on mission-provided Dune exports when supplied, or (b) must record concrete Dune CLI commands in the handoff before reporting `followedProcedure=true`.",
+      "evidence": "The review for `correction-on-chain-verified-allocations` found the worker using `/Users/test/dune_query_results.md` without any transcript-visible Dune CLI command even though the skill currently says to use the Dune CLI for on-chain verification.",
+      "isSystemic": false
+    },
+    {
+      "target": "frontend-experience-worker skill",
+      "suggestion": "Relax or clarify the tradebetter-parity workflow so successful evidence-refresh work can use `FetchUrl` plus `agent-browser` screenshots/computed-style checks without being treated as procedural drift, or else require skipped `pinchtab` usage to be reported explicitly as a deviation.",
+      "evidence": "The pass review for `correction-tradebetter-shell-parity-refresh` found a successful parity-refresh session that used `FetchUrl` and `agent-browser` only, while the current skill still mandates `FetchUrl`, `pinchtab`, and `agent-browser` together.",
+      "isSystemic": false
+    }
+  ],
+  "rejectedObservations": [
+    {
+      "observation": "`SourceCue.note` is not rendered by `EvidenceHook`, so workers can hide citation detail in note fields.",
+      "reason": "already-documented in `.factory/library/content-model.md`, and both failing reviews that raised it pointed to the same known library note rather than new shared-state information"
+    },
+    {
+      "observation": "There is no documented crosswalk between use-case research sections and token-utility card IDs.",
+      "reason": "ambiguous; the review proves one wiring mismatch but does not establish a single canonical mapping for every research section/card pair"
+    }
+  ],
+  "previousRound": null
+}
