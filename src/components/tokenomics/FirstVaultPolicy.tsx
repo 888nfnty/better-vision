@@ -3,7 +3,7 @@
  *
  * Explicitly states Q1 2026 first-vault rules:
  * - 100,000 BETTER universal minimum for all quant-team vaults
- * - $25,000 TOTAL vault deposit cap across ALL qualifying stakers (not per-wallet)
+ * - $25,000 TOTAL vault deposit cap across ALL qualifying stakers (per-staker bidding allocation)
  * - √-weighted bidding allocation model with 24hr window, per-staker cap, $100 floor
  * - Worked examples showing how different stake amounts translate to allocations
  */
@@ -29,7 +29,7 @@ function formatNumber(n: number): string {
 
 const vaultCaveat: ConfidenceFrame = {
   caveat:
-    "The $25,000 total vault cap applies to the first vault only. Individual allocations within that cap are determined by the √-weighted bidding model — not by a per-wallet cap. Future quant-team vaults will have individually set total caps on a case-by-case basis.",
+    "The $25,000 total vault cap applies to the first vault only. Individual allocations within that cap are determined by the √-weighted bidding model with a per-staker cap. Future quant-team vaults will have individually set total caps on a case-by-case basis.",
   dependencies: [
     "Social Vaults & vBETTER",
     "Whale-First Tier Ladder",
@@ -49,8 +49,8 @@ export default function FirstVaultPolicy() {
       <p className="mb-4 text-sm text-secondary">
         The first quant-team vault has a <strong>total deposit cap of $25,000 USDC
         across all qualifying stakers</strong>. Individual allocations are determined
-        by a √-weighted bidding model with a 24-hour commitment window — not by a
-        per-wallet cap. Every qualifying staker receives at least $100 USDC.
+        by a √-weighted bidding model with a 24-hour commitment window and a
+        per-staker cap. Every qualifying staker receives at least $100 USDC.
       </p>
 
       <div className="mb-4">
@@ -78,7 +78,7 @@ export default function FirstVaultPolicy() {
             ${formatNumber(FIRST_VAULT_POLICY.totalVaultCapUsd)} USDC
           </div>
           <p className="mt-1 text-xs text-secondary">
-            Total deposits across ALL qualifying stakers for the first vault. Not per-wallet.
+            Total deposits across ALL qualifying stakers for the first vault. Individual allocations use the per-staker bidding model.
           </p>
         </div>
       </div>

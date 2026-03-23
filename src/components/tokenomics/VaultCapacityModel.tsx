@@ -47,7 +47,7 @@ const modelSource: SourceCue = {
 
 const modelCaveat: ConfidenceFrame = {
   caveat:
-    "This model estimates how your staked BETTER could translate into vault capacity share under stated assumptions. Actual allocation depends on the √-weighted bidding model, total vault cap, participation rates, and the number of qualifying stakers. The total vault cap applies across all stakers — there is no per-wallet deposit cap.",
+    "This model estimates how your staked BETTER could translate into vault capacity share under stated assumptions. Actual allocation depends on the √-weighted bidding model, total vault cap, participation rates, and the number of qualifying stakers. The total vault cap applies across all stakers — individual allocations are determined by the bidding model with a per-staker cap.",
   dependencies: [
     "Social Vaults & vBETTER launch",
     "Whale-First Tier Ladder",
@@ -130,7 +130,7 @@ export default function VaultCapacityModel() {
         Estimate how your staked BETTER translates into vault deposit capacity
         using the √-weighted bidding model. The total vault cap is shared across
         all qualifying stakers — individual allocations are determined by the
-        bidding model, not by a per-wallet cap.
+        bidding model with a per-staker cap.
       </p>
 
       <div className="mb-4">

@@ -2,7 +2,7 @@
  * Stake-to-vault-capacity modeling for the BETTER ecosystem.
  *
  * Satisfies VAL-TOKEN-016, VAL-TOKEN-017, VAL-TOKEN-018, VAL-TOKEN-019:
- * - $25,000 TOTAL vault cap across ALL users for first vault (not per-wallet)
+ * - $25,000 TOTAL vault cap across ALL users for first vault (per-staker bidding allocation)
  * - √-weighted bidding allocation model with 24hr window
  * - Hard per-staker cap: max(V/N, V × 0.20)
  * - $100 USDC minimum floor per qualifying staker
@@ -297,7 +297,7 @@ export const WHALE_VAULT_ASSUMPTIONS: WhaleVaultAssumptions = {
 
 /**
  * First-vault modeling defaults — packaged for the UI.
- * Updated: uses total vault cap, not per-wallet cap.
+ * Updated: uses total vault cap with per-staker bidding allocation.
  */
 export const FIRST_VAULT_DEFAULTS = {
   vaultCapacityUsd: 25_000,
@@ -456,12 +456,19 @@ export function computeBiddingAllocations(
 }
 
 // ---------------------------------------------------------------------------
-// Legacy Computation (retained for VaultCapacityModel backward compatibility)
+// Vault Capacity Estimate (uses √-weighted bidding model)
 // ---------------------------------------------------------------------------
 
 /**
  * Compute a vault capacity estimate from explicit inputs.
- * Now uses the bidding model internally for allocation estimation.
+ *
+ * Uses computeBiddingAllocations internally with the shipped √-weighted
+ * bidding model — NOT linear proportional math. The function synthesises a
+ * representative staker pool from totalStaked so it can run the bidding
+ * engine for the user's stake in context.
+ *
+ * The $100 USDC minimum floor and hard per-staker cap are enforced by the
+ * bidding engine automatically.
  */
 export function computeVaultCapacityEstimate(
   input: VaultCapacityInput
@@ -492,23 +499,51 @@ export function computeVaultCapacityEstimate(
     };
   }
 
-  // Share of staked pool
+  // Share of staked pool (linear, for display purposes)
   const sharePercentage = (userStake / totalStaked) * 100;
 
-  // Point estimate of allocation based on share
-  const pointEstimateUsd = (userStake / totalStaked) * vaultCapacityUsd;
+  // Build a representative staker pool for the bidding engine.
+  // We model the remaining staked BETTER as evenly distributed among
+  // qualifying stakers at the minimum stake level.
+  const minStake = BIDDING_MODEL_PARAMS.minimumStake;
+  const remainingStaked = totalStaked - userStake;
+  const otherStakerCount = Math.max(0, Math.floor(remainingStaked / minStake));
 
-  // Uncertainty band
+  // Build stakes array: user + representative others
+  const stakes: number[] = [userStake];
+  for (let i = 0; i < otherStakerCount; i++) {
+    stakes.push(minStake);
+  }
+
+  // Ensure we don't exceed max stakers for the vault floor
+  const maxStakers = Math.floor(vaultCapacityUsd / BIDDING_MODEL_PARAMS.minimumFloorUsd);
+  if (stakes.length > maxStakers) {
+    // Trim to max stakers, keeping user at index 0
+    stakes.length = maxStakers;
+  }
+
+  // Edge case: if user is the only staker
+  if (stakes.length === 0) {
+    stakes.push(userStake);
+  }
+
+  // Run the √-weighted bidding allocation engine
+  const biddingResult = computeBiddingAllocations({
+    stakes,
+    vaultCapUsd: vaultCapacityUsd,
+  });
+
+  // User's allocation is always the first in the result
+  const userAllocation = biddingResult.allocations[0];
+
+  // Build uncertainty band around the bidding-model point estimate
+  const pointEstimateUsd = userAllocation.allocationUsd;
   const estimatedAllocationLowUsd = pointEstimateUsd * UNCERTAINTY_LOW_FACTOR;
   const estimatedAllocationHighUsd = pointEstimateUsd * UNCERTAINTY_HIGH_FACTOR;
 
-  // Dynamic per-staker cap based on bidding model
-  // Estimate staker count from total staked and minimum stake
-  const estimatedStakers = Math.max(1, Math.floor(totalStaked / BIDDING_MODEL_PARAMS.minimumStake));
-  const perStakerCap = Math.max(vaultCapacityUsd / estimatedStakers, vaultCapacityUsd * BIDDING_MODEL_PARAMS.perStakerCapRatio);
-
-  const effectiveDepositUsd = Math.min(estimatedAllocationHighUsd, perStakerCap);
-  const capConstrained = estimatedAllocationHighUsd > perStakerCap;
+  // Effective deposit respects the per-staker cap from the bidding model
+  const effectiveDepositUsd = Math.min(estimatedAllocationHighUsd, biddingResult.perStakerCapUsd);
+  const capConstrained = estimatedAllocationHighUsd > biddingResult.perStakerCapUsd;
 
   return {
     sharePercentage,
