@@ -1,0 +1,15 @@
+{
+  "featureId": "correction-use-case-taxonomy-alignment-fix",
+  "reviewedAt": "2026-03-23T11:39:47Z",
+  "commitId": "1ec2e73",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Pass. I reviewed the original failed feature/review, the fix handoff, the fix transcript skeleton, commit `1ec2e73`, and the current source. The blocking taxonomy mismatch is resolved: `src/content/use-case-analyses.ts:286-337` now keeps whale-exclusive analysis focused on whale-premium products and moves enterprise data-licensing analysis into its own `util-enterprise-data-licensing` entry, while `src/components/tokenomics/TokenUtilitySurface.tsx:184-205` renders `Whale Exclusive Products` and `Enterprise Data Licensing` as distinct cards. The new regression coverage in `src/components/tokenomics/__tests__/use-case-taxonomy-alignment.test.tsx:23-169` specifically asserts that whale-exclusives no longer renders enterprise data-licensing copy and that the enterprise card is present separately. I also verified the full mapping in the shipped source: the surface now exposes 11 utility-card IDs and `USE_CASE_ANALYSES` provides matching analysis entries for all 11, with no missing or extra use-case IDs.",
+    "issues": []
+  },
+  "sharedStateObservations": [],
+  "addressesFailureFrom": "correction-use-case-depth-and-revenue-analysis",
+  "summary": "Pass. The rerun fully fixes the prior blocking issue: enterprise/API data licensing now appears on its own card, the Whale Exclusive Products card shows only whale-premium analysis, and the current utility-card/analysis IDs are aligned one-to-one. Review report written to the scrutiny reviews directory."
+}

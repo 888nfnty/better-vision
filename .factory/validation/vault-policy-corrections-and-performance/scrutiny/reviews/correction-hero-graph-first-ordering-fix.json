@@ -1,0 +1,28 @@
+{
+  "featureId": "correction-hero-graph-first-ordering-fix",
+  "reviewedAt": "2026-03-23T11:40:08.700774Z",
+  "commitId": "15186ab5bd6e033c3dcdaf9947d6f8acb8df097d",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Pass with one non-blocking regression-test scope note. I reviewed the rerun handoff/transcript, the prior failed review for `correction-hero-deduplication-and-logotype-fix`, and commit `15186ab5bd6e033c3dcdaf9947d6f8acb8df097d`. The fix removes the full hero markup from `src/app/page.tsx`, renders `CompactBrandBand` directly at the top of `#atlas`, and places `LazyGraphExplorer` immediately after it inside the same `HeroVisualSystem`, so the atlas is again the first and dominant workspace instead of a hero-first handoff. Runtime code no longer renders `hero-section`, and the updated hero-deduplication / graph-first tests now guard against reintroducing the old full-hero structure. I did not find any remaining blocking regression against the prior failure criteria.",
+    "issues": [
+      {
+        "file": "src/app/__tests__/graph-first-landing.test.tsx",
+        "line": 29,
+        "severity": "non_blocking",
+        "description": "The updated graph-first regression checks now assert DOM order and hero-section removal, but they still do not prove actual above-the-fold visibility. The repo's testing guidance explicitly notes that viewport-first claims need browser/visual verification or a layout-aware strategy, because DOM order alone is insufficient. The current implementation appears to fix the regression, but these assertions would still pass if a future oversized \"compact\" band pushed the graph below the fold again, so the automated protection is only partial."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The same landing-page procedure gap flagged in the prior round is still present on this rerun: `frontend-experience-worker` says landing/hero/shell changes must read `design-system.md` and the screenshot references before implementation, but this worker again reported `followedProcedure=true` without transcript-visible evidence of those reads.",
+      "evidence": "`/Users/test/vision/.factory/skills/frontend-experience-worker/SKILL.md:22` requires `.factory/library/design-system.md` and `.factory/research/screenshots/` review for landing/hero/shell changes. In `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/worker-transcripts.jsonl`, session `ddbc35b5-3e4d-4db5-a748-6deacd99fe38` contains no `design-system.md` or `.factory/research/screenshots` substring at all (both search positions were `-1`), while implementation activity (`CompactBrandBand`) appears later in the skeleton and the handoff `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/handoffs/2026-03-23T11-05-26-319Z__correction-hero-graph-first-ordering-fix__ddbc35b5-3e4d-4db5-a748-6deacd99fe38.json` still records `skillFeedback.followedProcedure=true`."
+    }
+  ],
+  "addressesFailureFrom": "correction-hero-deduplication-and-logotype-fix",
+  "summary": "Pass. This rerun removes the hero-first regression by keeping only a compact brand band above the atlas and placing the graph workspace immediately after it, so the prior blocking issue is resolved. The only remaining note is non-blocking: the updated Jest coverage protects DOM ordering but still does not fully automate above-the-fold verification."
+}

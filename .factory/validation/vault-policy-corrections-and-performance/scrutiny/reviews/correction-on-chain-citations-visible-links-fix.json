@@ -1,0 +1,34 @@
+{
+  "featureId": "correction-on-chain-citations-visible-links-fix",
+  "reviewedAt": "2026-03-23T11:39:52.033774+00:00",
+  "commitId": "2158f06",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "fail",
+  "codeReview": {
+    "summary": "The rerun improves the allocation table by showing each row's evidence note under the existing citation badge, but it does not fully resolve the prior VAL-TOKEN-020 blocker. LP / Liquidity, Programmatic Funding, and Airdrop / Migration still do not expose direct row-specific verification links from the rendered UI.",
+    "issues": [
+      {
+        "file": "src/components/tokenomics/SupplyAllocation.tsx",
+        "line": 86,
+        "severity": "blocking",
+        "description": "The fix renders `source.note` as visible text under the existing `EvidenceHook`, but it still provides only one clickable link per row and leaves the allocation-specific verification details as plain text. For LP / Liquidity, Programmatic Funding, and Airdrop / Migration, the linked targets in `src/content/token-tiers.ts` remain generic or search URLs (`lines 244, 255, 277`) rather than direct row-specific basescan addresses or stable Dune query links. Users therefore still cannot click straight from those rows to the exact on-chain basis for 60,903,359 / 25,869,846 / 81,124,021 BETTER."
+      },
+      {
+        "file": "src/components/tokenomics/__tests__/on-chain-visible-links.test.tsx",
+        "line": 24,
+        "severity": "non_blocking",
+        "description": "The added regression coverage only checks that each row has some `basescan.org` or `dune.com` link and that the rendered href matches the current data model. It never asserts that LP / Programmatic / Airdrop use direct row-specific stable verification targets, so the original scrutiny failure still passes the new tests."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "The `content-strategy-worker` procedure requires transcript-visible reads of relevant `.factory/library/*.md` files before editing, but this fix session reported `followedProcedure=true` without any transcript-visible library read. That weakens the value of `skillFeedback.followedProcedure` for review triage.",
+      "evidence": "`/Users/test/vision/.factory/skills/content-strategy-worker/SKILL.md:20` requires reading the relevant library files before changing anything. The transcript skeleton for worker session `42a0c4da-56ab-4730-8061-f2e729106d15` shows no `.factory/library/` reads, while the handoff marks `skillFeedback.followedProcedure=true`."
+    }
+  ],
+  "addressesFailureFrom": "correction-on-chain-verified-allocations",
+  "summary": "Fail: the fix makes note text visible, but LP / Programmatic / Airdrop still do not provide direct row-specific basescan or stable Dune verification links from the UI, so the prior citation blocker is not fully resolved."
+}

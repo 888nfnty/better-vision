@@ -1,0 +1,28 @@
+{
+  "featureId": "correction-vault-calculator-sqrt-model-and-per-wallet-purge",
+  "reviewedAt": "2026-03-23T11:41:04Z",
+  "commitId": "0f50de1",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Pass. This rerun resolves the original blocker: `src/content/vault-capacity.ts:473-549` now routes `computeVaultCapacityEstimate` through `computeBiddingAllocations`, so the calculator inherits the shipped √-weighted bidding model, $100 floor, and per-staker cap instead of the old linear share formula, and the user-facing vault copy in `src/components/tokenomics/FirstVaultPolicy.tsx`, `src/components/tokenomics/VaultCapacityModel.tsx`, and `src/content/token-tiers.ts` no longer renders visible `per-wallet` wording. A smaller modeling caveat remains in the representative-pool synthesis, but it does not reintroduce the prior scrutiny failure.",
+    "issues": [
+      {
+        "file": "src/content/vault-capacity.ts",
+        "line": 510,
+        "severity": "non_blocking",
+        "description": "`computeVaultCapacityEstimate` models all remaining stake as 100k-BETTER peers and then silently truncates the synthetic pool to `maxStakers` at lines 510-522. For first-vault scenarios, any `totalStaked` above roughly `userStake + 24.9M BETTER` stops affecting the modeled allocation because excess stake is discarded before `computeBiddingAllocations` runs. In local reproduction, a 200k stake with a $25k vault returns the same `$120` effective estimate at 50M, 100M, and 200M total staked. The rerun still fixes the original blocker, but the adjustable `totalStaked` input now has an undisclosed saturation point that could surprise users."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "Mission guidance about the corrected vault cap is still internally inconsistent: several shared-state artifacts continue to preserve `per-wallet` terminology even though VAL-TOKEN-017 says no such reference should remain anywhere. This fix corrected the shipped UI, but future workers can still copy the stale phrasing from mission docs and library notes.",
+      "evidence": "`/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/AGENTS.md:43` still says '(not per-wallet)'; `/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/validation-contract.md:191-199` still describes a 'first-vault per-wallet deposit cap' before forbidding any per-wallet reference; `/Users/test/vision/.factory/skills/content-strategy-worker/SKILL.md:27-29` still says '$25k TOTAL vault cap (not per-wallet)'; `/Users/test/vision/.factory/library/use-case-analysis.md:128` still says '$25K per-wallet deposit cap'."
+    }
+  ],
+  "addressesFailureFrom": "correction-vault-policy-total-cap-and-bidding-model",
+  "summary": "Pass. The fix removes the user-visible `per-wallet` wording and moves the interactive vault calculator onto the shipped √-weighted bidding model with the $100 floor and per-staker cap, so it clears the original scrutiny failure. I noted one non-blocking estimation-fidelity caveat in the synthetic staker-pool logic plus a shared-state documentation drift around lingering `per-wallet` terminology."
+}

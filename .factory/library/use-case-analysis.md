@@ -125,7 +125,7 @@ Prepared: 2026-03-23 | Sources: Web research, on-chain data, industry reports, e
 
 ### Realistic Timeline
 
-- **Q1 2026 (In Progress)**: First vault policy live with $25K per-wallet deposit cap and 100K BETTER minimum.
+- **Q1 2026 (In Progress)**: First vault policy live with a $25K total vault cap across all qualifying users and a 100K BETTER minimum.
 - **Q2–Q3 2026**: Social vault framework launch, community vault creation tools.
 - **Q4 2026**: Scaled vault marketplace with leaderboards and performance history.
 
