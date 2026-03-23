@@ -514,3 +514,48 @@ export function validateExecutionPlan(plan: ExecutionPlan): boolean {
 
   return true;
 }
+
+// ---------------------------------------------------------------------------
+// Use-Case Analysis Model (VAL-TOKEN-021)
+// ---------------------------------------------------------------------------
+
+/**
+ * Detailed analysis for each proposed BETTER token use case.
+ *
+ * Every use case must include comparable market size, revenue model,
+ * token demand implications, realistic timeline, and estimated revenue range.
+ *
+ * Prediction market figures must cite Dune-verified on-chain data.
+ */
+export interface UseCaseAnalysis {
+  /** Must match the utility mechanic ID it enriches */
+  id: string;
+  /** Comparable market size from live or recently active projects */
+  comparableMarketSize: string;
+  /** Revenue model: how value flows back to BETTER holders or protocol */
+  revenueModel: string;
+  /** Estimated annual revenue range */
+  estimatedRevenueRange: string;
+  /** Why this use case creates new token holders or increases stake demand */
+  tokenDemandImplications: string;
+  /** Realistic timeline with dependency awareness */
+  realisticTimeline: string;
+  /** Key dependencies (audits, legal, integrations, liquidity) */
+  keyDependencies: string[];
+  /** Source/evidence backing (must cite Dune for prediction market figures) */
+  source: SourceCue;
+}
+
+/**
+ * Validate that a use case analysis has all required depth fields populated.
+ */
+export function validateUseCaseAnalysis(uc: UseCaseAnalysis): boolean {
+  if (!uc.id) return false;
+  if (!uc.comparableMarketSize) return false;
+  if (!uc.revenueModel) return false;
+  if (!uc.estimatedRevenueRange) return false;
+  if (!uc.tokenDemandImplications) return false;
+  if (!uc.realisticTimeline) return false;
+  if (!uc.source || !uc.source.type || !uc.source.label) return false;
+  return true;
+}

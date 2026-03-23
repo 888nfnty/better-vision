@@ -1,16 +1,18 @@
 /**
- * Token Utility Surface — VAL-TOKEN-010
+ * Token Utility Surface — VAL-TOKEN-010 + VAL-TOKEN-021
  *
- * Covers the expanded agent-native token utility mechanics:
- * strategy agents, bonded agent registry, delegation/backing,
- * research/data bounties, premium API/agent lanes, LLM/inference credits,
- * and exclusive whale products.
+ * Covers the expanded agent-native token utility mechanics with full
+ * use-case depth: comparable market size, revenue model, token demand
+ * implications, realistic timeline, and estimated revenue range.
+ *
+ * Prediction market figures are backed by Dune-verified on-chain data.
  */
 
 import MaturityBadge from "@/components/MaturityBadge";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
-import type { MaturityStatus, SourceCue, ConfidenceFrame } from "@/content";
+import type { MaturityStatus, SourceCue, ConfidenceFrame, UseCaseAnalysis } from "@/content";
+import { USE_CASE_ANALYSES } from "@/content";
 
 interface UtilityMechanic {
   id: string;
@@ -23,6 +25,20 @@ interface UtilityMechanic {
 }
 
 const UTILITY_MECHANICS: UtilityMechanic[] = [
+  {
+    id: "util-copy-trading-signals",
+    title: "Copy Trading & Signal Following",
+    status: "live",
+    description:
+      "Prediction-market copy trading and signal following — BETTER's live core product. Route Polymarket and prediction-market trades through BETTER's infrastructure with signal-following intelligence.",
+    tokenRole:
+      "Signal access requires 50,000 BETTER (Lite) or 100,000 BETTER (Standard Terminal). Creates sustained buy-side demand from every new copy-trader.",
+    source: {
+      type: "canonical",
+      label: "BETTER Docs",
+      note: "Lite Mode copy trading with 2% per-fill fee is live now.",
+    },
+  },
   {
     id: "util-strategy-agents",
     title: "Strategy Agents",
@@ -39,6 +55,42 @@ const UTILITY_MECHANICS: UtilityMechanic[] = [
     confidence: {
       caveat: "Agent infrastructure depends on Terminal open access and vault readiness.",
       dependencies: ["Terminal Open Access", "Social Vaults & vBETTER"],
+    },
+  },
+  {
+    id: "util-social-vaults",
+    title: "Social Vaults",
+    status: "in_progress",
+    description:
+      "Community-created strategy vaults for collective prediction-market strategies. 25,000 BETTER minimum (¼ of quant-team standard). √-weighted bidding allocation model with 20% performance fee.",
+    tokenRole:
+      "Vault participation requires token holding. Higher stakes earn priority allocation via √-weighted bidding.",
+    source: {
+      type: "canonical",
+      label: "BETTER Docs",
+      note: "Social vaults in active development with 25K BETTER minimum.",
+    },
+    confidence: {
+      caveat: "Vault infrastructure is in active development. Specific access gates are modeled policy.",
+      dependencies: ["Smart Contract Audit", "Venue Integrations"],
+    },
+  },
+  {
+    id: "util-personal-ai-vaults",
+    title: "Personal AI-Crafted Vaults",
+    status: "planned",
+    description:
+      "Individually tailored AI-crafted vault strategies built around a whale's risk preferences, position sizing, and market views. Whale-tier exclusive product.",
+    tokenRole:
+      "Whale tier (500K BETTER) minimum. Apex (2M BETTER) gets bespoke configurations. Highest per-user token demand.",
+    source: {
+      type: "scenario_based",
+      label: "BETTER Roadmap",
+      note: "Modeled as a Whale-tier exclusive product.",
+    },
+    confidence: {
+      caveat: "Modeled product gate, not confirmed live. Final thresholds may differ.",
+      dependencies: ["Social Vault Infrastructure", "AI Model Quality"],
     },
   },
   {
@@ -148,6 +200,11 @@ const UTILITY_MECHANICS: UtilityMechanic[] = [
   },
 ];
 
+/** Look up the use-case analysis for a utility mechanic by ID */
+function getAnalysisForMechanic(id: string): UseCaseAnalysis | undefined {
+  return USE_CASE_ANALYSES.find((uc) => uc.id === id);
+}
+
 export default function TokenUtilitySurface() {
   return (
     <div data-testid="token-utility-surface">
@@ -157,19 +214,30 @@ export default function TokenUtilitySurface() {
       <p className="mb-4 text-sm text-secondary">
         Beyond access gating, BETTER tokens power an expanding set of
         agent-native utility mechanics — from strategy execution to delegation
-        markets to AI inference credits.
+        markets to AI inference credits. Each use case below includes comparable
+        market sizing, revenue model analysis, and token demand implications.
       </p>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
         {UTILITY_MECHANICS.map((mechanic) => (
-          <UtilityCard key={mechanic.id} mechanic={mechanic} />
+          <UtilityCard
+            key={mechanic.id}
+            mechanic={mechanic}
+            analysis={getAnalysisForMechanic(mechanic.id)}
+          />
         ))}
       </div>
     </div>
   );
 }
 
-function UtilityCard({ mechanic }: { mechanic: UtilityMechanic }) {
+function UtilityCard({
+  mechanic,
+  analysis,
+}: {
+  mechanic: UtilityMechanic;
+  analysis?: UseCaseAnalysis;
+}) {
   return (
     <div
       className="rounded-lg border border-border bg-surface p-4"
@@ -189,9 +257,97 @@ function UtilityCard({ mechanic }: { mechanic: UtilityMechanic }) {
         <p className="mt-0.5 text-sm text-secondary">{mechanic.tokenRole}</p>
       </div>
 
-      <EvidenceHook source={mechanic.source} />
+      {/* Use-case depth analysis (VAL-TOKEN-021) */}
+      {analysis && <UseCaseDepthSection analysis={analysis} />}
+
+      <EvidenceHook source={analysis?.source ?? mechanic.source} />
       {mechanic.confidence && (
         <CaveatFrame confidence={mechanic.confidence} className="mt-2" />
+      )}
+    </div>
+  );
+}
+
+function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
+  return (
+    <div className="mb-3 space-y-2">
+      {/* Comparable Market Size */}
+      <div
+        className="rounded border border-border/50 bg-background px-3 py-2"
+        data-testid="use-case-market-size"
+      >
+        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+          Comparable Market Size
+        </span>
+        <p className="mt-0.5 text-xs text-secondary">
+          {analysis.comparableMarketSize}
+        </p>
+      </div>
+
+      {/* Revenue Model */}
+      <div
+        className="rounded border border-border/50 bg-background px-3 py-2"
+        data-testid="use-case-revenue-model"
+      >
+        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+          Revenue Model
+        </span>
+        <p className="mt-0.5 text-xs text-secondary">
+          {analysis.revenueModel}
+        </p>
+      </div>
+
+      {/* Estimated Revenue Range */}
+      <div
+        className="rounded border border-accent/20 bg-accent/5 px-3 py-2"
+        data-testid="use-case-revenue-range"
+      >
+        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-accent">
+          Estimated Revenue
+        </span>
+        <p className="mt-0.5 font-terminal text-xs text-accent">
+          {analysis.estimatedRevenueRange}
+        </p>
+      </div>
+
+      {/* Token Demand Implications */}
+      <div
+        className="rounded border border-border/50 bg-background px-3 py-2"
+        data-testid="use-case-token-demand"
+      >
+        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+          Token Demand &amp; New Holders
+        </span>
+        <p className="mt-0.5 text-xs text-secondary">
+          {analysis.tokenDemandImplications}
+        </p>
+      </div>
+
+      {/* Realistic Timeline */}
+      <div
+        className="rounded border border-border/50 bg-background px-3 py-2"
+        data-testid="use-case-timeline"
+      >
+        <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+          Realistic Timeline
+        </span>
+        <p className="mt-0.5 text-xs text-secondary">
+          {analysis.realisticTimeline}
+        </p>
+      </div>
+
+      {/* Key Dependencies */}
+      {analysis.keyDependencies.length > 0 && (
+        <div className="rounded border border-border/50 bg-background px-3 py-2">
+          <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
+            Key Dependencies
+          </span>
+          <ul className="mt-0.5 list-inside list-disc text-xs text-secondary">
+            {analysis.keyDependencies.map((dep, i) => (
+              <li key={i}>{dep}</li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );

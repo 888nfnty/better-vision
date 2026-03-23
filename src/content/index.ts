@@ -27,6 +27,7 @@ export type {
   ProofGate,
   TimingWindow,
   ExecutionPlan,
+  UseCaseAnalysis,
 } from "./types";
 
 export {
@@ -42,6 +43,7 @@ export {
   validateProjectionOrdering,
   calculateTotalCostRange,
   validateExecutionPlan,
+  validateUseCaseAnalysis,
 } from "./types";
 
 // Roadmap nodes
@@ -157,3 +159,6 @@ export type {
   MultiVaultProgression,
   VaultProgressionStage,
 } from "./vault-capacity";
+
+// Use-case analyses (VAL-TOKEN-021)
+export { USE_CASE_ANALYSES } from "./use-case-analyses";
