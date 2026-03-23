@@ -402,8 +402,8 @@ describe("First-Vault Policy (VAL-TOKEN-012)", () => {
     expect(FIRST_VAULT_POLICY.minimumBetter).toBe(100_000);
   });
 
-  it("per-wallet deposit cap is $25,000", () => {
-    expect(FIRST_VAULT_POLICY.perWalletDepositCapUsd).toBe(25_000);
+  it("total vault cap is $25,000", () => {
+    expect(FIRST_VAULT_POLICY.totalVaultCapUsd).toBe(25_000);
   });
 
   it("qualifying tier minimum is Standard (tier-standard)", () => {
@@ -421,29 +421,31 @@ describe("First-Vault Policy (VAL-TOKEN-012)", () => {
     expect(nonQualifying.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("worked examples have numerically correct allocation weights", () => {
+  it("worked examples have valid √-weight values for qualifying stakers", () => {
     for (const ex of FIRST_VAULT_WORKED_EXAMPLES) {
       if (ex.qualifies) {
-        expect(ex.effectiveAllocationWeight).toBe(ex.depositCapUsd * ex.tierWeight);
+        expect(ex.sqrtWeight).toBeGreaterThan(0);
+        expect(ex.estimatedAllocationUsd).toBeGreaterThan(0);
       } else {
-        expect(ex.effectiveAllocationWeight).toBe(0);
-        expect(ex.depositCapUsd).toBe(0);
+        expect(ex.sqrtWeight).toBe(0);
+        expect(ex.estimatedAllocationUsd).toBe(0);
       }
     }
   });
 
-  it("deposit cap for qualifying wallets equals the per-wallet cap", () => {
+  it("qualifying worked examples have allocations within total vault cap", () => {
     for (const ex of FIRST_VAULT_WORKED_EXAMPLES) {
       if (ex.qualifies) {
-        expect(ex.depositCapUsd).toBe(FIRST_VAULT_POLICY.perWalletDepositCapUsd);
+        expect(ex.estimatedAllocationUsd).toBeLessThanOrEqual(FIRST_VAULT_POLICY.totalVaultCapUsd);
       }
     }
   });
 
-  it("allocation weight is always >= deposit cap (weight ≠ cap)", () => {
+  it("qualifying worked examples have reasonable % of vault", () => {
     for (const ex of FIRST_VAULT_WORKED_EXAMPLES) {
       if (ex.qualifies) {
-        expect(ex.effectiveAllocationWeight).toBeGreaterThanOrEqual(ex.depositCapUsd);
+        expect(ex.percentOfVault).toBeGreaterThan(0);
+        expect(ex.percentOfVault).toBeLessThanOrEqual(100);
       }
     }
   });

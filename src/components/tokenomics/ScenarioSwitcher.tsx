@@ -29,14 +29,13 @@ import CaveatFrame from "@/components/CaveatFrame";
 import type { ConfidenceFrame, SourceCue } from "@/content";
 import { useGraphShellPersistence } from "@/components/graph/GraphShellPersistence";
 
-/** Tier weight lookup for allocation preview (matches NonLinearAllocation) */
-const TIER_WEIGHTS: Record<string, number> = {
-  "tier-explorer": 1.0,
-  "tier-lite": 1.1,
-  "tier-standard": 1.25,
-  "tier-whale": 1.6,
-  "tier-apex": 2.0,
-};
+/**
+ * √-weight computation for allocation preview.
+ * Matches the bidding allocation model: weight = √(staked BETTER).
+ */
+function computeSqrtWeight(stake: number): number {
+  return stake > 0 ? Math.sqrt(stake) : 0;
+}
 
 const projectionCaveat: ConfidenceFrame = {
   caveat:
@@ -68,10 +67,7 @@ function formatValue(value: number, unit: string): string {
   return `${value} ${unit}`;
 }
 
-/** Format a dollar amount with commas */
-function formatDollar(value: number): string {
-  return `$${value.toLocaleString("en-US")}`;
-}
+
 
 export default function ScenarioSwitcher() {
   const persistence = useGraphShellPersistence();
@@ -130,8 +126,8 @@ export default function ScenarioSwitcher() {
     () => getTierForBalance(parsedBalance),
     [parsedBalance]
   );
-  const tierWeight = TIER_WEIGHTS[resolvedTier.id] ?? 1.0;
-  const effectiveAllocation = parsedDeposit * tierWeight;
+  const sqrtWeight = computeSqrtWeight(parsedBalance);
+  const sqrtWeightFormatted = sqrtWeight > 0 ? Math.round(sqrtWeight).toLocaleString("en-US") : "0";
 
   return (
     <div data-testid="scenario-switcher">
@@ -244,25 +240,20 @@ export default function ScenarioSwitcher() {
               </div>
               <div className="rounded border border-border/50 bg-background px-3 py-2">
                 <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
-                  Tier Weight
+                  √-Weight
                 </span>
                 <span className="font-terminal text-secondary">
-                  {tierWeight}×
+                  {sqrtWeightFormatted}
                 </span>
               </div>
-              {parsedDeposit > 0 && (
+              {parsedBalance >= 100_000 && (
                 <div className="rounded border border-border/50 bg-background px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-muted">
-                    Effective Allocation
+                    Vault Eligible
                   </span>
                   <span className="font-terminal font-semibold text-accent">
-                    {formatDollar(effectiveAllocation)}
+                    ✓ Qualifies
                   </span>
-                  {tierWeight > 1.0 && (
-                    <span className="ml-1 font-terminal text-xs text-accent">
-                      (+{Math.round((tierWeight - 1) * 100)}%)
-                    </span>
-                  )}
                 </div>
               )}
             </div>

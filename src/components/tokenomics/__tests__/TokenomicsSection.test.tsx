@@ -231,29 +231,30 @@ describe("NonLinearAllocation (VAL-TOKEN-006)", () => {
     expect(rows.length).toBeGreaterThanOrEqual(2);
   });
 
-  it("shows Whale and Apex Whale tier weights", () => {
+  it("shows different staker examples with √-weights", () => {
     render(<NonLinearAllocation />);
-    // "×" may render differently; check the table rows
     const rows = screen.getAllByTestId("allocation-example-row");
-    const whaleRow = rows.find((r) => within(r).queryByText("Whale"));
-    expect(whaleRow).toBeDefined();
-    const apexRow = rows.find((r) => within(r).queryByText("Apex Whale"));
-    expect(apexRow).toBeDefined();
+    // Should show multiple staker examples with different stake sizes
+    expect(rows.length).toBeGreaterThanOrEqual(2);
+    // Should include the largest holder example
+    const largestRow = rows.find((r) => within(r).queryByText("Largest Holder"));
+    expect(largestRow).toBeDefined();
   });
 
-  it("shows effective allocation amounts", () => {
+  it("shows √-bidding allocation amounts", () => {
     render(<NonLinearAllocation />);
-    const matches16k = screen.getAllByText("$16,000");
-    expect(matches16k.length).toBeGreaterThanOrEqual(1);
-    const matches50k = screen.getAllByText("$50,000");
-    expect(matches50k.length).toBeGreaterThanOrEqual(1);
+    // Should show allocation results from the √-weighted bidding model
+    const matches5k = screen.getAllByText("$5,000 (20.0%)");
+    expect(matches5k.length).toBeGreaterThanOrEqual(1);
+    const matches585 = screen.getAllByText("$585 (2.3%)");
+    expect(matches585.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("has maturity badge showing Planned", () => {
+  it("has maturity badge showing In Progress", () => {
     render(<NonLinearAllocation />);
     const badges = screen.getAllByTestId("maturity-badge");
-    const plannedBadge = badges.find((b) => b.getAttribute("data-status") === "planned");
-    expect(plannedBadge).toBeInTheDocument();
+    const inProgressBadge = badges.find((b) => b.getAttribute("data-status") === "in_progress");
+    expect(inProgressBadge).toBeInTheDocument();
   });
 
   it("includes caveat framing", () => {

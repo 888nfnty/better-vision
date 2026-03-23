@@ -132,17 +132,28 @@ export {
 } from "./valuation-corridors";
 export type { ValuationCorridor } from "./valuation-corridors";
 
-// Vault-capacity modeling
+// Vault-capacity modeling and bidding allocation
 export {
   computeVaultCapacityEstimate,
+  computeBiddingAllocations,
   validateTotalStaked,
   DEFAULT_TOTAL_STAKED,
   WHALE_VAULT_ASSUMPTIONS,
   FIRST_VAULT_DEFAULTS,
+  BIDDING_MODEL_PARAMS,
+  SOCIAL_VAULT_PARAMS,
+  MULTI_VAULT_PROGRESSION,
 } from "./vault-capacity";
 export type {
   VaultCapacityInput,
   VaultCapacityEstimate,
   WhaleVaultAssumptions,
   AssumptionRole,
+  BiddingModelParams,
+  SocialVaultParams,
+  BiddingAllocationInput,
+  StakerAllocation,
+  BiddingAllocationResult,
+  MultiVaultProgression,
+  VaultProgressionStage,
 } from "./vault-capacity";

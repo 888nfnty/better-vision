@@ -1,15 +1,15 @@
 "use client";
 
 /**
- * VaultCapacityModel — VAL-TOKEN-016
+ * VaultCapacityModel — VAL-TOKEN-016, VAL-TOKEN-017, VAL-TOKEN-018
  *
- * Interactive stake-to-vault-capacity modeling with:
+ * Interactive stake-to-vault-capacity modeling with the √-weighted bidding model:
  * - User's BETTER stake and total staked as explicit inputs
  * - User-adjustable total staked with sensible default
  * - Minted supply ceiling validation
- * - Uncertainty-aware output (ranges/bands)
+ * - √-weighted allocation estimation
  * - Dollar-denominated allocation estimates
- * - Clear deposit-cap vs modeled-share distinction
+ * - Clear distinction between total vault cap and individual bidding allocation
  * - Explicit whale-vault assumptions
  */
 
@@ -20,6 +20,7 @@ import {
   DEFAULT_TOTAL_STAKED,
   WHALE_VAULT_ASSUMPTIONS,
   FIRST_VAULT_DEFAULTS,
+  BIDDING_MODEL_PARAMS,
 } from "@/content/vault-capacity";
 import { MINTED_SUPPLY, FIRST_VAULT_POLICY } from "@/content/token-tiers";
 import EvidenceHook from "@/components/EvidenceHook";
@@ -40,17 +41,17 @@ const modelSource: SourceCue = {
   type: "scenario_based",
   label: "BETTER Vault Capacity Model",
   note:
-    "Estimates are modeled outputs based on your inputs and stated assumptions — not predictions or guarantees. Actual vault sizing, participation, and distribution will differ.",
+    "Estimates are modeled outputs based on your inputs and stated assumptions — not predictions or guarantees. Actual vault sizing, participation, and distribution will differ. The total vault cap is the hard policy limit — individual allocations are determined by the √-weighted bidding model within that cap.",
   asOf: "2026-Q1",
 };
 
 const modelCaveat: ConfidenceFrame = {
   caveat:
-    "This model estimates how your staked BETTER could translate into vault capacity share under stated assumptions. Actual allocation depends on vault sizing decisions, participation rates, tier-based priority, and oversubscription mechanics. The per-wallet deposit cap is always the hard policy limit — it overrides any modeled allocation that exceeds it.",
+    "This model estimates how your staked BETTER could translate into vault capacity share under stated assumptions. Actual allocation depends on the √-weighted bidding model, total vault cap, participation rates, and the number of qualifying stakers. The total vault cap applies across all stakers — there is no per-wallet deposit cap.",
   dependencies: [
     "Social Vaults & vBETTER launch",
     "Whale-First Tier Ladder",
-    "Staking mechanism design",
+    "Bidding Allocation Infrastructure",
   ],
 };
 
@@ -60,21 +61,18 @@ interface ScenarioConfig {
   label: string;
   description: string;
   vaultCapacityUsd: number;
-  perWalletCapUsd: number;
 }
 
 const VAULT_SCENARIOS: Record<VaultScenario, ScenarioConfig> = {
   first_vault: {
     label: "First Vault (Q1 2026)",
-    description: "The first social vault launch with conservative sizing and the $25,000 per-wallet deposit cap.",
+    description: `The first quant-team vault with a total deposit cap of $${formatNumber(FIRST_VAULT_POLICY.totalVaultCapUsd)} USDC across all qualifying stakers. Allocations determined by √-weighted bidding.`,
     vaultCapacityUsd: FIRST_VAULT_DEFAULTS.vaultCapacityUsd,
-    perWalletCapUsd: FIRST_VAULT_POLICY.perWalletDepositCapUsd,
   },
   whale_vault: {
     label: "Modeled Whale Vault",
-    description: `A larger modeled whale vault ($${formatNumber(WHALE_VAULT_ASSUMPTIONS.assumedVaultCapacityUsd)} capacity) with a higher per-wallet cap for whale-tier participants.`,
+    description: `A larger modeled whale vault ($${formatNumber(WHALE_VAULT_ASSUMPTIONS.assumedVaultCapacityUsd)} total capacity) for future quant-team vaults with case-by-case caps.`,
     vaultCapacityUsd: WHALE_VAULT_ASSUMPTIONS.assumedVaultCapacityUsd,
-    perWalletCapUsd: 100_000,
   },
 };
 
@@ -100,7 +98,6 @@ export default function VaultCapacityModel() {
         userStake,
         totalStaked,
         vaultCapacityUsd: scenario.vaultCapacityUsd,
-        perWalletCapUsd: scenario.perWalletCapUsd,
       });
     } catch {
       return null;
@@ -130,9 +127,10 @@ export default function VaultCapacityModel() {
         </span>
       </div>
       <p className="mb-4 text-sm text-secondary">
-        Estimate how your staked BETTER translates into vault deposit capacity.
-        Adjust your stake and total staked inputs to explore different scenarios.
-        The model exposes all assumptions so you can evaluate sensitivity.
+        Estimate how your staked BETTER translates into vault deposit capacity
+        using the √-weighted bidding model. The total vault cap is shared across
+        all qualifying stakers — individual allocations are determined by the
+        bidding model, not by a per-wallet cap.
       </p>
 
       <div className="mb-4">
@@ -227,7 +225,7 @@ export default function VaultCapacityModel() {
             </p>
           </div>
 
-          {/* Modeled allocation range vs deposit cap */}
+          {/* Modeled allocation range vs total vault cap */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-lg border border-border bg-surface p-4" data-testid="vault-modeled-allocation">
               <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
@@ -238,25 +236,25 @@ export default function VaultCapacityModel() {
               </div>
               <p className="mt-1 text-xs text-muted">
                 Statistical estimate with ±20% uncertainty band around the
-                point estimate. This is a <span className="text-accent">modeled capacity share</span>, not a guaranteed allocation.
+                point estimate. This is a <span className="text-accent">modeled capacity share</span> within
+                the total vault cap, determined by the √-weighted bidding allocation model.
               </p>
             </div>
             <div
               className="rounded-lg border border-border bg-surface p-4"
-              data-testid="vault-deposit-cap"
+              data-testid="vault-total-cap"
             >
               <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent-warn">
-                Per-Wallet Deposit Cap (Policy)
+                Total Vault Cap (Policy)
               </span>
               <div className="mt-1 font-terminal text-lg font-bold text-foreground">
-                {formatUsd(estimate.depositCapUsd)}
+                {formatUsd(estimate.totalVaultCapUsd)}
               </div>
               <p className="mt-1 text-xs text-muted">
-                Hard policy limit — your actual deposit cannot exceed this
-                regardless of your modeled capacity share.
+                Total deposits across all qualifying stakers.
                 {activeScenario === "first_vault"
-                  ? " First-vault policy: $25,000 per qualifying wallet."
-                  : " Whale-vault modeled cap: $100,000 per whale-tier wallet."}
+                  ? ` First-vault total cap: $${formatNumber(FIRST_VAULT_POLICY.totalVaultCapUsd)} USDC shared by all stakers.`
+                  : " Modeled future vault cap (case-by-case)."}
               </p>
             </div>
           </div>
@@ -264,7 +262,7 @@ export default function VaultCapacityModel() {
           {/* Effective deposit */}
           <div className="rounded-lg border border-accent/20 bg-accent/5 p-4" data-testid="vault-effective-deposit">
             <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
-              Effective Deposit Estimate
+              Effective Allocation Estimate
             </span>
             <div className="mt-1 font-terminal text-2xl font-bold text-foreground">
               {formatUsd(estimate.effectiveDepositUsd)}
@@ -273,13 +271,13 @@ export default function VaultCapacityModel() {
               {estimate.capConstrained ? (
                 <>
                   <span className="text-accent-warn">Cap-constrained</span> — your modeled share
-                  ({formatUsd(estimate.estimatedAllocationHighUsd)}) exceeds the deposit cap
-                  ({formatUsd(estimate.depositCapUsd)}), so the cap applies.
+                  ({formatUsd(estimate.estimatedAllocationHighUsd)}) exceeds the per-staker cap
+                  derived from max(V/N, V×{BIDDING_MODEL_PARAMS.perStakerCapRatio * 100}%), so the cap applies.
                 </>
               ) : (
                 <>
-                  Your modeled share is below the deposit cap, so the full
-                  high-end estimate applies.
+                  Your modeled share is below the per-staker cap, so the full
+                  high-end estimate applies. The total vault cap is shared across all stakers.
                 </>
               )}
             </p>

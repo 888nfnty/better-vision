@@ -114,7 +114,7 @@ describe("VaultCapacityModel UI", () => {
     expect(screen.getByTestId("vault-capacity-results")).toBeInTheDocument();
     expect(screen.getByTestId("vault-share-percentage")).toBeInTheDocument();
     expect(screen.getByTestId("vault-modeled-allocation")).toBeInTheDocument();
-    expect(screen.getByTestId("vault-deposit-cap")).toBeInTheDocument();
+    expect(screen.getByTestId("vault-total-cap")).toBeInTheDocument();
     expect(screen.getByTestId("vault-effective-deposit")).toBeInTheDocument();
   });
 
@@ -164,15 +164,15 @@ describe("VaultCapacityModel UI", () => {
     render(<VaultCapacityModel />);
     const whaleBtn = screen.getByTestId("vault-scenario-whale_vault");
     fireEvent.click(whaleBtn);
-    // After switching, the deposit cap changes to $100,000 for whale vault
-    const capSection = screen.getByTestId("vault-deposit-cap");
-    expect(capSection).toHaveTextContent("$100,000");
+    // After switching, the total cap changes to the whale vault capacity
+    const capSection = screen.getByTestId("vault-total-cap");
+    expect(capSection).toHaveTextContent("$5,000,000");
   });
 
-  it("distinguishes deposit cap from modeled share", () => {
+  it("distinguishes total vault cap from modeled share", () => {
     render(<VaultCapacityModel />);
-    // The deposit cap section should be labeled as policy
-    const capSection = screen.getByTestId("vault-deposit-cap");
+    // The total cap section should be labeled as policy
+    const capSection = screen.getByTestId("vault-total-cap");
     expect(capSection).toHaveTextContent(/Policy/i);
     // The modeled allocation should be labeled as modeled
     const allocSection = screen.getByTestId("vault-modeled-allocation");
@@ -183,7 +183,7 @@ describe("VaultCapacityModel UI", () => {
     render(<VaultCapacityModel />);
     // The CaveatFrame renders the modeling caveat
     expect(screen.getByTestId("caveat-frame")).toBeInTheDocument();
-    expect(screen.getByText(/per-wallet deposit cap is always the hard policy limit/i)).toBeInTheDocument();
+    expect(screen.getByText(/total vault cap applies across all stakers/i)).toBeInTheDocument();
   });
 });
 

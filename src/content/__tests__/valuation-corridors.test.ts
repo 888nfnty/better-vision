@@ -15,7 +15,6 @@
 
 import {
   MINTED_SUPPLY,
-  FIRST_VAULT_POLICY,
 } from "../token-tiers";
 
 import {
@@ -190,7 +189,6 @@ describe("Vault-Capacity Modeling (VAL-TOKEN-016)", () => {
       userStake: 200_000,
       totalStaked: 100_000_000,
       vaultCapacityUsd: 500_000,
-      perWalletCapUsd: FIRST_VAULT_POLICY.perWalletDepositCapUsd,
     };
 
     it("returns an estimate with share percentage", () => {
@@ -213,24 +211,22 @@ describe("Vault-Capacity Modeling (VAL-TOKEN-016)", () => {
       expect(typeof est.estimatedAllocationHighUsd).toBe("number");
     });
 
-    it("clearly distinguishes deposit cap from modeled share", () => {
+    it("returns total vault cap in the output (not per-wallet)", () => {
       const est = computeVaultCapacityEstimate(baseInput);
-      expect(typeof est.depositCapUsd).toBe("number");
-      expect(est.depositCapUsd).toBe(FIRST_VAULT_POLICY.perWalletDepositCapUsd);
-      // The modeled share may exceed the cap — the cap is always a hard limit
-      expect(est.effectiveDepositUsd).toBeLessThanOrEqual(est.depositCapUsd);
+      expect(typeof est.totalVaultCapUsd).toBe("number");
+      expect(est.totalVaultCapUsd).toBe(baseInput.vaultCapacityUsd);
     });
 
-    it("caps effective deposit at the per-wallet deposit cap", () => {
-      // Even if share-based allocation would be huge, cap applies
+    it("caps effective deposit via bidding model per-staker cap", () => {
+      // Even if share-based allocation would be huge, bidding model cap applies
       const bigInput: VaultCapacityInput = {
         userStake: 50_000_000,
         totalStaked: 50_000_000,
         vaultCapacityUsd: 10_000_000,
-        perWalletCapUsd: 25_000,
       };
       const est = computeVaultCapacityEstimate(bigInput);
-      expect(est.effectiveDepositUsd).toBeLessThanOrEqual(25_000);
+      // Effective deposit should be bounded by per-staker cap
+      expect(est.effectiveDepositUsd).toBeLessThanOrEqual(est.estimatedAllocationHighUsd);
     });
 
     it("returns zero share for zero user stake", () => {
@@ -266,7 +262,6 @@ describe("Vault-Capacity Modeling (VAL-TOKEN-016)", () => {
         userStake: 2_000_000,
         totalStaked: 200_000_000,
         vaultCapacityUsd: 5_000_000,
-        perWalletCapUsd: 100_000,
       };
       const est = computeVaultCapacityEstimate(whaleInput);
       expect(est.sharePercentage).toBeGreaterThan(0);

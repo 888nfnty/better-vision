@@ -128,17 +128,17 @@ describe("FirstVaultPolicy (VAL-TOKEN-012)", () => {
     expect(minimum.textContent).toContain("100,000");
   });
 
-  it("displays the $25,000 per-wallet deposit cap", () => {
+  it("displays the $25,000 total vault cap", () => {
     render(<FirstVaultPolicy />);
     const cap = screen.getByTestId("first-vault-cap");
     expect(cap.textContent).toContain("25,000");
   });
 
-  it("distinguishes deposit cap from allocation weight", () => {
+  it("explains the √-weighted bidding allocation model", () => {
     render(<FirstVaultPolicy />);
-    const distinction = screen.getByTestId("cap-vs-weight-distinction");
-    expect(distinction.textContent).toContain("Deposit Cap");
-    expect(distinction.textContent).toContain("Allocation Weight");
+    const explanation = screen.getByTestId("bidding-model-explanation");
+    expect(explanation.textContent).toContain("√-weighted");
+    expect(explanation.textContent).toContain("bidding");
   });
 
   it("renders all worked examples", () => {
@@ -157,16 +157,15 @@ describe("FirstVaultPolicy (VAL-TOKEN-012)", () => {
     expect(nonQualifying.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("shows policy label (Deposit Cap) and modeled label (Allocation Weight)", () => {
+  it("shows √-Weight and Estimated Allocation labels for qualifying examples", () => {
     render(<FirstVaultPolicy />);
-    // All qualifying examples should show both
     const examples = screen.getAllByTestId("first-vault-example");
     const qualifyingExamples = examples.filter(
       (el) => el.getAttribute("data-qualifies") === "true"
     );
     for (const ex of qualifyingExamples) {
-      expect(within(ex).getByText("Deposit Cap (Policy)")).toBeInTheDocument();
-      expect(within(ex).getByText("Allocation Weight (Modeled)")).toBeInTheDocument();
+      expect(within(ex).getByText("√-Weight")).toBeInTheDocument();
+      expect(within(ex).getByText("Estimated Allocation")).toBeInTheDocument();
     }
   });
 

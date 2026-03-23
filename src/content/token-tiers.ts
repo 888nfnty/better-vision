@@ -277,15 +277,18 @@ export function validateAllocations(): {
 /**
  * First-vault qualification rules for Q1 2026.
  *
- * These are the explicit gates and caps for the first social vault launch.
- * Worked examples distinguish the per-wallet deposit cap from modeled
- * allocation weight so users don't confuse policy with whale outcomes.
+ * CORRECTED MODEL: $25,000 is the TOTAL vault deposit cap across ALL users
+ * for the first vault — NOT a per-wallet cap. Individual allocations within
+ * that total are determined by the √-weighted bidding allocation model.
+ *
+ * 100,000 BETTER is universal for ALL quant-team vaults.
+ * Social vaults require only 25,000 BETTER (see SOCIAL_VAULT_PARAMS).
  */
 export interface FirstVaultPolicy {
-  /** Minimum BETTER tokens required to participate */
+  /** Minimum BETTER tokens required to participate (universal for all quant-team vaults) */
   minimumBetter: number;
-  /** Per-wallet initial deposit cap in USD */
-  perWalletDepositCapUsd: number;
+  /** Total vault deposit cap in USD across ALL qualifying users (first vault only) */
+  totalVaultCapUsd: number;
   /** Which tier qualifies (Standard and above = 100k+ BETTER) */
   qualifyingTierMinimum: string;
   /** Source backing */
@@ -299,36 +302,39 @@ export interface FirstVaultPolicy {
 
 export const FIRST_VAULT_POLICY: FirstVaultPolicy = {
   minimumBetter: 100_000,
-  perWalletDepositCapUsd: 25_000,
+  totalVaultCapUsd: 25_000,
   qualifyingTierMinimum: "tier-standard",
   source: {
     type: "canonical",
     label: "BETTER Docs",
     note:
-      "Q1 2026 first-vault rules: 100,000 BETTER minimum holding, $25,000 per-wallet initial-deposit cap.",
+      "Q1 2026 first-vault rules: 100,000 BETTER universal minimum for all quant-team vaults, $25,000 total vault deposit cap across all qualifying stakers (not per-wallet). Individual allocations determined by the √-weighted bidding model with a $100 USDC floor.",
     asOf: "2026-Q1",
   },
 };
 
 /**
- * Worked examples for first-vault participation.
+ * Worked examples for first-vault participation using the bidding allocation model.
  *
- * Each example shows the actual deposit cap vs. the modeled allocation weight
- * so users can clearly distinguish policy from whale-first outcomes.
+ * Each example shows the staker's BETTER commitment, their √-weight, and
+ * their estimated USDC allocation from the $25,000 total vault cap.
+ * Based on the 20-staker scenario from the bidding allocation model spec.
  */
 export interface FirstVaultWorkedExample {
   label: string;
   tierId: string;
   tierName: string;
   betterHolding: number;
-  /** The actual deposit cap in USD (per-wallet policy) */
-  depositCapUsd: number;
-  /** The tier weight used for modeled allocation priority */
-  tierWeight: number;
-  /** Effective allocation weight = depositCap × tierWeight (modeled, not a cap) */
-  effectiveAllocationWeight: number;
-  /** Whether this wallet qualifies for the first vault */
+  /** √-weighted effective weight (√stake) */
+  sqrtWeight: number;
+  /** Estimated USDC allocation from the bidding model */
+  estimatedAllocationUsd: number;
+  /** Percentage of total vault */
+  percentOfVault: number;
+  /** Whether this staker qualifies */
   qualifies: boolean;
+  /** Whether the per-staker cap applies */
+  capped: boolean;
   explanation: string;
 }
 
@@ -338,48 +344,52 @@ export const FIRST_VAULT_WORKED_EXAMPLES: FirstVaultWorkedExample[] = [
     tierId: "tier-lite",
     tierName: "Lite",
     betterHolding: 50_000,
-    depositCapUsd: 0,
-    tierWeight: 1.1,
-    effectiveAllocationWeight: 0,
+    sqrtWeight: 0,
+    estimatedAllocationUsd: 0,
+    percentOfVault: 0,
     qualifies: false,
+    capped: false,
     explanation:
-      "Holding 50,000 BETTER places this wallet in the Lite tier, below the 100,000 BETTER minimum required for first-vault participation. Deposit cap: $0 (does not qualify).",
+      "Holding 50,000 BETTER places this wallet in the Lite tier, below the 100,000 BETTER universal minimum required for quant-team vault participation. No allocation: does not qualify for bidding.",
   },
   {
-    label: "Standard holder — qualifies at base cap",
+    label: "Standard holder — minimum qualifying stake",
     tierId: "tier-standard",
     tierName: "Standard",
     betterHolding: 100_000,
-    depositCapUsd: 25_000,
-    tierWeight: 1.25,
-    effectiveAllocationWeight: 31_250,
+    sqrtWeight: 316.23,
+    estimatedAllocationUsd: 585,
+    percentOfVault: 2.3,
     qualifies: true,
+    capped: false,
     explanation:
-      "Holding exactly 100,000 BETTER qualifies for the first vault at the Standard tier. The per-wallet deposit cap is $25,000 (policy). Modeled allocation weight: $25,000 × 1.25 = $31,250 (this is the weight used for priority ranking, not a higher cap).",
+      "Holding 100,000 BETTER qualifies at the Standard tier. In a 20-staker scenario, this staker's √-weight is √100,000 ≈ 316. After the whale's allocation is capped at $5,000 (20% of vault), remaining funds redistribute proportionally. Estimated allocation: ~$585 — well above the $100 floor.",
   },
   {
-    label: "Whale holder — qualifies with elevated priority",
-    tierId: "tier-whale",
-    tierName: "Whale",
-    betterHolding: 500_000,
-    depositCapUsd: 25_000,
-    tierWeight: 1.6,
-    effectiveAllocationWeight: 40_000,
+    label: "Largest holder — capped by per-staker maximum",
+    tierId: "tier-apex",
+    tierName: "Apex Whale",
+    betterHolding: 13_000_000,
+    sqrtWeight: 3605.55,
+    estimatedAllocationUsd: 5_000,
+    percentOfVault: 20.0,
     qualifies: true,
+    capped: true,
     explanation:
-      "Holding 500,000 BETTER qualifies at the Whale tier. The per-wallet deposit cap remains $25,000 (policy). Modeled allocation weight: $25,000 × 1.6 = $40,000. The higher weight means this wallet ranks ahead of Standard wallets if vault space is oversubscribed, but the actual deposit never exceeds $25,000.",
+      "Holding 13,000,000 BETTER (largest known holder, Apex Whale tier). In the √-weighted model, raw share would be ~59% of the vault. However, the hard per-staker cap of max(V/N, V×0.20) = $5,000 applies. This compresses the whale from 87% (pure proportional) to 20% of the $25,000 total vault cap. The excess redistributes to other stakers.",
   },
   {
-    label: "Apex Whale — maximum priority at base cap",
+    label: "Apex Whale — elevated allocation with tapering",
     tierId: "tier-apex",
     tierName: "Apex Whale",
     betterHolding: 2_000_000,
-    depositCapUsd: 25_000,
-    tierWeight: 2.0,
-    effectiveAllocationWeight: 50_000,
+    sqrtWeight: 1414.21,
+    estimatedAllocationUsd: 2_616,
+    percentOfVault: 10.5,
     qualifies: true,
+    capped: false,
     explanation:
-      "Holding 2,000,000 BETTER qualifies at the Apex Whale tier. The per-wallet deposit cap is still $25,000 (policy). Modeled allocation weight: $25,000 × 2.0 = $50,000. This wallet receives the highest possible priority ranking. The $50,000 weight is used for oversubscription resolution — the actual deposit is capped at $25,000.",
+      "Holding 2,000,000 BETTER qualifies at the Apex Whale tier. √-weight is √2,000,000 ≈ 1,414 — roughly 4.5× the minimum staker's weight for 20× the stake, demonstrating the √-tapering compression. Estimated allocation: ~$2,616 from the $25,000 total vault cap.",
   },
 ];
 
@@ -413,16 +423,16 @@ export const MODELED_WHALE_PRODUCTS: ModeledWhaleProduct[] = [
   {
     id: "mwp-social-vaults",
     name: "Social Vaults",
-    modeledMinimumBetter: 100_000,
-    minimumTierId: "tier-standard",
+    modeledMinimumBetter: 25_000,
+    minimumTierId: "tier-lite",
     description:
-      "Community-managed social vaults for collective prediction-market strategies. Standard-tier access with whale-first allocation priority when oversubscribed. The vault feature is in active development; the specific whale-first access gate shown here is modeled policy.",
+      "Community-managed social vaults for collective prediction-market strategies. Requires only 25,000 BETTER (one quarter of the standard 100,000 BETTER minimum for quant-team vaults), reflecting the community-first nature of social vaults. Allocation uses the same √-weighted bidding model with a tighter 15% per-staker cap. The vault feature is in active development; the specific access gates shown here are modeled policy.",
     maturity: "planned",
     source: {
       type: "scenario_based",
       label: "BETTER Roadmap",
       note:
-        "Social vault access gates are modeled based on the first-vault policy. The vault feature itself is in active development, but these specific access gates are modeled — final thresholds may differ at launch.",
+        "Social vault minimum is 25,000 BETTER (¼ of quant-team standard). The vault feature itself is in active development, but these specific access gates are modeled — final thresholds may differ at launch.",
     },
   },
   {
