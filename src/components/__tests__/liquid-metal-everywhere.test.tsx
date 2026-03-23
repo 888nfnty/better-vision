@@ -55,7 +55,7 @@ describe("LiquidMetalCard everywhere — VAL-VISUAL-030", () => {
   });
 
   it("all card-like surfaces import and use LiquidMetalCard for cursor tracking", () => {
-    // Key component files that previously used glass-card must now import LiquidMetalCard
+    // Key component files must import LiquidMetalCard for cursor-tracking metallic sheen
     const expectedFiles = [
       "tokenomics/ReferralIncentives.tsx",
       "tokenomics/NonLinearAllocation.tsx",
@@ -77,6 +77,8 @@ describe("LiquidMetalCard everywhere — VAL-VISUAL-030", () => {
       "architecture/CostBandExplorer.tsx",
       "architecture/FlywheelExplorer.tsx",
       "CaveatFrame.tsx",
+      "graph/GraphShell.tsx",
+      "graph/surfaces/EvidenceSurface.tsx",
     ];
 
     const componentsDir = path.resolve(__dirname, "..");

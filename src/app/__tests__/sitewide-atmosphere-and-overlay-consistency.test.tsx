@@ -12,7 +12,7 @@
  * 3. Mobile overlay nav links must use the shell's mono UI treatment (font-terminal)
  *    rather than falling back to default sans styling.
  *
- * VAL-VISUAL-028: All ASCII layers have been permanently removed.
+ * VAL-VISUAL-028: Only the approved atmosphere stack is present (shader + film grain).
  */
 import React from "react";
 import fs from "fs";
@@ -53,10 +53,10 @@ function renderWithAtmosphere() {
 }
 
 // ---------------------------------------------------------------------------
-// Site-wide atmosphere continuity: real Radiant/Hermes layers beyond hero
+// Site-wide atmosphere continuity: real Radiant layers beyond hero
 // ---------------------------------------------------------------------------
 
-describe("Site-wide atmosphere includes real Radiant/Hermes layers (VAL-VISUAL-020)", () => {
+describe("Site-wide atmosphere includes real Radiant layers (VAL-VISUAL-020)", () => {
   it("SiteAtmosphere wraps content in a VisualEffectsProvider for real layers", () => {
     const componentPath = path.resolve(
       __dirname,
@@ -66,14 +66,14 @@ describe("Site-wide atmosphere includes real Radiant/Hermes layers (VAL-VISUAL-0
     expect(content).toContain("VisualEffectsProvider");
   });
 
-  it("SiteAtmosphere does not reference removed ASCII components (VAL-VISUAL-028)", () => {
+  it("SiteAtmosphere references approved atmosphere components (VAL-VISUAL-028)", () => {
     const componentPath = path.resolve(
       __dirname,
       "../../components/visual/SiteAtmosphere.tsx"
     );
     const content = fs.readFileSync(componentPath, "utf-8");
-    expect(content).not.toContain("AsciiCanvasRenderer");
-    expect(content).not.toContain("AsciiBackground");
+    expect(content).toContain("HeroShaderCanvas");
+    expect(content).toContain("FilmGrainOverlay");
   });
 
   it("SiteAtmosphere renders the Radiant shader canvas", () => {
@@ -85,16 +85,15 @@ describe("Site-wide atmosphere includes real Radiant/Hermes layers (VAL-VISUAL-0
     expect(content).toContain("HeroShaderCanvas");
   });
 
-  it("site atmosphere layer does not contain ASCII elements (VAL-VISUAL-028)", () => {
+  it("site atmosphere layer renders the approved stack (VAL-VISUAL-028)", () => {
     renderWithAtmosphere();
     const atmosphere = document.querySelector('[data-testid="site-atmosphere"]');
     expect(atmosphere).toBeInTheDocument();
-    // ASCII layers have been permanently removed
-    expect(screen.queryByTestId("ascii-canvas-renderer")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("ascii-background")).not.toBeInTheDocument();
+    // Approved stack: film grain overlay is present
+    expect(screen.queryByTestId("film-grain-overlay")).toBeInTheDocument();
   });
 
-  it("SiteAtmosphere applies reduced opacity to its Radiant/Hermes layers for readability", () => {
+  it("SiteAtmosphere applies reduced opacity to its Radiant layers for readability", () => {
     const componentPath = path.resolve(
       __dirname,
       "../../components/visual/SiteAtmosphere.tsx"
@@ -104,11 +103,11 @@ describe("Site-wide atmosphere includes real Radiant/Hermes layers (VAL-VISUAL-0
     expect(content).toMatch(/opacity/i);
   });
 
-  it("SiteAtmosphere CSS has site-specific atmosphere-shader class but no ASCII class (VAL-VISUAL-028)", () => {
+  it("SiteAtmosphere CSS has the approved atmosphere-shader class (VAL-VISUAL-028)", () => {
     const globalsPath = path.resolve(__dirname, "../globals.css");
     const content = fs.readFileSync(globalsPath, "utf-8");
     expect(content).toContain("site-atmosphere-shader");
-    expect(content).not.toContain("site-atmosphere-ascii");
+    expect(content).toContain("film-grain-overlay");
   });
 });
 

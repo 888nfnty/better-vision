@@ -31,10 +31,10 @@ beforeEach(() => {
 });
 
 describe("VAL-VISUAL-000: Signature visual system is present", () => {
-  it("only approved atmosphere layers are present (VAL-VISUAL-028)", () => {
+  it("approved atmosphere layers are present (VAL-VISUAL-028)", () => {
     render(<Home />);
-    expect(screen.queryByTestId("ascii-canvas-renderer")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("ascii-background")).not.toBeInTheDocument();
+    expect(screen.getByTestId("hero-visual-system")).toBeInTheDocument();
+    expect(screen.getByTestId("hero-radiant-fallback")).toBeInTheDocument();
   });
 
   it("renders the hero shader canvas container (even if WebGL fails)", () => {

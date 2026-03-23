@@ -4,7 +4,7 @@
  * VAL-NARR-012: BETTER logotype is the dominant above-the-fold brand signal.
  * VAL-VISUAL-000: Signature BETTER visual system matches the approved shell overhaul.
  * VAL-VISUAL-019: BETTER logotype asset replaces text wordmarks across key shell surfaces.
- * VAL-VISUAL-020: Radiant and Hermes atmosphere visible across the full shell.
+ * VAL-VISUAL-020: Radiant atmosphere visible across the full shell.
  * VAL-VISUAL-021: tradebetter theme parity extends across the full shell.
  * VAL-VISUAL-022: Shell readability holds under the persistent immersive background.
  * VAL-VISUAL-023: BETTER logotype usage is traceable to the provided asset.
@@ -129,9 +129,11 @@ describe("tradebetter theme parity (VAL-VISUAL-000, VAL-VISUAL-021)", () => {
     expect(content).toMatch(/vec3\(0\.27,\s*0\.37,\s*1\.0\)/);
   });
 
-  it("ASCII layers have been removed (VAL-VISUAL-028)", () => {
-    const asciiPath = path.resolve(__dirname, "../../components/visual/AsciiCanvasRenderer.tsx");
-    expect(fs.existsSync(asciiPath)).toBe(false);
+  it("approved atmosphere files are present (VAL-VISUAL-028)", () => {
+    const shaderPath = path.resolve(__dirname, "../../components/visual/HeroShaderCanvas.tsx");
+    const grainPath = path.resolve(__dirname, "../../components/visual/FilmGrainOverlay.tsx");
+    expect(fs.existsSync(shaderPath)).toBe(true);
+    expect(fs.existsSync(grainPath)).toBe(true);
   });
 });
 

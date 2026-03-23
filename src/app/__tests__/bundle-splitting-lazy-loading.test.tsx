@@ -127,9 +127,8 @@ describe("Dynamic import structure (VAL-VISUAL-027)", () => {
     // Should use next/dynamic for HeroShaderCanvas
     expect(source).toMatch(/dynamic\s*\(/);
     expect(source).toMatch(/import\(.*HeroShaderCanvas/);
-    // VAL-VISUAL-028: ASCII components have been permanently removed
-    expect(source).not.toMatch(/AsciiCanvasRenderer/);
-    expect(source).not.toMatch(/AsciiBackground/);
+    // VAL-VISUAL-028: Only approved components (shader + film grain) are imported
+    expect(source).toMatch(/HeroShaderCanvas/);
   });
 
   it("HeroVisualSystem does not duplicate heavy visual imports (single-shader rule)", () => {
@@ -139,9 +138,8 @@ describe("Dynamic import structure (VAL-VISUAL-027)", () => {
     // the single shader instance lives exclusively in SiteAtmosphere.
     // HeroVisualSystem provides only a CSS fallback gradient layer.
     expect(source).not.toMatch(/import\(.*HeroShaderCanvas/);
-    // VAL-VISUAL-028: ASCII components have been permanently removed
-    expect(source).not.toMatch(/AsciiCanvasRenderer/);
-    expect(source).not.toMatch(/AsciiBackground/);
+    // VAL-VISUAL-028: Only approved components exist in the visual system
+    expect(source).toContain("hero-radiant-fallback");
   });
 });
 

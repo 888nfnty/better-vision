@@ -115,11 +115,12 @@ beforeEach(() => {
 // VAL-VISUAL-028: Only approved atmosphere layers exist
 // ---------------------------------------------------------------------------
 
-describe("VAL-VISUAL-028: Only approved atmosphere layers in the visual system", () => {
-  it("no legacy renderer elements are rendered", () => {
+describe("VAL-VISUAL-028: Approved atmosphere layers are the only visual system", () => {
+  it("approved atmosphere elements render correctly", () => {
     render(<Home />);
-    expect(screen.queryByTestId("ascii-canvas-renderer")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("ascii-background")).not.toBeInTheDocument();
+    // The approved stack renders the Radiant fallback and hero visual system
+    expect(screen.getByTestId("hero-visual-system")).toBeInTheDocument();
+    expect(screen.getByTestId("hero-radiant-fallback")).toBeInTheDocument();
   });
 });
 

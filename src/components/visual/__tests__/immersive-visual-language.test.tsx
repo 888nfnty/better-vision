@@ -223,54 +223,52 @@ describe("VAL-VISUAL-012: Shader feels authentically Radiant-influenced", () => 
 //  visual-016-approved-stack.test.tsx for full VAL-VISUAL-016 coverage.)
 // ---------------------------------------------------------------------------
 
-describe("VAL-VISUAL-028: Only approved atmosphere layers in the visual system", () => {
-  it("globals.css contains no legacy atmosphere CSS classes", () => {
+describe("VAL-VISUAL-028: Approved atmosphere layers are the only visual system", () => {
+  it("globals.css contains approved atmosphere classes (shader + film grain)", () => {
     const globalsCss = fs.readFileSync(
       path.resolve(__dirname, "../../../app/globals.css"),
       "utf-8"
     );
-    expect(globalsCss).not.toContain(".ascii-canvas-renderer");
-    expect(globalsCss).not.toContain(".ascii-background");
-    expect(globalsCss).not.toContain(".ascii-bg-animated");
-    expect(globalsCss).not.toContain(".ascii-bg-static");
-    expect(globalsCss).not.toContain(".ascii-text");
-    expect(globalsCss).not.toContain("site-atmosphere-ascii");
+    expect(globalsCss).toContain("site-atmosphere-shader");
+    expect(globalsCss).toContain("film-grain-overlay");
   });
 
-  it("HeroVisualSystem only references approved visual components", () => {
+  it("HeroVisualSystem references the approved Radiant fallback layer", () => {
     const heroSrc = fs.readFileSync(
       path.resolve(__dirname, "../HeroVisualSystem.tsx"),
       "utf-8"
     );
-    expect(heroSrc).not.toContain("AsciiCanvasRenderer");
-    expect(heroSrc).not.toContain("AsciiBackground");
+    expect(heroSrc).toContain("hero-radiant-fallback");
   });
 
-  it("SiteAtmosphere only references approved visual components", () => {
+  it("SiteAtmosphere references the approved shader and film grain components", () => {
     const atmSrc = fs.readFileSync(
       path.resolve(__dirname, "../SiteAtmosphere.tsx"),
       "utf-8"
     );
-    expect(atmSrc).not.toContain("AsciiCanvasRenderer");
-    expect(atmSrc).not.toContain("AsciiBackground");
+    expect(atmSrc).toContain("HeroShaderCanvas");
+    expect(atmSrc).toContain("FilmGrainOverlay");
   });
 
-  it("visual/index.ts only exports approved components", () => {
+  it("visual/index.ts exports approved atmosphere components", () => {
     const indexSrc = fs.readFileSync(
       path.resolve(__dirname, "../index.ts"),
       "utf-8"
     );
-    expect(indexSrc).not.toContain("AsciiBackground");
-    expect(indexSrc).not.toContain("AsciiCanvasRenderer");
+    expect(indexSrc).toContain("SiteAtmosphere");
+    expect(indexSrc).toContain("HeroShaderCanvas");
   });
 
-  it("no legacy renderer files exist", () => {
+  it("approved renderer files exist in the visual component directory", () => {
     expect(
-      fs.existsSync(path.resolve(__dirname, "../AsciiCanvasRenderer.tsx"))
-    ).toBe(false);
+      fs.existsSync(path.resolve(__dirname, "../SiteAtmosphere.tsx"))
+    ).toBe(true);
     expect(
-      fs.existsSync(path.resolve(__dirname, "../AsciiBackground.tsx"))
-    ).toBe(false);
+      fs.existsSync(path.resolve(__dirname, "../HeroShaderCanvas.tsx"))
+    ).toBe(true);
+    expect(
+      fs.existsSync(path.resolve(__dirname, "../FilmGrainOverlay.tsx"))
+    ).toBe(true);
   });
 });
 

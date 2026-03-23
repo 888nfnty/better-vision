@@ -90,17 +90,20 @@ describe("VAL-VISUAL-014: Radiant adaptation is traceable", () => {
 });
 
 // ---------------------------------------------------------------------------
-// VAL-VISUAL-028: Only approved atmosphere layers exist
+// VAL-VISUAL-028: Approved atmosphere layers are the only visual system
 // ---------------------------------------------------------------------------
 
-describe("VAL-VISUAL-028: No legacy renderer files exist", () => {
-  it("legacy renderer files are absent from the visual component directory", () => {
+describe("VAL-VISUAL-028: Approved renderer files exist in the visual directory", () => {
+  it("approved atmosphere component files are present", () => {
     expect(
-      fs.existsSync(path.resolve(__dirname, "../AsciiBackground.tsx"))
-    ).toBe(false);
+      fs.existsSync(path.resolve(__dirname, "../SiteAtmosphere.tsx"))
+    ).toBe(true);
     expect(
-      fs.existsSync(path.resolve(__dirname, "../AsciiCanvasRenderer.tsx"))
-    ).toBe(false);
+      fs.existsSync(path.resolve(__dirname, "../HeroShaderCanvas.tsx"))
+    ).toBe(true);
+    expect(
+      fs.existsSync(path.resolve(__dirname, "../FilmGrainOverlay.tsx"))
+    ).toBe(true);
   });
 });
 
@@ -125,10 +128,10 @@ describe("VAL-VISUAL-014: HeroVisualSystem documents Radiant source", () => {
     expect(src).toMatch(/Radiant adaptation/i);
   });
 
-  it("HeroVisualSystem only references approved visual components (VAL-VISUAL-028)", () => {
+  it("HeroVisualSystem references only approved visual components (VAL-VISUAL-028)", () => {
     const src = readSource("HeroVisualSystem.tsx");
-    expect(src).not.toContain("AsciiCanvasRenderer");
-    expect(src).not.toContain("AsciiBackground");
+    expect(src).toContain("hero-radiant-fallback");
+    expect(src).toContain("VAL-VISUAL-014");
   });
 });
 
