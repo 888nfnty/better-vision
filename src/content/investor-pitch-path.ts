@@ -100,7 +100,7 @@ export const INVESTOR_PITCH_GATES: PitchGate[] = [
     label: "Valuation",
     description: "Conservative stage-based corridors tied to milestone proof gates",
     icon: "△",
-    graphNodeId: "risks",
+    graphNodeId: "valuation",
   },
   {
     id: "gate-appendix",

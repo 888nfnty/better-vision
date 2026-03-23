@@ -22,6 +22,7 @@ import { TokenomicsSurface } from "./surfaces/TokenomicsSurface";
 import { ArchitectureSurface } from "./surfaces/ArchitectureSurface";
 import { EvidenceSurface } from "./surfaces/EvidenceSurface";
 import { RisksSurface } from "./surfaces/RisksSurface";
+import { ValuationSurface } from "./surfaces/ValuationSurface";
 
 /**
  * Surface content registry — maps graph node IDs to rendered content.
@@ -36,6 +37,7 @@ const SURFACE_CONTENT: Record<string, React.ReactNode> = {
   architecture: <ArchitectureSurface />,
   evidence: <EvidenceSurface />,
   risks: <RisksSurface />,
+  valuation: <ValuationSurface />,
 };
 
 export function GraphExplorer() {

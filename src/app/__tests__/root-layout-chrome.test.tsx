@@ -84,10 +84,10 @@ describe("RootLayout shared chrome — Section structure", () => {
     expect(proof).toBeInTheDocument();
     expect(atlas).toBeInTheDocument();
 
-    // Hero → Atlas (graph workspace default) → Proof (supplementary)
-    // VAL-ROADMAP-014: default loaded state is a pure graph workspace
-    expect(hero!.compareDocumentPosition(atlas!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(atlas!.compareDocumentPosition(proof!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // Atlas (graph workspace, genuinely first) → Hero → Proof (supplementary)
+    // VAL-ROADMAP-014: default loaded state is a pure graph workspace — graph-first
+    expect(atlas!.compareDocumentPosition(hero!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(hero!.compareDocumentPosition(proof!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it("hero section explains BETTER before requiring scroll (VAL-CROSS-001)", () => {

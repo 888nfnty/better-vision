@@ -18,10 +18,34 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* ---------------------------------------------------------------- */}
+      {/* Graph-First Workspace — DEFAULT loaded exploration state         */}
+      {/* VAL-ROADMAP-014: Pure graph workspace is primary visible surface */}
+      {/* VAL-ROADMAP-015: Guided investor pitch path through ordered gates*/}
+      {/* VAL-ROADMAP-017: Start affordance + resumable progress          */}
+      {/* VAL-CROSS-014: Investor-path entry from default graph workspace */}
+      {/* The graph workspace is the FIRST section — genuinely graph-first*/}
+      {/* on root load. No hero or proof-page handoff is required before  */}
+      {/* entering graph exploration.                                      */}
+      {/* ---------------------------------------------------------------- */}
+      <Section id="atlas" divider="none" container="wide">
+        <div>
+          <Heading
+            label="BETTER Atlas"
+            title="Explore the Ecosystem"
+            description="Navigate the BETTER ecosystem through the interactive graph. Start the Investor Pitch Path for a guided walkthrough, or select any node to explore freely."
+          />
+          <div className="mt-6">
+            <GraphExplorer />
+          </div>
+        </div>
+      </Section>
+
+      {/* ---------------------------------------------------------------- */}
       {/* Hero Section — VAL-NARR-001, VAL-NARR-002, VAL-NARR-011,       */}
       {/* VAL-NARR-012, VAL-VISUAL-000–004                                */}
-      {/* Poster-like first viewport: one dominant BETTER composition,    */}
-      {/* compressed copy, BETTER blue branding, no dashboard cards.      */}
+      {/* Compact brand + status band below the graph workspace.          */}
+      {/* The hero provides brand identity and live/future framing but    */}
+      {/* is no longer the first viewport — the graph is.                 */}
       {/* ---------------------------------------------------------------- */}
       <section
         id="what-is-better"
@@ -121,31 +145,8 @@ export default function Home() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Graph-First Workspace — DEFAULT loaded exploration state         */}
-      {/* VAL-ROADMAP-014: Pure graph workspace is primary visible surface */}
-      {/* VAL-ROADMAP-015: Guided investor pitch path through ordered gates*/}
-      {/* VAL-ROADMAP-017: Start affordance + resumable progress          */}
-      {/* VAL-CROSS-014: Investor-path entry from default graph workspace */}
-      {/* The graph workspace appears immediately after the compact hero, */}
-      {/* making it the primary visible surface — no proof-page handoff   */}
-      {/* is required before entering graph exploration.                   */}
-      {/* ---------------------------------------------------------------- */}
-      <Section id="atlas" divider="top" container="wide">
-        <div>
-          <Heading
-            label="BETTER Atlas"
-            title="Explore the Ecosystem"
-            description="Navigate the BETTER ecosystem through the interactive graph. Start the Investor Pitch Path for a guided walkthrough, or select any node to explore freely."
-          />
-          <div className="mt-6">
-            <GraphExplorer />
-          </div>
-        </div>
-      </Section>
-
-      {/* ---------------------------------------------------------------- */}
       {/* Proof / Trust Surface — VAL-NARR-013, VAL-CROSS-009            */}
-      {/* Now appears below the graph workspace as supplementary proof.   */}
+      {/* Now appears below the hero as supplementary proof.              */}
       {/* Users who select the Proof graph node get proof content inline  */}
       {/* via the graph shell; this module provides additional trust       */}
       {/* context for users who scroll past the atlas.                    */}

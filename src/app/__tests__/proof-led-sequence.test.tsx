@@ -66,11 +66,11 @@ describe("Section hierarchy is proof-led and single-purpose (VAL-CROSS-009)", ()
     const proof = screen.getByTestId("proof-section");
     const atlas = document.getElementById("atlas");
 
-    // Hero → Atlas (graph workspace, default loaded state) → Proof (supplementary)
-    // VAL-ROADMAP-014: default loaded state is a pure graph workspace
+    // Atlas (graph workspace, genuinely first) → Hero → Proof (supplementary)
+    // VAL-ROADMAP-014: default loaded state is a pure graph workspace — graph-first
     // VAL-CROSS-014: graph workspace has investor-path entry, no proof-page handoff
-    expect(hero.compareDocumentPosition(atlas!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(atlas!.compareDocumentPosition(proof) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(atlas!.compareDocumentPosition(hero) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(hero.compareDocumentPosition(proof) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it("proof section has a single dominant job (proof/trust)", () => {

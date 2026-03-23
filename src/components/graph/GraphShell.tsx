@@ -125,11 +125,38 @@ function graphReducer(state: GraphShellState, action: GraphAction): GraphShellSt
       if (!node) {
         return { ...state, invalidLink: true, focusedNodeId: null };
       }
+
+      // Restore pitch path state when the target node is part of the path.
+      // This ensures browser back/forward navigation coherently restores
+      // the guided-path progress instead of leaving it stale.
+      const gateIdx = getGateIndexForNode(nodeId);
+      const isOnPath = gateIdx >= 0;
+
+      let pitchPath = state.pitchPath;
+      if (isOnPath) {
+        // Re-activate pitch path at the correct gate, preserving visited state
+        pitchPath = {
+          ...state.pitchPath,
+          active: true,
+          currentGateIndex: gateIdx,
+          visitedGates: new Set([...state.pitchPath.visitedGates, gateIdx]),
+          lastGateIndex: null,
+        };
+      } else if (state.pitchPath.active) {
+        // Navigating to a non-path node deactivates the path
+        pitchPath = {
+          ...state.pitchPath,
+          active: false,
+          lastGateIndex: state.pitchPath.currentGateIndex,
+        };
+      }
+
       return {
         ...state,
         focusedNodeId: nodeId,
         invalidLink: false,
         history: state.history,
+        pitchPath,
       };
     }
     case "RECENTER": {

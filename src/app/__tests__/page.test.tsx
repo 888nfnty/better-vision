@@ -64,8 +64,8 @@ describe("Home page", () => {
     expect(secondaryCta.textContent).toMatch(/atlas|roadmap/i);
   });
 
-  // VAL-NARR-013: Proof section appears before graph shell
-  it("renders proof section between hero and graph shell", () => {
+  // VAL-NARR-013: Proof section is present (now below graph shell and hero)
+  it("renders proof section", () => {
     render(<Home />);
     const proof = screen.getByTestId("proof-section");
     expect(proof).toBeInTheDocument();
