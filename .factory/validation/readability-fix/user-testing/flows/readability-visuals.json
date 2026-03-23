@@ -1,0 +1,164 @@
+{
+  "groupId": "readability-visuals",
+  "testedAt": "2026-03-23T23:00:41.332477+00:00",
+  "isolation": {
+    "milestone": "readability-fix",
+    "missionDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83",
+    "repoRoot": "/Users/test/vision",
+    "appUrl": "http://127.0.0.1:3100",
+    "surface": "browser",
+    "browserSession": "readability-visuals-33dae310",
+    "mode": "headed",
+    "evidenceDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/evidence/readability-fix/readability-visuals",
+    "notes": "Validated only the assigned assertions against the already-running local Next.js app; the server was not restarted."
+  },
+  "toolsUsed": [
+    "agent-browser",
+    "Read",
+    "Grep"
+  ],
+  "assertions": [
+    {
+      "id": "VAL-VISUAL-030",
+      "title": "Liquid metal card finish with glass-morphism",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Open the root page in a headed browser session and inspect graph-workspace cards and lower proof/content cards at rest.",
+          "expected": "Cards across graph and content surfaces should read as translucent glass panels with subtle white borders and a premium cohesive finish.",
+          "observed": "Both atlas graph cards and lower proof cards rendered as transparent glass panels with the blue shader clearly visible behind them; sampled graph and proof cards shared the same 0.04 white background, 0.12 white border, and 8px radius."
+        },
+        {
+          "action": "Hover a graph card and capture the interaction state.",
+          "expected": "Hover should show a visible metallic sheen or radial highlight, not only a flat opacity change.",
+          "observed": "The hover capture showed a bright metallic hotspot over the atlas card surface, creating a clear liquid-metal sheen effect that read as intentional and premium."
+        },
+        {
+          "action": "Cross-check the shipped card implementation for the hover finish.",
+          "expected": "The implementation should define a transparent glass base with a stronger radial metallic center highlight on hover.",
+          "observed": "`src/components/LiquidMetalCard.tsx` lines 127-134 define a 0.04 base, 0.08 hover background, 1px solid rgba(255,255,255,0.12) border, and a radial-gradient sheen with a center highlight of rgba(255,255,255,0.38)."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "readability-fix/readability-visuals/VAL-VISUAL-030-035-default-cards.png",
+          "readability-fix/readability-visuals/VAL-VISUAL-030-035-hover-cards.png"
+        ],
+        "consoleErrors": "none",
+        "network": "No requests captured in this local visual-only validation flow.",
+        "computedStyles": {
+          "graphCard": {
+            "backgroundColor": "rgba(255, 255, 255, 0.04)",
+            "border": "1px solid rgba(255, 255, 255, 0.12)",
+            "borderRadius": "8px",
+            "boxShadow": "none"
+          },
+          "proofCard": {
+            "backgroundColor": "rgba(255, 255, 255, 0.04)",
+            "border": "1px solid rgba(255, 255, 255, 0.12)",
+            "borderRadius": "8px",
+            "boxShadow": "none"
+          }
+        },
+        "codeAudit": [
+          "`src/components/LiquidMetalCard.tsx:127-134` -> base background rgba(255,255,255,0.04), hover background rgba(255,255,255,0.08), radial-gradient center rgba(255,255,255,0.38), border rgba(255,255,255,0.12)."
+        ]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-VISUAL-034",
+      "title": "All text is white \u2014 no grey text",
+      "status": "fail",
+      "steps": [
+        {
+          "action": "Inspect visible text in the top shell and in a lower proof/content surface and collect computed styles.",
+          "expected": "All rendered text should be white (#ffffff), with hierarchy coming from weight/size/opacity rather than grey colors.",
+          "observed": "The body, hero tagline, proof heading, lower proof paragraph, and footer text all computed to rgb(255,255,255). Secondary sampled text used white with opacity (`oklab(... / 0.7)` and `oklab(... / 0.8)`), which is opacity-based hierarchy rather than grey."
+        },
+        {
+          "action": "Check visible CTA/button text styles on the same page.",
+          "expected": "CTA text should also remain white if every text element on the site must be white.",
+          "observed": "The primary CTA `See What's Live` computed to rgb(16,16,16) dark text on a white button background, and the same dark-on-white treatment is visible on lower white CTA buttons."
+        },
+        {
+          "action": "Run code-audit greps for prohibited grey text utility classes in component className props.",
+          "expected": "`text-secondary`, `text-[#a0a0a0]`, `text-[#707070]`, and `text-muted` should not appear in component className props.",
+          "observed": "Grep across `src/components` returned no matching files for `text-secondary`, `text-[#a0a0a0]`, `text-[#707070]`, or `text-muted`; `src/app/globals.css` also sets `--text-secondary: #ffffff`."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "readability-fix/readability-visuals/VAL-VISUAL-030-035-default-cards.png"
+        ],
+        "consoleErrors": "none",
+        "network": "No requests captured in this local visual-only validation flow.",
+        "computedStyles": {
+          "bodyColor": "rgb(255, 255, 255)",
+          "heroTagline": "rgb(255, 255, 255)",
+          "proofHeading": "rgb(255, 255, 255)",
+          "proofParagraph": "rgb(255, 255, 255)",
+          "footer": "rgb(255, 255, 255)",
+          "primaryCta": "rgb(16, 16, 16)",
+          "distinctSampledTextColors": [
+            "rgb(255, 255, 255)",
+            "oklab(0.999994 0.0000455677 0.0000200868 / 0.7)",
+            "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+            "rgb(16, 16, 16)"
+          ]
+        },
+        "codeAudit": [
+          "`src/components` grep for `text-secondary` -> no matching files found.",
+          "`src/components` grep for `text-[#a0a0a0]` -> no matching files found.",
+          "`src/components` grep for `text-[#707070]` -> no matching files found.",
+          "`src/components` grep for `text-muted` -> no matching files found.",
+          "`src/app/globals.css:30` -> `--text-secondary: #ffffff`."
+        ]
+      },
+      "issues": "The strict assertion fails because at least the primary and lower white CTA buttons render dark text (`rgb(16,16,16)`) instead of white, even though sampled body, hero, proof, and footer text are white and no prohibited grey text utility classes were found in component className props."
+    },
+    {
+      "id": "VAL-VISUAL-035",
+      "title": "Liquid metal cards complement shader background",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Inspect graph and proof cards in the default state over the live shader background.",
+          "expected": "Cards should use nearly transparent glass so the shader remains visible through them, avoiding opaque-box surfaces.",
+          "observed": "Default atlas cards and lower proof cards allowed the blue shader texture to remain clearly visible through the panels; they read as floating glass layers rather than opaque boxes."
+        },
+        {
+          "action": "Capture a hover state and compare it with the default card state.",
+          "expected": "Hover should add a clearly visible metallic sheen with a strong center highlight while keeping the card transparent overall.",
+          "observed": "The hover capture showed a pronounced radial highlight across the hovered atlas card while the surrounding shader remained visible, preserving the transparent glass feel."
+        },
+        {
+          "action": "Cross-check runtime and code evidence for the card opacity contract.",
+          "expected": "Rendered cards should resolve to the requested low-opacity base/border values, and the shipped hover sheen should meet or exceed a 30% center opacity target.",
+          "observed": "Runtime computed styles showed graph and proof cards at rgba(255,255,255,0.04) with rgba(255,255,255,0.12) borders; code audit in `LiquidMetalCard.tsx` sets the hover sheen center to rgba(255,255,255,0.38), exceeding the 30% requirement."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "readability-fix/readability-visuals/VAL-VISUAL-030-035-default-cards.png",
+          "readability-fix/readability-visuals/VAL-VISUAL-030-035-hover-cards.png"
+        ],
+        "consoleErrors": "none",
+        "network": "No requests captured in this local visual-only validation flow.",
+        "computedStyles": {
+          "defaultBackgroundColor": "rgba(255, 255, 255, 0.04)",
+          "defaultBorder": "1px solid rgba(255, 255, 255, 0.12)",
+          "defaultBorderRadius": "8px",
+          "hoverSheenCenterFromCodeAudit": "rgba(255, 255, 255, 0.38)"
+        },
+        "codeAudit": [
+          "`src/components/LiquidMetalCard.tsx:127-134` -> base 0.04, hover 0.08, border 0.12, hover sheen center 0.38."
+        ]
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 3 assigned readability visual assertions. VAL-VISUAL-030 and VAL-VISUAL-035 passed: cards render as near-transparent liquid-metal glass panels with the shader visible through them and a clearly visible hover sheen. VAL-VISUAL-034 failed because sampled body/hero/proof/footer text is white and no prohibited grey utility classes were found, but white CTA buttons still render dark text instead of white."
+}
