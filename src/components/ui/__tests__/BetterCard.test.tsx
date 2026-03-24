@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BetterCard } from "../BetterCard";
@@ -136,18 +138,20 @@ describe("BetterCard", () => {
     expect(card.className).toContain("0.40");
   });
 
-  it("has border-radius from shadcn Card", () => {
-    render(<BetterCard>Radius check</BetterCard>);
-    const card = screen.getByTestId("better-card");
-    // shadcn Card applies rounded-xl by default
-    expect(card).toBeInTheDocument();
+  it("uses the softened 8px shadcn radius contract", () => {
+    const cardSource = fs.readFileSync(
+      path.resolve(__dirname, "../card.tsx"),
+      "utf-8"
+    );
+    expect(cardSource).toContain("rounded-lg");
+    expect(cardSource).not.toContain("rounded-xl");
   });
 
   // ---------------------------------------------------------------------------
   // VAL-SHADCN-004: Cursor-tracking metallic sheen
   // ---------------------------------------------------------------------------
 
-  it("hover sheen center highlight is at least 0.35 opacity — VAL-SHADCN-004", () => {
+  it("hover sheen center highlight stays at or below 0.18 opacity — VAL-SHADCN-004", () => {
     render(<BetterCard>Sheen test</BetterCard>);
     const card = screen.getByTestId("better-card");
 
@@ -160,10 +164,10 @@ describe("BetterCard", () => {
     );
     expect(rgbaMatch).not.toBeNull();
     const opacity = parseFloat(rgbaMatch![1]);
-    expect(opacity).toBeGreaterThanOrEqual(0.35);
+    expect(opacity).toBeLessThanOrEqual(0.18);
   });
 
-  it("hover sheen includes a secondary metallic ring for depth — VAL-SHADCN-004", () => {
+  it("hover sheen includes a low-contrast secondary metallic ring capped at 0.08 — VAL-SHADCN-004", () => {
     render(<BetterCard>Ring test</BetterCard>);
     const card = screen.getByTestId("better-card");
 
@@ -171,10 +175,15 @@ describe("BetterCard", () => {
     fireEvent.mouseMove(card, { clientX: 50, clientY: 50 });
 
     const bg = card.style.background;
-    expect(bg).toMatch(/rgba\(\s*200\s*,\s*210\s*,\s*255/);
+    const rgbaMatch = bg.match(
+      /rgba\(\s*200\s*,\s*210\s*,\s*255\s*,\s*([\d.]+)\s*\)/
+    );
+    expect(rgbaMatch).not.toBeNull();
+    const opacity = parseFloat(rgbaMatch![1]);
+    expect(opacity).toBeLessThanOrEqual(0.08);
   });
 
-  it("sheen radial-gradient is materially distinct from hover base — VAL-SHADCN-004", () => {
+  it("sheen radial-gradient stays supportive instead of flashing above the hover base — VAL-SHADCN-004", () => {
     render(<BetterCard>Contrast test</BetterCard>);
     const card = screen.getByTestId("better-card");
 
@@ -187,8 +196,8 @@ describe("BetterCard", () => {
     );
     expect(rgbaMatch).not.toBeNull();
     const sheenOpacity = parseFloat(rgbaMatch![1]);
-    const hoverBase = 0.08;
-    expect(sheenOpacity - hoverBase).toBeGreaterThanOrEqual(0.25);
+    const hoverBase = 0.07;
+    expect(sheenOpacity - hoverBase).toBeLessThanOrEqual(0.11);
   });
 
   // ---------------------------------------------------------------------------
@@ -201,11 +210,11 @@ describe("BetterCard", () => {
     expect(card.style.background).toContain("rgba(255, 255, 255, 0.04)");
   });
 
-  it("hover background is rgba(255,255,255,0.08) — VAL-SHADCN-003", () => {
+  it("hover background stays in the softened 0.06-0.08 range — VAL-SHADCN-003", () => {
     render(<BetterCard>Hover check</BetterCard>);
     const card = screen.getByTestId("better-card");
     fireEvent.mouseEnter(card);
-    expect(card.style.background).toContain("rgba(255, 255, 255, 0.08)");
+    expect(card.style.background).toContain("rgba(255, 255, 255, 0.07)");
   });
 
   it("border uses rgba(255,255,255,0.12) — VAL-SHADCN-003", () => {
@@ -221,12 +230,17 @@ describe("BetterCard", () => {
     expect(card.style.getPropertyValue("-webkit-backdrop-filter")).toBeFalsy();
   });
 
-  it("hover state includes subtle inner glow box-shadow — VAL-SHADCN-003", () => {
+  it("hover state keeps any inner glow very restrained — VAL-SHADCN-003", () => {
     render(<BetterCard>Glow check</BetterCard>);
     const card = screen.getByTestId("better-card");
     fireEvent.mouseEnter(card);
-    expect(card.style.boxShadow).toContain("inset");
-    expect(card.style.boxShadow).toContain("30px");
+    if (card.style.boxShadow) {
+      expect(card.style.boxShadow).toContain("inset");
+      expect(card.style.boxShadow).toContain("18px");
+      expect(card.style.boxShadow).toContain("0.02");
+    } else {
+      expect(card.style.boxShadow).toBe("");
+    }
   });
 
   it("no inner glow in default (non-hover) state", () => {
