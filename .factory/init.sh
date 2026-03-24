@@ -14,3 +14,9 @@ fi
 if [ -f package.json ]; then
   npm install
 fi
+
+# Initialize shadcn (idempotent)
+npx shadcn@latest init --defaults --force 2>/dev/null || true
+
+# Add shadcn components (idempotent)
+npx shadcn@latest add card dialog sheet badge separator --overwrite 2>/dev/null || true

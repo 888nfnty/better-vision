@@ -32,6 +32,15 @@ Use this skill for features dominated by source synthesis, typed content/data mo
 13. Run focused tests while iterating, then run the manifest commands for `lint`, `typecheck`, `test`, and `build`.
 14. Use `agent-browser` to verify the changed surfaces, especially tier ladders, calculators, scenario switching, execution-plan panels, valuation modules, and evidence hooks.
 15. Stop any process you started. In your handoff, call out every changed number/model, every source/assumption surface you touched, and any remaining ambiguity.
+16. For new content surfaces: Read `.factory/library/x-article-content.md` as the authoritative content source. Use EXACT figures — do not round or approximate. Every data point must match the source material.
+17. New graph nodes must be registered in `src/content/graph-nodes.ts` with:
+    - Unique slug (macro-thesis, hft-edge, llm-product, truth-perp-flywheel)
+    - Related edges to at least 2 existing nodes
+    - dominantStatus from MaturityStatus union
+    - Proper label and description
+18. New surface components go in `src/components/graph/surfaces/`. Follow the pattern of existing surfaces (RoadmapSurface, TokenomicsSurface, etc.). Each surface must use shadcn Card components.
+19. Content attribution: every claim must reference @tradebetterapp. Use EvidenceHook or CaveatFrame components for attribution.
+20. Maturity labels: use MaturityBadge on every claim block. Live platform data = Live. BETTER's built features = In Progress. Planned features = Planned. Future vision = Speculative.
 
 ## Example Handoff
 

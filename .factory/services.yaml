@@ -1,8 +1,8 @@
 commands:
-  install: npm install
+  install: npm install && npx shadcn@latest init --defaults --force 2>/dev/null || true
   typecheck: npx tsc --noEmit
   build: npm run build
-  test: npm run test
+  test: npm test
   lint: npm run lint
 
 services:

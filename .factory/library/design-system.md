@@ -162,6 +162,10 @@ background-image: radial-gradient(
 );
 ```
 
+### Migration Note
+
+**LiquidMetalCard is being replaced by shadcn Card components.** All production components should use shadcn `Card`/`CardContent`/`CardHeader` instead of `LiquidMetalCard`. The liquid-metal styling (cursor-tracking sheen, glass transparency, variant system) is preserved via a wrapper around the shadcn Card primitive. See the shadcn migration validation contract in `.factory/validation/shadcn-migration/assertions.md` and the project `AGENTS.md` for migration guidance and requirements.
+
 ### Card Principles
 
 1. **Nearly transparent**: Cards at 4% opacity let the shader background show through. They should feel like glass panels floating over the shader, not opaque boxes.

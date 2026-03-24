@@ -37,6 +37,7 @@ Intended application architecture and implementation patterns for this mission.
 - Valuation models should be stage-gated and comparable-backed, presenting conservative value corridors tied to proof milestones rather than headline promises.
 - Vault-capacity models should support stake-share estimation: given user stake, total staked BETTER, and vault-cap assumptions, the UI should estimate the user’s implied share of first-vault and modeled whale-vault initial deposit capacity.
 - Heavy visuals must support reduced-motion mode and runtime fallback states without blocking content.
+- **Rust execution engine details** (latency benchmarks, co-location strategy, FAST15M/LONG pipeline, Kelly sizing math, BRAID consensus model) are documented in `x-article-content.md`. Reference that file for HFT-specific architecture claims and data points used in product surfaces.
 
 ## Performance optimization guidance
 - Use **aggressive code splitting** across all major route boundaries and feature modules.
