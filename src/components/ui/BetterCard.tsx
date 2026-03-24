@@ -6,8 +6,8 @@
  * Wraps shadcn/ui Card internally (from '@/components/ui/card') and adds:
  * 1. Cursor-tracking metallic sheen via onMouseMove setting --metal-x/--metal-y
  *    CSS properties + radial-gradient
- * 2. Hover state background rgba(255,255,255,0.08)
- * 3. Inner glow box-shadow: inset 0 0 30px rgba(255,255,255,0.03)
+ * 2. Hover state background rgba(255,255,255,0.07)
+ * 3. Optional ultra-soft inner glow box-shadow: inset 0 0 18px rgba(255,255,255,0.02)
  * 4. Smooth transitions (200ms ease)
  * 5. Variant props (default/active/focused) with ring styles
  *
@@ -75,6 +75,7 @@ export const BetterCard = forwardRef<HTMLDivElement, Omit<BetterCardProps, "ref"
   ) {
     const internalRef = useRef<HTMLDivElement | null>(null);
     const [isHovered, setIsHovered] = useState(false);
+    const [hasTrackedPointer, setHasTrackedPointer] = useState(false);
 
     // Expose the internal ref to the external ref
     useImperativeHandle(externalRef, () => internalRef.current!, []);
@@ -87,6 +88,7 @@ export const BetterCard = forwardRef<HTMLDivElement, Omit<BetterCardProps, "ref"
         const rect = el.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 100;
         const y = ((e.clientY - rect.top) / rect.height) * 100;
+        setHasTrackedPointer(true);
         el.style.setProperty("--metal-x", `${x}%`);
         el.style.setProperty("--metal-y", `${y}%`);
       },
@@ -99,6 +101,7 @@ export const BetterCard = forwardRef<HTMLDivElement, Omit<BetterCardProps, "ref"
 
     const handleMouseLeave = useCallback(() => {
       setIsHovered(false);
+      setHasTrackedPointer(false);
       const el = internalRef.current;
       if (el) {
         el.style.removeProperty("--metal-x");
@@ -107,19 +110,19 @@ export const BetterCard = forwardRef<HTMLDivElement, Omit<BetterCardProps, "ref"
     }, []);
 
     // Nearly-transparent glass base + liquid metal sheen via inline style
-    // VAL-VISUAL-035 / VAL-SHADCN-003: 0.04 base / 0.08 hover
+    // VAL-VISUAL-035 / VAL-SHADCN-003: 0.04 base / 0.07 hover
     const baseBackground = isHovered
-      ? "rgba(255, 255, 255, 0.08)"
+      ? "rgba(255, 255, 255, 0.07)"
       : "rgba(255, 255, 255, 0.04)";
 
     const inlineStyle: React.CSSProperties = {
-      background: isHovered
-        ? `radial-gradient(circle at var(--metal-x, 50%) var(--metal-y, 50%), rgba(255, 255, 255, 0.38) 0%, rgba(200, 210, 255, 0.12) 40%, transparent 70%), ${baseBackground}`
+      background: isHovered && hasTrackedPointer
+        ? `radial-gradient(circle at var(--metal-x, 50%) var(--metal-y, 50%), rgba(255, 255, 255, 0.16) 0%, rgba(200, 210, 255, 0.06) 42%, transparent 72%), ${baseBackground}`
         : baseBackground,
       border: "1px solid rgba(255, 255, 255, 0.12)",
       // No backdrop-filter — let shader background show through
       boxShadow: isHovered
-        ? "inset 0 0 30px rgba(255, 255, 255, 0.03)"
+        ? "inset 0 0 18px rgba(255, 255, 255, 0.02)"
         : "none",
       transition: "background 0.2s ease, box-shadow 0.2s ease",
       ...(rest.style ?? {}),
