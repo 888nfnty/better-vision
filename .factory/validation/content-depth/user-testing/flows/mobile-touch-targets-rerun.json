@@ -1,0 +1,201 @@
+{
+  "groupId": "mobile-touch-targets-rerun",
+  "testedAt": "2026-03-24T06:39:15.819653+00:00",
+  "isolation": {
+    "appUrl": "http://127.0.0.1:3100",
+    "browserSession": "d4a1e8db1500__u1",
+    "missionDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83",
+    "evidenceDir": "/Users/test/.factory/missions/33dae310-26cf-4368-9488-64b235b6db83/evidence/content-depth/mobile-touch-targets-rerun",
+    "milestone": "content-depth"
+  },
+  "toolsUsed": [
+    "agent-browser",
+    "Read",
+    "Grep"
+  ],
+  "assertions": [
+    {
+      "id": "VAL-CROSS-018",
+      "title": "Mobile responsiveness for new surfaces",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Set the browser viewport to 375x812 and open #graph-macro-thesis, #graph-hft-edge, #graph-llm-product, and #graph-truth-perp-flywheel in the shared local app.",
+          "expected": "Each focused surface renders at 375px width without horizontal overflow.",
+          "observed": "Macro Thesis, HFT Edge, LLM Product, and TRUTH-PERP & Flywheel all rendered at 375px with docOverflow=0 and surfaceOverflow=0."
+        },
+        {
+          "action": "Measure the focused-surface back button and related-node controls on each mobile surface and capture screenshots.",
+          "expected": "The back button and related-node controls are touch-friendly at roughly a 44px hit area while preserving the no-overflow layout.",
+          "observed": "All four focused surfaces rendered at 375px without horizontal overflow. Each focused-surface back button measured 44x44px, and every related-node control measured 44px tall with widths varying by label."
+        },
+        {
+          "action": "Check browser runtime logs after the mobile rerun.",
+          "expected": "No console/runtime issues appear while retesting the four surfaces.",
+          "observed": "No console/runtime issues were captured during the rerun."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "content-depth/mobile-touch-targets-rerun/VAL-CROSS-018-macro-thesis-mobile.png",
+          "content-depth/mobile-touch-targets-rerun/VAL-CROSS-018-hft-edge-mobile.png",
+          "content-depth/mobile-touch-targets-rerun/VAL-CROSS-018-llm-product-mobile.png",
+          "content-depth/mobile-touch-targets-rerun/VAL-CROSS-018-truth-perp-flywheel-mobile.png"
+        ],
+        "consoleErrors": "none observed; agent-browser errors checks returned no entries on Macro Thesis, HFT Edge, LLM Product, and TRUTH-PERP & Flywheel.",
+        "network": "Macro Thesis: No requests captured | HFT Edge: GET http://127.0.0.1:3100/_next/static/chunks/0k1n41qlqs0n-.js (script) | LLM Product: GET http://127.0.0.1:3100/_next/static/chunks/0k1n41qlqs0n-.js (script)\nGET http://127.0.0.1:3100/_next/static/chunks/0an849snf-a6r.js (script)\nGET http://127.0.0.1:3100/_next/static/chunks/0an849snf-a6r.js (script) | TRUTH-PERP & Flywheel: GET http://127.0.0.1:3100/_next/static/chunks/0k1n41qlqs0n-.js (script)\nGET http://127.0.0.1:3100/_next/static/chunks/0an849snf-a6r.js (script)\nGET http://127.0.0.1:3100/_next/static/chunks/0an849snf-a6r.js (script)\nGET http://127.0.0.1:3100/_next/static/chunks/05vsxht91loj0.js (script)\nGET http://127.0.0.1:3100/_next/static/chunks/05vsxht91loj0.js (script)\nGET http://127.0.0.1:3100/_next/static/chunks/05vsxht91loj0.js (script)",
+        "mobileMeasurements": [
+          "Macro Thesis: viewport 375x812, docOverflow=0, surfaceOverflow=0, back button 44x44px, related buttons \u25c6What is BETTER 127.64x44px, \u25c8Tokenomics 102.67x44px.",
+          "HFT Edge: viewport 375x812, docOverflow=0, surfaceOverflow=0, back button 44x44px, related buttons \u2b21Architecture 115.94x44px, \u2713Proof & Trust 121.39x44px, \u2733TRUTH-PERP & Flywheel 171.31x44px.",
+          "LLM Product: viewport 375x812, docOverflow=0, surfaceOverflow=0, back button 44x44px, related buttons \u2b21Architecture 115.94x44px, \u25c8Tokenomics 102.67x44px.",
+          "TRUTH-PERP & Flywheel: viewport 375x812, docOverflow=0, surfaceOverflow=0, back button 44x44px, related buttons \u25c8Tokenomics 102.67x44px, \u2b22HFT Edge 90.97x44px."
+        ],
+        "rawMeasurements": [
+          {
+            "hash": "#graph-macro-thesis",
+            "viewport": {
+              "width": 375,
+              "height": 812
+            },
+            "docOverflow": 0,
+            "surfaceOverflow": 0,
+            "backButton": {
+              "x": 33,
+              "y": 129.25,
+              "width": 44,
+              "height": 44
+            },
+            "relatedButtons": [
+              {
+                "label": "\u25c6What is BETTER",
+                "x": 98.61,
+                "y": 201.25,
+                "width": 127.64,
+                "height": 44
+              },
+              {
+                "label": "\u25c8Tokenomics",
+                "x": 234.25,
+                "y": 201.25,
+                "width": 102.67,
+                "height": 44
+              }
+            ],
+            "title": "Macro Thesis",
+            "consoleErrors": "none"
+          },
+          {
+            "hash": "#graph-hft-edge",
+            "viewport": {
+              "width": 375,
+              "height": 812
+            },
+            "docOverflow": 0,
+            "surfaceOverflow": 0,
+            "backButton": {
+              "x": 33,
+              "y": 257.25,
+              "width": 44,
+              "height": 44
+            },
+            "relatedButtons": [
+              {
+                "label": "\u2b21Architecture",
+                "x": 98.61,
+                "y": 345.25,
+                "width": 115.94,
+                "height": 44
+              },
+              {
+                "label": "\u2713Proof & Trust",
+                "x": 33,
+                "y": 397.25,
+                "width": 121.39,
+                "height": 44
+              },
+              {
+                "label": "\u2733TRUTH-PERP & Flywheel",
+                "x": 162.39,
+                "y": 397.25,
+                "width": 171.31,
+                "height": 44
+              }
+            ],
+            "title": "HFT Edge",
+            "consoleErrors": "none"
+          },
+          {
+            "hash": "#graph-llm-product",
+            "viewport": {
+              "width": 375,
+              "height": 812
+            },
+            "docOverflow": 0,
+            "surfaceOverflow": 0,
+            "backButton": {
+              "x": 33,
+              "y": 257.25,
+              "width": 44,
+              "height": 44
+            },
+            "relatedButtons": [
+              {
+                "label": "\u2b21Architecture",
+                "x": 98.61,
+                "y": 345.25,
+                "width": 115.94,
+                "height": 44
+              },
+              {
+                "label": "\u25c8Tokenomics",
+                "x": 222.55,
+                "y": 345.25,
+                "width": 102.67,
+                "height": 44
+              }
+            ],
+            "title": "LLM Product",
+            "consoleErrors": "none"
+          },
+          {
+            "hash": "#graph-truth-perp-flywheel",
+            "viewport": {
+              "width": 375,
+              "height": 812
+            },
+            "docOverflow": 0,
+            "surfaceOverflow": 0,
+            "backButton": {
+              "x": 33,
+              "y": 269.25,
+              "width": 44,
+              "height": 44
+            },
+            "relatedButtons": [
+              {
+                "label": "\u25c8Tokenomics",
+                "x": 98.61,
+                "y": 363.25,
+                "width": 102.67,
+                "height": 44
+              },
+              {
+                "label": "\u2b22HFT Edge",
+                "x": 209.28,
+                "y": 363.25,
+                "width": 90.97,
+                "height": 44
+              }
+            ],
+            "title": "TRUTH-PERP & Flywheel",
+            "consoleErrors": "none"
+          }
+        ]
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Retested 1 assertion: VAL-CROSS-018 passed. All four new surfaces stayed within the 375px layout and now expose touch-friendly 44px-tall navigation controls."
+}
