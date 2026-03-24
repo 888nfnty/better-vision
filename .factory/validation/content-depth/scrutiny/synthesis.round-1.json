@@ -1,26 +1,21 @@
 {
   "milestone": "content-depth",
-  "round": 2,
+  "round": 1,
   "status": "fail",
   "validatorsRun": {
     "test": {
       "passed": true,
-      "command": "cd \"/Users/test/vision\" && npm test",
+      "command": "npm --prefix \"/Users/test/vision\" test",
       "exitCode": 0
     },
     "typecheck": {
       "passed": true,
-      "command": "cd \"/Users/test/vision\" && npx tsc --noEmit",
+      "command": "npm --prefix \"/Users/test/vision\" run typecheck",
       "exitCode": 0
     },
     "lint": {
       "passed": true,
-      "command": "cd \"/Users/test/vision\" && npm run lint",
-      "exitCode": 0
-    },
-    "build": {
-      "passed": true,
-      "command": "cd \"/Users/test/vision\" && npm run build",
+      "command": "npm --prefix \"/Users/test/vision\" run lint",
       "exitCode": 0
     }
   },
@@ -36,7 +31,7 @@
     {
       "featureId": "content-graph-topology-and-labels",
       "severity": "blocking",
-      "description": "No new content-depth fix feature was added after round 1, so the prior blocker remains unresolved at the current HEAD: the four new content-depth surfaces still import the custom `BetterCard` wrapper for their shell instead of importing shadcn `Card` primitives directly, while `validation-contract.md` explicitly requires 'shadcn Card components (not custom cards)' for `VAL-CONTENT-018`. The regression test was also rewritten to enforce `BetterCard`, so the current suite no longer protects the stricter contract. Earlier HFT Edge / LLM Product review blockers around reciprocal graph links and lazy loading were fixed later in the milestone and are not the active blocker at HEAD."
+      "description": "The four new content-depth surfaces currently import the custom `BetterCard` wrapper for their shell instead of importing shadcn `Card` primitives directly, while `validation-contract.md` explicitly requires 'shadcn Card components (not custom cards)' for `VAL-CONTENT-018`. The regression test was also rewritten to enforce `BetterCard`, so the current suite no longer protects the stricter contract. Earlier HFT Edge / LLM Product review blockers around reciprocal graph links and lazy loading were fixed later in the milestone and are not the active blocker at HEAD."
     }
   ],
   "appliedUpdates": [
@@ -76,5 +71,5 @@
       "reason": "rejected because the current HEAD already includes the reciprocal graph links and dynamic imports added later in `content-graph-topology-and-labels`; those earlier failures are useful historical context but not the remaining blocker that needs a new fix feature."
     }
   ],
-  "previousRound": "/Users/test/vision/.factory/validation/content-depth/scrutiny/synthesis.round-1.json"
+  "previousRound": null
 }
