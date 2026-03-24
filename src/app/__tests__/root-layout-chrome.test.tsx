@@ -13,29 +13,70 @@
  */
 
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { NAV_ITEMS } from "@/components/nav-items";
+import RootLayout from "../layout";
 import Home from "../page";
 
+function renderHomeWithinRootLayout() {
+  const layoutElement = RootLayout({
+    children: <Home />,
+  }) as React.ReactElement<{
+    lang?: string;
+    className?: string;
+    children: React.ReactNode;
+  }>;
+
+  expect(layoutElement.type).toBe("html");
+
+  const bodyElement = React.Children.only(
+    layoutElement.props.children
+  ) as React.ReactElement<{
+    className?: string;
+    children: React.ReactNode;
+  }>;
+
+  expect(bodyElement.type).toBe("body");
+
+  return {
+    layoutElement,
+    bodyElement,
+    ...render(<>{bodyElement.props.children}</>),
+  };
+}
+
 describe("RootLayout shared chrome — Header", () => {
-  it("navigation items use graph-first hash destinations", () => {
-    // All nav items should use #graph-<id> format
+  it("renders the RootLayout header chrome with graph-first navigation", () => {
+    const { layoutElement, bodyElement } = renderHomeWithinRootLayout();
+
+    expect(layoutElement.props.lang).toBe("en");
+    expect(layoutElement.props.className).toContain("dark");
+    expect(bodyElement.props.className).toContain("flex");
+    expect(screen.getByTestId("header-logotype")).toBeInTheDocument();
+
+    const desktopNav = screen.getByTestId("desktop-nav");
     for (const item of NAV_ITEMS) {
+      const link = within(desktopNav).getByRole("link", { name: item.label });
+      expect(link).toHaveAttribute("href", item.href);
       expect(item.href).toMatch(/^#graph-/);
     }
   });
 
-  it("graph node IDs in navigation match valid graph nodes", async () => {
-    render(<Home />);
+  it("rendered RootLayout navigation targets valid graph nodes", async () => {
+    renderHomeWithinRootLayout();
     // GraphExplorer loads via dynamic import (VAL-VISUAL-027)
     await screen.findByTestId("graph-shell");
+
+    const desktopNav = screen.getByTestId("desktop-nav");
     // Each nav item's graph target should correspond to a graph node button
     const graphNodes = screen.getAllByTestId("graph-node-button");
     const graphNodeLabels = graphNodes.map((n) =>
       n.getAttribute("aria-label")?.toLowerCase()
     );
     for (const item of NAV_ITEMS) {
-      // Nav label should match a graph node label
+      expect(
+        within(desktopNav).getByRole("link", { name: item.label })
+      ).toHaveAttribute("href", item.href);
       expect(
         graphNodeLabels.some((label) => label?.includes(item.label.toLowerCase()))
       ).toBe(true);
@@ -52,6 +93,7 @@ describe("RootLayout shared chrome — Header", () => {
   });
 
   it("navigation covers required destinations: what, live, roadmap, tokenomics, evidence, risks (VAL-NARR-004)", () => {
+    renderHomeWithinRootLayout();
     const requiredDestinations = [
       "graph-what-is-better",
       "graph-live-now",
@@ -60,7 +102,9 @@ describe("RootLayout shared chrome — Header", () => {
       "graph-evidence",
       "graph-risks",
     ];
-    const navHrefs = NAV_ITEMS.map((item) => item.href.replace("#", ""));
+    const navHrefs = within(screen.getByTestId("desktop-nav"))
+      .getAllByRole("link")
+      .map((item) => item.getAttribute("href")?.replace("#", ""));
     for (const dest of requiredDestinations) {
       expect(navHrefs).toContain(dest);
     }
@@ -68,19 +112,19 @@ describe("RootLayout shared chrome — Header", () => {
 });
 
 describe("RootLayout shared chrome — Footer", () => {
-  it("footer disclaimer mentions maturity labels", () => {
-    const expectedFooterText =
-      "This site presents the BETTER ecosystem vision. Maturity labels distinguish live features from planned and speculative roadmap items.";
-    expect(expectedFooterText.toLowerCase()).toContain("maturity labels");
-    expect(expectedFooterText.toLowerCase()).toContain("live");
-    expect(expectedFooterText.toLowerCase()).toContain("planned");
-    expect(expectedFooterText.toLowerCase()).toContain("speculative");
+  it("footer disclaimer renders with maturity labels", () => {
+    renderHomeWithinRootLayout();
+    expect(
+      screen.getByText(
+        "This site presents the BETTER ecosystem vision. Maturity labels distinguish live features from planned and speculative roadmap items."
+      )
+    ).toBeInTheDocument();
   });
 });
 
 describe("RootLayout shared chrome — Section structure", () => {
   it("page renders compact brand band, atlas, and proof sections in correct order", async () => {
-    render(<Home />);
+    renderHomeWithinRootLayout();
     const brandBand = screen.getByTestId("compact-brand-band");
     const proof = await screen.findByTestId("proof-section");
     const atlas = document.getElementById("atlas");
@@ -95,7 +139,7 @@ describe("RootLayout shared chrome — Section structure", () => {
   });
 
   it("brand band explains BETTER before requiring scroll (VAL-CROSS-001)", () => {
-    render(<Home />);
+    renderHomeWithinRootLayout();
     const brandBand = screen.getByTestId("compact-brand-band");
     expect(brandBand).toBeInTheDocument();
     expect(brandBand.textContent).toContain("prediction-market intelligence");
@@ -106,7 +150,7 @@ describe("RootLayout shared chrome — Section structure", () => {
   });
 
   it("atlas section contains the graph shell", async () => {
-    render(<Home />);
+    renderHomeWithinRootLayout();
     const atlas = document.getElementById("atlas");
     expect(atlas).toBeInTheDocument();
     // GraphExplorer loads via dynamic import (VAL-VISUAL-027)
