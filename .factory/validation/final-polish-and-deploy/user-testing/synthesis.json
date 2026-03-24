@@ -1,40 +1,25 @@
 {
   "milestone": "final-polish-and-deploy",
-  "round": 1,
-  "status": "fail",
+  "round": 2,
+  "status": "pass",
   "assertionsSummary": {
-    "total": 4,
-    "passed": 3,
-    "failed": 1,
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
     "blocked": 0
   },
   "passedAssertions": [
-    "VAL-POLISH-001",
-    "VAL-POLISH-002",
-    "VAL-POLISH-004"
+    "VAL-POLISH-003"
   ],
-  "failedAssertions": [
-    {
-      "id": "VAL-POLISH-003",
-      "reason": "GitHub push could not be verified: the repo is not in a clean pushed state because HEAD 45ab584 is 6 commits ahead of remote main 5e31591 and validation also observed local uncommitted validator guidance/report updates."
-    }
-  ],
+  "failedAssertions": [],
   "blockedAssertions": [],
-  "appliedUpdates": [
-    {
-      "target": "user-testing.md",
-      "description": "Added Flow Validator Guidance: release-cli so final-polish release-state assertions can be validated with read-only git/build checks alongside browser validation.",
-      "source": "setup"
-    }
-  ],
-  "previousRound": null,
+  "appliedUpdates": [],
+  "previousRound": ".factory/validation/final-polish-and-deploy/user-testing/synthesis.round1.json",
   "flowReports": [
-    ".factory/validation/final-polish-and-deploy/user-testing/flows/browser-polish.json",
-    ".factory/validation/final-polish-and-deploy/user-testing/flows/release-cli-polish.json"
+    ".factory/validation/final-polish-and-deploy/user-testing/flows/release-cli-rerun-round2.json"
   ],
   "notes": [
-    "Browser validation ran against the shared production-backed local web service on http://127.0.0.1:3100.",
-    "Browser concurrency stayed at 1 per .factory/library/user-testing.md guidance.",
-    "VAL-POLISH-003 failed on direct git evidence: remote refs/heads/main resolved to 5e31591f50d8f65c7d4db905f72ba319f30b25bc while local HEAD resolved to 45ab5840a5697b020e9994ccd89e9d736311f6ba."
+    "Round 2 re-tested only the previously failed release-state assertion from round 1.",
+    "Read-only git validation confirmed a clean working tree and full synchronization between HEAD, origin/main, and remote refs/heads/main at 0eaed31ae58c72a56222b3709cec3cfe0d5c52ad."
   ]
 }
