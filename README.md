@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BETTER Vision
 
-## Getting Started
+BETTER Vision is a graph-first Next.js site for the BETTER ecosystem. It packages the investor story, product proof, roadmap, tokenomics, architecture, and evidence surfaces into one explorable workspace.
 
-First, run the development server:
+## Content Sections
+
+- **What is BETTER** — brand framing, mission, and product promise
+- **Macro Thesis** — geopolitical risk, prediction-market accuracy, and market opportunity
+- **Proof & Trust / Live Now** — current product proof, maturity framing, and live cues
+- **Roadmap** — graph-first roadmap exploration with execution plans and proof gates
+- **Tokenomics & Valuation** — minted supply, whale-first access, vault modeling, and valuation corridors
+- **Architecture** — stack layers, infrastructure sequencing, and BETTER flywheel context
+- **HFT Edge** — Rust execution, co-location, latency, sizing, and copy-trading mechanics
+- **LLM Product** — BRAID-backed prediction-market model product and subscription framing
+- **TRUTH-PERP & Flywheel** — Hyperliquid moat, vBETTER arbitrage, and buy-and-burn loop
+- **Evidence & Risks** — evidence hooks, source paths, caveats, and dependency framing
+
+## Project Structure
+
+- `src/app` — App Router entrypoints, layout, and global styles
+- `src/components` — graph shell, proof surfaces, tokenomics, architecture, and shared UI
+- `src/content` — typed content/data models for roadmap, tokenomics, valuation, and new deep-dive surfaces
+
+## Local Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev -- --hostname 127.0.0.1 --port 3100
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://127.0.0.1:3100`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Validation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm test
+npm run lint
+npx tsc --noEmit
+npm run build
+```
 
-## Learn More
+## Production Preview
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+HOSTNAME=127.0.0.1 PORT=3100 npm run start -- --hostname 127.0.0.1 --port 3100
+```
