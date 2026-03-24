@@ -25,8 +25,8 @@ The experience reads as a **dynamic graph workspace with an investor-readable st
 | `--bg-primary` | `#101010` | Page background / main canvas |
 | `--bg-secondary` | `#191a1d` | Card backgrounds, section panels |
 | `--bg-card` | `rgba(255, 255, 255, 0.04)` | Nearly-transparent glass card surface so the shader remains visible through cards |
-| `--bg-card-hover` | `rgba(255, 255, 255, 0.08)` | Card hover state with stronger sheen but still transparent |
-| `--bg-card-emphasis` | `rgba(255, 255, 255, 0.30)` | Emphasized glass surface |
+| `--bg-card-hover` | `rgba(255, 255, 255, 0.07)` | Subtle card hover lift that stays transparent and should never feel like a flash |
+| `--bg-card-emphasis` | `rgba(255, 255, 255, 0.18)` | Maximum restrained sheen center / emphasized glass surface |
 | `--bg-overlay-dark` | `rgba(0, 0, 0, 0.65)` | Image darkening overlay |
 
 ### Text Colors
@@ -135,7 +135,7 @@ is reserved for static status dots/signals only.
 
 ## Liquid Metal Card Treatment
 
-The signature card system uses a **liquid metal** approach — glass-morphism with cursor-tracking metallic sheen.
+The signature card system uses a **liquid metal** approach — glass-morphism with a restrained cursor-tracking metallic sheen.
 
 ### Base Card CSS
 
@@ -150,28 +150,28 @@ border: 1px solid rgba(255, 255, 255, 0.12); /* subtle edge */
 
 ```css
 /* Hover state */
-background-color: rgba(255, 255, 255, 0.08);
-box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.03); /* subtle inner glow */
+background-color: rgba(255, 255, 255, 0.07);
+box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.02); /* optional — reduce or remove if it reads too bright */
 
 /* Cursor-tracking radial-gradient metallic sheen */
 background-image: radial-gradient(
   circle at var(--mouse-x) var(--mouse-y),
-  rgba(255, 255, 255, 0.30) 0%,   /* strong center highlight */
-  rgba(200, 210, 255, 0.12) 40%,  /* secondary metallic ring */
+  rgba(255, 255, 255, 0.16) 0%,   /* restrained center highlight */
+  rgba(200, 210, 255, 0.06) 40%,  /* soft secondary metallic ring */
   transparent 70%
 );
 ```
 
 ### Migration Note
 
-**LiquidMetalCard is being replaced by shadcn Card components.** All production components should use shadcn `Card`/`CardContent`/`CardHeader` instead of `LiquidMetalCard`. The liquid-metal styling (cursor-tracking sheen, glass transparency, variant system) is preserved via a wrapper around the shadcn Card primitive. See the shadcn migration validation contract in `.factory/validation/shadcn-migration/assertions.md` and the project `AGENTS.md` for migration guidance and requirements.
+**LiquidMetalCard is being replaced by shadcn Card components.** All production components should use shadcn `Card`/`CardContent`/`CardHeader` instead of `LiquidMetalCard`. The liquid-metal styling (cursor-tracking sheen, glass transparency, variant system) is preserved via a wrapper around the shadcn Card primitive, but the sheen should stay barely there and supportive rather than bright. See the shadcn migration validation contract in `.factory/validation/shadcn-migration/assertions.md` and the project `AGENTS.md` for migration guidance and requirements.
 
 ### Card Principles
 
 1. **Nearly transparent**: Cards at 4% opacity let the shader background show through. They should feel like glass panels floating over the shader, not opaque boxes.
 2. **Borders over shadows**: Thin 1px borders at 12% white for subtle edge definition.
 3. **8px border-radius**: The only radius for content cards.
-4. **Strong cursor sheen**: The metallic sheen must be clearly visible (30%+ center opacity).
+4. **Barely-there cursor sheen**: The metallic sheen should feel calm and refined, typically around `rgba(255,255,255,0.12)` to `0.18` max at the center with a soft `rgba(200,210,255,0.04-0.08)` ring. It must never become the brightest thing on the page.
 5. **No backdrop-blur**: Glass effect is opacity-based only. No blur that obscures the shader.
 6. **No WebGL**: Cursor-tracking metallic sheen is pure CSS (radial-gradient + mousemove event).
 7. **Left-aligned content** within cards: top-down vertical flow.
@@ -316,7 +316,7 @@ box-shadow: none;
 - No constant ambient animation noise.
 - Smoothness matters more than spectacle.
 - All motion must degrade cleanly under `prefers-reduced-motion`.
-- Cursor-tracking metallic sheen on cards is the primary interactive motion.
+- Cursor-tracking metallic sheen on cards is a quiet supporting motion, not a bright attention grabber.
 
 ---
 
