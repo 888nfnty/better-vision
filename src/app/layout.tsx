@@ -29,11 +29,32 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600", "700"],
 });
 
+function resolveMetadataBase(): URL | undefined {
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ??
+    process.env.VERCEL_URL;
+
+  if (!siteUrl) {
+    return undefined;
+  }
+
+  const normalizedSiteUrl = /^https?:\/\//.test(siteUrl)
+    ? siteUrl
+    : `https://${siteUrl}`;
+
+  try {
+    return new URL(normalizedSiteUrl);
+  } catch {
+    return undefined;
+  }
+}
+
 export const metadata: Metadata = {
   title: "BETTER — Vision & Ecosystem Roadmap",
   description:
     "The canonical future-state artifact for the BETTER ecosystem: roadmap, tokenomics, architecture, and interactive strategy atlas.",
-  metadataBase: new URL("https://better-vision.vercel.app"),
+  metadataBase: resolveMetadataBase(),
   openGraph: {
     title: "BETTER — Vision & Ecosystem Roadmap",
     description:

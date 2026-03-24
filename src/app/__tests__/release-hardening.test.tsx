@@ -7,6 +7,8 @@
  */
 
 import React from "react";
+import fs from "fs";
+import path from "path";
 import { render } from "@testing-library/react";
 import Home from "../page";
 import { NAV_ITEMS } from "@/components/nav-items";
@@ -115,7 +117,15 @@ describe("Release hardening — deep-link target integrity", () => {
 // ---------------------------------------------------------------------------
 
 describe("Release hardening — metadata contract", () => {
-  it("metadataBase uses a production URL, not localhost", async () => {
+  it("layout source does not hardcode the unrelated better-vision.vercel.app alias", () => {
+    const layoutSource = fs.readFileSync(
+      path.resolve(__dirname, "../layout.tsx"),
+      "utf-8"
+    );
+    expect(layoutSource).not.toContain("better-vision.vercel.app");
+  });
+
+  it("metadataBase stays unset locally or resolves to a non-localhost production URL", async () => {
     // Import the metadata export from layout
     // We verify by checking the layout module directly
     const layoutModule = await import("../layout");
@@ -127,10 +137,11 @@ describe("Release hardening — metadata contract", () => {
     };
 
     expect(metadata).toBeDefined();
-    expect(metadata.metadataBase).toBeDefined();
-    expect(metadata.metadataBase!.toString()).not.toMatch(/localhost/i);
-    expect(metadata.metadataBase!.toString()).not.toMatch(/127\.0\.0\.1/);
-    expect(metadata.metadataBase!.toString()).toMatch(/^https:\/\//);
+    if (metadata.metadataBase) {
+      expect(metadata.metadataBase.toString()).not.toMatch(/localhost/i);
+      expect(metadata.metadataBase.toString()).not.toMatch(/127\.0\.0\.1/);
+      expect(metadata.metadataBase.toString()).toMatch(/^https:\/\//);
+    }
   });
 
   it("metadata includes required SEO fields", async () => {
