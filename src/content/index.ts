@@ -134,6 +134,14 @@ export type {
   HftEdgeFormula,
 } from "./hft-edge";
 
+// LLM product surface content
+export { LLM_PRODUCT_CONTENT } from "./llm-product";
+export type {
+  LlmProductContent,
+  LlmProductSection,
+  LlmProductMetric,
+} from "./llm-product";
+
 // Execution plans
 export {
   EXECUTION_PLANS,

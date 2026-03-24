@@ -17,6 +17,7 @@ import { GraphShell } from "./GraphShell";
 import { HeroSurface } from "./surfaces/HeroSurface";
 import { MacroThesisSurface } from "./surfaces/MacroThesisSurface";
 import { HftEdgeSurface } from "./surfaces/HftEdgeSurface";
+import { LlmProductSurface } from "./surfaces/LlmProductSurface";
 import { ProofSurface } from "./surfaces/ProofSurface";
 import { LiveNowSurface } from "./surfaces/LiveNowSurface";
 import { RoadmapSurface } from "./surfaces/RoadmapSurface";
@@ -34,6 +35,7 @@ const SURFACE_CONTENT: Record<string, React.ReactNode> = {
   "what-is-better": <HeroSurface />,
   "macro-thesis": <MacroThesisSurface />,
   "hft-edge": <HftEdgeSurface />,
+  "llm-product": <LlmProductSurface />,
   proof: <ProofSurface />,
   "live-now": <LiveNowSurface />,
   roadmap: <RoadmapSurface />,

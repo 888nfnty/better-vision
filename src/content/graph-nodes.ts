@@ -120,6 +120,16 @@ export const GRAPH_NODES: GraphNode[] = [
     legacySectionId: "hft-edge",
   },
   {
+    id: "llm-product",
+    label: "LLM Product",
+    description: "Prediction-market model product with BRAID DAG reasoning, $29/mo API access, and holder discounts",
+    icon: "✦",
+    dominantStatus: "planned",
+    related: ["architecture", "tokenomics"],
+    category: "analysis",
+    legacySectionId: "llm-product",
+  },
+  {
     id: "valuation",
     label: "Valuation",
     description: "Conservative stage-based valuation corridors and vault-capacity modeling",
