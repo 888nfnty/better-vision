@@ -77,18 +77,18 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
           </h5>
           <ul className="space-y-2">
             {internalWorkstreams.map((ws, i) => (
-              <BetterCard
-                as="li"
-                key={i}
-                className="px-3 py-2"
-              >
-                <span className="text-xs font-semibold text-foreground">
-                  {ws.label}
-                </span>
-                <p className="mt-0.5 text-xs leading-relaxed text-white/70">
-                  {ws.description}
-                </p>
-              </BetterCard>
+              <li key={i}>
+                <BetterCard
+                  className="px-3 py-2"
+                >
+                  <span className="text-xs font-semibold text-foreground">
+                    {ws.label}
+                  </span>
+                  <p className="mt-0.5 text-xs leading-relaxed text-white/70">
+                    {ws.description}
+                  </p>
+                </BetterCard>
+              </li>
             ))}
           </ul>
         </div>
@@ -109,18 +109,18 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
           </h5>
           <ul className="space-y-2">
             {externalWorkstreams.map((ws, i) => (
-              <BetterCard
-                as="li"
-                key={i}
-                className="px-3 py-2"
-              >
-                <span className="text-xs font-semibold text-foreground">
-                  {ws.label}
-                </span>
-                <p className="mt-0.5 text-xs leading-relaxed text-white/70">
-                  {ws.description}
-                </p>
-              </BetterCard>
+              <li key={i}>
+                <BetterCard
+                  className="px-3 py-2"
+                >
+                  <span className="text-xs font-semibold text-foreground">
+                    {ws.label}
+                  </span>
+                  <p className="mt-0.5 text-xs leading-relaxed text-white/70">
+                    {ws.description}
+                  </p>
+                </BetterCard>
+              </li>
             ))}
           </ul>
         </div>
@@ -156,21 +156,21 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
         </h5>
         <ul className="space-y-2">
           {plan.proofGates.map((gate, i) => (
-            <BetterCard
-              as="li"
-              key={i}
-              className="px-3 py-2"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <span className="text-xs font-semibold text-accent">
-                  {gate.label}
-                </span>
-                <EvidenceHook source={gate.source} />
-              </div>
-              <p className="mt-1 text-xs leading-relaxed text-white">
-                {gate.criterion}
-              </p>
-            </BetterCard>
+            <li key={i}>
+              <BetterCard
+                className="px-3 py-2"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <span className="text-xs font-semibold text-accent">
+                    {gate.label}
+                  </span>
+                  <EvidenceHook source={gate.source} />
+                </div>
+                <p className="mt-1 text-xs leading-relaxed text-white">
+                  {gate.criterion}
+                </p>
+              </BetterCard>
+            </li>
           ))}
         </ul>
       </div>

@@ -42,7 +42,6 @@ export default function ProofModule() {
           {proofBlocks.map((block) => (
             <BetterCard
               key={block.id}
-              as="article"
               className="group relative p-5 transition-colors"
               data-testid="proof-item"
             >

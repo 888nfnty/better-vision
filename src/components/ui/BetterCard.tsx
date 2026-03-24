@@ -3,13 +3,15 @@
 /**
  * BetterCard — shadcn Card wrapper with liquid metal cursor-tracking sheen.
  *
- * Wraps shadcn/ui Card internally and adds:
+ * Wraps shadcn/ui Card internally (from '@/components/ui/card') and adds:
  * 1. Cursor-tracking metallic sheen via onMouseMove setting --metal-x/--metal-y
  *    CSS properties + radial-gradient
  * 2. Hover state background rgba(255,255,255,0.08)
  * 3. Inner glow box-shadow: inset 0 0 30px rgba(255,255,255,0.03)
  * 4. Smooth transitions (200ms ease)
  * 5. Variant props (default/active/focused) with ring styles
+ *
+ * The rendered DOM includes data-slot='card' from the shadcn Card primitive.
  *
  * VAL-SHADCN-002: Replaces LiquidMetalCard across all production components.
  * VAL-SHADCN-003: Cards are near-transparent glass over shader.
@@ -23,12 +25,12 @@ import React, {
   forwardRef,
   useImperativeHandle,
   type ReactNode,
-  type ElementType,
   type HTMLAttributes,
   type MouseEvent,
   type Ref,
 } from "react";
 import { cn } from "@/lib/utils";
+import { Card } from "./card";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -39,14 +41,12 @@ interface BetterCardBaseProps {
   className?: string;
   /** Visual variant */
   variant?: "default" | "active" | "focused";
-  /** Element to render as (polymorphic) */
-  as?: ElementType;
   /** External ref */
-  ref?: Ref<HTMLElement>;
+  ref?: Ref<HTMLDivElement>;
 }
 
 export type BetterCardProps = BetterCardBaseProps &
-  Omit<HTMLAttributes<HTMLElement>, keyof BetterCardBaseProps>;
+  Omit<HTMLAttributes<HTMLDivElement>, keyof BetterCardBaseProps>;
 
 // ---------------------------------------------------------------------------
 // Variant classes
@@ -63,18 +63,17 @@ const VARIANT_CLASSES: Record<string, string> = {
 // Component
 // ---------------------------------------------------------------------------
 
-export const BetterCard = forwardRef<HTMLElement, Omit<BetterCardProps, "ref">>(
+export const BetterCard = forwardRef<HTMLDivElement, Omit<BetterCardProps, "ref">>(
   function BetterCard(
     {
       children,
       className,
       variant = "default",
-      as: Component = "div",
       ...rest
     },
     externalRef
   ) {
-    const internalRef = useRef<HTMLElement | null>(null);
+    const internalRef = useRef<HTMLDivElement | null>(null);
     const [isHovered, setIsHovered] = useState(false);
 
     // Expose the internal ref to the external ref
@@ -82,7 +81,7 @@ export const BetterCard = forwardRef<HTMLElement, Omit<BetterCardProps, "ref">>(
 
     // Track cursor position relative to the card for the metallic sheen
     const handleMouseMove = useCallback(
-      (e: MouseEvent<HTMLElement>) => {
+      (e: MouseEvent<HTMLDivElement>) => {
         const el = internalRef.current;
         if (!el) return;
         const rect = el.getBoundingClientRect();
@@ -131,11 +130,10 @@ export const BetterCard = forwardRef<HTMLElement, Omit<BetterCardProps, "ref">>(
       (rest as Record<string, unknown>)["data-testid"] ?? "better-card";
 
     return (
-      <Component
+      <Card
         ref={internalRef}
-        data-slot="card"
         className={cn(
-          "rounded-lg text-card-foreground",
+          "text-card-foreground",
           VARIANT_CLASSES[variant],
           className
         )}
@@ -147,7 +145,7 @@ export const BetterCard = forwardRef<HTMLElement, Omit<BetterCardProps, "ref">>(
         {...rest}
       >
         {children}
-      </Component>
+      </Card>
     );
   }
 );

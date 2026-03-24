@@ -197,11 +197,18 @@ export default function FlywheelExplorer() {
                   return (
                     <BetterCard
                       key={node.id}
-                      as="button"
+                      role="button"
+                      tabIndex={0}
                       variant={isSelected ? "active" : "default"}
                       onClick={() => handleNodeClick(node.id)}
+                      onKeyDown={(e: React.KeyboardEvent) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          handleNodeClick(node.id);
+                        }
+                      }}
                       aria-pressed={isSelected}
-                      className="w-full p-3 text-left transition-all"
+                      className="w-full cursor-pointer p-3 text-left transition-all"
                       data-testid="flywheel-node"
                       data-node-id={node.id}
                     >

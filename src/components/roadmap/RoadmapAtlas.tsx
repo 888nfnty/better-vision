@@ -531,16 +531,18 @@ export default function RoadmapAtlas() {
 
       {/* Mobile story panels (visible below lg) */}
       <div className="lg:hidden">
-        <BetterCard as="details">
-          <summary className="cursor-pointer p-4 font-terminal text-sm font-medium text-white">
-            Branch Family Overview
-          </summary>
-          <div className="border-t border-border p-4">
-            <RoadmapStorySection
-              activeFamilyIndex={activeFamilyIndex}
-              onActiveFamilyChange={handleStoryFamilyChange}
-            />
-          </div>
+        <BetterCard>
+          <details>
+            <summary className="cursor-pointer p-4 font-terminal text-sm font-medium text-white">
+              Branch Family Overview
+            </summary>
+            <div className="border-t border-border p-4">
+              <RoadmapStorySection
+                activeFamilyIndex={activeFamilyIndex}
+                onActiveFamilyChange={handleStoryFamilyChange}
+              />
+            </div>
+          </details>
         </BetterCard>
       </div>
     </div>

@@ -23,7 +23,6 @@ export default function NarrativeCard({
 
   return (
     <BetterCard
-      as="article"
       className={`p-5 ${className}`}
       data-testid="narrative-card"
       data-status={block.status}

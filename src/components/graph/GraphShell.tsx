@@ -735,14 +735,21 @@ function GraphNodeMap({
         return (
           <BetterCard
             key={node.id}
-            as="button"
+            role="button"
+            tabIndex={0}
             variant={isFocused ? "focused" : isActive ? "active" : "default"}
             data-testid="graph-node-button"
             data-active={isActive ? "true" : "false"}
             onClick={() => onNodeSelect(node.id)}
+            onKeyDown={(e: React.KeyboardEvent) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onNodeSelect(node.id);
+              }
+            }}
             aria-label={node.label}
             aria-pressed={isFocused}
-            className="group relative flex items-start gap-3 p-3 text-left transition-all"
+            className="group relative flex cursor-pointer items-start gap-3 p-3 text-left transition-all"
           >
             {/* Node icon */}
             <span
