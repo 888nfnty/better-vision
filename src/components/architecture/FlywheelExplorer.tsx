@@ -12,7 +12,7 @@
 import React, { useState, useCallback } from "react";
 import MaturityBadge from "@/components/MaturityBadge";
 import CaveatFrame from "@/components/CaveatFrame";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { MaturityStatus } from "@/content";
 
 // ---------------------------------------------------------------------------
@@ -195,7 +195,7 @@ export default function FlywheelExplorer() {
                 {nodes.map((node) => {
                   const isSelected = selectedNodeId === node.id;
                   return (
-                    <LiquidMetalCard
+                    <BetterCard
                       key={node.id}
                       as="button"
                       variant={isSelected ? "active" : "default"}
@@ -217,7 +217,7 @@ export default function FlywheelExplorer() {
                       <p className="text-xs text-white/70 line-clamp-2">
                         {node.summary}
                       </p>
-                    </LiquidMetalCard>
+                    </BetterCard>
                   );
                 })}
               </div>
@@ -228,7 +228,7 @@ export default function FlywheelExplorer() {
 
       {/* Selected node detail panel */}
       {selectedNode && (
-        <LiquidMetalCard
+        <BetterCard
           variant="active"
           className="mt-6 p-5"
           data-testid="flywheel-detail"
@@ -255,7 +255,7 @@ export default function FlywheelExplorer() {
 
           {/* Feeds into */}
           {selectedNode.feedsInto.length > 0 && (
-            <LiquidMetalCard className="px-3 py-2">
+            <BetterCard className="px-3 py-2">
               <p className="text-xs text-accent">
                 <span className="mr-1 font-terminal font-semibold">
                   Feeds into:
@@ -264,7 +264,7 @@ export default function FlywheelExplorer() {
                   .map((id) => getNodeTitle(id))
                   .join(" → ")}
               </p>
-            </LiquidMetalCard>
+            </BetterCard>
           )}
 
           {/* Which nodes feed into this one */}
@@ -274,17 +274,17 @@ export default function FlywheelExplorer() {
             );
             if (feedsFrom.length === 0) return null;
             return (
-              <LiquidMetalCard className="mt-2 px-3 py-2">
+              <BetterCard className="mt-2 px-3 py-2">
                 <p className="text-xs text-white">
                   <span className="mr-1 font-terminal font-semibold">
                     Fed by:
                   </span>
                   {feedsFrom.map((n) => n.title).join(", ")}
                 </p>
-              </LiquidMetalCard>
+              </BetterCard>
             );
           })()}
-        </LiquidMetalCard>
+        </BetterCard>
       )}
 
       <CaveatFrame

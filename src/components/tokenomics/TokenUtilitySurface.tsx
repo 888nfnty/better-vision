@@ -11,7 +11,7 @@
 import MaturityBadge from "@/components/MaturityBadge";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { MaturityStatus, SourceCue, ConfidenceFrame, UseCaseAnalysis } from "@/content";
 import { USE_CASE_ANALYSES } from "@/content";
 
@@ -258,7 +258,7 @@ function UtilityCard({
   analysis?: UseCaseAnalysis;
 }) {
   return (
-    <LiquidMetalCard
+    <BetterCard
       className="p-4"
       data-testid="utility-card"
       data-utility-id={mechanic.id}
@@ -269,12 +269,12 @@ function UtilityCard({
       </div>
       <p className="mb-3 text-sm text-white">{mechanic.description}</p>
 
-      <LiquidMetalCard className="mb-3 px-3 py-2">
+      <BetterCard className="mb-3 px-3 py-2">
         <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
           Token Role
         </span>
         <p className="mt-0.5 text-sm text-white">{mechanic.tokenRole}</p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Use-case depth analysis (VAL-TOKEN-021) */}
       {analysis && <UseCaseDepthSection analysis={analysis} />}
@@ -283,7 +283,7 @@ function UtilityCard({
       {mechanic.confidence && (
         <CaveatFrame confidence={mechanic.confidence} className="mt-2" />
       )}
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }
 
@@ -291,7 +291,7 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
   return (
     <div className="mb-3 space-y-2">
       {/* Comparable Market Size */}
-      <LiquidMetalCard
+      <BetterCard
         className="px-3 py-2"
         data-testid="use-case-market-size"
       >
@@ -301,10 +301,10 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
         <p className="mt-0.5 text-xs text-white">
           {analysis.comparableMarketSize}
         </p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Revenue Model */}
-      <LiquidMetalCard
+      <BetterCard
         className="px-3 py-2"
         data-testid="use-case-revenue-model"
       >
@@ -314,10 +314,10 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
         <p className="mt-0.5 text-xs text-white">
           {analysis.revenueModel}
         </p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Estimated Revenue Range */}
-      <LiquidMetalCard
+      <BetterCard
         className="px-3 py-2"
         data-testid="use-case-revenue-range"
       >
@@ -327,10 +327,10 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
         <p className="mt-0.5 font-terminal text-xs text-accent">
           {analysis.estimatedRevenueRange}
         </p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Token Demand Implications */}
-      <LiquidMetalCard
+      <BetterCard
         className="px-3 py-2"
         data-testid="use-case-token-demand"
       >
@@ -340,10 +340,10 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
         <p className="mt-0.5 text-xs text-white">
           {analysis.tokenDemandImplications}
         </p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Realistic Timeline */}
-      <LiquidMetalCard
+      <BetterCard
         className="px-3 py-2"
         data-testid="use-case-timeline"
       >
@@ -353,11 +353,11 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
         <p className="mt-0.5 text-xs text-white">
           {analysis.realisticTimeline}
         </p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Key Dependencies */}
       {analysis.keyDependencies.length > 0 && (
-        <LiquidMetalCard className="px-3 py-2">
+        <BetterCard className="px-3 py-2">
           <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
             Key Dependencies
           </span>
@@ -366,7 +366,7 @@ function UseCaseDepthSection({ analysis }: { analysis: UseCaseAnalysis }) {
               <li key={i}>{dep}</li>
             ))}
           </ul>
-        </LiquidMetalCard>
+        </BetterCard>
       )}
     </div>
   );

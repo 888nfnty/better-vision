@@ -10,7 +10,7 @@ import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
 import type { SourceCue, ConfidenceFrame } from "@/content";
 import MaturityBadge from "@/components/MaturityBadge";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 
 const allocationSource: SourceCue = {
   type: "canonical",
@@ -99,15 +99,15 @@ export default function NonLinearAllocation() {
       </div>
 
       {/* Formula explanation */}
-      <LiquidMetalCard className="mb-6 p-4">
+      <BetterCard className="mb-6 p-4">
         <h4 className="mb-2 font-terminal text-sm font-semibold text-accent">
           How It Works
         </h4>
-        <LiquidMetalCard className="mb-3 px-4 py-3 font-terminal text-sm text-foreground">
+        <BetterCard className="mb-3 px-4 py-3 font-terminal text-sm text-foreground">
           <code>
             Weight = √(Staked BETTER) &nbsp;|&nbsp; Cap = max(V/N, V×20%) &nbsp;|&nbsp; Floor = $100
           </code>
-        </LiquidMetalCard>
+        </BetterCard>
         <p className="mb-2 text-sm text-white">
           The <span className="font-semibold text-foreground">square root</span> of each staker&apos;s
           BETTER commitment determines their weight. This creates diminishing returns for larger stakes:
@@ -126,7 +126,7 @@ export default function NonLinearAllocation() {
         <p className="mt-2 text-xs text-white/70">
           A 130× difference in stake translates to only an 11.4× difference in allocation weight.
         </p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Worked examples table — 20-staker scenario */}
       <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-white/70">
@@ -188,7 +188,7 @@ export default function NonLinearAllocation() {
       </div>
 
       {/* Key takeaway */}
-      <LiquidMetalCard className="mt-4 p-4">
+      <BetterCard className="mt-4 p-4">
         <h4 className="mb-2 font-terminal text-xs font-semibold uppercase tracking-wider text-white/70">
           Key Takeaway
         </h4>
@@ -199,7 +199,7 @@ export default function NonLinearAllocation() {
           share increases from 0.7% to <span className="font-semibold text-accent">2.3%</span>. Staking more still earns meaningfully
           more allocation, but the advantage tapers — creating a fairer distribution while preserving whale incentives.
         </p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       <CaveatFrame confidence={allocationCaveat} className="mt-4" />
     </div>

@@ -5,13 +5,16 @@
  * Includes shadcn/ui components (Card, Dialog, Sheet, Badge, Separator).
  */
 export { Button, buttonVariants } from "./Button";
-export type { ButtonProps } from "./Button";
 
 export { Section } from "./Section";
 export type { SectionProps } from "./Section";
 
 export { Heading } from "./Heading";
 export type { HeadingProps } from "./Heading";
+
+/* BetterCard — shadcn Card wrapper with liquid metal cursor-tracking sheen */
+export { BetterCard } from "./BetterCard";
+export type { BetterCardProps } from "./BetterCard";
 
 /* shadcn/ui components — installed via npx shadcn@latest add */
 export {

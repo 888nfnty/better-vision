@@ -15,7 +15,7 @@ import {
   validateAllocations,
 } from "@/content";
 import EvidenceHook from "@/components/EvidenceHook";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 
 /** Format a large number with commas */
 function formatNumber(n: number): string {
@@ -38,14 +38,14 @@ export default function SupplyAllocation() {
         BETTER tokens on the Base contract — on-chain verified via Dune Analytics
         and basescan.
       </p>
-      <LiquidMetalCard className="mb-4 px-3 py-2 text-xs text-white">
+      <BetterCard className="mb-4 px-3 py-2 text-xs text-white">
         <span className="font-terminal font-medium text-accent">Base Contract:</span>{" "}
         <code className="font-terminal text-foreground">{BASE_CONTRACT.address}</code>
         <span className="ml-2 text-white/70">({BASE_CONTRACT.chain})</span>
         <div className="mt-1">
           <EvidenceHook source={BASE_CONTRACT.source} />
         </div>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Allocation table */}
       <div className="overflow-x-auto">

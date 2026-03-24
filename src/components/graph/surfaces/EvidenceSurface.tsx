@@ -1,7 +1,7 @@
 /**
  * EvidenceSurface — the "Evidence & Sources" graph surface content.
  */
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 
 export function EvidenceSurface() {
   return (
@@ -53,7 +53,7 @@ function EvidenceExplainerCard({
   example: string;
 }) {
   return (
-    <LiquidMetalCard className="p-5" data-testid="evidence-explainer">
+    <BetterCard className="p-5" data-testid="evidence-explainer">
       <div className="mb-2 flex items-center gap-2">
         <span className="font-terminal text-lg text-accent" aria-hidden="true">
           {icon}
@@ -63,11 +63,11 @@ function EvidenceExplainerCard({
         </h3>
       </div>
       <p className="mb-3 text-sm text-white">{description}</p>
-      <LiquidMetalCard className="px-3 py-2">
+      <BetterCard className="px-3 py-2">
         <p className="font-terminal text-xs text-white/70">
           Example: {example}
         </p>
-      </LiquidMetalCard>
-    </LiquidMetalCard>
+      </BetterCard>
+    </BetterCard>
   );
 }

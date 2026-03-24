@@ -20,7 +20,7 @@ import {
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
 import MaturityBadge from "@/components/MaturityBadge";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { ConfidenceFrame } from "@/content";
 
 /** Format a large number with commas */
@@ -60,7 +60,7 @@ export default function FirstVaultPolicy() {
 
       {/* Policy rules */}
       <div className="mb-6 grid gap-4 sm:grid-cols-2">
-        <LiquidMetalCard className="p-4">
+        <BetterCard className="p-4">
           <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
             Universal Minimum Stake
           </span>
@@ -70,8 +70,8 @@ export default function FirstVaultPolicy() {
           <p className="mt-1 text-xs text-white">
             Required for all quant-team vaults (Standard tier or above).
           </p>
-        </LiquidMetalCard>
-        <LiquidMetalCard className="p-4">
+        </BetterCard>
+        <BetterCard className="p-4">
           <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
             Total Vault Cap
           </span>
@@ -81,11 +81,11 @@ export default function FirstVaultPolicy() {
           <p className="mt-1 text-xs text-white">
             Total deposits across ALL qualifying stakers for the first vault. Individual allocations use the per-staker bidding model.
           </p>
-        </LiquidMetalCard>
+        </BetterCard>
       </div>
 
       {/* Bidding model explanation */}
-      <LiquidMetalCard className="mb-6 p-4" data-testid="bidding-model-explanation">
+      <BetterCard className="mb-6 p-4" data-testid="bidding-model-explanation">
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           √-Weighted Bidding Allocation Model
         </h4>
@@ -97,50 +97,50 @@ export default function FirstVaultPolicy() {
           diminishing returns.
         </p>
         <div className="grid gap-3 sm:grid-cols-3">
-          <LiquidMetalCard className="px-3 py-2">
+          <BetterCard className="px-3 py-2">
             <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
               Tapering
             </span>
             <span className="font-terminal font-semibold text-foreground">
               √-weighted (α = {BIDDING_MODEL_PARAMS.alpha})
             </span>
-          </LiquidMetalCard>
-          <LiquidMetalCard className="px-3 py-2">
+          </BetterCard>
+          <BetterCard className="px-3 py-2">
             <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
               Per-Staker Cap
             </span>
             <span className="font-terminal font-semibold text-foreground">
               max(V/N, V×{BIDDING_MODEL_PARAMS.perStakerCapRatio * 100}%)
             </span>
-          </LiquidMetalCard>
-          <LiquidMetalCard className="px-3 py-2">
+          </BetterCard>
+          <BetterCard className="px-3 py-2">
             <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
               Minimum Floor
             </span>
             <span className="font-terminal font-semibold text-foreground">
               ${BIDDING_MODEL_PARAMS.minimumFloorUsd} USDC
             </span>
-          </LiquidMetalCard>
+          </BetterCard>
         </div>
         <p className="mt-3 text-xs text-white/70">
           The hybrid model compresses whale allocations via √-tapering, bounds maximum
           individual exposure via the hard cap, and guarantees meaningful participation
           for every qualifier via the $100 floor.
         </p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Social vault differentiation */}
-      <LiquidMetalCard className="mb-6 p-4" data-testid="social-vault-differentiation">
+      <BetterCard className="mb-6 p-4" data-testid="social-vault-differentiation">
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           Social Vault Minimum: {formatNumber(SOCIAL_VAULT_PARAMS.minimumStake)} BETTER
         </h4>
         <p className="text-sm text-white">
           {SOCIAL_VAULT_PARAMS.differentiationNote}
         </p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Multi-vault progression */}
-      <LiquidMetalCard className="mb-6 p-4" data-testid="multi-vault-progression">
+      <BetterCard className="mb-6 p-4" data-testid="multi-vault-progression">
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           Multi-Vault Progression
         </h4>
@@ -149,7 +149,7 @@ export default function FirstVaultPolicy() {
         </p>
         <div className="space-y-2">
           {MULTI_VAULT_PROGRESSION.stages.map((stage, i) => (
-            <LiquidMetalCard key={i} className="flex items-center gap-3 px-3 py-2">
+            <BetterCard key={i} className="flex items-center gap-3 px-3 py-2">
               <MaturityBadge status={stage.maturity} />
               <div>
                 <span className="font-terminal text-sm font-semibold text-foreground">
@@ -166,10 +166,10 @@ export default function FirstVaultPolicy() {
                   </span>
                 )}
               </div>
-            </LiquidMetalCard>
+            </BetterCard>
           ))}
         </div>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Worked examples */}
       <h4 className="mb-3 font-terminal text-sm font-semibold uppercase tracking-wider text-white/70">
@@ -177,7 +177,7 @@ export default function FirstVaultPolicy() {
       </h4>
       <div className="space-y-3" data-testid="first-vault-worked-examples">
         {FIRST_VAULT_WORKED_EXAMPLES.map((ex) => (
-          <LiquidMetalCard
+          <BetterCard
             key={ex.label}
             className={`p-4 ${
               ex.qualifies ? "ring-1 ring-[rgba(255,255,255,0.12)]" : ""
@@ -207,34 +207,34 @@ export default function FirstVaultPolicy() {
             </div>
             {ex.qualifies && (
               <div className="grid gap-3 sm:grid-cols-3">
-                <LiquidMetalCard className="px-3 py-2">
+                <BetterCard className="px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     √-Weight
                   </span>
                   <span className="font-terminal font-semibold text-foreground">
                     {ex.sqrtWeight.toLocaleString("en-US", { maximumFractionDigits: 0 })}
                   </span>
-                </LiquidMetalCard>
-                <LiquidMetalCard className="px-3 py-2">
+                </BetterCard>
+                <BetterCard className="px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Estimated Allocation
                   </span>
                   <span className="font-terminal font-semibold text-accent">
                     ${formatNumber(ex.estimatedAllocationUsd)}
                   </span>
-                </LiquidMetalCard>
-                <LiquidMetalCard className="px-3 py-2">
+                </BetterCard>
+                <BetterCard className="px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     % of Vault
                   </span>
                   <span className="font-terminal font-semibold text-foreground">
                     {ex.percentOfVault.toFixed(1)}%
                   </span>
-                </LiquidMetalCard>
+                </BetterCard>
               </div>
             )}
             <p className="mt-2 text-xs text-white/70">{ex.explanation}</p>
-          </LiquidMetalCard>
+          </BetterCard>
         ))}
       </div>
 

@@ -26,7 +26,7 @@ import {
 } from "@/content";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { ConfidenceFrame, SourceCue } from "@/content";
 import { useGraphShellPersistence } from "@/components/graph/GraphShellPersistence";
 
@@ -175,7 +175,7 @@ export default function ScenarioSwitcher() {
       </div>
 
       {/* User-editable inputs — persisted independently from scenario level */}
-      <LiquidMetalCard
+      <BetterCard
         className="mb-6 p-4"
         data-testid="user-inputs-panel"
       >
@@ -232,7 +232,7 @@ export default function ScenarioSwitcher() {
         {(parsedBalance > 0 || parsedDeposit > 0) && (
           <div className="mt-4" data-testid="allocation-preview">
             <div className="grid gap-3 sm:grid-cols-3">
-              <LiquidMetalCard className="px-3 py-2">
+              <BetterCard className="px-3 py-2">
                 <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                   Your Tier
                 </span>
@@ -242,24 +242,24 @@ export default function ScenarioSwitcher() {
                 >
                   {resolvedTier.name}
                 </span>
-              </LiquidMetalCard>
-              <LiquidMetalCard className="px-3 py-2">
+              </BetterCard>
+              <BetterCard className="px-3 py-2">
                 <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                   √-Weight
                 </span>
                 <span className="font-terminal text-white">
                   {sqrtWeightFormatted}
                 </span>
-              </LiquidMetalCard>
+              </BetterCard>
               {parsedBalance >= 100_000 && (
-                <LiquidMetalCard className="px-3 py-2">
+                <BetterCard className="px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Vault Eligible
                   </span>
                   <span className="font-terminal font-semibold text-accent">
                     ✓ Qualifies
                   </span>
-                </LiquidMetalCard>
+                </BetterCard>
               )}
             </div>
             <div className="mt-2">
@@ -267,7 +267,7 @@ export default function ScenarioSwitcher() {
             </div>
           </div>
         )}
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Active scenario panel */}
       <div
@@ -277,12 +277,12 @@ export default function ScenarioSwitcher() {
         data-testid="scenario-panel"
       >
         {/* Scenario description */}
-        <LiquidMetalCard className="mb-6 p-4">
+        <BetterCard className="mb-6 p-4">
           <h4 className="mb-1 font-terminal text-sm font-semibold text-accent">
             {activeScenario.label} Scenario
           </h4>
           <p className="text-sm text-white">{activeScenario.description}</p>
-        </LiquidMetalCard>
+        </BetterCard>
 
         {/* Assumptions panel */}
         <div className="mb-6" data-testid="assumptions-panel">
@@ -291,7 +291,7 @@ export default function ScenarioSwitcher() {
           </h4>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {activeScenario.assumptions.map((assumption) => (
-              <LiquidMetalCard
+              <BetterCard
                 key={assumption.dimension}
                 className="p-3"
                 data-testid="assumption-card"
@@ -309,7 +309,7 @@ export default function ScenarioSwitcher() {
                 <div className="mt-2">
                   <EvidenceHook source={assumption.source} />
                 </div>
-              </LiquidMetalCard>
+              </BetterCard>
             ))}
           </div>
         </div>
@@ -403,7 +403,7 @@ function ProjectionCard({
     .slice(0, 3);
 
   return (
-    <LiquidMetalCard
+    <BetterCard
       className="p-4"
       data-testid="projection-card"
     >
@@ -426,6 +426,6 @@ function ProjectionCard({
           </p>
         </div>
       )}
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }

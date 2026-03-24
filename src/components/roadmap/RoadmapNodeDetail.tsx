@@ -3,7 +3,7 @@ import { getNodeById, getExecutionPlanForNode } from "@/content";
 import MaturityBadge from "@/components/MaturityBadge";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import ExecutionPlanPanel from "./ExecutionPlanPanel";
 
 /**
@@ -26,7 +26,7 @@ export default function RoadmapNodeDetail({
   const executionPlan = getExecutionPlanForNode(node.id);
 
   return (
-    <LiquidMetalCard
+    <BetterCard
       data-testid="roadmap-node-detail"
       className="p-5"
       role="region"
@@ -67,12 +67,12 @@ export default function RoadmapNodeDetail({
 
       {/* Unlocks */}
       {node.unlocks && (
-        <LiquidMetalCard className="mb-3 px-3 py-2">
+        <BetterCard className="mb-3 px-3 py-2">
           <p className="text-xs text-accent">
             <span className="mr-1 font-terminal font-semibold">Unlocks:</span>
             {node.unlocks}
           </p>
-        </LiquidMetalCard>
+        </BetterCard>
       )}
 
       {/* Dependencies — resolved to readable titles */}
@@ -101,6 +101,6 @@ export default function RoadmapNodeDetail({
 
       {/* Per-stage execution plan (VAL-ROADMAP-016) */}
       {executionPlan && <ExecutionPlanPanel plan={executionPlan} />}
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }

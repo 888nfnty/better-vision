@@ -14,7 +14,7 @@ import React, { useState, useCallback } from "react";
 import MaturityBadge from "@/components/MaturityBadge";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import { COST_BAND_MODELS, getPhaseLabel, type CostBandModel, type CostBandPhase } from "@/content";
 
 function formatCurrency(value: number): string {
@@ -111,7 +111,7 @@ function SubsystemCostBand({
   )[0];
 
   return (
-    <LiquidMetalCard>
+    <BetterCard>
       {/* Toggle header */}
       <button
         type="button"
@@ -152,7 +152,7 @@ function SubsystemCostBand({
           ))}
         </div>
       )}
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }
 
@@ -162,7 +162,7 @@ function SubsystemCostBand({
 
 function PhaseCard({ phase, index }: { phase: CostBandPhase; index: number }) {
   return (
-    <LiquidMetalCard
+    <BetterCard
       className="p-3"
       data-testid="cost-band-phase"
     >
@@ -209,6 +209,6 @@ function PhaseCard({ phase, index }: { phase: CostBandPhase; index: number }) {
       )}
 
       <EvidenceHook source={phase.source} />
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }

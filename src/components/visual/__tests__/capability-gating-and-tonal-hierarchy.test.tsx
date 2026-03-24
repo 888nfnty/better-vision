@@ -338,13 +338,13 @@ describe("VAL-VISUAL-021: tradebetter parity documented with reference evidence"
   });
 
   it("shell surfaces reference tradebetter theme across detail panels and overlays", () => {
-    // The graph shell uses LiquidMetalCard glass-morphism with cursor-tracking
-    // metallic sheen (tradebetter-exact design) for tonal hierarchy
+    // The graph shell uses BetterCard (shadcn Card wrapper) glass-morphism with
+    // cursor-tracking metallic sheen (tradebetter-exact design) for tonal hierarchy
     const shellSrc = fs.readFileSync(
       path.resolve(__dirname, "../../graph/GraphShell.tsx"),
       "utf-8",
     );
-    expect(shellSrc).toContain("LiquidMetalCard");
+    expect(shellSrc).toContain("BetterCard");
   });
 
   it("explicit tradebetter comparison evidence document exists and covers required attributes", () => {

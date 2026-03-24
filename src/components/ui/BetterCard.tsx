@@ -1,33 +1,19 @@
 "use client";
 
 /**
- * LiquidMetalCard — Nearly-transparent glass panel with liquid metal finish.
+ * BetterCard — shadcn Card wrapper with liquid metal cursor-tracking sheen.
  *
- * VAL-VISUAL-030: Cards across the graph workspace and content surfaces use
- * glass-morphism (semi-transparent white backgrounds, white borders at low
- * opacity) with a liquid metal interactive finish (cursor-tracking metallic
- * sheen or equivalent radial-gradient effect).
+ * Wraps shadcn/ui Card internally and adds:
+ * 1. Cursor-tracking metallic sheen via onMouseMove setting --metal-x/--metal-y
+ *    CSS properties + radial-gradient
+ * 2. Hover state background rgba(255,255,255,0.08)
+ * 3. Inner glow box-shadow: inset 0 0 30px rgba(255,255,255,0.03)
+ * 4. Smooth transitions (200ms ease)
+ * 5. Variant props (default/active/focused) with ring styles
  *
- * VAL-VISUAL-035: Cards are nearly transparent so the shader background shows
- * through. No backdrop-blur. Cursor-tracking metallic sheen clearly visible
- * on hover. Subtle inner glow adds depth without opacity.
- *
- * Glass-morphism base:
- *   - background: rgba(255, 255, 255, 0.04) — nearly transparent
- *   - border: 1px solid rgba(255, 255, 255, 0.12) — subtle edge
- *   - border-radius: 8px (rounded-lg)
- *   - NO backdrop-filter (removed to let shader show through)
- *
- * Liquid metal finish:
- *   - Cursor-tracking radial-gradient with metallic white/silver sheen
- *   - Center highlight: rgba(255, 255, 255, 0.38) — clearly visible over 0.08 base
- *   - Secondary metallic ring: rgba(200, 210, 255, 0.12) at 40% for depth
- *   - Activated on hover/interaction
- *   - CSS-only, no WebGL
- *
- * Hover state:
- *   - background: rgba(255, 255, 255, 0.08)
- *   - box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.03) — subtle inner glow
+ * VAL-SHADCN-002: Replaces LiquidMetalCard across all production components.
+ * VAL-SHADCN-003: Cards are near-transparent glass over shader.
+ * VAL-SHADCN-004: Cursor-tracking metallic sheen on shadcn cards.
  */
 
 import React, {
@@ -48,19 +34,19 @@ import { cn } from "@/lib/utils";
 // Types
 // ---------------------------------------------------------------------------
 
-interface LiquidMetalCardBaseProps {
+interface BetterCardBaseProps {
   children: ReactNode;
   className?: string;
   /** Visual variant */
   variant?: "default" | "active" | "focused";
-  /** Element to render as */
+  /** Element to render as (polymorphic) */
   as?: ElementType;
   /** External ref */
   ref?: Ref<HTMLElement>;
 }
 
-export type LiquidMetalCardProps = LiquidMetalCardBaseProps &
-  Omit<HTMLAttributes<HTMLElement>, keyof LiquidMetalCardBaseProps>;
+export type BetterCardProps = BetterCardBaseProps &
+  Omit<HTMLAttributes<HTMLElement>, keyof BetterCardBaseProps>;
 
 // ---------------------------------------------------------------------------
 // Variant classes
@@ -77,8 +63,8 @@ const VARIANT_CLASSES: Record<string, string> = {
 // Component
 // ---------------------------------------------------------------------------
 
-export const LiquidMetalCard = forwardRef<HTMLElement, Omit<LiquidMetalCardProps, "ref">>(
-  function LiquidMetalCard(
+export const BetterCard = forwardRef<HTMLElement, Omit<BetterCardProps, "ref">>(
+  function BetterCard(
     {
       children,
       className,
@@ -122,7 +108,7 @@ export const LiquidMetalCard = forwardRef<HTMLElement, Omit<LiquidMetalCardProps
     }, []);
 
     // Nearly-transparent glass base + liquid metal sheen via inline style
-    // VAL-VISUAL-035: 0.04 base / 0.08 hover — shader visible through cards
+    // VAL-VISUAL-035 / VAL-SHADCN-003: 0.04 base / 0.08 hover
     const baseBackground = isHovered
       ? "rgba(255, 255, 255, 0.08)"
       : "rgba(255, 255, 255, 0.04)";
@@ -132,21 +118,24 @@ export const LiquidMetalCard = forwardRef<HTMLElement, Omit<LiquidMetalCardProps
         ? `radial-gradient(circle at var(--metal-x, 50%) var(--metal-y, 50%), rgba(255, 255, 255, 0.38) 0%, rgba(200, 210, 255, 0.12) 40%, transparent 70%), ${baseBackground}`
         : baseBackground,
       border: "1px solid rgba(255, 255, 255, 0.12)",
-      // No backdrop-filter — removed to let shader background show through
-      boxShadow: isHovered ? "inset 0 0 30px rgba(255, 255, 255, 0.03)" : "none",
+      // No backdrop-filter — let shader background show through
+      boxShadow: isHovered
+        ? "inset 0 0 30px rgba(255, 255, 255, 0.03)"
+        : "none",
       transition: "background 0.2s ease, box-shadow 0.2s ease",
       ...(rest.style ?? {}),
     };
 
     // Merge testid: use provided data-testid or default
     const testId =
-      (rest as Record<string, unknown>)["data-testid"] ?? "liquid-metal-card";
+      (rest as Record<string, unknown>)["data-testid"] ?? "better-card";
 
     return (
       <Component
         ref={internalRef}
+        data-slot="card"
         className={cn(
-          "rounded-lg",
+          "rounded-lg text-card-foreground",
           VARIANT_CLASSES[variant],
           className
         )}

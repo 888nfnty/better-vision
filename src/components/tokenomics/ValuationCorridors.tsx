@@ -16,7 +16,7 @@ import {
 } from "@/content/valuation-corridors";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { ConfidenceFrame } from "@/content";
 
 /** Format a number with commas */
@@ -61,7 +61,7 @@ export default function ValuationCorridors() {
       </p>
 
       {/* Basis declaration */}
-      <LiquidMetalCard
+      <BetterCard
         className="mb-6 p-4"
         data-testid="corridor-basis-declaration"
       >
@@ -87,7 +87,7 @@ export default function ValuationCorridors() {
           All corridors use the same valuation and supply basis so they are
           directly comparable. No corridor silently switches framing.
         </p>
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Corridor table */}
       <div className="space-y-4" data-testid="corridor-list">
@@ -96,7 +96,7 @@ export default function ValuationCorridors() {
           const highPrice = computeImpliedTokenPrice(corridor.upperBoundM);
 
           return (
-            <LiquidMetalCard
+            <BetterCard
               key={corridor.id}
               className={`p-4 ${
                 corridor.isLiveAnchor ? "ring-1 ring-[rgba(255,255,255,0.12)]" : ""
@@ -118,7 +118,7 @@ export default function ValuationCorridors() {
 
               {/* Numeric bounds + implied token price */}
               <div className="mb-4 grid gap-3 sm:grid-cols-3">
-                <LiquidMetalCard className="px-3 py-2">
+                <BetterCard className="px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     FDV Range
                   </span>
@@ -128,8 +128,8 @@ export default function ValuationCorridors() {
                   >
                     ${formatNumber(corridor.lowerBoundM)}M – ${formatNumber(corridor.upperBoundM)}M
                   </span>
-                </LiquidMetalCard>
-                <LiquidMetalCard className="px-3 py-2">
+                </BetterCard>
+                <BetterCard className="px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Implied Token Price
                   </span>
@@ -139,15 +139,15 @@ export default function ValuationCorridors() {
                   >
                     {formatPrice(lowPrice)} – {formatPrice(highPrice)}
                   </span>
-                </LiquidMetalCard>
-                <LiquidMetalCard className="px-3 py-2">
+                </BetterCard>
+                <BetterCard className="px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Comparables
                   </span>
                   <span className="text-xs text-white" data-testid="corridor-comparables">
                     {corridor.comparableCategories.join("; ")}
                   </span>
-                </LiquidMetalCard>
+                </BetterCard>
               </div>
 
               {/* Proof gates */}
@@ -166,7 +166,7 @@ export default function ValuationCorridors() {
               </div>
 
               <EvidenceHook source={corridor.source} />
-            </LiquidMetalCard>
+            </BetterCard>
           );
         })}
       </div>

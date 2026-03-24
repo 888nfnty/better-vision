@@ -1,7 +1,7 @@
 import { getBlocksBySurface } from "@/content";
 import MaturityBadge from "./MaturityBadge";
 import EvidenceHook from "./EvidenceHook";
-import { LiquidMetalCard } from "./LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 
 /**
  * ProofModule — proof/trust surface that appears between the hero and dense
@@ -40,7 +40,7 @@ export default function ProofModule() {
         {/* Proof items grid */}
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
           {proofBlocks.map((block) => (
-            <LiquidMetalCard
+            <BetterCard
               key={block.id}
               as="article"
               className="group relative p-5 transition-colors"
@@ -56,7 +56,7 @@ export default function ProofModule() {
               <p className="text-sm leading-relaxed text-white">
                 {block.body}
               </p>
-            </LiquidMetalCard>
+            </BetterCard>
           ))}
         </div>
 

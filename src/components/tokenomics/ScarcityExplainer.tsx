@@ -7,7 +7,7 @@
 
 import CaveatFrame from "@/components/CaveatFrame";
 import EvidenceHook from "@/components/EvidenceHook";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { SourceCue, ConfidenceFrame } from "@/content";
 
 const scarcitySource: SourceCue = {
@@ -80,7 +80,7 @@ export default function ScarcityExplainer() {
 
       <div className="space-y-4">
         {SCARCITY_RULES.map((rule) => (
-          <LiquidMetalCard
+          <BetterCard
             key={rule.title}
             className="p-4"
             data-testid="scarcity-rule"
@@ -100,7 +100,7 @@ export default function ScarcityExplainer() {
                 <p className="mt-0.5 text-sm text-white">{rule.resolution}</p>
               </div>
             </div>
-          </LiquidMetalCard>
+          </BetterCard>
         ))}
       </div>
 

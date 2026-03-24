@@ -7,7 +7,7 @@
 
 import { getTiersSorted, type TokenTier } from "@/content";
 import EvidenceHook from "@/components/EvidenceHook";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 
 /** Format a large number with commas */
 function formatNumber(n: number): string {
@@ -136,7 +136,7 @@ function TierDetailCard({ tier }: { tier: TokenTier }) {
   const isWhaleOrAbove = tier.feeMultiplier < 1;
 
   return (
-    <LiquidMetalCard
+    <BetterCard
       className={`p-4 ${
         isWhaleOrAbove ? "ring-1 ring-[rgba(255,255,255,0.12)]" : ""
       }`}
@@ -186,7 +186,7 @@ function TierDetailCard({ tier }: { tier: TokenTier }) {
           </div>
         </div>
       )}
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }
 
@@ -200,13 +200,13 @@ function BenefitItem({
   highlight?: boolean;
 }) {
   return (
-    <LiquidMetalCard className="px-2.5 py-1.5">
+    <BetterCard className="px-2.5 py-1.5">
       <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
         {label}
       </span>
       <span className={`text-sm ${highlight ? "font-semibold text-accent" : "text-white"}`}>
         {value}
       </span>
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }

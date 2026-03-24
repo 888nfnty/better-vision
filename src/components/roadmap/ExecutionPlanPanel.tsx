@@ -1,7 +1,7 @@
 import type { ExecutionPlan } from "@/content/types";
 import { CONFIDENCE_LABEL_DESCRIPTIONS } from "@/content/types";
 import EvidenceHook from "@/components/EvidenceHook";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 
 /**
  * ExecutionPlanPanel — renders a per-stage execution plan treatment.
@@ -24,7 +24,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
   );
 
   return (
-    <LiquidMetalCard
+    <BetterCard
       data-testid="execution-plan-panel"
       className="mt-4 space-y-4 p-4"
     >
@@ -42,7 +42,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
       </div>
 
       {/* Timing Window */}
-      <LiquidMetalCard
+      <BetterCard
         data-testid="execution-plan-timing"
         className="px-3 py-2"
       >
@@ -60,7 +60,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
             {plan.timingWindow.mainConstraint}
           </p>
         )}
-      </LiquidMetalCard>
+      </BetterCard>
 
       {/* Workstreams — Internal (AI-agent-compressible) */}
       {internalWorkstreams.length > 0 && (
@@ -77,7 +77,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
           </h5>
           <ul className="space-y-2">
             {internalWorkstreams.map((ws, i) => (
-              <LiquidMetalCard
+              <BetterCard
                 as="li"
                 key={i}
                 className="px-3 py-2"
@@ -88,7 +88,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
                 <p className="mt-0.5 text-xs leading-relaxed text-white/70">
                   {ws.description}
                 </p>
-              </LiquidMetalCard>
+              </BetterCard>
             ))}
           </ul>
         </div>
@@ -109,7 +109,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
           </h5>
           <ul className="space-y-2">
             {externalWorkstreams.map((ws, i) => (
-              <LiquidMetalCard
+              <BetterCard
                 as="li"
                 key={i}
                 className="px-3 py-2"
@@ -120,7 +120,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
                 <p className="mt-0.5 text-xs leading-relaxed text-white/70">
                   {ws.description}
                 </p>
-              </LiquidMetalCard>
+              </BetterCard>
             ))}
           </ul>
         </div>
@@ -156,7 +156,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
         </h5>
         <ul className="space-y-2">
           {plan.proofGates.map((gate, i) => (
-            <LiquidMetalCard
+            <BetterCard
               as="li"
               key={i}
               className="px-3 py-2"
@@ -170,7 +170,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
               <p className="mt-1 text-xs leading-relaxed text-white">
                 {gate.criterion}
               </p>
-            </LiquidMetalCard>
+            </BetterCard>
           ))}
         </ul>
       </div>
@@ -179,7 +179,7 @@ export default function ExecutionPlanPanel({ plan }: { plan: ExecutionPlan }) {
       <div className="flex items-center justify-end gap-2 border-t border-border/30 pt-2">
         <EvidenceHook source={plan.source} />
       </div>
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }
 

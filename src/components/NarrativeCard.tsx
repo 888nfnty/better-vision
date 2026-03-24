@@ -2,7 +2,7 @@ import type { NarrativeBlock } from "@/content";
 import MaturityBadge from "./MaturityBadge";
 import EvidenceHook from "./EvidenceHook";
 import CaveatFrame from "./CaveatFrame";
-import { LiquidMetalCard } from "./LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 
 /**
  * A narrative content card that visibly carries:
@@ -22,7 +22,7 @@ export default function NarrativeCard({
   const isFutureFacing = block.status !== "live";
 
   return (
-    <LiquidMetalCard
+    <BetterCard
       as="article"
       className={`p-5 ${className}`}
       data-testid="narrative-card"
@@ -39,6 +39,6 @@ export default function NarrativeCard({
       {isFutureFacing && block.confidence && (
         <CaveatFrame confidence={block.confidence} className="mt-3" />
       )}
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }

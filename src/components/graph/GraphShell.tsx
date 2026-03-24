@@ -46,7 +46,7 @@ import {
   getGateIndexForNode,
 } from "@/content/investor-pitch-path";
 import MaturityBadge from "@/components/MaturityBadge";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import { GraphShellPersistenceProvider } from "./GraphShellPersistence";
 
 // ---------------------------------------------------------------------------
@@ -503,7 +503,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
         <div data-testid="graph-overview" className="relative">
           {/* Invalid deep link fallback (VAL-ROADMAP-007) */}
           {invalidLink && (
-            <LiquidMetalCard
+            <BetterCard
               data-testid="graph-invalid-link-fallback"
               className="mb-4 p-4 text-center"
               role="alert"
@@ -523,7 +523,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
               >
                 Reset &amp; Explore
               </button>
-            </LiquidMetalCard>
+            </BetterCard>
           )}
 
           {/* Graph node map — the explorable mindmap (VAL-ROADMAP-001, VAL-ROADMAP-011) */}
@@ -543,7 +543,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
       {/* When focused: at most 2 layers — compact toolbar + this panel.  */}
       {/* ---------------------------------------------------------------- */}
       {focusedNode && (
-        <LiquidMetalCard
+        <BetterCard
           data-testid="graph-focused-surface"
           ref={focusedSurfaceRef}
           tabIndex={-1}
@@ -649,7 +649,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
               </div>
             )}
           </div>
-        </LiquidMetalCard>
+        </BetterCard>
       )}
     </div>
     </GraphShellPersistenceProvider>
@@ -733,7 +733,7 @@ function GraphNodeMap({
         const isFocused = node.id === focusedNodeId;
 
         return (
-          <LiquidMetalCard
+          <BetterCard
             key={node.id}
             as="button"
             variant={isFocused ? "focused" : isActive ? "active" : "default"}
@@ -780,7 +780,7 @@ function GraphNodeMap({
                 {node.related.length}
               </span>
             )}
-          </LiquidMetalCard>
+          </BetterCard>
         );
       })}
 

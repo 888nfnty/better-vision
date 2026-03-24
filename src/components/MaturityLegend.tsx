@@ -4,7 +4,7 @@ import {
   type MaturityStatus,
 } from "@/content";
 import MaturityBadge from "./MaturityBadge";
-import { LiquidMetalCard } from "./LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 
 const ORDERED_STATUSES: MaturityStatus[] = [
   "live",
@@ -20,7 +20,7 @@ const ORDERED_STATUSES: MaturityStatus[] = [
  */
 export default function MaturityLegend({ className = "" }: { className?: string }) {
   return (
-    <LiquidMetalCard
+    <BetterCard
       className={`p-6 ${className}`}
       role="region"
       aria-label="Maturity label legend"
@@ -49,6 +49,6 @@ export default function MaturityLegend({ className = "" }: { className?: string 
           </div>
         ))}
       </dl>
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }

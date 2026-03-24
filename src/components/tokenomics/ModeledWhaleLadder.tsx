@@ -10,7 +10,7 @@ import { MODELED_WHALE_PRODUCTS, getTierById } from "@/content";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
 import MaturityBadge from "@/components/MaturityBadge";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { ConfidenceFrame, MaturityStatus } from "@/content";
 
 /** Format a large number with commas */
@@ -49,7 +49,7 @@ export default function ModeledWhaleLadder() {
         {MODELED_WHALE_PRODUCTS.map((product) => {
           const tier = getTierById(product.minimumTierId);
           return (
-            <LiquidMetalCard
+            <BetterCard
               key={product.id}
               className="p-4"
               data-testid="modeled-whale-product"
@@ -64,27 +64,27 @@ export default function ModeledWhaleLadder() {
               </div>
               <p className="mb-3 text-sm text-white">{product.description}</p>
               <div className="grid gap-3 sm:grid-cols-2">
-                <LiquidMetalCard className="px-3 py-2">
+                <BetterCard className="px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Modeled Minimum
                   </span>
                   <span className="font-terminal font-semibold text-foreground">
                     ≥ {formatNumber(product.modeledMinimumBetter)} BETTER
                   </span>
-                </LiquidMetalCard>
-                <LiquidMetalCard className="px-3 py-2">
+                </BetterCard>
+                <BetterCard className="px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Required Tier
                   </span>
                   <span className="font-terminal font-semibold text-accent">
                     {tier?.name ?? product.minimumTierId}
                   </span>
-                </LiquidMetalCard>
+                </BetterCard>
               </div>
               <div className="mt-3">
                 <EvidenceHook source={product.source} />
               </div>
-            </LiquidMetalCard>
+            </BetterCard>
           );
         })}
       </div>

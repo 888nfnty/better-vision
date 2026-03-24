@@ -10,7 +10,7 @@ import { PRODUCT_FAMILY_REVENUE_MODELS } from "@/content";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
 import MaturityBadge from "@/components/MaturityBadge";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { ConfidenceFrame } from "@/content";
 
 const revenueCaveat: ConfidenceFrame = {
@@ -52,7 +52,7 @@ export default function ProductFamilyRevenueModel() {
 
       <div className="space-y-3">
         {PRODUCT_FAMILY_REVENUE_MODELS.map((model) => (
-          <LiquidMetalCard
+          <BetterCard
             key={model.id}
             className="p-4"
             data-testid="product-revenue-line"
@@ -71,26 +71,26 @@ export default function ProductFamilyRevenueModel() {
             <p className="mb-3 text-sm text-white">{model.revenueDescription}</p>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <LiquidMetalCard className="px-3 py-2">
+              <BetterCard className="px-3 py-2">
                 <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                   Return Path
                 </span>
                 <p className="text-xs text-white">{model.returnPath}</p>
-              </LiquidMetalCard>
+              </BetterCard>
               {model.estimatedRange && (
-                <LiquidMetalCard className="px-3 py-2">
+                <BetterCard className="px-3 py-2">
                   <span className="block font-terminal text-[10px] font-medium uppercase tracking-wider text-white/70">
                     Estimated Range
                   </span>
                   <p className="font-terminal text-xs text-accent">{model.estimatedRange}</p>
-                </LiquidMetalCard>
+                </BetterCard>
               )}
             </div>
 
             <div className="mt-3">
               <EvidenceHook source={model.source} />
             </div>
-          </LiquidMetalCard>
+          </BetterCard>
         ))}
       </div>
 

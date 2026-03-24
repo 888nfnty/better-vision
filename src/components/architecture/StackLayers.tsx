@@ -13,7 +13,7 @@
 
 import MaturityBadge from "@/components/MaturityBadge";
 import EvidenceHook from "@/components/EvidenceHook";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { MaturityStatus, SourceCue } from "@/content";
 
 // ---------------------------------------------------------------------------
@@ -137,7 +137,7 @@ export default function StackLayers() {
 
       <div className="space-y-3">
         {ARCHITECTURE_LAYERS.map((layer) => (
-          <LiquidMetalCard
+          <BetterCard
             key={layer.id}
             className="p-4"
             data-testid="architecture-layer"
@@ -168,7 +168,7 @@ export default function StackLayers() {
             )}
 
             <EvidenceHook source={layer.source} />
-          </LiquidMetalCard>
+          </BetterCard>
         ))}
       </div>
     </div>

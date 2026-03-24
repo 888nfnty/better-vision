@@ -265,9 +265,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* -----------------------------------------------------------------------
    Glass-morphism card base — VAL-VISUAL-030
-   All cards now use the LiquidMetalCard component with cursor-tracking
-   metallic sheen. The .glass-card CSS-only utility has been removed in
-   favor of the interactive LiquidMetalCard across ALL card surfaces.
+   All cards now use the BetterCard component (shadcn Card wrapper) with
+   cursor-tracking metallic sheen. The .glass-card CSS-only utility has
+   been removed in favor of the interactive BetterCard across ALL card surfaces.
    ----------------------------------------------------------------------- */
 
 /* -----------------------------------------------------------------------

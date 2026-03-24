@@ -1,5 +1,5 @@
 import type { ConfidenceFrame } from "@/content";
-import { LiquidMetalCard } from "./LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 
 /**
  * Renders nearby caveat / confidence framing for aggressive or future-facing claims.
@@ -13,7 +13,7 @@ export default function CaveatFrame({
   className?: string;
 }) {
   return (
-    <LiquidMetalCard
+    <BetterCard
       className={`px-3 py-2 ${className}`}
       role="note"
       aria-label="Confidence and caveat framing"
@@ -29,6 +29,6 @@ export default function CaveatFrame({
           {confidence.dependencies.join(", ")}
         </p>
       )}
-    </LiquidMetalCard>
+    </BetterCard>
   );
 }

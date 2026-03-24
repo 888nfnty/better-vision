@@ -10,7 +10,7 @@ import {
   type RoadmapNode,
 } from "@/content";
 import MaturityBadge from "@/components/MaturityBadge";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import RoadmapNodeDetail from "./RoadmapNodeDetail";
 import RoadmapStorySection, { FAMILY_KEYS } from "./RoadmapStorySection";
 import { useGraphShellPersistence } from "@/components/graph/GraphShellPersistence";
@@ -381,7 +381,7 @@ export default function RoadmapAtlas() {
 
       {/* Invalid deep link fallback */}
       {invalidDeepLink && (
-        <LiquidMetalCard
+        <BetterCard
           data-testid="roadmap-invalid-link-fallback"
           className="p-4 text-center"
           role="alert"
@@ -402,7 +402,7 @@ export default function RoadmapAtlas() {
           >
             Reset &amp; Explore Roadmap
           </button>
-        </LiquidMetalCard>
+        </BetterCard>
       )}
 
       {/* Main layout: Story panels + Branch explorer */}
@@ -531,7 +531,7 @@ export default function RoadmapAtlas() {
 
       {/* Mobile story panels (visible below lg) */}
       <div className="lg:hidden">
-        <LiquidMetalCard as="details">
+        <BetterCard as="details">
           <summary className="cursor-pointer p-4 font-terminal text-sm font-medium text-white">
             Branch Family Overview
           </summary>
@@ -541,7 +541,7 @@ export default function RoadmapAtlas() {
               onActiveFamilyChange={handleStoryFamilyChange}
             />
           </div>
-        </LiquidMetalCard>
+        </BetterCard>
       </div>
     </div>
   );

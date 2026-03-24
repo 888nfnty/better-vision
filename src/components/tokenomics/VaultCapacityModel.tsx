@@ -25,7 +25,7 @@ import {
 import { MINTED_SUPPLY, FIRST_VAULT_POLICY } from "@/content/token-tiers";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { ConfidenceFrame, SourceCue } from "@/content";
 
 /** Format a large number with commas */
@@ -218,7 +218,7 @@ export default function VaultCapacityModel() {
       {estimate ? (
         <div className="mb-6 space-y-4" data-testid="vault-capacity-results">
           {/* Share percentage */}
-          <LiquidMetalCard className="p-4">
+          <BetterCard className="p-4">
             <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
               Your Share of Staked Pool
             </span>
@@ -228,11 +228,11 @@ export default function VaultCapacityModel() {
             <p className="mt-1 text-xs text-white/70">
               {formatNumber(userStake)} ÷ {formatNumber(totalStaked)} = {estimate.sharePercentage.toFixed(4)}% of the staked pool
             </p>
-          </LiquidMetalCard>
+          </BetterCard>
 
           {/* Modeled allocation range vs total vault cap */}
           <div className="grid gap-4 sm:grid-cols-2">
-            <LiquidMetalCard className="p-4" data-testid="vault-modeled-allocation">
+            <BetterCard className="p-4" data-testid="vault-modeled-allocation">
               <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
                 Modeled Capacity Share (Range)
               </span>
@@ -244,8 +244,8 @@ export default function VaultCapacityModel() {
                 point estimate. This is a <span className="text-accent">modeled capacity share</span> within
                 the total vault cap, determined by the √-weighted bidding allocation model.
               </p>
-            </LiquidMetalCard>
-            <LiquidMetalCard
+            </BetterCard>
+            <BetterCard
               className="p-4"
               data-testid="vault-total-cap"
             >
@@ -261,11 +261,11 @@ export default function VaultCapacityModel() {
                   ? ` First-vault total cap: $${formatNumber(FIRST_VAULT_POLICY.totalVaultCapUsd)} USDC shared by all stakers.`
                   : " Modeled future vault cap (case-by-case)."}
               </p>
-            </LiquidMetalCard>
+            </BetterCard>
           </div>
 
           {/* Effective deposit */}
-          <LiquidMetalCard className="p-4" data-testid="vault-effective-deposit">
+          <BetterCard className="p-4" data-testid="vault-effective-deposit">
             <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
               Effective Allocation Estimate
             </span>
@@ -286,20 +286,20 @@ export default function VaultCapacityModel() {
                 </>
               )}
             </p>
-          </LiquidMetalCard>
+          </BetterCard>
         </div>
       ) : (
-        <LiquidMetalCard className="mb-6 p-4 text-center text-sm text-white/70" data-testid="vault-no-results">
+        <BetterCard className="mb-6 p-4 text-center text-sm text-white/70" data-testid="vault-no-results">
           {!totalStakedValid
             ? "Fix the total staked input to see results."
             : !userStakeValid
             ? "Your stake must be ≤ total staked."
             : "Enter a stake amount greater than 0 to see results."}
-        </LiquidMetalCard>
+        </BetterCard>
       )}
 
       {/* Whale-vault assumptions (always visible) */}
-      <LiquidMetalCard className="mb-4 p-4" data-testid="whale-vault-assumptions">
+      <BetterCard className="mb-4 p-4" data-testid="whale-vault-assumptions">
         <h4 className="mb-2 font-terminal text-sm font-semibold text-foreground">
           Modeled Whale-Vault Assumptions
         </h4>
@@ -358,7 +358,7 @@ export default function VaultCapacityModel() {
         <div className="mt-3">
           <EvidenceHook source={WHALE_VAULT_ASSUMPTIONS.source} />
         </div>
-      </LiquidMetalCard>
+      </BetterCard>
 
       <CaveatFrame confidence={modelCaveat} className="mt-4" />
     </div>

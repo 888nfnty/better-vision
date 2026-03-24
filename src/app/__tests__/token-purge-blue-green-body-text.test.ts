@@ -80,10 +80,10 @@ describe("Token purge: Button live variant uses white/monochrome, not green fill
   });
 });
 
-describe("Token purge: LiquidMetalCard ring colors use white/gray, not blue", () => {
+describe("Token purge: BetterCard ring colors use white/gray, not blue", () => {
   it("active and focused variants do not use rgba(69,94,255,...) rings", () => {
     const cardSrc = fs.readFileSync(
-      path.join(process.cwd(), "src/components/LiquidMetalCard.tsx"),
+      path.join(process.cwd(), "src/components/ui/BetterCard.tsx"),
       "utf-8"
     );
     // Active/focused ring should NOT use 69,94,255 (blue) for UI rings

@@ -9,7 +9,7 @@
 import MaturityBadge from "@/components/MaturityBadge";
 import EvidenceHook from "@/components/EvidenceHook";
 import CaveatFrame from "@/components/CaveatFrame";
-import { LiquidMetalCard } from "@/components/LiquidMetalCard";
+import { BetterCard } from "@/components/ui/BetterCard";
 import type { MaturityStatus, SourceCue, ConfidenceFrame } from "@/content";
 
 // ---------------------------------------------------------------------------
@@ -194,7 +194,7 @@ export default function FeeStackValueFlow() {
 
         <div className="space-y-3">
           {FEE_STACK.map((fee) => (
-            <LiquidMetalCard
+            <BetterCard
               key={fee.title}
               className="p-4"
               data-testid="fee-item"
@@ -204,16 +204,16 @@ export default function FeeStackValueFlow() {
                 <MaturityBadge status={fee.status} />
               </div>
               <p className="mb-2 text-sm text-white">{fee.description}</p>
-              <LiquidMetalCard className="px-3 py-2" data-testid="fee-example">
+              <BetterCard className="px-3 py-2" data-testid="fee-example">
                 <span className="font-terminal text-xs font-medium uppercase tracking-wider text-accent">
                   Worked Example
                 </span>
                 <p className="mt-0.5 text-sm text-white">{fee.example}</p>
-              </LiquidMetalCard>
+              </BetterCard>
               <div className="mt-2">
                 <EvidenceHook source={fee.source} />
               </div>
-            </LiquidMetalCard>
+            </BetterCard>
           ))}
         </div>
       </div>
@@ -230,7 +230,7 @@ export default function FeeStackValueFlow() {
 
         <div className="space-y-4">
           {VALUE_FLOWS.map((flow) => (
-            <LiquidMetalCard
+            <BetterCard
               key={flow.segment}
               className="p-4"
               data-testid="value-flow-card"
@@ -255,7 +255,7 @@ export default function FeeStackValueFlow() {
                   ))}
                 </ul>
               </div>
-            </LiquidMetalCard>
+            </BetterCard>
           ))}
         </div>
 

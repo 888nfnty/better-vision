@@ -1,11 +1,13 @@
 /**
- * Tests that ALL card surfaces across the site use the LiquidMetalCard
- * cursor-tracking treatment — no remaining glass-card CSS-only cards.
+ * Tests that ALL card surfaces across the site use the BetterCard
+ * cursor-tracking treatment (shadcn Card wrapper) — no remaining
+ * LiquidMetalCard or glass-card CSS-only cards.
  *
+ * VAL-SHADCN-002: Zero production components import LiquidMetalCard.
  * VAL-VISUAL-030: Cards across the graph workspace and content surfaces use
  * glass-morphism with a liquid metal interactive finish (cursor-tracking
  * metallic sheen). Every card/module should use the same glass-card +
- * liquid-metal treatment.
+ * liquid-metal treatment via BetterCard.
  */
 import fs from "fs";
 import path from "path";
@@ -27,7 +29,7 @@ function findTsxFiles(dir: string): string[] {
   return results;
 }
 
-describe("LiquidMetalCard everywhere — VAL-VISUAL-030", () => {
+describe("BetterCard everywhere — VAL-SHADCN-002 / VAL-VISUAL-030", () => {
   it("no component files reference the glass-card CSS class", () => {
     const componentsDir = path.resolve(__dirname, "..");
     const tsxFiles = findTsxFiles(componentsDir);
@@ -48,14 +50,27 @@ describe("LiquidMetalCard everywhere — VAL-VISUAL-030", () => {
     const globalsPath = path.resolve(__dirname, "../../app/globals.css");
     const content = fs.readFileSync(globalsPath, "utf-8");
     // Ensure no .glass-card CSS rule exists (not just a comment mentioning it)
-    // Match ".glass-card" followed by optional whitespace and an opening brace
     expect(content).not.toMatch(/\.glass-card\s*\{/);
-    // Also verify .glass-card:hover is not defined
     expect(content).not.toMatch(/\.glass-card:hover\s*\{/);
   });
 
-  it("all card-like surfaces import and use LiquidMetalCard for cursor tracking", () => {
-    // Key component files must import LiquidMetalCard for cursor-tracking metallic sheen
+  it("zero production components import LiquidMetalCard — VAL-SHADCN-002", () => {
+    const componentsDir = path.resolve(__dirname, "..");
+    const tsxFiles = findTsxFiles(componentsDir);
+
+    const filesImportingLiquidMetal: string[] = [];
+    for (const file of tsxFiles) {
+      const content = fs.readFileSync(file, "utf-8");
+      if (/import\s*\{[^}]*LiquidMetalCard[^}]*\}\s*from/.test(content)) {
+        filesImportingLiquidMetal.push(path.relative(componentsDir, file));
+      }
+    }
+
+    expect(filesImportingLiquidMetal).toEqual([]);
+  });
+
+  it("all card-like surfaces import and use BetterCard for cursor tracking", () => {
+    // Key component files must import BetterCard for cursor-tracking metallic sheen
     const expectedFiles = [
       "tokenomics/ReferralIncentives.tsx",
       "tokenomics/NonLinearAllocation.tsx",
@@ -87,7 +102,7 @@ describe("LiquidMetalCard everywhere — VAL-VISUAL-030", () => {
       const fullPath = path.join(componentsDir, relPath);
       if (!fs.existsSync(fullPath)) continue;
       const content = fs.readFileSync(fullPath, "utf-8");
-      if (!content.includes("LiquidMetalCard")) {
+      if (!content.includes("BetterCard")) {
         missingImports.push(relPath);
       }
     }
@@ -95,10 +110,7 @@ describe("LiquidMetalCard everywhere — VAL-VISUAL-030", () => {
     expect(missingImports).toEqual([]);
   });
 
-  it("no visible card/panel surfaces use raw border+bg patterns bypassing LiquidMetalCard", () => {
-    // These files contain card-like sub-panels that must all use LiquidMetalCard.
-    // Raw `rounded border border-* bg-*` patterns on div elements indicate
-    // card-like surfaces that should be wrapped with LiquidMetalCard instead.
+  it("no visible card/panel surfaces use raw border+bg patterns bypassing BetterCard", () => {
     const filesToCheck = [
       "CaveatFrame.tsx",
       "tokenomics/FdvRatchetExplainer.tsx",
@@ -113,13 +125,30 @@ describe("LiquidMetalCard everywhere — VAL-VISUAL-030", () => {
       if (!fs.existsSync(fullPath)) continue;
       const content = fs.readFileSync(fullPath, "utf-8");
 
-      // These files must import LiquidMetalCard and should not have
-      // raw card-like div elements with border+bg styling that bypass it
-      if (!content.includes("LiquidMetalCard")) {
-        violations.push(`${relPath}: does not import LiquidMetalCard`);
+      if (!content.includes("BetterCard")) {
+        violations.push(`${relPath}: does not import BetterCard`);
       }
     }
 
     expect(violations).toEqual([]);
+  });
+
+  it("BetterCard imports come from @/components/ui/BetterCard", () => {
+    const componentsDir = path.resolve(__dirname, "..");
+    const tsxFiles = findTsxFiles(componentsDir);
+
+    const wrongImports: string[] = [];
+    for (const file of tsxFiles) {
+      const content = fs.readFileSync(file, "utf-8");
+      // Check for BetterCard imports that don't come from the ui directory
+      if (content.includes("BetterCard") && !file.includes("ui/BetterCard")) {
+        const importMatch = content.match(/import\s*\{[^}]*BetterCard[^}]*\}\s*from\s*["']([^"']+)["']/);
+        if (importMatch && !importMatch[1].includes("ui/BetterCard")) {
+          wrongImports.push(path.relative(componentsDir, file));
+        }
+      }
+    }
+
+    expect(wrongImports).toEqual([]);
   });
 });
