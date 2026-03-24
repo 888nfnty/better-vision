@@ -50,6 +50,16 @@ export const GRAPH_NODES: GraphNode[] = [
     legacySectionId: "what-is-better",
   },
   {
+    id: "macro-thesis",
+    label: "Macro Thesis",
+    description: "Why war, broken hedges, and prediction-market accuracy matter now",
+    icon: "◎",
+    dominantStatus: "live",
+    related: ["what-is-better", "tokenomics"],
+    category: "analysis",
+    legacySectionId: "macro-thesis",
+  },
+  {
     id: "proof",
     label: "Proof & Trust",
     description: "Live product evidence and credibility signals",

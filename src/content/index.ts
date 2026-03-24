@@ -117,6 +117,14 @@ export {
 } from "./graph-nodes";
 export type { GraphNode } from "./graph-nodes";
 
+// Macro thesis surface content
+export { MACRO_THESIS_CONTENT } from "./macro-thesis";
+export type {
+  MacroThesisContent,
+  MacroThesisClaim,
+  MacroThesisMetric,
+} from "./macro-thesis";
+
 // Execution plans
 export {
   EXECUTION_PLANS,
