@@ -196,3 +196,11 @@ export type {
 
 // Use-case analyses (VAL-TOKEN-021)
 export { USE_CASE_ANALYSES } from "./use-case-analyses";
+
+// Existing-surface enrichment content
+export {
+  ARCHITECTURE_SURFACE_ENRICHMENTS,
+  TOKENOMICS_SURFACE_ENRICHMENTS,
+  PROOF_SURFACE_ENRICHMENTS,
+} from "./enriched-surfaces";
+export type { SurfaceEnrichment } from "./enriched-surfaces";
