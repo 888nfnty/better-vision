@@ -20,6 +20,16 @@ describe("shadcn card theme contract", () => {
     expect(darkBlock?.[1]).toContain("--border: rgba(255, 255, 255, 0.12)");
   });
 
+  it("keeps dark popover tokens on the same BETTER canvas contract", () => {
+    const darkBlock = globalsCss.match(/\.dark\s*\{([\s\S]*?)\n\}/);
+    expect(darkBlock?.[1]).toContain("--popover: #101010");
+    expect(darkBlock?.[1]).toContain("--popover-foreground: #ffffff");
+  });
+
+  it("uses an 8px shared radius token for the shadcn card family", () => {
+    expect(globalsCss).toContain("--radius: 0.5rem");
+  });
+
   it("uses rounded-lg across the shadcn card primitive instead of rounded-xl", () => {
     expect(cardSource).toContain("rounded-lg");
     expect(cardSource).toContain("rounded-t-lg");
