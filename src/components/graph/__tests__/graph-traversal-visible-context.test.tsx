@@ -106,6 +106,22 @@ describe("Graph traversal visible context (VAL-ROADMAP-012)", () => {
   // Scroll behavior: node-to-node traversal should NOT push graph overview
   // completely off-screen
   // -------------------------------------------------------------------------
+  it("calls scrollIntoView with block:'start' on the initial focus so the focused controls stay visible", async () => {
+    const scrollSpy = jest.fn();
+    Element.prototype.scrollIntoView = scrollSpy;
+
+    const user = userEvent.setup();
+    render(<GraphShell />);
+
+    const roadmapNode = getNodeButton(/roadmap/i);
+    await user.click(roadmapNode);
+
+    const startCalls = scrollSpy.mock.calls.filter(
+      (call) => call[0]?.block === "start"
+    );
+    expect(startCalls.length).toBeGreaterThan(0);
+  });
+
   it("does not call scrollIntoView with block:'start' on the focused surface during node-to-node traversal", async () => {
     const scrollSpy = jest.fn();
     Element.prototype.scrollIntoView = scrollSpy;

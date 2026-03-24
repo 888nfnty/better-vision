@@ -11,7 +11,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { GraphShell } from "../GraphShell";
-import { TOTAL_GATES } from "@/content/investor-pitch-path";
+import { INVESTOR_PITCH_GATES, TOTAL_GATES } from "@/content/investor-pitch-path";
 
 beforeEach(() => {
   window.location.hash = "";
@@ -20,6 +20,19 @@ beforeEach(() => {
 });
 
 describe("Investor Pitch Path (VAL-ROADMAP-015)", () => {
+  it("places Macro Thesis before the wedge gate in the investor pitch order", () => {
+    const macroThesisIndex = INVESTOR_PITCH_GATES.findIndex(
+      (gate) => gate.graphNodeId === "macro-thesis"
+    );
+    const wedgeIndex = INVESTOR_PITCH_GATES.findIndex(
+      (gate) => gate.graphNodeId === "live-now"
+    );
+
+    expect(macroThesisIndex).toBeGreaterThanOrEqual(0);
+    expect(wedgeIndex).toBeGreaterThanOrEqual(0);
+    expect(macroThesisIndex).toBeLessThan(wedgeIndex);
+  });
+
   // ------------------------------------------------------------------
   // The graph workspace must expose a visible start affordance
   // ------------------------------------------------------------------
@@ -62,11 +75,11 @@ describe("Investor Pitch Path (VAL-ROADMAP-015)", () => {
     const nextBtn = screen.getByTestId("investor-path-next");
     expect(nextBtn).toBeInTheDocument();
 
-    // Clicking next should advance to gate 2 (Wedge)
+    // Clicking next should advance to gate 2 (Macro Thesis)
     await user.click(nextBtn);
 
     const breadcrumb = screen.getByTestId("graph-breadcrumb");
-    expect(breadcrumb.textContent).toContain("Live Now");
+    expect(breadcrumb.textContent).toContain("Macro Thesis");
   });
 
   // ------------------------------------------------------------------
@@ -98,9 +111,9 @@ describe("Investor Pitch Path (VAL-ROADMAP-015)", () => {
   });
 
   // ------------------------------------------------------------------
-  // All 8 gates are traversable in order
+  // All gates are traversable in order
   // ------------------------------------------------------------------
-  it("allows traversal through all 8 gates in order", async () => {
+  it("allows traversal through all gates in order", async () => {
     const user = userEvent.setup();
     render(<GraphShell />);
 
@@ -156,7 +169,7 @@ describe("Investor Path Resume Behavior (VAL-ROADMAP-017)", () => {
 
     // Start the path
     await user.click(screen.getByTestId("investor-path-start"));
-    // Advance to gate 3
+    // Advance to gate 3 (Wedge)
     await user.click(screen.getByTestId("investor-path-next"));
     await user.click(screen.getByTestId("investor-path-next"));
 
@@ -180,8 +193,9 @@ describe("Investor Path Resume Behavior (VAL-ROADMAP-017)", () => {
     const user = userEvent.setup();
     render(<GraphShell />);
 
-    // Start and advance to gate 3 (Proof)
+    // Start and advance to gate 4 (Proof)
     await user.click(screen.getByTestId("investor-path-start"));
+    await user.click(screen.getByTestId("investor-path-next"));
     await user.click(screen.getByTestId("investor-path-next"));
     await user.click(screen.getByTestId("investor-path-next"));
 
@@ -193,7 +207,7 @@ describe("Investor Path Resume Behavior (VAL-ROADMAP-017)", () => {
     // Resume
     await user.click(screen.getByTestId("investor-path-resume"));
 
-    // Should be at gate 3 (Proof)
+    // Should be at the Proof gate
     const breadcrumb = screen.getByTestId("graph-breadcrumb");
     expect(breadcrumb.textContent).toContain("Proof");
   });
@@ -205,7 +219,7 @@ describe("Investor Path Resume Behavior (VAL-ROADMAP-017)", () => {
     const user = userEvent.setup();
     render(<GraphShell />);
 
-    // Start and advance to gate 3
+    // Start and advance to the Wedge gate
     await user.click(screen.getByTestId("investor-path-start"));
     await user.click(screen.getByTestId("investor-path-next"));
     await user.click(screen.getByTestId("investor-path-next"));

@@ -291,4 +291,19 @@ describe("GraphShell mobile", () => {
     });
     expect(backBtn).toBeInTheDocument();
   });
+
+  it("uses touch-friendly focused-surface controls on narrow screens", async () => {
+    const user = userEvent.setup();
+    render(<GraphShell />);
+
+    await user.click(getNodeButton(/roadmap/i));
+
+    const backBtn = screen.getByRole("button", {
+      name: "Back to overview",
+    });
+    const relatedLink = screen.getAllByTestId("graph-related-link")[0];
+
+    expect(backBtn.className).toMatch(/(?:^|\s)(?:h|min-h)-11(?:\s|$)/);
+    expect(relatedLink.className).toMatch(/(?:^|\s)(?:h|min-h)-11(?:\s|$)/);
+  });
 });

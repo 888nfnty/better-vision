@@ -3,8 +3,8 @@
  * traversal path through the BETTER graph workspace.
  *
  * VAL-ROADMAP-015: Users follow one guided path through ordered gates:
- *   problem → wedge → proof → moat → business model → roadmap gates →
- *   valuation → appendix/evidence
+ *   problem → macro thesis → wedge → proof → moat → business model →
+ *   roadmap gates → valuation → appendix/evidence
  *
  * VAL-ROADMAP-017: The path is discoverable (start affordance) and resumable
  *   (progress tracking, return cues).
@@ -37,13 +37,14 @@ export interface PitchGate {
  * and represents one step in the VC-friendly narrative:
  *
  * 1. Problem — what BETTER solves
- * 2. Wedge — the live product entry point
- * 3. Proof — evidence of traction and execution
- * 4. Moat — defensibility and competitive positioning
- * 5. Business Model — revenue mechanics and unit economics
- * 6. Roadmap Gates — milestone-driven expansion path
- * 7. Valuation — stage-based corridors tied to proof gates
- * 8. Appendix / Evidence — deep sources and reference material
+ * 2. Macro Thesis — why the timing and market backdrop matter now
+ * 3. Wedge — the live product entry point
+ * 4. Proof — evidence of traction and execution
+ * 5. Moat — defensibility and competitive positioning
+ * 6. Business Model — revenue mechanics and unit economics
+ * 7. Roadmap Gates — milestone-driven expansion path
+ * 8. Valuation — stage-based corridors tied to proof gates
+ * 9. Appendix / Evidence — deep sources and reference material
  */
 export const INVESTOR_PITCH_GATES: PitchGate[] = [
   {
@@ -55,8 +56,16 @@ export const INVESTOR_PITCH_GATES: PitchGate[] = [
     graphNodeId: "what-is-better",
   },
   {
-    id: "gate-wedge",
+    id: "gate-macro-thesis",
     order: 2,
+    label: "Macro Thesis",
+    description: "Why prediction markets, broken hedges, and geopolitical stress create the entry window",
+    icon: "◎",
+    graphNodeId: "macro-thesis",
+  },
+  {
+    id: "gate-wedge",
+    order: 3,
     label: "Wedge",
     description: "Live product entry: Terminal & copy-trading in closed beta",
     icon: "●",
@@ -64,7 +73,7 @@ export const INVESTOR_PITCH_GATES: PitchGate[] = [
   },
   {
     id: "gate-proof",
-    order: 3,
+    order: 4,
     label: "Proof",
     description: "Traction evidence, credibility signals, and live on-chain mechanics",
     icon: "✓",
@@ -72,7 +81,7 @@ export const INVESTOR_PITCH_GATES: PitchGate[] = [
   },
   {
     id: "gate-moat",
-    order: 4,
+    order: 5,
     label: "Moat",
     description: "Defensibility through proprietary AI, whale network effects, and token alignment",
     icon: "⬡",
@@ -80,7 +89,7 @@ export const INVESTOR_PITCH_GATES: PitchGate[] = [
   },
   {
     id: "gate-business-model",
-    order: 5,
+    order: 6,
     label: "Business Model",
     description: "Whale-first tiers, revenue streams, and sustainable economics",
     icon: "◈",
@@ -88,7 +97,7 @@ export const INVESTOR_PITCH_GATES: PitchGate[] = [
   },
   {
     id: "gate-roadmap",
-    order: 6,
+    order: 7,
     label: "Roadmap Gates",
     description: "Milestone-driven expansion with proof gates and bounded timing",
     icon: "⊕",
@@ -96,7 +105,7 @@ export const INVESTOR_PITCH_GATES: PitchGate[] = [
   },
   {
     id: "gate-valuation",
-    order: 7,
+    order: 8,
     label: "Valuation",
     description: "Conservative stage-based corridors tied to milestone proof gates",
     icon: "△",
@@ -104,7 +113,7 @@ export const INVESTOR_PITCH_GATES: PitchGate[] = [
   },
   {
     id: "gate-appendix",
-    order: 8,
+    order: 9,
     label: "Appendix / Evidence",
     description: "Deep sources, citation paths, and evidence hooks",
     icon: "◇",

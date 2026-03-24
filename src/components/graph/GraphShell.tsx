@@ -267,6 +267,15 @@ const INITIAL_STATE: GraphShellState = {
   },
 };
 
+const GRAPH_CONTROL_BUTTON_CLASS =
+  "inline-flex min-h-11 items-center gap-2 rounded-none border border-white/15 px-3 py-2 font-terminal text-xs uppercase tracking-[-0.08em] text-white transition-colors hover:border-white/30 hover:bg-white/5 hover:text-foreground";
+
+const GRAPH_PRIMARY_CONTROL_BUTTON_CLASS =
+  "inline-flex min-h-11 items-center gap-2 rounded-none border border-white/20 bg-white/5 px-4 py-2 font-terminal text-xs font-medium uppercase tracking-[-0.08em] text-white transition-colors hover:bg-white/10 hover:text-foreground";
+
+const GRAPH_ICON_BUTTON_CLASS =
+  "inline-flex h-11 w-11 items-center justify-center rounded-none border border-white/15 text-white transition-colors hover:border-white/30 hover:bg-white/5 hover:text-foreground";
+
 // ---------------------------------------------------------------------------
 // Surface Content Registry
 // ---------------------------------------------------------------------------
@@ -362,7 +371,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
   // -----------------------------------------------------------------------
   useEffect(() => {
     if (focusedNodeId && focusedSurfaceRef.current) {
-      const block = hadPriorFocusRef.current ? "nearest" : "nearest";
+      const block = hadPriorFocusRef.current ? "nearest" : "start";
       focusedSurfaceRef.current.scrollIntoView({ behavior: "smooth", block });
     } else if (invalidLink && fallbackRef.current) {
       fallbackRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -475,7 +484,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
           <button
             type="button"
             onClick={recenter}
-            className="rounded border border-border px-3 py-1.5 font-terminal text-xs text-white transition-colors hover:border-accent hover:text-foreground"
+            className={GRAPH_CONTROL_BUTTON_CLASS}
             aria-label="Return to overview"
           >
             ⊙ Overview
@@ -548,15 +557,16 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
           ref={focusedSurfaceRef}
           tabIndex={-1}
           variant="active"
+          className="scroll-mt-20 sm:scroll-mt-24"
         >
           {/* Focus header with back button, node info, and related nodes */}
           <div className="border-b border-border p-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-start justify-between gap-3 sm:items-center">
+              <div className="flex min-w-0 flex-1 flex-wrap items-center gap-3">
                 <button
                   type="button"
                   onClick={recenter}
-                  className="rounded p-1.5 text-white transition-colors hover:bg-elevated hover:text-foreground"
+                  className={GRAPH_ICON_BUTTON_CLASS}
                   aria-label="Back to overview"
                 >
                   <svg
@@ -574,7 +584,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
                     />
                   </svg>
                 </button>
-                <div>
+                <div className="min-w-0 flex-1">
                   <h2 className="flex items-center gap-2 text-lg font-bold text-foreground">
                     <span className="font-terminal text-accent" aria-hidden="true">
                       {focusedNode.icon}
@@ -589,7 +599,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
 
             {/* Related nodes for direct traversal (VAL-ROADMAP-012) */}
             {relatedNodes.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-3 flex w-full flex-wrap gap-2">
                 <span className="font-terminal text-xs text-white/70">Related:</span>
                 {relatedNodes.map((related) => (
                   <button
@@ -597,7 +607,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
                     type="button"
                     data-testid="graph-related-link"
                     onClick={() => focusNode(related.id)}
-                    className="inline-flex items-center gap-1.5 rounded border border-border px-2.5 py-1 font-terminal text-xs text-white transition-colors hover:border-accent hover:text-foreground"
+                    className={GRAPH_CONTROL_BUTTON_CLASS}
                   >
                     <span className="text-accent" aria-hidden="true">
                       {related.icon}
@@ -617,7 +627,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
                   type="button"
                   data-testid="investor-path-prev"
                   onClick={prevGate}
-                  className="inline-flex items-center gap-1.5 rounded border border-border px-3 py-1 font-terminal text-xs text-white transition-colors hover:border-accent hover:text-foreground"
+                  className={GRAPH_CONTROL_BUTTON_CLASS}
                 >
                   ← {INVESTOR_PITCH_GATES[pitchPath.currentGateIndex - 1]?.label}
                 </button>
@@ -629,7 +639,7 @@ export function GraphShell({ surfaces = {} }: GraphShellProps) {
                   type="button"
                   data-testid="investor-path-next"
                   onClick={nextGate}
-                  className="inline-flex items-center gap-1.5 rounded border border-accent/30 bg-accent/5 px-3 py-1 font-terminal text-xs text-accent transition-colors hover:bg-accent/10 hover:text-foreground"
+                  className={GRAPH_PRIMARY_CONTROL_BUTTON_CLASS}
                 >
                   {INVESTOR_PITCH_GATES[pitchPath.currentGateIndex + 1]?.label} →
                 </button>
@@ -680,7 +690,7 @@ function InvestorPathAffordance({
         type="button"
         data-testid="investor-path-start"
         onClick={onStart}
-        className="inline-flex items-center gap-2 rounded-none border border-white/20 bg-white/5 px-4 py-2 font-terminal text-xs font-medium uppercase tracking-[-0.08em] text-white transition-colors hover:bg-white/10"
+        className={GRAPH_PRIMARY_CONTROL_BUTTON_CLASS}
       >
         <span aria-hidden="true">▶</span>
         Investor Pitch Path
@@ -691,7 +701,7 @@ function InvestorPathAffordance({
           type="button"
           data-testid="investor-path-resume"
           onClick={onResume}
-          className="inline-flex items-center gap-2 rounded-none border border-white/15 px-4 py-2 font-terminal text-xs uppercase tracking-[-0.08em] text-white transition-colors hover:border-white/30 hover:text-foreground"
+          className={GRAPH_CONTROL_BUTTON_CLASS}
         >
           <span aria-hidden="true">↩</span>
           Resume at &ldquo;{resumeGate.label}&rdquo;
@@ -699,7 +709,7 @@ function InvestorPathAffordance({
       )}
 
       <span className="hidden font-terminal text-[10px] text-white/70 sm:inline">
-        {TOTAL_GATES} gates · problem → wedge → proof → moat → business model → roadmap → valuation → evidence
+        {TOTAL_GATES} gates · problem → macro thesis → wedge → proof → moat → business model → roadmap → valuation → evidence
       </span>
     </div>
   );
